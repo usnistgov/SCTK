@@ -12,6 +12,8 @@ all: rfilter1
 #######  be blank will diable the use of supplied versions of these functions.
 OPTIONS=-DNEED_STRCMP=1
 
+bindir = $(PREFIX)/bin
+
 rfilter1: rfilter1.c
 	gcc $(OPTIONS) -o rfilter1 rfilter1.c
 
@@ -24,7 +26,7 @@ check:
 	@echo "   rfilter1 tests successfully completed"
 
 install: all
-	$(INSTALL) rfilter1 $(bindir)
+	install rfilter1 $(bindir)
 
 clean:
 	rm -f rfilter1
