@@ -191,7 +191,7 @@ db_enter_msg(proc,0); /* debug only */
 	   
 	   xdur = atof(s3);
 	   word_tokens->word[n].turn  = (char *)TEXT_strdup((TEXT *)side);
-	   if (strcmp(xconf,"") == 0)
+	   if (strcmp(xconf,"") == 0 || strcasecmp(xconf,"NA") == 0)
 	       word_tokens->word[n].confidence    = 0.0;
 	   else {
 	       word_tokens->word[n].confidence    = atof(xconf);
