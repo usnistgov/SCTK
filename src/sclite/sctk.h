@@ -1,7 +1,7 @@
 /* main include file for the Scoring ToolKit (SCTK) */
 /* Created: Jul, 28, 1997 */
 
-#define TK_VERSION "1.2c"
+#define TK_VERSION "1.3"
 
 #include <stdio.h>
 #include <math.h>
