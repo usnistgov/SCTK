@@ -1,4 +1,4 @@
-SCTK Basic Installation for Version 2.0 Beta 1
+SCTK Basic Installation for Version 2.0 Beta 2
 ==============================================
 
 To install compile and install sctk, from the main directory
@@ -36,8 +36,8 @@ following the isntrcutions in 'src/rfilter1/makefile'.
 The 'make check' will perform self tests on the toolkit.  Please
 report any problems to Jon Fiscus at NIST with any bug reports or
 comments at the email address jonathan.fiscus@nist.gov or by phone,
-(301)-975-3182.  Please include the version number of rover, and any
-other relevant information such as OS, compiler, etc.  
+(301)-975-3182.  Please include the version number and any other
+relevant information such as OS, compiler, etc.
 
 The 'make install' command will copy the executables to $PREFIX, (See
 maske config above.)

@@ -1,6 +1,6 @@
 File:  README
-Date:  July 30, 2004
-SCTK Version: 2.0 Beta 1
+Date:  September 7, 2004
+SCTK Version: 2.0 Beta 2
 
 This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains
 the source code, documentation and example data for the following
@@ -29,9 +29,9 @@ DEC Alpha running DEC OSF/1 V2.0 "gcc"            1.1
 IBM Powerstation running AIX V3.2 using cc    1.0
 IBM Powerstation running AIX V3.2 using gcc*  1.0
 Linux Version 2.0.33                          1.0 1.1 1.2
-Cygwin                                                    1.3
-Linux Version 2.2.17                                      1.3
-Linux Version 2.4.20-20-9 **                              1.3
+Cygwin                                                    1.3 2.0B2
+Linux Version 2.2.17                                      1.3 2.0B2
+Linux Version 2.4.20-20-9 **                              1.3 2.0B2
 Mac Darwin 7.4.0                                          1.3
 
 	* compiled with warning messages, but successful self test
