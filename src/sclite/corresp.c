@@ -40,6 +40,12 @@ void locate_matched_data(SCORES *scor[], int nscor, SC_CORRESPONDENCE **corresp)
 
 void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FILE *fp, int score_diff){
   int gr, sc, pa;
+  int totRefWord = 0, refWord;
+  int totErrRefWord = 0, errRefWord;
+  int numPaths = 0, numIdentPaths = 0;
+  AUTO_LEX alex; 
+
+  AUTO_LEX_init(&alex, 1000);
 
   fprintf(fp,"Common scoring speakers and segments\n");
   fprintf(fp,"Version 0.1\n");
@@ -71,9 +77,16 @@ void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FIL
       if (score_diff && ! scores_are_diff(path_set,corresp->nscor))
 	to_print = 0;
       if (to_print)
-	PATH_multi_print(corresp->scor, path_set,corresp->nscor, maxlen, fp);
+	PATH_multi_print(corresp->scor, path_set,corresp->nscor, maxlen, fp, &refWord, &errRefWord, &alex);
+      totRefWord += refWord;
+      totErrRefWord += errRefWord;
     }
   }
+
+  fprintf(fp,"Lattice Summary: #TotRefWords %d #TotRefErrWords %d Accuracy %5.2f\n",totRefWord, totErrRefWord,
+	  ((float)(totRefWord - totErrRefWord)/(float)totRefWord)*100.0);
+
+  AUTO_LEX_printout(&alex, fp, "\nList of not correct reference words", 1);
 }
 
 void dump_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, FILE *fp){
@@ -243,6 +256,7 @@ static void flush_text(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf,
 static void process_inserts(SCORES **scor, PATH **path_set, int npath, int *psets, TEXT **outbuf, int *outlen, int maxlen, FILE *fp);
 static void process_rest(SCORES **scor, PATH **path_set, int npath, int *psets, TEXT **outbuf, int *outlen, int maxlen, FILE *fp);
 static int identical_refs(int npaths,PATH **paths);
+static void lattice_error(int npaths,PATH **paths, int *refWord, int *refErrRefWord, AUTO_LEX *alex);
 
 
 /* return 1 if the paths have the identical reference strings */
@@ -273,6 +287,69 @@ static int identical_refs(int npaths,PATH **paths){
     }    
   }
   return 1;
+}
+
+/* Counts the number of ref words and the number with at least on systemwith the correct word */
+static void lattice_error(int npaths,PATH **paths, int *refWord, int *refErrRefWord, AUTO_LEX *alex){
+  int p, w, wp, ind;  
+  int *evals;
+
+  if (npaths == 0 || npaths == 1) {
+    fprintf(stderr,"Error: these are paths are not compatable");
+    exit(1);
+  }
+
+  /* Build an array to keep track */
+  alloc_singZ(evals, paths[0]->num, int, P_INS);
+  w = 0;
+  while (w < paths[0]->num){
+    evals[w] = paths[0]->pset[w].eval;
+    w++;
+  }
+
+  for (p=1; p<npaths; p++){
+    w=0; wp=0;
+    while (w < paths[0]->num && wp < paths[p]->num){
+      /* skip insertions */
+      while (w < paths[0]->num && (paths[0]->pset[w].eval == P_INS))
+	w++;
+      while (wp < paths[p]->num && (paths[p]->pset[wp].eval == P_INS))
+	wp++;
+      if (w >= paths[0]->num && wp >= paths[p]->num)
+	;
+      else {
+	if (w > paths[0]->num || wp > paths[p]->num){
+	  fprintf(stderr,"Error: these are paths are not compatable");
+	  exit(1);
+	}
+	if (TEXT_strcmp(((WORD *)(paths[0]->pset[w].a_ptr))->value,
+			((WORD *)(paths[p]->pset[wp].a_ptr))->value) != 0){
+	  fprintf(stderr,"Error: these are paths are not compatable");
+	  exit(1);	
+	}
+	if (paths[p]->pset[wp].eval == P_CORR)
+	  evals[w] = P_CORR;
+	w++; wp++;
+      }
+    }    
+  }
+  *refWord = 0;
+  *refErrRefWord = 0;
+  for (w=0; w < paths[0]->num; w++){
+    if (evals[w] != P_INS){
+      if (evals[w] != P_CORR){
+	ind = AUTO_LEX_find(alex, ((WORD *)(paths[0]->pset[w].a_ptr))->value);
+	if (ind < 0){
+	  ind = AUTO_LEX_insert(alex, ((WORD *)(paths[0]->pset[w].a_ptr))->value);
+	  alex->field_a[ind] = 0;
+	}
+	alex->field_a[ind] ++;
+	(*refErrRefWord) ++;
+      }
+      (*refWord) ++;
+    }
+  }
+  free_singarr(evals, int);
 }
 
 static int more_data(PATH **path_set, int npath, int *psets){
@@ -416,7 +493,7 @@ static void process_rest(SCORES **scor, PATH **path_set, int npath, int *psets, 
 }
 
 /* Pretty print n paths, using the ref transcript as the guide */
-void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FILE *fp){
+void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FILE *fp, int *refWord,int *errRefWord, AUTO_LEX *alex){
   int p;
 
   if (maxlen < 80) maxlen = 80;
@@ -433,6 +510,8 @@ void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FIL
     int outlen, *psets;
     TEXT **outbuf;
 
+    lattice_error(npath, path_set, refWord, errRefWord, alex);
+
     fprintf(fp,"Id:     %s\n",path_set[0]->id);
     if (path_set[0]->labels != (char *)0)
       fprintf(fp,"Labels: %s\n",path_set[0]->labels);
@@ -440,6 +519,7 @@ void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FIL
       fprintf(fp,"File: %s\n",path_set[0]->file);
     if (path_set[0]->channel != (char *)0)
       fprintf(fp,"Channel: %s\n",path_set[0]->channel);
+    fprintf(fp,"Lattice Analysis: #refWords %d #refErrWords %d\n",*refWord, *errRefWord);
     fprintf(fp,"\n");
     
     /* output[npath] is the reference string */

@@ -33,5 +33,5 @@ void find_matched_paths(SC_CORRESPONDENCE *corresp);
 SC_CORRESPONDENCE *alloc_SC_CORRESPONDENCE(SCORES *scor[], int nsc);
 void dump_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, FILE *fp);
 void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FILE *fp, int score_diff);
-void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FILE *fp);
+void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FILE *fp, int *refWord, int *refErrWord, AUTO_LEX *alex);
 
