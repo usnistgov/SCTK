@@ -32,7 +32,7 @@ sub runIt{
     $ENV{PATH} = $oldEnv;
     if ($op ne "setTests"){
 	print "      Comparing output\n";
-	my $diffCom = "diff -I '[cC]reation[ _]date' -r $baseDir $outDir";
+	my $diffCom = "diff -x CVS -I '[cC]reation[ _]date' -r $baseDir $outDir";
 	open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
 	my @diff = <DIFF>;
 	close DIFF;
