@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 ########################################################
-# File: utf_filt_v52.pl
+# File: utf_filt_v53.pl
 #
 # History:
 #
@@ -130,6 +130,9 @@
 #
 #  Version 52
 #         Added the option to not expand contractions
+#
+#  Version 53
+#         Added code to warn IF there are non-posessive contractions that are not annotated.
 #
 ########################################################
 
@@ -899,6 +902,11 @@ sub proc_beg_separator{
 
     if ($debug_level > $DEBUG_DETAIL) {
 	print "${DBoff}   ( ";
+    }
+
+    # Look for un-annotated contractions
+    if ($translateContractions && ! defined($attr_stack{"CONTRACTION"})){
+	print "Warning: Possible non-annotated contraction \"$text\"\n" if ($text =~ /\w'\w+/ && $text !~ /\w's$/);
     }
     
     for $key(keys %attr_stack){
