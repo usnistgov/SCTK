@@ -51,18 +51,19 @@ void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FIL
   fprintf(fp,"Version 0.1\n");
   fprintf(fp,"\n");
 
-  fprintf(fp,"Represented Systems;\n");
+  fprintf(fp,"Represented Systems\n");
   for (sc=0; sc<corresp->nscor; sc++){
-    fprintf(fp,"   name: %s   Ref: %s   Hyp: %s\n",
+    fprintf(fp,"    name: %s   Ref: %s   Hyp: %s\n",
 	    corresp->scor[sc]->title,
 	    corresp->scor[sc]->ref_fname,
 	    corresp->scor[sc]->hyp_fname);
   }
+  fprintf(fp,"    End of Represented Systems\n");
   fprintf(fp,"\n");
 
   if (corresp->scor[0]->aset.num_plab > 0 || corresp->scor[0]->aset.num_cat > 0){
     int i;
-    fprintf(fp,"Utterance Label definitions:\n");
+    fprintf(fp,"Utterance Label Definitions:\n");
     for (i=0; i<corresp->scor[0]->aset.num_cat; i++)
       fprintf(fp,"    Category: id: \"%s\" title: \"%s\" "
 	      "description: \"%s\"\n",corresp->scor[0]->aset.cat[i].id,
@@ -72,6 +73,7 @@ void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FIL
 	      "description: \"%s\"\n",corresp->scor[0]->aset.plab[i].id,
 	      corresp->scor[0]->aset.plab[i].title,corresp->scor[0]->aset.plab[i].desc);
   }
+  fprintf(fp,"    End of Utterance Label Definitions\n");
   fprintf(fp,"\n\n");
 
   for (gr=0; gr<corresp->num_grp; gr++){ 
@@ -540,7 +542,24 @@ void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FIL
 	fprintf(fp,"Hyp times: t1= %.2f t2= %.2f\n",path_set[0]->hyp_t1,path_set[0]->hyp_t2);
 
     fprintf(fp,"Lattice Analysis: #refWords %d #refErrWords %d\n",*refWord, *errRefWord);
-    fprintf(fp,"\n");
+#ifdef later
+    for (p=0; p<npath; p++){
+      int c,s,d,n,u;
+      c = s = d = n = u = 0;
+      for (i=used; i<to; i++)
+	if ((path->pset[i].eval & P_CORR) != 0) c++;
+	else if ((path->pset[i].eval & P_SUB) != 0) s++;
+	else if ((path->pset[i].eval & P_INS) != 0) n++;
+	else if ((path->pset[i].eval & P_DEL) != 0) d++;
+	else u ++;
+      if (u > 0)
+	fprintf(fp,"Scores: (#C #S #D #I #UNK) %d %d %d %d %d\n",c,s,d,n,u);
+      else
+	fprintf(fp,"Scores: (#C #S #D #I) %d %d %d %d\n",c,s,d,n);	   
+    }
+
+#endif
+    fprintf(fp,"\n\n");
     
     /* output[npath] is the reference string */
     alloc_2dimZ(outbuf,npath + 1,maxlen+1+40,TEXT,(TEXT)'\0');
