@@ -63,9 +63,9 @@ void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FIL
     int to_print = 1;
 
     for (pa=0; pa<corresp->grp[gr]->num_path; pa++){
-    fprintf(fp,"Speaker: %s\n",
-	    corresp->scor[0]->grp[corresp->grp[gr]->grp_ptr[0]].name);
       PATH *path_set[100]; 
+      fprintf(fp,"Speaker: %s\n",
+	      corresp->scor[0]->grp[corresp->grp[gr]->grp_ptr[0]].name);
       /* load an array with paths !!! */
       for (sc=0; sc<corresp->nscor; sc++){
 	int gnum, pnum;
