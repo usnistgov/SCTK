@@ -190,7 +190,7 @@ SCORES *align_ctm_to_ctm(char *hyp_file, char *ref_file, char *set_title, int fe
 	    while (ref_begin<=ref_end || hyp_begin<=hyp_end){
 		int removals;
 
-		base_len = 50;
+		base_len = 1000;
 		while (! chop_WTOKE_2(ref, hyp, ref_begin, hyp_begin,
 				      ref_end, hyp_end, base_len,
 				      &ref_chop_end,&hyp_chop_end)){
