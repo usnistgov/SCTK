@@ -267,9 +267,9 @@ File: test.arb2004
 Channel: B
 Scores: (#C #S #D #I) 11 0 1 0
 Attributes: Case_sensitve 
-REF:  (إيوه) (%تردّد) (طبعاً) Make sure unclear works (%تردّد) (طبعاً) yeah (طبعاً) (%تردّد) 
-HYP:  (إيوه) (%تردّد) (طبعاً) Make sure unclear works                            ****                            
-Eval:                                                                                          D                               
+REF:  (إيوه) (%تردّد) (طبعا) Make sure unclear works (%تردّد) (طبعا) yeah (طبعا) (%تردّد) 
+HYP:  (إيوه) (%تردّد) (طبعا) Make sure unclear works                          ****                          
+Eval:                                                                                      D                             
 
 id: (test.arb2004_B-001)
 Labels: <O>

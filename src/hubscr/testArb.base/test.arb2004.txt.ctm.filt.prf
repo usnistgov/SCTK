@@ -7,7 +7,7 @@ VERSION 0.1
 System name:   test.arb2004.txt.ctm
 Ref file:      test.arb2004.txt.stm.filt
 Hyp file:      test.arb2004.txt.ctm.filt
-Creation date: "Tue Oct  5 12:08:03 2004"
+Creation date: "Mon Oct 18 07:45:46 2004"
 Fragment Correct Flag Set
 Optionally Deletable Flag Set
 
@@ -374,11 +374,11 @@ Channel: B
 Scores: (#C #S #D #I) 11 0 1 0
 Attributes: Case_sensitve 
 Ref times: t1= 0.00 t2= 1.00
-REF:  (إيوه) (%تردّد) (طبعاً) Make    sure    unclear works   (%تردّد) (طبعاً) yeah    (طبعاً) (%تردّد) 
-HYP:  (إيوه) (%تردّد) (طبعاً) Make    sure    unclear works                              ****                               
-H_T1: 0.05       0.18          0.31         0.44    0.56    0.69    0.82    0.00          0.00                 0.00         0.00          
-H_T2: 0.18       0.31          0.44         0.57    0.69    0.82    0.95    0.00          0.00                 0.00         0.00          
-Eval:                                                                                                  D                                  
+REF:  (إيوه) (%تردّد) (طبعا) Make    sure    unclear works   (%تردّد) (طبعا) yeah    (طبعا) (%تردّد) 
+HYP:  (إيوه) (%تردّد) (طبعا) Make    sure    unclear works                            ****                             
+H_T1: 0.05       0.18          0.31       0.44    0.56    0.69    0.82    0.00          0.00               0.00       0.00          
+H_T2: 0.18       0.31          0.44       0.57    0.69    0.82    0.95    0.00          0.00               0.00       0.00          
+Eval:                                                                                              D                                
 
 Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 0 of 8
 id: (test.arb2004_B_inter_segment_gap-000)

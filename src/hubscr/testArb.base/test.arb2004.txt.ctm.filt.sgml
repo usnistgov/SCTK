@@ -1,4 +1,4 @@
-<SYSTEM title="test.arb2004.txt.ctm" ref_fname="test.arb2004.txt.stm.filt" hyp_fname="test.arb2004.txt.ctm.filt" creation_date="Tue Oct  5 12:08:03 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
+<SYSTEM title="test.arb2004.txt.ctm" ref_fname="test.arb2004.txt.stm.filt" hyp_fname="test.arb2004.txt.ctm.filt" creation_date="Mon Oct 18 07:45:46 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
 <LABEL id="O" title="Overall" desc="All Segments in the test set">
 </LABEL>
 <CATEGORY id="0" title="" desc="">
@@ -87,7 +87,7 @@ C,"Foreign","Foreign",19.500+19.510:C,"span3","span3",19.510+19.520:C,"outside",
 </SPEAKER>
 <SPEAKER id="test.arb2004_B">
 <PATH id="(test.arb2004_B-000)" word_cnt="12" labels="<O>" file="test.arb2004" channel="B" sequence="26" R_T1="0.000" R_T2="1.000" case_sense="1" word_aux="h_t1+t2">
-C,"(إيوه)","(إيوه)",0.050+0.180:C,"(%تردّد)","(%تردّد)",0.180+0.310:C,"(طبعاً)","(طبعاً)",0.310+0.440:C,"Make","Make",0.440+0.570:C,"sure","sure",0.560+0.690:C,"unclear","unclear",0.690+0.820:C,"works","works",0.820+0.950:C,"(%تردّد)","",0.000+0.000:C,"(طبعاً)","",0.000+0.000:D,"yeah",,:C,"(طبعاً)","",0.000+0.000:C,"(%تردّد)","",0.000+0.000
+C,"(إيوه)","(إيوه)",0.050+0.180:C,"(%تردّد)","(%تردّد)",0.180+0.310:C,"(طبعا)","(طبعا)",0.310+0.440:C,"Make","Make",0.440+0.570:C,"sure","sure",0.560+0.690:C,"unclear","unclear",0.690+0.820:C,"works","works",0.820+0.950:C,"(%تردّد)","",0.000+0.000:C,"(طبعا)","",0.000+0.000:D,"yeah",,:C,"(طبعا)","",0.000+0.000:C,"(%تردّد)","",0.000+0.000
 </PATH>
 <PATH id="(test.arb2004_B-001)" word_cnt="6" labels="<O>" file="test.arb2004" channel="B" sequence="28" R_T1="2.000" R_T2="3.000" case_sense="1" word_aux="h_t1+t2">
 C,"اه","اه",2.050+2.200:C,"inital","inital",2.200+2.350:C,"يآش","يآش",2.350+2.500:C,"medial","medial",2.500+2.650:C,"ةآ","ةآ",2.650+2.800:C,"final","final",2.800+2.950
