@@ -136,7 +136,9 @@ slm_v2/lib/SLM2.a:
 #	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) rpg.o arpg.o pad.o $(LIBS)
 clean:
 	rm -f *.o $(PROGRAMS) core
-	(cd slm_v2/src; make spotless)
+	if test -f slm_v2/src/makefile ; then \
+		(cd slm_v2/src; make spotless) \
+	fi
 
 mostlyclean: clean
 
