@@ -227,7 +227,7 @@ if ($#Equivs >= 0){
 
 open(FILE,"< $InFile") || die("cannot open input Callhome file $InFile"); 
 #binmode FILE;
-open(OUTPUT,"| sort  +0  -1  +1  -2 +3nb -4 $OutFile") || 
+open(OUTPUT,"| sort -t \\   +0  -1  +1  -2 +3nb -4 $OutFile") || 
     die("cannot open output file $OutFile"); 
 
 ## make a place holder for the LUR reports
