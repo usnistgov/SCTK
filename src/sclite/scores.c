@@ -1432,7 +1432,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
 
     Desc_set_iterated_value(rsprintf(tot_pct_fmt,F_ROUND(mean_serr,tprec)));
     if (has_hyp_conf) 
-        Desc_set_iterated_value(rsprintf((Zero_spkr > 0) ? nce_fmt : Znce_fmt,F_ROUND(mean_nce,nce_prec)));
+        Desc_set_iterated_value(rsprintf((Zero_spkr == 0) ? nce_fmt : Znce_fmt,F_ROUND(mean_nce,nce_prec)));
     Desc_flush_iterated_row();
 
     if (has_hyp_conf == 0){
@@ -1462,7 +1462,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
     Desc_set_iterated_value(rsprintf(tpct_fmt,F_ROUND(sd_err,tprec)));
     Desc_set_iterated_value(rsprintf(tot_pct_fmt,F_ROUND(sd_serr,tprec)));
     if (has_hyp_conf) 
-        Desc_set_iterated_value(rsprintf((Zero_spkr > 0) ? nce_fmt : Znce_fmt,F_ROUND(sd_nce,nce_prec)));
+        Desc_set_iterated_value(rsprintf((Zero_spkr == 0) ? nce_fmt : Znce_fmt,F_ROUND(sd_nce,nce_prec)));
     Desc_flush_iterated_row();
 
     if (has_hyp_conf == 0){
@@ -1492,8 +1492,8 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
     Desc_set_iterated_value(rsprintf(tpct_fmt,F_ROUND(median_err,tprec)));
     Desc_set_iterated_value(rsprintf(tot_pct_fmt,F_ROUND(median_serr,tprec)));
     if (has_hyp_conf) 
-      Desc_set_iterated_value(rsprintf((Zero_spkr > 0) ? nce_fmt : Znce_fmt,F_ROUND(median_nce,nce_prec)));
-    
+      Desc_set_iterated_value(rsprintf((Zero_spkr == 0) ? nce_fmt : Znce_fmt,F_ROUND(median_nce,nce_prec)));
+
     Desc_flush_iterated_row();
 
     Desc_dump_report(0,fp);
