@@ -238,8 +238,8 @@ static int scores_are_diff(PATH **path_set,int npath){
 /***********  Multi-path_print-Functions            **************/
 static int more_data(PATH **path_set, int npath, int *psets);
 static int inserts_exist(SCORES **scor, PATH **path_set, int npath, int *psets);
-static void add_header_data(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, int continuation);
-static void flush_text(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, FILE *fp);
+static void add_header_data(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, int maxlen, int continuation);
+static void flush_text(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, int maxlen, FILE *fp);
 static void process_inserts(SCORES **scor, PATH **path_set, int npath, int *psets, TEXT **outbuf, int *outlen, int maxlen, FILE *fp);
 static void process_rest(SCORES **scor, PATH **path_set, int npath, int *psets, TEXT **outbuf, int *outlen, int maxlen, FILE *fp);
 static int identical_refs(int npaths,PATH **paths);
@@ -292,7 +292,7 @@ static int inserts_exist(SCORES **scor, PATH **path_set, int npath, int *psets){
   return(0);
 }
 
-static void add_header_data(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, int continuation){
+static void add_header_data(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, int maxlen, int continuation){
   int max=0, p; 
   char fmt[40];
 
@@ -302,22 +302,28 @@ static void add_header_data(SCORES **scor, PATH **path_set, int npath, TEXT **ou
     if (max < TEXT_strlen((TEXT*)scor[p]->title))
       max = TEXT_strlen((TEXT*)scor[p]->title);
 
+  if (max + 2 + ((continuation)?4:0) > maxlen){
+    fprintf(stderr,"Error: Failed to add header data lines for PRN report.  System names too long.  increase via -l option\n");
+    exit(1);
+  }
+
   sprintf(fmt,"%s%%-%ds",(continuation)?">>> ":"",max + 2);
   for (p=0; p<npath; p++)
     sprintf((char *)outbuf[p],fmt, rsprintf("%s:",scor[p]->title));
   sprintf((char *)outbuf[npath],fmt, "REF:");
   
   *outlen = max + 2 + ((continuation)?4:0);
+  
 }
 
-static void flush_text(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, FILE *fp){
+static void flush_text(SCORES **scor, PATH **path_set, int npath, TEXT **outbuf, int *outlen, int maxlen, FILE *fp){
   int p; 
   fprintf(fp,"%s\n",outbuf[npath]);
   for (p=0; p<npath; p++)
     fprintf(fp,"%s\n",outbuf[p]);
   fprintf(fp,"\n");
 
-  add_header_data(scor, path_set, npath, outbuf, outlen, 1);
+  add_header_data(scor, path_set, npath, outbuf, outlen, maxlen, 1);
 }
 
 static void process_inserts(SCORES **scor, PATH **path_set, int npath, int *psets, TEXT **outbuf, int *outlen, int maxlen, FILE *fp){
@@ -335,7 +341,7 @@ static void process_inserts(SCORES **scor, PATH **path_set, int npath, int *pset
   }
   sprintf(fmt,"%%-%ds",max);
   if (max + *outlen > maxlen-1)
-    flush_text(scor, path_set, npath, outbuf, outlen, fp);
+    flush_text(scor, path_set, npath, outbuf, outlen, maxlen, fp);
 
   for (p=0; p<npath; p++){    
     if ((path_set[p]->num > psets[p]) && 
@@ -375,7 +381,7 @@ static void process_rest(SCORES **scor, PATH **path_set, int npath, int *psets, 
   }
   sprintf(fmt,"%%-%ds",max);
   if (max + *outlen > maxlen-1)
-    flush_text(scor, path_set, npath, outbuf, outlen, fp);
+    flush_text(scor, path_set, npath, outbuf, outlen, maxlen, fp);
 
   ref_done = 0;
   for (p=0; p<npath; p++){
@@ -437,19 +443,19 @@ void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FIL
     fprintf(fp,"\n");
     
     /* output[npath] is the reference string */
-    alloc_2dimZ(outbuf,npath + 1,maxlen+1,TEXT,(TEXT)'\0');
+    alloc_2dimZ(outbuf,npath + 1,maxlen+1+40,TEXT,(TEXT)'\0');
     alloc_1dimZ(psets,npath,int,0);   /* initialized to zero */
-    add_header_data(scor, path_set, npath, outbuf, &outlen, 0);
+    add_header_data(scor, path_set, npath, outbuf, &outlen, maxlen, 0);
     while (more_data(path_set, npath, psets) > 0){
       if (inserts_exist(scor, path_set, npath, psets))
 	process_inserts(scor, path_set, npath, psets, outbuf, &outlen, maxlen, fp);
       else
 	process_rest(scor, path_set, npath, psets, outbuf, &outlen, maxlen, fp);
     }
-    flush_text(scor, path_set, npath, outbuf, &outlen, fp);
-        
+    flush_text(scor, path_set, npath, outbuf, &outlen, maxlen, fp);
+    
     free_2dimarr(outbuf,npath+1,TEXT);
-    free_1dimarr(psets,int);
+    free_1dimarr(psets,int); 
   }
 }
 
