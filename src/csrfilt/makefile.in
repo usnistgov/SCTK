@@ -12,13 +12,11 @@ csrfilt.sh:
 	chmod +x csrfilt.sh
 
 setTests:
-	./csrfilt.sh -dh $(T)/example.glm $(T)/example.utm < $(T)/test.in > $(T)/test.out
-	./csrfilt.sh -i ctm -dh $(T)/example.glm $(T)/example.utm < $(T)/test_ctm.in > $(T)/test_ctm.out
+	./RunTests.pl setTests
 
 check: all
 	@echo "Testing csrfilt.sh"
-	./csrfilt.sh -dh $(T)/example.glm $(T)/example.utm < $(T)/test.in | diff - $(T)/test.out
-	./csrfilt.sh -i ctm -dh $(T)/example.glm $(T)/example.utm < $(T)/test_ctm.in | diff - $(T)/test_ctm.out
+	./RunTests.pl
 	@echo "   csrfilt.sh successfully completed"
 
 install: all
