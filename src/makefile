@@ -30,13 +30,15 @@ config:
 	(cd hubscr; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 	(cd utf_filt; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 
-check: all
+checkFast:
+	(cd rfilter1; $(MAKE) check)
+	(cd csrfilt; $(MAKE) check)
+	(cd chfilt; $(MAKE) check)
+	(cd hamzaNorm; $(MAKE) check)
+	(cd acomp; $(MAKE) check)
+	(cd def_art; $(MAKE) check)
+	(cd hubscr; $(MAKE) check)
+	(cd utf_filt; $(MAKE) check)
+
+check: all checkFast
 	(cd sclite; $(MAKE) $@)
-	(cd rfilter1; $(MAKE) $@)
-	(cd csrfilt; $(MAKE) $@)
-	(cd chfilt; $(MAKE) $@)
-	(cd hamzaNorm; $(MAKE) $@)
-	(cd acomp; $(MAKE) $@)
-	(cd def_art; $(MAKE) $@)
-	(cd hubscr; $(MAKE) $@)
-	(cd utf_filt; $(MAKE) $@)
