@@ -485,7 +485,8 @@ NETWORK *Network_create_from_TEXT(TEXT *text, char *name, void (*aprn)(void *), 
 	if (find_next_TEXT_token(&ctext,token,100)) {	
 	    if (db > 5) printf("    Token: '%s'\n",token);
 	    /* create new word structure */
-	    tword = new_WORD(token, -1, 0.0, 0.0, 0.0, (TEXT *)0, (TEXT *)0, 0, 0, -1.0);
+	    
+	    tword = new_WORD_parseText(token, -1, 0.0, 0.0, 0.0, 0, 0, -1.0);
 
 	    /* append to the word list */
 	    if (Network_add_arc_to_tail(net,(void *)tword) > 0){

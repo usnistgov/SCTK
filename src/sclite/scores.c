@@ -136,14 +136,31 @@ void dump_SCORES_alignments(SCORES *sc, FILE *fp, int lw, int full){
     fprintf(fp,"\n");
 }
 
+TEXT *formatWordForSGML(WORD *word, TEXT *buffer){
+  TEXT_strcpy_escaped(buffer, word->value, WORD_SGML_SUB_WORD_SEP_CHR);
+
+  if (word->tag1 == (TEXT *)0 && word->tag2 == (TEXT *)0)
+    return buffer;
+
+  TEXT_strcpy(buffer + TEXT_strlen(buffer), WORD_SGML_SUB_WORD_SEP_STR);
+  TEXT_strcpy_escaped(buffer + TEXT_strlen(buffer), 
+		      (word->tag1 != (TEXT *)0) ? word->tag1 : (TEXT *)"", WORD_SGML_SUB_WORD_SEP_CHR);
+  TEXT_strcpy(buffer + TEXT_strlen(buffer), WORD_SGML_SUB_WORD_SEP_STR);
+  TEXT_strcpy_escaped(buffer + TEXT_strlen(buffer), 
+		      (word->tag2 != (TEXT *)0) ? word->tag2 : (TEXT *)"", WORD_SGML_SUB_WORD_SEP_CHR);
+  return buffer;
+}
+
 void dump_SCORES_sgml(SCORES *sc, FILE *fp){
     int i, p, w;
+    TEXT bufA[1000];
+    TEXT bufB[1000];
 
     fprintf(fp,"<SYSTEM title=\"%s\"",sc->title);
     fprintf(fp," ref_fname=\"%s\"",sc->ref_fname);
     fprintf(fp," hyp_fname=\"%s\"",sc->hyp_fname);
     fprintf(fp," creation_date=\"%s\"",sc->creation_date);
-    fprintf(fp," format=\"2.3\"");
+    fprintf(fp," format=\"2.4\"");
     fprintf(fp," frag_corr=\"%s\"", sc->frag_corr ? "TRUE" : "FALSE");
     fprintf(fp," opt_del=\"%s\"", sc->opt_del ? "TRUE" : "FALSE");
     fprintf(fp," weight_ali=\"%s\"", sc->weight_ali ? "TRUE" : "FALSE");
@@ -238,23 +255,24 @@ void dump_SCORES_sgml(SCORES *sc, FILE *fp){
 	       */
 	    for (w=0; w<path->num; w++) {
 		if (path->pset[w].eval == P_INS)
-		    fprintf(fp,"I,,\"%s\"",
-			    ((WORD *)path->pset[w].b_ptr)->value);
+		  fprintf(fp,"I,,\"%s\"",
+			  formatWordForSGML((WORD *)path->pset[w].b_ptr, bufB));
 		else if (path->pset[w].eval == P_DEL)
 		    fprintf(fp,"D,\"%s\",",
-			    ((WORD *)path->pset[w].a_ptr)->value);
+			    formatWordForSGML((WORD *)path->pset[w].a_ptr, bufA));
 		else if (path->pset[w].eval == P_CORR)
 		    fprintf(fp,"C,\"%s\",\"%s\"",
-			    ((WORD *)path->pset[w].a_ptr)->value,
-			    ((WORD *)path->pset[w].b_ptr)->value);
+			    formatWordForSGML((WORD *)path->pset[w].a_ptr, bufA),
+			    formatWordForSGML((WORD *)path->pset[w].b_ptr, bufB));
 		else {
 		    fprintf(fp,"%c,\"%s\",\"%s\"",
 			    ((path->pset[w].eval == P_SUB) ? 'S' :
 			     ((path->pset[w].eval == P_MRG) ? 'M' : 
 			      ((path->pset[w].eval == P_SPL) ? 'T' : 'U'))),
-			    ((WORD *)path->pset[w].a_ptr)->value,
-			    ((WORD *)path->pset[w].b_ptr)->value);
+			    formatWordForSGML((WORD *)path->pset[w].a_ptr, bufA),
+		            formatWordForSGML((WORD *)path->pset[w].b_ptr, bufB));
 		}
+		/* Extra attributes */
 		if (BF_isSET(path->attrib,PA_REF_WTIMES))
 		    if (path->pset[w].eval != P_INS)
 			fprintf(fp,",%.3f+%.3f",
@@ -303,7 +321,7 @@ void dump_SCORES_sgml(SCORES *sc, FILE *fp){
 
     fprintf(fp,"</SYSTEM>\n");
 }
-
+ 
 int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 {
     char *proc="load_SCORES_sgml", *msg;

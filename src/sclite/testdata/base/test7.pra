@@ -14,6 +14,7 @@ Speakers:
     6:  od1
     7:  od2
     8:  od3
+    9:  tags
 
 Speaker sentences   0:  f   #utts: 7
 id: (f_0)
@@ -341,5 +342,30 @@ Scores: (#C #S #D #I) 3 1 1 0
 REF:  b (ten-) (the) CAN D   
 HYP:  b ten    the   *** AND 
 Eval:                D   S   
+
+Speaker sentences   9:  tags   #utts: 4
+id: (tags-1)
+Scores: (#C #S #D #I) 6 0 0 0
+REF:  a aa;a b;b;b b c d 
+HYP:  a aa;a b;b;b b c d 
+Eval:                    
+
+id: (tags-2)
+Scores: (#C #S #D #I) 0 0 6 0
+REF:  A AA;A B;B;B B C D 
+HYP:  * **** ***** * * * 
+Eval: D D    D     D D D 
+
+id: (tags-3)
+Scores: (#C #S #D #I) 0 0 0 6
+REF:  * **** ***** * * * 
+HYP:  A AA;A B;B;B B C D 
+Eval: I I    I     I I I 
+
+id: (tags-4)
+Scores: (#C #S #D #I) 2 4 0 0
+REF:  A aa;a b;b;b B C D 
+HYP:  Z aa;a b;b;b Y X W 
+Eval: S            S S S 
 
 

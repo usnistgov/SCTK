@@ -95,6 +95,18 @@ TEXT *TEXT_strcpy(TEXT *p1, TEXT *p2){
     return((TEXT *)strcpy((char *)p1, (char *)p2));
 }
 
+TEXT *TEXT_strcpy_escaped(TEXT *p1, TEXT *p2, TEXT chr){
+  TEXT *orig = p1;
+  while (*p2 != '\0'){
+    if (*p2 == chr) {
+      *p1 = '\\'; p1 ++;
+    }
+    *p1 = *p2; p1++; p2++;
+  }
+  *p1 = '\0';
+  return orig;
+}
+
 TEXT *TEXT_strstr(TEXT *src, TEXT *sub){
     int len_src, len_sub;
     int i;
@@ -149,6 +161,23 @@ TEXT *TEXT_strndup(TEXT *p, int n){
     strncpy(cp,(char *)p,n);
     *(cp+n) = '\0';
     return((TEXT *)cp);
+}
+
+TEXT *TEXT_strndup_noEscape(TEXT *p, int n){
+    char *cp, *begin;
+    int i;
+    alloc_singarr(cp,n + 1,char);
+    begin = cp;
+    
+    for (i=0; i<n; i++){
+      if (*p != '\\'){
+	*cp++ = *p++;
+      } else {
+	p++;
+      }
+    }
+    *cp = '\0';
+    return((TEXT *)begin);
 }
 
 TEXT *TEXT_strdup(TEXT *p){
@@ -250,6 +279,7 @@ TEXT *TEXT_strtok(TEXT *p, TEXT *t){
 
     ext = basep;
     /* skip white space */
+
     while (*ext != '\0' && strchr((char *)t,(char)*ext) != NULL){
 	if (is_2byte(ext)) {
 	    ext++;

@@ -235,6 +235,57 @@ WORD *get_WORD(void){
     return(tw);
 }
 
+TEXT *nextColon(TEXT *t){
+  int extentPos = 0;
+  int endFound = 0;
+  TEXT *nextColon;
+  do {
+    nextColon = TEXT_strstr(t+extentPos, WORD_SGML_SUB_WORD_SEP_STR);
+    if (nextColon == (TEXT *)NULL){
+       endFound = 1;
+       extentPos = TEXT_strlen(t);
+    } else if (*(nextColon - 1) == WORD_SGML_ESCAPE) {
+       extentPos = nextColon - t + 1;
+    } else {
+       endFound = 1;
+       extentPos = nextColon - t;
+    }
+    //    printf ("  Reloop %s\n",t+extentPos);
+  } while (! endFound);
+  return (t + extentPos);
+}
+
+/* This procudure parses the text for tag1 and tag2 */
+WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int fcorr, int odel, double weight){
+  TEXT *endOfElement;
+  TEXT *text, *tag1 = (TEXT *)NULL, *tag2 = (TEXT *)NULL;
+  TEXT *textPtr = t;
+
+  //  printf("Element is %s\n",t);
+
+  endOfElement = nextColon(textPtr);
+  text = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+  if (*endOfElement != (TEXT)NULL){
+    textPtr = endOfElement + 1;
+    endOfElement = nextColon(textPtr);
+    tag1 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+    if (*endOfElement != (TEXT)NULL){
+      textPtr = endOfElement + 1;
+      endOfElement = nextColon(textPtr);
+      tag2 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+    }
+  }
+
+  //  printf("   TExt is %s\n",text);
+  //  printf("   Tag1 is %s\n",(tag1 != (TEXT *)0) ? tag1 : (TEXT *)"null");
+  //  printf("   Tag2 is %s\n",(tag2 != (TEXT *)0) ? tag2 : (TEXT *)"null");
+  WORD *word = new_WORD(text, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
+  free_1dimarr(text, TEXT);
+  if (tag1 != (TEXT *)0) free_1dimarr(tag1, TEXT);
+  if (tag2 != (TEXT *)0) free_1dimarr(tag2, TEXT);
+  return word;
+}
+
 WORD *new_WORD(TEXT *t, int id, double t1, double t2, double conf, TEXT *tag1, TEXT *tag2, int fcorr, int odel, double weight){
     WORD *tw = get_WORD();
     int len;
@@ -421,3 +472,4 @@ void sgml_dump_WORD(WORD *w, FILE *fp){
 	  (w->tag2 == (TEXT *)0) ? (TEXT *)"" : w->tag2, w->conf,
 	  w->T1, w->T2, w->frag_corr,w->opt_del,w->weight);
 }
+

@@ -2,6 +2,7 @@
 
 /* TEXT definitions */
 #define NULL_TEXT '\0'
+#define TEXT_COLON ':'
 
 #define ALT_BEGIN '{'
 #define ALT_END   '}'
@@ -19,6 +20,7 @@ int TEXT_set_coding(char *encoding);
 void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int not_ASCII);
 TEXT *TEXT_add(TEXT *p1, TEXT *p2);
 TEXT *TEXT_strndup(TEXT *p, int n);
+TEXT *TEXT_strndup_noEscape(TEXT *p, int n);
 TEXT *TEXT_strdup(TEXT *p);
 TEXT *TEXT_strchr(TEXT *p, TEXT t);
 TEXT *TEXT_strncpy(TEXT *p, TEXT *t, int n);

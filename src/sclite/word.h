@@ -29,6 +29,9 @@ typedef struct WORD_STRUCT{
 #define WORD_OPT_DEL_POST_CHAR ')'
 #define WORD_FRAG_STR  "-"
 #define WORD_FRAG_CHAR '-'
+#define WORD_SGML_SUB_WORD_SEP_STR ";" 
+#define WORD_SGML_SUB_WORD_SEP_CHR ';'
+#define WORD_SGML_ESCAPE '\\'
 
 /*  Functions defined in word.c */
 
@@ -37,6 +40,7 @@ float wwd_time_WORD(void *p1, void *p2, int (*cmp)(void *, void *));
 float wwd_weight_WORD(void *p1, void *p2, int (*cmp)(void *p1, void *p2));
 float wwd_WORD_rover(void *p1, void *p2, int (*cmp)(void *p1, void *p2));
 WORD *get_WORD(void);
+WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int fcorr, int odel, double weight);
 WORD *new_WORD(TEXT *t, int id, double t1, double t2, double conf, TEXT *tag1, TEXT *tag2, int frag, int opt_del, double weight);
 void release_WORD(void *p);
 void *copy_WORD(void *p);

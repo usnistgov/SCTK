@@ -65,3 +65,8 @@ b (c-) d (od3-5)
 b (c-) d (od3-6)
 b (c-) d (od3-7)
 b (ten-) (the) can d (od3-8)
+;;; Test passing through tags
+a aa\;a b\;b\;b;hyp\;tag1;hyptag2 b;reftag1 c;;reftag2 d;reftag1;reftag2 (tags-1)
+a aa\;a b\;b\;b;hyptag1;hyp\;tag2 b;reftag1 c;;reftag2 d;reftag1;reftag2 (tags-2)
+(tags-3)
+a aa\;a b\;b\;b;hyp\;tag1;hyptag2 b;reftag1 c;;reftag2 d;reftag1;reftag2 (tags-4)
