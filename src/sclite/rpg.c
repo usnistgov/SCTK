@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-#define MAX_VALUE_LEN   200
+#define MAX_VALUE_LEN   2000
 
 #define LOCKED		'l'
 #define UNLOCKED	'u'
@@ -901,7 +901,11 @@ void Desc_set_iterated_value(char *str)
 {
     if (! was_initialized) initialize_REPORT_DEF_STRUCT();
     setup_iterations();
-
+    if (iter_num_val > 59) {
+      fprintf(stderr,"Error: an interated value was added to a column outside the RPG's defined size\n");
+      exit(1);
+    }
+   
     strcpy(ival[iter_num_val++],str);
 }
 
