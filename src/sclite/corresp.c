@@ -58,7 +58,22 @@ void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FIL
 	    corresp->scor[sc]->ref_fname,
 	    corresp->scor[sc]->hyp_fname);
   }
+  fprintf(fp,"\n");
+
+  if (corresp->scor[0]->aset.num_plab > 0 || corresp->scor[0]->aset.num_cat > 0){
+    int i;
+    fprintf(fp,"Utterance Label definitions:\n");
+    for (i=0; i<corresp->scor[0]->aset.num_cat; i++)
+      fprintf(fp,"    Category: id: \"%s\" title: \"%s\" "
+	      "description: \"%s\"\n",corresp->scor[0]->aset.cat[i].id,
+	      corresp->scor[0]->aset.cat[i].title,corresp->scor[0]->aset.cat[i].desc);
+    for (i=0; i<corresp->scor[0]->aset.num_plab; i++)
+      fprintf(fp,"    Label: id: \"%s\" title: \"%s\" "
+	      "description: \"%s\"\n",corresp->scor[0]->aset.plab[i].id,
+	      corresp->scor[0]->aset.plab[i].title,corresp->scor[0]->aset.plab[i].desc);
+  }
   fprintf(fp,"\n\n");
+
   for (gr=0; gr<corresp->num_grp; gr++){ 
     int to_print = 1;
 
