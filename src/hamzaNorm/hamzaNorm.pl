@@ -24,7 +24,7 @@ my $Usage="Usage: hamzaNorm.pl [ -i fmt ] Infile|- OutFile|-\n".
 
 use Getopt::Long;
 my ($InFmt) = undef;
-my $result = GetOptions ("i=s" => \$InFmt);
+my $result = GetOptions ("i:s" => \$InFmt);
 die "Aborting:\n$Usage\n:" if (!$result);
 
 if (defined($InFmt)) {
