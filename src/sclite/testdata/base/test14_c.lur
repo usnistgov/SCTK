@@ -1,9 +1,9 @@
        ,----------------------------------------------------------------.
        |                     System: ./lvc_hyp.ctm                      |
        |                                                                |
-       |   Overall        ->                 Overall Scores             |
-       |   With Alt       ->        Segments Containing Alternations    |
-       |    NO Alt        ->         Segments Without Alternations      |
+       |   Overall         ->                Overall Scores             |
+       |   With Alt        ->       Segments Containing Alternations    |
+       |    NO Alt         ->        Segments Without Alternations      |
        |                                                                |
        |                                                                |
        |----------------------------------------------------------------|
