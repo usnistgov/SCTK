@@ -2,6 +2,8 @@ File:  README
 Date:  April 6, 1998
 SCTK Version: 1.2a
 
+Hack this file
+
 This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains
 the source code, documentation and example data for the following
 programs:
