@@ -57,8 +57,8 @@ make_page(){
 }
 
 make_page sclite "sclite.htm options.htm infmts.htm"
-#make_page rover "rover.htm"
-make_page sc_stats "sc_stats.htm st_opt.htm
-"
+make_page rover "rover.htm"
+make_page sc_stats "sc_stats.htm st_opt.htm"
+
 
 
