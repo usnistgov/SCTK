@@ -4,7 +4,7 @@
 ####  Creation Date:  Aug 7, 1997
 MAKE=make
 
-check clean dist install config all:
+check clean install config all:
 	(cd src; $(MAKE) $@)
 
 distclean:
