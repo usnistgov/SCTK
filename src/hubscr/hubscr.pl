@@ -344,7 +344,7 @@ sub FilterFile{
 		$def_art_com = "cat";
 	    }
 	    if ($HAMZA_NORM_ENABLED){
-		$hamza_norm_com = "$HAMZA_NORM -i $format - -";
+		$hamza_norm_com = "$HAMZA_NORM -i $format -- - -";
 	    } else {
 		$hamza_norm_com = "cat";
 	    }
