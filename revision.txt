@@ -133,3 +133,10 @@ SCTK Version 1.2
 	- Compiles under Linux using gmake.
 	- Documetation changes, including additional comments concerning the 
 	  waveform id in the STM and CTM file formats.
+
+SCTK Version 1.2a
+        - Fixed an installation problem for Linux involving scfp.
+
+SCTK Version 1.2b - Released October 1, 2000
+	- Improved testing code to not report errors under Linux
+

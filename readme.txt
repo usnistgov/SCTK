@@ -1,6 +1,6 @@
 File:  README
-Date:  April 6, 1998
-SCTK Version: 1.2a
+Date:  October 1, 2000
+SCTK Version: 1.2b
 
 Hack this file secnond hack
 
