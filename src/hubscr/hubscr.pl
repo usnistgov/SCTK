@@ -3,7 +3,7 @@
 use strict;
 
 ### Check the version of perl on the command line
-die "Error: This program requires Perl Version 5.8 or higher.  Perl reports you have $]" if ($] < 5.008);
+die "Error: This program requires Perl Version 5.006 or higher.  Perl reports you have $]" if ($] < 5.006);
 
 ### Revision History
 # Version 0.1, Release Sep 19, 1997
