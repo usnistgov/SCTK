@@ -680,11 +680,10 @@ NETWORK *Network_create_from_WTOKE(WTOKE_STR1 *wt,int start,int end, char *name,
 		       (TEXT_strncasecmp((TEXT*)"<ALT",
 					 wt->word[i].sp,4) != 0)) {
 		  /* create new word structure */
-		  tword = new_WORD(wt->word[i].sp, -1,
+		  tword = new_WORD_parseText(wt->word[i].sp, -1,
 				   wt->word[i].t1,
 				   wt->word[i].t1 + wt->word[i].dur,
 				   (wt->has_conf)? wt->word[i].confidence : -1,	
-				   (TEXT*)wt->id,(TEXT*)((wt->word[i].correct == 1)?"C":"I"),
 				   0, 0, -1.0);
 		  if (left_to_right){
 		    /* append to the word list */		    
