@@ -8,7 +8,7 @@ bindir = $(PREFIX)/bin
 all: rfilter1
 
 rfilter1: rfilter1.c
-	cc -o rfilter1 rfilter1.c
+	gcc -o rfilter1 rfilter1.c
 
 setTests:
 	./rfilter1 ../test_suite/test.arb2004.glm < ../test_suite/test.arb2004.txt > ../test_suite/test.arb2004.txt.rfilter1
