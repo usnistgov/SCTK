@@ -337,9 +337,9 @@ File: test.arb2004
 Channel: B
 Scores: (#C #S #D #I) 7 0 0 0
 Attributes: Case_sensitve 
-REF:  Tanween initial ًأبدا medial ابًدا final ابدا 
-HYP:  Tanween initial ًأبدا medial ابًدا final ابدا 
-Eval:                                                             
+REF:  Tanween initial أبدا medial ابدا final ابدا 
+HYP:  Tanween initial أبدا medial ابدا final ابدا 
+Eval:                                                         
 
 id: (test.arb2004_B-008)
 Labels: <O>
@@ -347,9 +347,9 @@ File: test.arb2004
 Channel: B
 Scores: (#C #S #D #I) 7 0 0 0
 Attributes: Case_sensitve 
-REF:  Tanween initial ٌإجراءات medial اجراٌءات final اجراءات 
-HYP:  Tanween initial ٌإجراءات medial اجراٌءات final اجراءات 
-Eval:                                                                               
+REF:  Tanween initial إجراءات medial اجراءات final اجراءات 
+HYP:  Tanween initial إجراءات medial اجراءات final اجراءات 
+Eval:                                                                           
 
 id: (test.arb2004_B-009)
 Labels: <O>
@@ -357,9 +357,9 @@ File: test.arb2004
 Channel: B
 Scores: (#C #S #D #I) 7 0 0 0
 Attributes: Case_sensitve 
-REF:  Tanween initial ٍاختطاف medial اختطٍاف final اختطاف 
-HYP:  Tanween initial ٍاختطاف medial اختطٍاف final اختطاف 
-Eval:                                                                         
+REF:  Tanween initial اختطاف medial اختطاف final اختطاف 
+HYP:  Tanween initial اختطاف medial اختطاف final اختطاف 
+Eval:                                                                     
 
 id: (test.arb2004_B-010)
 Labels: <O>

@@ -7,7 +7,7 @@ VERSION 0.1
 System name:   test.arb2004.txt.ctm
 Ref file:      test.arb2004.txt.stm.filt
 Hyp file:      test.arb2004.txt.ctm.filt
-Creation date: "Mon Oct 18 07:45:46 2004"
+Creation date: "Mon Oct 18 16:12:30 2004"
 Fragment Correct Flag Set
 Optionally Deletable Flag Set
 
@@ -535,11 +535,11 @@ Channel: B
 Scores: (#C #S #D #I) 7 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 14.00 t2= 15.00
-REF:  Tanween initial ًأبدا medial  ابًدا final   ابدا 
-HYP:  Tanween initial ًأبدا medial  ابًدا final   ابدا 
-H_T1: 14.05   14.18   14.31      14.44   14.56      14.69   14.82    
-H_T2: 14.18   14.31   14.44      14.57   14.69      14.82   14.95    
-Eval:                                                                
+REF:  Tanween initial أبدا medial  ابدا final   ابدا 
+HYP:  Tanween initial أبدا medial  ابدا final   ابدا 
+H_T1: 14.05   14.18   14.31    14.44   14.56    14.69   14.82    
+H_T2: 14.18   14.31   14.44    14.57   14.69    14.82   14.95    
+Eval:                                                            
 
 Speaker sentences   2:  test.arb2004_B   utt# 8 of 11
 id: (test.arb2004_B-008)
@@ -549,11 +549,11 @@ Channel: B
 Scores: (#C #S #D #I) 7 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 15.00 t2= 16.00
-REF:  Tanween initial ٌإجراءات medial  اجراٌءات final   اجراءات 
-HYP:  Tanween initial ٌإجراءات medial  اجراٌءات final   اجراءات 
-H_T1: 15.05   15.18   15.31            15.44   15.56            15.69   15.82          
-H_T2: 15.18   15.31   15.44            15.57   15.69            15.82   15.95          
-Eval:                                                                                  
+REF:  Tanween initial إجراءات medial  اجراءات final   اجراءات 
+HYP:  Tanween initial إجراءات medial  اجراءات final   اجراءات 
+H_T1: 15.05   15.18   15.31          15.44   15.56          15.69   15.82          
+H_T2: 15.18   15.31   15.44          15.57   15.69          15.82   15.95          
+Eval:                                                                              
 
 Speaker sentences   2:  test.arb2004_B   utt# 9 of 11
 id: (test.arb2004_B-009)
@@ -563,11 +563,11 @@ Channel: B
 Scores: (#C #S #D #I) 7 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 16.00 t2= 17.00
-REF:  Tanween initial ٍاختطاف medial  اختطٍاف final   اختطاف 
-HYP:  Tanween initial ٍاختطاف medial  اختطٍاف final   اختطاف 
-H_T1: 16.05   16.18   16.31          16.44   16.56          16.69   16.82        
-H_T2: 16.18   16.31   16.44          16.57   16.69          16.82   16.95        
-Eval:                                                                            
+REF:  Tanween initial اختطاف medial  اختطاف final   اختطاف 
+HYP:  Tanween initial اختطاف medial  اختطاف final   اختطاف 
+H_T1: 16.05   16.18   16.31        16.44   16.56        16.69   16.82        
+H_T2: 16.18   16.31   16.44        16.57   16.69        16.82   16.95        
+Eval:                                                                        
 
 Speaker sentences   2:  test.arb2004_B   utt# 10 of 11
 id: (test.arb2004_B-010)

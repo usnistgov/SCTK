@@ -1,8 +1,8 @@
 test.arb2004.txt.ctm
 Filtering arabic file 'test.arb2004.txt.stm', stm format
-   Exec: cat test.arb2004.txt.stm | cat | cat | hamzaNorm.pl -i stm -- - - | tanweenFilt.pl -i stm -- - - | csrfilt.sh -s -i stm -dh test.arb2004.glm > test.arb2004.txt.stm.filt
+   Exec: cat test.arb2004.txt.stm | cat | cat | hamzaNorm.pl -i stm -- - - | tanweenFilt.pl -a -i stm -- - - | csrfilt.sh -s -i stm -dh test.arb2004.glm > test.arb2004.txt.stm.filt
 Filtering arabic file 'test.arb2004.txt.ctm', ctm format
-   Exec: ../hubscr.pl sortCTM <  test.arb2004.txt.ctm | cat | cat | hamzaNorm.pl -i ctm -- - - | tanweenFilt.pl -i ctm -- - - | csrfilt.sh -s -i ctm -dh test.arb2004.glm > test.arb2004.txt.ctm.filt
+   Exec: ../hubscr.pl sortCTM <  test.arb2004.txt.ctm | cat | cat | hamzaNorm.pl -i ctm -- - - | tanweenFilt.pl -a -i ctm -- - - | csrfilt.sh -s -i ctm -dh test.arb2004.glm > test.arb2004.txt.ctm.filt
 Scoring arabic Hyp 'test.arb2004.txt.ctm.filt' against ref 'test.arb2004.txt.stm.filt'
 sclite: 2.3 TK Version 1.3
 Begin alignment of Ref File: 'test.arb2004.txt.stm.filt' and Hyp File: 'test.arb2004.txt.ctm.filt'
