@@ -57,14 +57,15 @@
 #       JGF removed a missed usage of sed!!!
 #  Version 1.10 
 #       JGF Added rttm input type
+#  Version 1.11
+#       JGF Removed the use of EXE_DIR.  All utilities are expected in the path
 
-version="1.10"
+version="1.11"
 
 trap "/bin/rm -f /tmp/hs_filt.*.$$ ; exit 1" 1 2 3 15
 
 # Change to the installation directory in order to execute from 
 # any where other than the installation directory.
-EXE_DIR=/home/fiscus/Projects/tranfilt/tranfilt-cvs
 DeleteHyphens=false
 UpCase=true;
 ExtASCII=false;
@@ -234,14 +235,14 @@ elif test "$inputtype" = "txt" ; then
 		# echo "out"; 	cat /tmp/hs_filt.out.$$
 else 
 	if test ! "$utt_map" = "" ; then
-		$EXE_DIR/ut_rfilt.pl $utt_map /tmp/hs_filt.orig.$$ \
+	        ut_rfilt.pl $utt_map /tmp/hs_filt.orig.$$ \
 			/tmp/hs_filt.out.$$
 	else 
 		cp /tmp/hs_filt.orig.$$ /tmp/hs_filt.out.$$
 	fi
 fi
 
-filt_com="cat /tmp/hs_filt.out.$$ | perl -pe 's/\(/( /g; s/\)/ )/g;' | $EXE_DIR/rfilter1 /tmp/hs_filt.glm.$$ | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g;' "
+filt_com="cat /tmp/hs_filt.out.$$ | perl -pe 's/\(/( /g; s/\)/ )/g;' | rfilter1 /tmp/hs_filt.glm.$$ | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g;' "
 if test "$DeleteHyphens" = "true" ; then
     filt_com="$filt_com | perl -pe 's/([^ \(0-9])-([^ \)0-9])/\$1 \$2/g; s/([^\(\) 0-9])-([^\(\) 0-9])/\$1 \$2/g'"
 fi
