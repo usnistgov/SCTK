@@ -121,6 +121,8 @@ sc_stats: $(lib_o) sc_stats.c
 	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sc_stats.c $(LIBS) 
 rover: $(lib_o) rover.c
 	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) rover.c $(LIBS) 
+mcnemar: $(lib_o) mcnemar.c
+        $(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) mcnemar.c $(LIBS)
 $(TEST_PROGRAMS): $(lib_o) $$@.c
 	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) $@.c $(LIBS) 
 $(PURIFY_PROGRAMS): $(lib_o)
