@@ -1063,15 +1063,15 @@ while test "$ans" = "" ; do
 		fi
 		CFLAGS="$CFLAGS -DWITH_SLM"
 		SLM_TARGETS="slm_v2/lib/SLM2.a"
+		cat slm_v2/src/makefile.in | \
+			sed "s/@CC@/$CC/" | \
+			sed "s/@SCTK_FLAGS@/$CFLAGS_BEFORE_DIFF/" | \
+			sed "s/@SLM_DEFS@/$SLM_DEFS/"  > slm_v2/src/makefile
 	else
 		echo "Error: You must respond either yes or no"
 		ans=""
 	fi
 done
-cat slm_v2/src/makefile.in | \
-	sed "s/@CC@/$CC/" | \
-	sed "s/@SCTK_FLAGS@/$CFLAGS_BEFORE_DIFF/" | \
-	sed "s/@SLM_DEFS@/$SLM_DEFS/"  > slm_v2/src/makefile
 
 		
 		
