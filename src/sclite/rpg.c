@@ -504,7 +504,7 @@ void Desc_dump_report(int space_pad, FILE *fp)
 			for (c2=startc; c2<=c; c2++){
 			    if (rpgstr->col_defs[rpgstr->row_just[r]].col_lock[c2] == UNLOCKED){
 				if (c2 != c)
-				    add = (int)((double)(siz - span_siz) / (double)(num_unlocked) + 0.5);
+  				    add = (int)(F_ROUND((double)(siz - span_siz) / (double)(num_unlocked), 0));
 				else
 				    add = siz - span_siz;
 				if (static_rpt_dbg) printf(" %2d",add);
