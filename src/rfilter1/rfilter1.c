@@ -96,7 +96,9 @@ if (db_level > 0)
 #include "include/ss_len.c"
 #include "include/mfname1.c"
 #include "include/prtrim.c"
+#ifdef NEED_STRCMP
 #include "include/strncmpi.c"
+#endif
 #include "include/calloc2.c"
 #include "include/prtrim2.c"
 #include "include/mupper.c"
@@ -113,4 +115,6 @@ if (db_level > 0)
 #include "include/strcutr.c"
 #include "include/str_eq.c"
 #include "include/pltrim.c"
+#ifdef NEED_STRCMP
 #include "include/strcmpi.c"
+#endif
