@@ -31,7 +31,7 @@ sub runIt{
 #	./csrfilt.sh -i ctm -dh $(T)/example.glm $(T)/example.utm < $(T)/test_ctm.in > $(T)/test_ctm.out
 runIt($operation, "text", "-dh",
       "../test_suite/example.glm",  "../test_suite/example.utm",  "../test_suite/test.in",  "../test_suite/test.out");
-runIt($operation, "ctm", "-dh -i ctm",
+runIt($operation, "ctm", "-i ctm -dh",
       "../test_suite/example.glm",  "../test_suite/example.utm",  "../test_suite/test_ctm.in",  "../test_suite/test_ctm.out");
 
 

@@ -248,45 +248,46 @@ if test "$DeleteHyphens" = "true" ; then
 fi
 
 if test "$inputtype" = "ctm" ; then
-echo perl -ne "'"'
-    if ($_ =~ /^;;/) {print} 
+cat > /tmp/hs_filt.ctm.$$ << EOF
+  while (<>){
+    if (\$_ =~ /^;;/) {print} 
     else {
 	s/^\s+//;
 	s/([{}])/ \1 /g;
 	@l = split;
-	if ($#l == 4) {print}
+	if (\$#l == 4) {print}
 	else {
-	    if ($l[$#l] =~ /^[0-9\.-]*$/) {$limit=$#l-1;$conf=$l[$#l]} 
-	    else {                         $limit=$#l;$conf=""} ; 
+	    if (\$l[\$#l] =~ /^[0-9\.-]*\$/) {\$limit=\$#l-1;\$conf=\$l[\$#l]} 
+	    else {                         \$limit=\$#l;\$conf=""} ; 
 
-	    $data = join(" ",splice(@l,4,$limit - 4 + 1));
-	    @sets = split(/\//,$data);
-	    if ($#sets > 0) {
-		printf "%s %s * * %s <ALT_BEGIN>\n",$l[0],$l[1],$word,$conf;
+	    \$data = join(" ",splice(@l,4,\$limit - 4 + 1));
+	    @sets = split(/\//,\$data);
+	    if (\$#sets > 0) {
+		printf "%s %s * * %s <ALT_BEGIN>\n",\$l[0],\$l[1],\$word,\$conf;
 	    }
-	    for ($sn = 0; $sn <= $#sets; $sn++){
-		$set = $sets[$sn];
-		$set =~ s/[{}]//g;
-		$set =~ s/^\s+//;
-		@words = split(/\s+/,$set);
-		$dur = $l[3] / ($#words + 1);
-		$i=0;
-		foreach $word(@words){
-		    printf "%s %s %.3f %.3f %s %s\n",$l[0],$l[1],$l[2]+($dur * $i),$dur,$word,$conf;
-		    $i ++;
+	    for (\$sn = 0; \$sn <= \$#sets; \$sn++){
+		\$set = \$sets[\$sn];
+		\$set =~ s/[{}]//g;
+		\$set =~ s/^\s+//;
+		@words = split(/\s+/,\$set);
+		\$dur = \$l[3] / (\$#words + 1);
+		\$i=0;
+		foreach \$word(@words){
+		    printf "%s %s %.3f %.3f %s %s\n",\$l[0],\$l[1],\$l[2]+(\$dur * \$i),\$dur,\$word,\$conf;
+		    \$i ++;
 		}
-		if ($#sets > 0 && $sn != $#sets){
-		    printf "%s %s * * %s <ALT>\n",$l[0],$l[1],$word,$conf;
+		if (\$#sets > 0 && \$sn != \$#sets){
+		    printf "%s %s * * %s <ALT>\n",\$l[0],\$l[1],\$word,\$conf;
 		}
 	    }
-	    if ($#sets > 0) {
-		printf "%s %s * * %s <ALT_END>\n",$l[0],$l[1],$word,$conf;
+	    if (\$#sets > 0) {
+		printf "%s %s * * %s <ALT_END>\n",\$l[0],\$l[1],\$word,\$conf;
 	    }
 	}
-    }'"'" > \
-	/tmp/hs_filt.ctm.$$
-    chmod +x /tmp/hs_filt.ctm.$$
-    filt_com="$filt_com | /tmp/hs_filt.ctm.$$"
+    }
+  }
+EOF
+    filt_com="$filt_com |perl /tmp/hs_filt.ctm.$$"
 elif test "$inputtype" = "rttm" ; then
 cat > /tmp/hs_filt.ctm.$$ << EOF
 while (<>){
