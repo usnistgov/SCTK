@@ -156,20 +156,22 @@ install: all testinstalldirs
 	for p in $(PROGRAMS); do \
 	  $(INSTALL) $$p $(bindir)/$$p; \
 	done
-	for p in `(cd ../doc ; ls *.1)`; do \
-	  $(INSTALL) ../doc/$$p $(man1dir)/$$p; \
-	done
-	@echo "!!!!  If 'man sclite' does not work, run 'catman -M $(mandir)'"
-	@echo "!!!!  to make manual pages accessible."
+#REenable this later
+#	for p in `(cd ../doc ; ls *.1)`; do \
+#	  $(INSTALL) ../doc/$$p $(man1dir)/$$p; \
+#	done
+#	@echo "!!!!  If 'man sclite' does not work, run 'catman -M $(mandir)'"
+#	@echo "!!!!  to make manual pages accessible."
 
 testinstalldirs:
 	@-for p in $(bindir) $(man1dir) $(man5dir); do \
 	   if test ! -d $$p ; then \
 		echo "Error: directory $$p doesn't exist"; \
 	   fi ; \
-	   if test ! -w $$p ; then \
-		echo "Error: directory $$p is not writeable by you"; \
-	   fi \
+#REenable this later
+#	   if test ! -w $$p ; then \
+#		echo "Error: directory $$p is not writeable by you"; \
+#	   fi \
 	done
 
 # We need more tests.
