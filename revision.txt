@@ -162,7 +162,7 @@ SCTK Version 2.0 Beta 1 - Released Aug 30, 2004
 	- hamzaNorm is a new program.
 	- 2004 Arabic transcripts are now handled by hubscr and chfilt.
 
-SCTK Version 2.0 Beta 2 - Released Oct. 5, 2004
+SCTK Version 2.0 Beta 3 - Released Oct. 5, 2004
         - Fixed the install for rfilter1
         - Added an option to chfilt.pl to map channel id's A or B to 1 and 2 respectively.
         - Added a new program tanweenFilt.pl
