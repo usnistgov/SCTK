@@ -37,4 +37,6 @@ test.arb2004 B test.arb2004_B_inter_segment_gap 7.00   8.00 <O>
 test.arb2004 B test.arb2004_B 8.0   9.00 <O>  اه inital ياش medial ةا final 
 test.arb2004 B test.arb2004_B_inter_segment_gap 9.00  10.00 <O> 
 test.arb2004 B test.arb2004_B 10.0  11.00 <O>  آو أو إو او 
-test.arb2004 B test.arb2004_B_inter_segment_gap 11.00 999999.00 <O> 
+test.arb2004 B test.arb2004_B_inter_segment_gap 11.00  12.00 <O> 
+test.arb2004 B test.arb2004_B 12.0  13.00 <O>  (%تردّد) (بشتغل) (بالمناهج) 
+test.arb2004 B test.arb2004_B_inter_segment_gap 13.00 999999.00 <O> 
