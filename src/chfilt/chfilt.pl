@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+die "Error: This program requires Perl Version 5.008005 or higher.  Perl reports you have $]" if ($] < 5.006);
+
 ### This changes the function of a runtime warning to dump a stack trace
 #use Carp ();  local $SIG{__WARN__} = \&Carp::cluck;
 ### This dies on a warning after the stack dump
@@ -76,7 +78,6 @@ use strict;
 #       JGF add use strict pragma
 
 my $Version="1.15";
-die "Error: This program requires Perl Version 5.008005 or higher.  Perl reports you have $]" if ($] < 5.008005);
 
 my $usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
 "Version: $Version\n".
