@@ -1,4 +1,4 @@
-SCTK Basic Installation for Version 1.2
+SCTK Basic Installation for Version 1.3
 =======================================
 
 *****  If you have extracted this package off of a CDROM, on some   *****
@@ -18,7 +18,11 @@ The 'make config' command exeuctes the script 'config.sh' in the src
 directory.  The script probes the installation system and creates a
 makefile based on the probe.  For typical installations, the default
 execution of the script will be statisfactory.  See the description of
-'config.sh' in the file 'src/config.txt'.
+'config.sh' in the file 'src/config.txt'.  Note that you'll be asked
+if you want to enable alignments via GNU Diff.  The GNU Diff
+alignments do not work with Version 2.8.1 of diff.  To avoid
+unnecessary installation complications, not including the
+functionality is prudent.
 
 The 'make' command will compile all toolkit executables and libraries.
 
