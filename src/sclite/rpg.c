@@ -580,23 +580,27 @@ void Desc_dump_report(int space_pad, FILE *fp)
 		} else {
 		    desc_column_ptr[c] = rpgstr->cell_values[c][r];
 		    size_adjustment = 0;
+		    //		    printf("CA=%d ",current_add);
 		    if (c != current_num_col-1){
-			size_adjustment = (int)(((double)current_underage / (double)current_num_unlocked) *
-						(double)(c + num_span_col(current_just,c) + 1)) - current_add;
+			size_adjustment = (int)(F_ROUND((double)current_underage / (double)current_num_unlocked * (double)(c + num_span_col(current_just,c) + 1),0)) - current_add;
+			//printf ("1 set sa=%d %d %d %d %d %d",size_adjustment, current_underage,current_num_unlocked, c, num_span_col(current_just,c), current_add);
 			current_add += size_adjustment;
+			//printf(" size_adjustment=%d curent_add=%d x9 ", size_adjustment, current_add);
 		    } else {
 			size_adjustment += current_underage - current_add;
+			//printf ("2 set size_adjustment=%d curent_add=%d ",size_adjustment, current_add);
 		    }
 		    desc_column_text_size[c]=rpgstr->max_col_sizes[current_num_col][c];
 		    desc_column_size[c]=(space_pad*2) + desc_column_text_size[c] + size_adjustment;
 		    /* compute the size for this value */
 		    for (c2=c+1; (c2 < current_num_col) && (rpgstr->col_defs[current_just].col_just[c2] == 'a'); c2++){
 			if (c != current_num_col-1){
-			    size_adjustment = (int)(((double)current_underage / (double)current_num_col) * 
-						    (double)(c + num_span_col(current_just,c) + 1)) - current_add;
+			    size_adjustment = (int)(F_ROUND((double)current_underage / (double)current_num_col * (double)(c + num_span_col(current_just,c) + 1), 0)) - current_add;
 			    current_add += size_adjustment;
+			    //printf ("3 set size_adjustment=%d curent_add=%d ",size_adjustment, current_add);
 			} else {
 			    size_adjustment += current_underage - current_add;
+			    //printf ("4 set size_adjustment=%d curent_add=%d ",size_adjustment, current_add);
 			}
 			desc_column_size[c] += rpgstr->max_col_sizes[current_num_col][c2] + space_pad*2 + 1 + size_adjustment;
 			desc_column_text_size[c] +=  rpgstr->max_col_sizes[current_num_col][c2] + space_pad*2 + 1;
