@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 
 ### This changes the function of a runtime warning to dump a stack trace
 #use Carp ();  local $SIG{__WARN__} = \&Carp::cluck;
