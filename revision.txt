@@ -142,3 +142,15 @@ SCTK Version 1.2b - Released October 1, 2000
 
 SCTK Version 1.2c - Released October 11, 2000
 	- Improved installation targets in makefile
+
+SCTK Version 1.3 - Release July 30, 2004
+        - Minor bug fixes for core dumps
+	- Added the ability to pass two tags attached to each word through the
+          scorer.   The tags are attached to the words by appending ';<string>'
+          to the word's text.  There can be up to two tags, and they may be empty.
+        - Added a '#' after NCE values in the .sys reports to indicate the
+          abscence of reference lexemes for a speaker.
+	- Expanded the buffers in the rpg.c suite of routines for report generation.
+        - Expanded the maximum alternation size to 10000 characters.
+        - Added a "Lattice" error rate calculation in the .prn reports.  It's the
+          percent of reference tokens not correct in any systems transcript.
