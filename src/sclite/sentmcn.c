@@ -85,34 +85,57 @@ void McNemar_sent(SCORES *scor[], int nscor, int ***out_winner, char *testname, 
 /*   test then perform the test                                     */
 /********************************************************************/
 
-int do_McNemar_by_sent(SCORES *scor1, SCORES *scor2, int verbose, FILE *fp, double *conf)
+int do_McNemar_by_sent(SCORES *sys1, SCORES *sys2, int verbose, FILE *fp, double *conf)
 {
-    int ans, spkr, snt, e1, e2;
+    int ans, spk1, spk2, snt1, snt2, e1, e2;
     PATH *cp;
     int **table=NULL, nw;
-
+    int foundMatchSent;
     alloc_2dimZ(table,2,2,int,0);
 
-    /* Create the 2x2 table for the comparisons */
-    for (spkr=0; spkr < scor1->num_grp; spkr++){
-        for (snt=0; snt < scor1->grp[spkr].num_path; snt++){
-	    e1 = e2 = 0;
-	    cp = scor1->grp[spkr].path[snt];
-	    for (nw=0; nw < cp->num; nw++)
-		if (cp->pset[nw].eval != P_CORR) {
-		    e1 = 1;
-		    break;
+    for (spk1=0;spk1 < sys1->num_grp; spk1++){ /* for all speaker sys1 */
+        /**** find the matching speaker */
+        for (spk2=0;spk2 < sys2->num_grp; spk2++)
+            if (strcmp(sys1->grp[spk1].name, sys2->grp[spk2].name) == 0)
+                break;
+        /**** the the speakers match, start on the sentences */
+        if (spk2 != sys2->num_grp){
+            /**** for all sents in sys1,spkr1 */
+            for (snt1 = 0; snt1 < sys1->grp[spk1].num_path; snt1++){
+                /**** for all sents in sys2,spkr2 */
+	        foundMatchSent = 0;
+                for (snt2 = 0; snt2 < sys2->grp[spk2].num_path; snt2++){ 
+                   /**** if the sentences are the same, compare them */
+                   if(strcmp(sys1->grp[spk1].path[snt1]->id,
+                             sys2->grp[spk2].path[snt2]->id) == 0){
+		     e1 = e2 = 0;
+		     cp = sys1->grp[spk1].path[snt1];
+		     for (nw=0; nw < cp->num; nw++)
+		       if (cp->pset[nw].eval != P_CORR) {
+			 e1 = 1;
+			 break;
+		       }
+		     cp = sys2->grp[spk2].path[snt2];
+		     for (nw=0; nw < cp->num; nw++)
+		       if (cp->pset[nw].eval != P_CORR) {
+			 e2 = 1;
+			 break;
+		       }
+		     table[e1][e2] ++;
+		     foundMatchSent = 1;
+		   }
 		}
-	    cp = scor2->grp[spkr].path[snt];
-	    for (nw=0; nw < cp->num; nw++)
-		if (cp->pset[nw].eval != P_CORR) {
-		    e2 = 1;
-		    break;
-		}
-	    table[e1][e2] ++;
-	}
+		if (! foundMatchSent)
+		     fprintf(stderr,"Warning: Speaker's '%s' path '%s' in system '%s' is not in system '%s'\n",
+			     sys1->grp[spk1].name,sys1->grp[spk1].path[snt1]->id,sys1->title,sys2->title   );
+	    }
+	} else {
+            fprintf(stderr,"Warning: Speaker %s is in system %s but not system %s\n",
+		    sys1->grp[spk1].name,sys1->title,sys2->title);
+        }
     }
-    ans = do_McNemar(table,scor1->title,scor2->title,verbose,fp,conf);
+
+    ans = do_McNemar(table,sys1->title,sys2->title,verbose,fp,conf);
     free_2dimarr(table,2,int);
     return(ans);
 }
