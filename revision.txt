@@ -140,3 +140,5 @@ SCTK Version 1.2a
 SCTK Version 1.2b - Released October 1, 2000
 	- Improved testing code to not report errors under Linux
 
+SCTK Version 1.2c - Released October 11, 2000
+	- Improved installation targets in makefile
