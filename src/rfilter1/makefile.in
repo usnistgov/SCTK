@@ -8,7 +8,7 @@ all: rfilter1
 
 ###################Options for compilation################
 #######  If you have an old GCC, Strcmpi is not defined.
-#######  Setting OPTIONS to -DHAS_STRCMP=1 will compile
+#######  Setting OPTIONS to -DNEED_STRCMP=1 will compile
 #######  The supplied versions of strncmp and strncmpi
 OPTIONS=
 rfilter1: rfilter1.c
