@@ -317,8 +317,8 @@ foreach $_ (@Trans){
     s/ /  /g;                      #multiple spaces go to one
     s/^/ /;                        #add spaces at begining of line
     s/$/ /;                        #put a space at the end of each line
-    s/\(\(/ (( /g;                 #add spaces around unintelligble markers
-    s/\)\)/ )) /g;                 #add spaces around unintelligble markers
+    s/\s\(\(/ (( /g;                 #add spaces around unintelligble markers
+    s/\)\)\s/ )) /g;                 #add spaces around unintelligble markers
     if ($OptDel == 0){
         s:<foreign\s+language=[^>]+>([^><]+)</foreign>:$1:gi;
     } else {
@@ -427,42 +427,71 @@ foreach $_ (@Trans){
 
 
     if ($OptDel == 1){
-        s/\(\(\s+/((/;                 #Normalize the variablity in the LDC trans
-        s/\s+\)\)/))/;                 #Normalize the variablity in the LDC trans
-        my $loop_end = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        s/\(\s+/(/g;                 #Normalize the variablity in the LDC trans
+        s/\s+\)/)/g;                 #Normalize the variablity in the LDC trans
+        my $vb = 0;
+        my $iteration = 1;
+        print "Start $_\n" if ($vb);
+        my $loop_end = "xxxxxxxxxxxxxxxxx";
+
+        my $plainWord = "[^ \t\n\r\f\(\)\{\}]+";
+        my $optDelWord = "\\([^ \t\n\r\f\(\)\{\}]+\\)";
+#        my $wordSet = "($plainWord|$optDelWord)(\s+($plainWord|$optDelWord))*";
+
         while ($_ =~ /\(\(.*\)\)/) {
             # if the unintell is out side of a OOL marker, just delete them
             s/\(\((\s*<[^>]+>\s*)\)\)/$1/;
+            print "      Step 1 $_\n" if ($vb);
+
             #  handle unintelligle markers within OOL markers
             s/\(\((\s*<[^>]+>\s*)([^\)]*)\)\)/$1 \(\($2\)\)/;
-            #  handle optionally deletable tokens within unintelligble markers
-            s/(\(\(.*)(\s+\([^()\s]+\))+(.*\)\))/$1 )) $2 (( $3/;
-            ### This variable adds a prefix to any change;
-            my $unm="";
+            print "      Step 2 $_\n" if ($vb);
+
+	    #Change 1st unintelligable word, if its already optionally deletable
+            s/\(\(\s*($optDelWord)\s+(($plainWord|$optDelWord)(\s+($plainWord|$optDelWord))*\s*\)\))/ $1 \(\($2/g;
+            print "      Step 3 $_\n" if ($vb);
 
 	    #Change 1st unintelligable word, if its an alternate
-            s:\(\(\s*({[^{}]+})\s+([^\(\)]+\s*\)\)): ${unm}\($1\) \(\($2:g;
-	    #Change 1st unintelligable word, if its a word
-            s/\(\(\s*([^ \t\n\r\f\{\}\(\)]+)\s+([^\(\)]+\s*\)\))/ ${unm}\($1\) \(\($2/g;
+            s:\(\(\s*({[^{}]+})\s+(($plainWord|$optDelWord)(\s+($plainWord|$optDelWord))*\s*\)\)): \($1\) \(\($2:g;
+            print "      Step 4 $_\n" if ($vb);
+
+	    #Change 1st unintelligable word, if its a plain word
+            s/\(\(\s*($plainWord)\s+(($plainWord|$optDelWord)(\s+($plainWord|$optDelWord))*\s*\)\))/ \($1\) \(\($2/g;
+            print "      Step 5 $_\n" if ($vb);
+
+            ## Change a single optionally deletable word
+            s/\(\(\s*($optDelWord)\s*\)\)/ $1 /g;
+            print "      Step 8 $_\n" if ($vb);
+
             #alternate single unintelligable with alternate
-            s/\(\(\s*({[^{}]+})\s*\)\)/ ${unm}\($1\) /g;
+            s/\(\(\s*({[^{}]+})\s*\)\)/ \($1\) /g;
+            print "      Step 9 $_\n" if ($vb);
+
             #alternate single unintelligable words
-            s/\(\(\s*([^ \t\n\r\f\(\)\{\}]+)\s*\)\)/ ${unm}\($1\) /g;
-#           s/\(\(\s*([^\s{}\(\)]+)\s*\)\)/ ${unm}\($1\) /g 
+            s/\(\(\s*($plainWord)\s*\)\)/ \($1\) /g;
+            print "      Step A $_\n" if ($vb);
+
 	    # remove empty unintellegible markers
 	    s/\(\(\s*\)\)//g;
+            $iteration ++;
 	
 	    if ($_ eq $loop_end){
 	         print STDERR "Warning: unable to fully alternate an unitelligible marker\n".
 	                      "         $_\n";
 	         last;
 	    }
+            if ($iteration > 100){
+	         die "Unable to alternate an unitelligible marker '$_'\n";
+            }
             # Remember what the last line was so that We don't get it an infinite loop
             $loop_end = $_;
+            print "   End $_\n" if ($vb);
         }
     } else {
-        s/\(\(/ /g;                 #Strip the unintelligible markers
-        s/\)\)/ /g;                 #Strip the unintelligible markers
+#        print "Delete (( $_\n";
+        s/\s\(\(/ /g;                 #Strip the unintelligible markers
+        s/\)\)\s/ /g;                 #Strip the unintelligible markers
+#        print "          $_\n";
     }
 
     if (! $OptDel){
