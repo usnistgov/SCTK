@@ -519,6 +519,11 @@ void PATH_multi_print(SCORES **scor, PATH **path_set, int npath, int maxlen, FIL
       fprintf(fp,"File: %s\n",path_set[0]->file);
     if (path_set[0]->channel != (char *)0)
       fprintf(fp,"Channel: %s\n",path_set[0]->channel);
+    if (BF_isSET(path_set[0]->attrib,PA_REF_TIMES))
+	fprintf(fp,"Ref times: t1= %.2f t2= %.2f\n",path_set[0]->ref_t1,path_set[0]->ref_t2);
+    if (BF_isSET(path_set[0]->attrib,PA_HYP_TIMES))
+	fprintf(fp,"Hyp times: t1= %.2f t2= %.2f\n",path_set[0]->hyp_t1,path_set[0]->hyp_t2);
+
     fprintf(fp,"Lattice Analysis: #refWords %d #refErrWords %d\n",*refWord, *errRefWord);
     fprintf(fp,"\n");
     
