@@ -6,7 +6,7 @@
 # include <varargs.h>
 #endif
 
-char static_message_buffer[200];
+char static_message_buffer[1000];
 
 #ifdef __STDC__
 char *rsprintf(char *format , ...)
@@ -28,6 +28,10 @@ va_dcl
 #endif
     /*    printf("rsprintf:  format: %s\n",format); */
     vsprintf(static_message_buffer,format,args);
+    if (strlen(static_message_buffer) > 1000){
+      fprintf(stderr,"Error: rsprintf's internal buffer is too small.  increase the size\n");
+      exit (1);
+    }
     /*    printf("rsprintf:  message: %s\n",static_message_buffer);*/
     return(static_message_buffer);
 }
