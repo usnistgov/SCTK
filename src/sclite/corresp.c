@@ -260,7 +260,7 @@ static int identical_refs(int npaths,PATH **paths){
 	w++;
       while (wp < paths[p]->num && (paths[p]->pset[wp].eval == P_INS))
 	wp++;
-      if (w > paths[0]->num && wp > paths[p]->num)
+      if (w >= paths[0]->num && wp >= paths[p]->num)
 	;
       else {
 	if (w > paths[0]->num || wp > paths[p]->num)
