@@ -16,9 +16,9 @@ Labels: <o,wa>
 File: 2347
 Channel: a
 Scores: (#C #S #D #I) 4 3 0 1
-REF:  **** I'VE  UM    as far as i'm CONCERNED 
-HYP:  THEY PRIDE ABOUT as far as i'm I         
-Eval: I    S     S                   S         
+REF:  **** I'VE  UM    a;s far as i'm CONCERNED 
+HYP:  THEY PRIDE ABOUT a;s far as i'm I         
+Eval: I    S     S                    S         
 
 id: (2347-a-001)
 Labels: <o,wa>

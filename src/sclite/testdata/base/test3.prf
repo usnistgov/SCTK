@@ -29,8 +29,8 @@ File: 2347
 Channel: a
 Scores: (#C #S #D #I) 4 3 0 1
 Ref times: t1= 1.06 t2= 3.47
-REF:  ****    I'VE    UM      as      far     as      i'm     CONCERNED 
-HYP:  THEY    PRIDE   ABOUT   as      far     as      i'm     I         
+REF:  ****    I'VE    UM      a;s     far     as      i'm     CONCERNED 
+HYP:  THEY    PRIDE   ABOUT   a;s     far     as      i'm     I         
 H_T1: 0.05    1.02    1.65    1.94    2.12    2.38    2.48    2.83      
 H_T2: 0.29    1.31    1.93    2.11    2.37    2.47    2.82    3.47      
 Eval: I       S       S                                       S         
