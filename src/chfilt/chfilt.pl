@@ -74,8 +74,11 @@ use strict;
 #       JGF added Arabic processing steps for 2004 arabic transcripts.  See the Eval
 #           plan appendix for Arabic.
 #       JGF add use strict pragma
+#  Version 1.16
+#       JGF added code to check for unannotated, non-posessive contractions IFF contractions
+#           are to be processed.
 
-my $Version="1.15";
+my $Version="1.16";
 
 my $usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
 "Version: $Version\n".
@@ -272,6 +275,15 @@ close (FILE);
 for (my $n=0; $n<=$#Trans; $n++){
     if ($Trans[$n] =~ /^\s*\d+\.\d*\s+\d+\.\d*\s+[AB]\d*:/){
 	my $orig = $Trans[$n];
+	if ($ExpandContractions){
+	    ### Scan the transcript looking for un-annotated non-possessive contractions
+	    my $ct = $Trans[$n];	    
+	    ### delete all tokens annotated as contractions
+	    $ct =~ s/(<contraction\s+e_form=\"([^\"]+)\">([^ \t\n\r\f\)]+))//gi;
+	    foreach my $ctt(split(/[\s\,\.\?]+/,$ct)){
+		print "Warning: Possible non-annotated contraction \"$ctt\"\n" if ($ctt =~ /\w'\w+/ && $ctt !~ /\w's$/);
+	    }
+	}
 	while ($Trans[$n] =~ /(<contraction\s+e_form=\"([^\"]+)\">([^ \t\n\r\f\)]+))/i){
 	    my ($tag, $rep, $token) = (quotemeta($1), $2, $3);
 	    my $exp;
