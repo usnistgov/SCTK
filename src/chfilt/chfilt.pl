@@ -6,6 +6,8 @@
 #use Carp ();  local $SIG{__WARN__} = sub { Carp::cluck(); die; };
 #use Carp ();  local $SIG{__DIE__} = sub { Carp::cluck(); die; };
 
+use strict;
+
 # File:  chfilt
 # History:  
 #    version 1.0  Released 950921
@@ -71,11 +73,12 @@
 #  Version 1.15
 #       JGF added Arabic processing steps for 2004 arabic transcripts.  See the Eval
 #           plan appendix for Arabic.
+#       JGF add use strict pragma
 
-$Version="1.15";
+my $Version="1.15";
 die "Error: This program requires Perl Version 5.008005 or higher.  Perl reports you have $]" if ($] < 5.008005);
 
-$usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
+my $usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
 "Version: $Version\n".
 "\n".
 "Desc:  chfilt converts a Callhome transcription file, 'infile', to STM\n".
@@ -115,17 +118,35 @@ $usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
 "       -c             Don't expand the contractions if they are annotated\n".
 "       -E             Exclude overlapping segments in the output STMs\n";;
 
+##########3  Globals 
+my $Language;
+my $OptDel;
+my ($NewBeginTime, $NewEndTime);
+my $Format; 
+my $KeepEmptyLines;
+my @Translate;
+my @Equivs;
+my $AltHyphens;
+my $ReadMSstate;
+my $ExcludeOverlap;
+my $PadSilence;
+my $SmoothSegments;
+my $ExpandContractions;
+my $AddInterSegGap;
+my $HES;
+my $InFile;
+my $OutFile;
+my $id;
+my %TranslateAArray;
+my %EquivsAArray;
+my @Trans;
 
-# Get the command line arguments
-#require "getopts.pl";
-#&Getopts('s:p:l:b:e:o:t:q:admikEc');
 use Getopt::Long;
-#my $ret = GetOptions ("put=s", "u|uem=s", "g|gap=f", "x|excludeBound", "c|checkGap");
 $Getopt::Long::ignorecase = 0;
 my $ret = GetOptions ("s:f", "p:f", "l=s", "b:f", "e:f", "o=s", "t:s", "q:s", "a", "d", "m", "i", "k", "E", "c");
 die "\n$usage\nError: Failed to parse argements" if (! $ret);
-if (defined($opt_o)) {
-    $Format = $opt_o;
+if (defined($main::opt_o)) {
+    $Format = $main::opt_o;
     if($Format !~ /^(stm|pem)$/){
         print "\n$usage\nError: Unrecognized format type --> $Format\n\n";
         exit 1;
@@ -133,11 +154,11 @@ if (defined($opt_o)) {
 } else {
     $Format = "stm";
 }
-if (!defined($opt_l)){
+if (!defined($main::opt_l)){
     print "\n$usage\nError: Language option is required\n\n";
     exit 1;
 } else {
-    $Language = $opt_l;
+    $Language = $main::opt_l;
     if ($Language !~ /japanese/ &&
 	$Language !~ /mandarin/ &&
 	$Language !~ /english/ &&
@@ -149,26 +170,26 @@ if (!defined($opt_l)){
     }
 }
 
-if (defined($opt_b)) { $NewBeginTime = $opt_b;            } else { $NewBeginTime = 0.0}
-if (defined($opt_e)) { $NewEndTime   = $opt_e;            } else { $NewEndTime   = 999999;  }
-if (defined($opt_k)) { $KeepEmptyLines= $opt_k; } else { $KeepEmptyLines = 0; }
-if (defined($opt_t)) { @Translate    = split(/:/,$opt_t); } else { @Translate = (); }
-if (defined($opt_q)) { @Equivs       = split(/:/,$opt_q); } else { @Equivs = ();    }
-if (defined($opt_a)) { $AltHyphens   = 1;  $opt_a = 1; } else{ $AltHyphens = 0;$opt_a=0;}
-if (defined($opt_m)) { $ReadMSstate  = 1;  $opt_m = 1; } else{ $ReadMSstate = 0;$opt_m=0;}
-if (defined($opt_E)) { $ExcludeOverlap = $opt_E } else{ $ExcludeOverlap = 0}
-if (defined($opt_p)) { $PadSilence   = $opt_p } else{ $PadSilence = -1.0}
-if (defined($opt_s)) { $SmoothSegments = $opt_s } else{ $SmoothSegments = -1.0}
-if (defined($opt_c)) { $ExpandContractions = !(defined($opt_c))} else{ $ExpandContractions = 1}
-$AddInterSegGap = defined($opt_i);
+if (defined($main::opt_b)) { $NewBeginTime = $main::opt_b;            } else { $NewBeginTime = 0.0}
+if (defined($main::opt_e)) { $NewEndTime   = $main::opt_e;            } else { $NewEndTime   = 999999;  }
+if (defined($main::opt_k)) { $KeepEmptyLines= $main::opt_k; } else { $KeepEmptyLines = 0; }
+if (defined($main::opt_t)) { @Translate    = split(/:/,$main::opt_t); } else { @Translate = (); }
+if (defined($main::opt_q)) { @Equivs       = split(/:/,$main::opt_q); } else { @Equivs = ();    }
+if (defined($main::opt_a)) { $AltHyphens   = 1;  $main::opt_a = 1; } else{ $AltHyphens = 0;$main::opt_a=0;}
+if (defined($main::opt_m)) { $ReadMSstate  = 1;  $main::opt_m = 1; } else{ $ReadMSstate = 0;$main::opt_m=0;}
+if (defined($main::opt_E)) { $ExcludeOverlap = $main::opt_E } else{ $ExcludeOverlap = 0}
+if (defined($main::opt_p)) { $PadSilence   = $main::opt_p } else{ $PadSilence = -1.0}
+if (defined($main::opt_s)) { $SmoothSegments = $main::opt_s } else{ $SmoothSegments = -1.0}
+if (defined($main::opt_c)) { $ExpandContractions = !(defined($main::opt_c))} else{ $ExpandContractions = 1}
+$AddInterSegGap = defined($main::opt_i);
 die "$usage\nError: -i requires -b and -e to be used"
-    if (defined($opt_i) && (! defined($opt_b) || !defined($opt_e)));	
+    if (defined($main::opt_i) && (! defined($main::opt_b) || !defined($main::opt_e)));	
 
-if (defined($opt_d)) {
-    $OptDel       = 1;  $opt_d = 1;
+if (defined($main::opt_d)) {
+    $OptDel       = 1;  $main::opt_d = 1;
     $HES = " (%HESITATION) ";
 } else {
-    $OptDel = 0; $opt_d = 0;
+    $OptDel = 0; $main::opt_d = 0;
     $HES = "%HESITATION";
 }
 
@@ -198,12 +219,12 @@ $id =~ s/\.[^\.]*$//;
 # Check the translation classes.  If they exist, make an associative
 # array to house them
 if ($#Translate >= 0){
-    foreach $tlate (@Translate){
+    foreach my $tlate (@Translate){
 	$tlate =~ tr/a-z/A-Z/;
 	if ($Language eq "german" || $Language eq "spanish") {
 	    $tlate =~ tr/\340-\377/\300-\337/;     #Upper-Case accented letters
 	}
-	@tl = split(/=/,$tlate);
+	my @tl = split(/=/,$tlate);
 	$TranslateAArray{$tl[0]} = $tl[1];
     }
 }
@@ -211,15 +232,16 @@ if ($#Translate >= 0){
 # Check the equivalence classes.  If they exist, make an associative
 # array to house them
 if ($#Equivs >= 0){
-    foreach $equiv (@Equivs){
+    foreach my $equiv (@Equivs){
 	$equiv =~ tr/a-z/A-Z/;
 	if ($Language eq "german" || $Language eq "spanish") {
 	    $equiv =~ tr/\340-\377/\300-\337/;     #Upper-Case accented letters
 	}
+	my $alt;
  	($alt = $equiv) =~ s/^/{ /;
 	 $alt           =~ s/$/ }/;
 	 $alt           =~ s:=: / :g;
-	foreach $eq (split(/=/,$equiv)){
+	foreach my $eq (split(/=/,$equiv)){
 	    $EquivsAArray{$eq} = $alt;
 	}
     }
@@ -248,11 +270,12 @@ while (<FILE>){
 close (FILE);
 
 # normalize the transcript so that each turn is on a line by itself
-for ($n=0; $n<=$#Trans; $n++){
+for (my $n=0; $n<=$#Trans; $n++){
     if ($Trans[$n] =~ /^\s*\d+\.\d*\s+\d+\.\d*\s+[AB]\d*:/){
-	$orig = $Trans[$n];
+	my $orig = $Trans[$n];
 	while ($Trans[$n] =~ /(<contraction\s+e_form=\"([^\"]+)\">([^ \t\n\r\f\)]+))/i){
 	    my ($tag, $rep, $token) = (quotemeta($1), $2, $3);
+	    my $exp;
 	    ($exp = $rep) =~ s/\[[^\[=]+=>/ /g;
 	    $exp =~ s/\]//g;
 	    $exp =~ s/^\s+//g;
@@ -288,7 +311,7 @@ foreach $_ (@Trans){
     #match the lines header
     chomp;
     die "Unable to strip the line header of '$_'" unless s/^(.*[AB][0-9]*):\s*//;
-    $line_header = $1;             #Store the header in a variable
+    my $line_header = $1;             #Store the header in a variable
 
     tr/\011/ /;                    #change all tabs to spaces
     s/ /  /g;                      #multiple spaces go to one
@@ -313,8 +336,7 @@ foreach $_ (@Trans){
 
     ### LANGUAGE Specific Normalizations
     if ($Language eq "arabic") { 
-	### Foreign 
-
+	my $hes;
 	if ($OptDel == 0){
 	    $hes="%\330\252\330\261\330\257\331\221\330\257";
 	} else {
@@ -407,7 +429,7 @@ foreach $_ (@Trans){
     if ($OptDel == 1){
         s/\(\(\s+/((/;                 #Normalize the variablity in the LDC trans
         s/\s+\)\)/))/;                 #Normalize the variablity in the LDC trans
-        $loop_end = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        my $loop_end = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
         while ($_ =~ /\(\(.*\)\)/) {
             # if the unintell is out side of a OOL marker, just delete them
             s/\(\((\s*<[^>]+>\s*)\)\)/$1/;
@@ -415,7 +437,8 @@ foreach $_ (@Trans){
             s/\(\((\s*<[^>]+>\s*)([^\)]*)\)\)/$1 \(\($2\)\)/;
             #  handle optionally deletable tokens within unintelligble markers
             s/(\(\(.*)(\s+\([^()\s]+\))+(.*\)\))/$1 )) $2 (( $3/;
-            $unm="";
+            ### This variable adds a prefix to any change;
+            my $unm="";
 
 	    #Change 1st unintelligable word, if its an alternate
             s:\(\(\s*({[^{}]+})\s+([^\(\)]+\s*\)\)): ${unm}\($1\) \(\($2:g;
@@ -447,13 +470,12 @@ foreach $_ (@Trans){
         s/<[^<>]*>//g;                #remove out-of-language speech markers
     } else {
         while ($_ =~ /(<\s*\S+\s+)([^<>]*)>/) {
-            local($otxt) = $2;
-            local($head) = $1;
-            (local($txt) = $otxt) =~ s/^\s+//;;
+            my ($otxt, $head) = ($2, $1);
+            my $txt = $otxt;
+            $txt =~ s/^\s+//;;
             $txt =~ s/\s+$//;;
-            local($w);
-            local($new)= "";
-            foreach $w(split(/\s+/,$txt)){
+            my $new= "";
+            foreach my $w(split(/\s+/,$txt)){
                 if ($w !~ /^\(.+\)$/){
                     if ($new eq ""){
                         $new = "(".$w.")";
@@ -656,10 +678,10 @@ foreach $_ (@Trans){
      }
      s/ +/ /g;
      if ($#Translate >= 0){	
-	$_ = &Map_AArray($_,*TranslateAArray);
+	$_ = &Map_AArray($_,\%TranslateAArray);
      }	
      if ($#Equivs >= 0){	
-	$_ = &Map_AArray($_,*EquivsAArray);
+	$_ = &Map_AArray($_,\%EquivsAArray);
      }
      if ($AltHyphens) {
         $_ = &AlternateHyphenWords($_);
@@ -668,13 +690,14 @@ foreach $_ (@Trans){
      ### delete any emtpy optionally deletable words
      if ($OptDel){         s/\(\)//g;  }
 
-     local($bt, $et, $spkr) = split(/\s+/,$line_header);
+     my($bt, $et, $spkr) = split(/\s+/,$line_header);
+     my $chan;
      ($chan = $spkr) =~ s/[0-9]$//;
      if (&in_range($bt, $et) && ($KeepEmptyLines || $_ !~ /^\s*$/)){
          if ($Format eq "stm"){
 	     push @STMS, sprintf "%s %s %s %s %6.2f <O> %s\n",$id,$chan,$id."_".$spkr,$bt,$et,$_; 
          } elsif ($Format eq "pem"){
-	     printf OUTPUT "%s %s %s %s %s\n",$id,$chan,unknown_speaker,$bt,$et; 
+	     printf OUTPUT "%s %s %s %s %s\n",$id,$chan,"unknown_speaker",$bt,$et; 
          }
      }
 }
@@ -692,9 +715,10 @@ sub MIN{
 }
 
 if ($Format eq "stm"){
+    my (%lastStmEnd, %lastStmEndId, %lastStmEndIndex, $nt);
     ### Pad the STMs segments with silence if you got it
     if ($PadSilence >= 0){
-        for ($i=0; $i<@STMS; $i++){
+        for (my $i=0; $i<@STMS; $i++){
 #            print "STM[$i] = $STMS[$i]";
             my ($id, $chan, $spkr, $bt, $et, $lur, $text) = split(/\s+/,$STMS[$i],7);
             if (! defined($lastStmEnd{$chan})){
@@ -704,7 +728,7 @@ if ($Format eq "stm"){
 		$lastStmEndIndex{$chan} = $i;
             }
             if ($lastStmEnd{$chan} < $bt){
-                $shift = MIN(($bt - $lastStmEnd{$chan}) / 2.0, $PadSilence);
+                my $shift = MIN(($bt - $lastStmEnd{$chan}) / 2.0, $PadSilence);
                 if ($lastStmEndIndex{$chan} < $i){
                     $nt = sprintf("%.2f", $lastStmEnd{$chan} + $shift);
 #		    print "fix $nt $STMS[$lastStmEndIndex{$chan}] ";
@@ -718,30 +742,30 @@ if ($Format eq "stm"){
        	    $lastStmEndIndex{$chan} = $i;
 #            print "     \$lastStmEnd{$chan} = $et\n";
         }
-        foreach $chan(sort(keys %lastStmEnd)){
-            my ($id, $chan, $spkr, $bt, $et, $lur, $text) = split(/\s+/,$STMS[$lastStmEndIndex{$chan}],7);
+        foreach my $chan(sort(keys %lastStmEnd)){
+            my ($id, $ccchan, $spkr, $bt, $et, $lur, $text) = split(/\s+/,$STMS[$lastStmEndIndex{$chan}],7);
 #	    print "End $STMS[$lastStmEndIndex{$chan}]";
             if ($lastStmEnd{$chan} < $NewEndTime){
-                $shift = MIN(($NewEndTime - $lastStmEnd{$chan}) / 2.0, $PadSilence);
+                my $shift = MIN(($NewEndTime - $lastStmEnd{$chan}) / 2.0, $PadSilence);
                 $nt = $lastStmEnd{$chan} + $shift;
                 die "Can't fix silence pad time" unless ($STMS[$lastStmEndIndex{$chan}] =~ s/^(\S+\s+\S+\s+\S+\s+\S+\s+)\S+/$1$nt/);
 #		print "    end now $STMS[$lastStmEndIndex{$chan}]\n";
             }
         }
     }
-    undef $lastStmEnd;
-    undef $lastStmEndId;
+    undef %lastStmEnd;
+    undef %lastStmEndId;
 
     ## Smooth the segments 
     if ($SmoothSegments >= 0){
-        for ($i=0; $i<@STMS; $i++){
+        for (my $i=0; $i<@STMS; $i++){
             my ($id, $chan, $spkr, $bt, $et, $lur, $text) = split(/\s+/,$STMS[$i],7);
             if (! defined($lastStmEnd{$chan})){
                 $lastStmEnd{$chan} = $NewBeginTime;
                 $lastStmEndId{$chan} = $id;
 		$lastStmEndIndex{$chan} = $i;
             }
-	    $change = 0;
+	    my $change = 0;
             if ($lastStmEnd{$chan} > $bt - $SmoothSegments && $lastStmEndIndex{$chan} < $i){
 		my ($lid, $lchan, $lspkr, $lbt, $let, $llur, $ltext) = split(/\s+/,$STMS[$lastStmEndIndex{$chan}],7);
 		if ($id eq $lid && $chan eq $lchan && $spkr eq $lspkr && $lur eq $llur){
@@ -760,12 +784,12 @@ if ($Format eq "stm"){
 	    }
         }
     }
-    undef $lastStmEnd;
-    undef $lastStmEndId;
+    undef %lastStmEnd;
+    undef %lastStmEndId;
 
     ## Smooth the segments 
     if ($ExcludeOverlap){
-        for ($i=0; $i<@STMS; $i++){
+        for (my $i=0; $i<@STMS; $i++){
 #            print "STM[$i] = $STMS[$i]";
             my ($id, $chan, $spkr, $bt, $et, $lur, $text) = split(/\s+/,$STMS[$i],7);
             if (! defined($lastStmEnd{$chan})){
@@ -773,7 +797,7 @@ if ($Format eq "stm"){
                 $lastStmEndId{$chan} = $id;
 		$lastStmEndIndex{$chan} = $i;
             }
-	    $change = 0;
+	    my $change = 0;
             if ($lastStmEnd{$chan} > $bt && $lastStmEndIndex{$chan} < $i){
 		my ($lid, $lchan, $lspkr, $lbt, $let, $llur, $ltext) = split(/\s+/,$STMS[$lastStmEndIndex{$chan}],7);
 		if ($id eq $lid && $chan eq $lchan){
@@ -791,12 +815,12 @@ if ($Format eq "stm"){
 	    }
         }
     }
-    undef $lastStmEnd;
-    undef $lastStmEndId;
+    undef %lastStmEnd;
+    undef %lastStmEndId;
 
      ## Add the intersegment gaps
      if ($AddInterSegGap){
-         for ($i=0; $i<@STMS; $i++){
+         for (my $i=0; $i<@STMS; $i++){
              my ($id, $chan, $spkr, $bt, $et, $lur, $text) = split(/\s+/,$STMS[$i],7);
              if (! defined($lastStmEnd{$chan})){
                  $lastStmEnd{$chan} = $NewBeginTime;
@@ -812,7 +836,7 @@ if ($Format eq "stm"){
              }
              $lastStmEnd{$chan} = $et;
          }
-         foreach $chan(sort(keys %lastStmEnd)){
+         foreach my $chan(sort(keys %lastStmEnd)){
              if ($lastStmEnd{$chan} < $NewEndTime - 0.01){
                  push(@STMS, sprintf("%s %s %s %s %6.2f <O> %s\n",$lastStmEndId{$chan},$chan,
                    "${id}_${chan}_inter_segment_gap",
@@ -844,8 +868,8 @@ exit 0;
 ####              OR
 ####              * neither global variables are defined.
 sub in_range{
-    local($bt,$et) = @_;
-    local($do_prnt) = 0;
+    my ($bt,$et) = @_;
+    my $do_prnt = 0;
     if (defined($NewBeginTime) && defined($NewEndTime)) {
 	if (($bt >= $NewBeginTime || &eqdelta($bt,$NewBeginTime,0.5)) &&
 	    ($et <= $NewEndTime || &eqdelta($et,$NewEndTime,0.5))) {  
@@ -875,7 +899,7 @@ sub in_range{
 ####           - Argument 2: The delta.
 ####  Outputs: - True if they are equal, False if they are not
 sub eqdelta {
-    local($v1,$v2,$del) = ($_[0],$_[1],$_[2]);
+    my($v1,$v2,$del) = @_;
     if ($v1 < $v2) {
         $v2 - $v1 < $del;
     } else {
@@ -885,11 +909,11 @@ sub eqdelta {
 
 sub add_spaces_for_japanese_punctuation {
     $_ = $_[0];
-    chop;
-    local($first) = 0;
-    local($c1) = "";
-    local($lc) = "";
-    local($out) = "";
+    chomp;
+    my $first = 0;
+    my $c1 = "";
+    my $lc = "";
+    my $out = "";
     
     while (length($_) > 0){
 	s/^(.)//;
@@ -908,12 +932,12 @@ sub add_spaces_for_japanese_punctuation {
 
 sub Map_AArray{
     $_ = $_[0];
-    local(*AArray) = $_[1];
-    local($out) = "";
-    local($word) = "";
+    my $AArray = $_[1];
+    my $out = "";
+    my $word = "";
     foreach $word (split){
-	if ($AArray{$word} !~ /^$/){
-	    $out .= " ".$AArray{$word};
+	if ($AArray->{$word} !~ /^$/){
+	    $out .= " ".$AArray->{$word};
 	} else {
 	    $out .= " ".$word;
 	}
@@ -924,10 +948,11 @@ sub Map_AArray{
 
 sub AlternateHyphenWords{
     $_ = $_[0];
-    local($out) = "";
-    local($word) = "";
-    local($x);
-    local($y);
+    my $out = "";
+    my $word = "";
+    my $x;
+    my $y;
+    my $z;
     foreach $word (split){
 	if ($word =~ /[A-Za-z][_-][A-Za-z]/){
 	    ($x=$word) =~ s/[_-]//g;
