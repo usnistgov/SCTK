@@ -16,9 +16,9 @@ Labels: <o,wa>
 File: a
 Channel: a
 Scores: (#C #S #D #I) 4 2 1 1
-REF:  I'VE UM    ***** as far as i'm CONCERNED 
-HYP:  THEY PRIDE ABOUT as far as i'm ********* 
-Eval: S    S     I                   D         
+REF:  I'VE;TAG1 UM;TAG1;        *********** a\;s;tag1 far as i'm CONCERNED 
+HYP:  THEY;TAG1 PRIDE;TAG1;TAG2 ABOUT;;TAG2 a\;s;tag1 far as i'm ********* 
+Eval: S         S               I                                D         
 
 id: (2347-a-001)
 Labels: <o,wa>

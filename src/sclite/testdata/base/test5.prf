@@ -21,10 +21,10 @@ id: (2347-a-000)
 Labels: <o,wa>
 File: 2347
 Channel: a
-Scores: (#C #S #D #I) 4 2 1 1
-REF:  I'VE UM    ***** as far as i'm CONCERNED 
-HYP:  THEY PRIDE ABOUT as far as i'm ********* 
-Eval: S    S     I                   D         
+Scores: (#C #S #D #I) 3 3 1 1
+REF:  I'VE;TAG1 UM;TAG1; A\;S;TAG1 ** far as i'm CONCERNED 
+HYP:  THEY      PRIDE    ABOUT     AS far as i'm ********* 
+Eval: S         S        S         I             D         
 
 Speaker sentences   0:  2347-a   utt# 1 of 16
 id: (2347-a-001)
