@@ -169,7 +169,7 @@ if (defined($opt_d)) {
     $HES = "(%HESITATION)";
 } else {
     $OptDel = 0; $opt_d = 0;
-    $HES = "%HESITATION";
+    $HES = "%HESBITATION";
 }
 
 #### The main functions arguements:
@@ -412,7 +412,7 @@ foreach $_ (@Trans){
             #  handle unintelligle markers within OOL markers
             s/\(\((\s*<[^>]+>\s*)([^\)]*)\)\)/$1 \(\($2\)\)/;
             #  handle optionally deletable tokens within unintelligble markers
-            s/(\(\(.*)(\s+\([^()\s]+\))+(.*\)\))/$1 )) $2 (( $3/;
+            s/(\(\(.*)(\s*\([^()\s]+\))+(.*\)\))/$1 )) $2 (( $3/;
             $unm="";
 
 	    #Change 1st unintelligable word, if its an alternate
