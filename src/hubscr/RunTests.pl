@@ -23,13 +23,10 @@ sub runIt{
 	$systemsRoot .= " ".$_;
     }
     print "      Executing command\n";
-    my $oldEnv = $ENV{PATH};
-    $ENV{PATH} = "";
-    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../rfilter1:../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../sclite:$oldEnv ".
+    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../rfilter1:../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../sclite ".
 	"-l $lang -g $glmRoot -h $hub -r $refRoot $systemsRoot > log)";
     my $ret = system "$com";
     die "Error: Execution failed" if ($ret != 0);
-    $ENV{PATH} = $oldEnv;
     if ($op ne "setTests"){
 	print "      Comparing output\n";
 	my $diffCom = "diff -x CVS -I '[cC]reation[ _]date' -r $baseDir $outDir";
