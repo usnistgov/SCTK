@@ -313,7 +313,7 @@ int Desc_set_justification(char *just_str)
 
 char *get_next_string_value(char **str, int width)
 {
-    static char buf[150];
+    static char buf[300];
     char *p;
     int x=0;
 
@@ -344,14 +344,14 @@ void print_spaces(int n, FILE *fp)
 	fprintf(fp," ");
 }
 
-#define SPACES_LEN   100
+#define SPACES_LEN   300
 void Desc_dump_report(int space_pad, FILE *fp)
 {
     int c, r, x, text_width, c2, j;
     int *hit, column_width;
     char *p;
-    char fmt_str1[200]; 
-    char *spaces="                                                                                                    ";
+    char fmt_str1[1000]; 
+    char *spaces="                                                                                                                                                                                                                                                                                                            ";
     char **desc_column_ptr;
     int *desc_column_size;
     int *desc_column_text_size;
