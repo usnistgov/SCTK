@@ -1059,6 +1059,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
     char *tot_Zpct_fmt, *tpct_fmt;
     int prec, tprec;
     int Zero_spkr = 0;
+    char *Znce_fmt;
     char *nce_fmt; int nce_prec;
 
     double nce_system = 0.0;
@@ -1168,6 +1169,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
         compute_SCORE_nce(sc, &nce_system, nce_arr);
 
     nce_fmt = "%7.3f ";  nce_prec = 3;
+    Znce_fmt = "%7.3f#";
     Zpct_fmt = "%5.0f*";
     tot_Zpct_fmt = "%5.1f+";
     if (!do_raw){
@@ -1289,8 +1291,12 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
 	Desc_set_iterated_value(rsprintf(pct_fmt,
 					 F_ROUND(serr_arr[spkr],prec)));
 	if (has_hyp_conf)
+	  if (word_num_arr[spkr] > 0){
  	    Desc_set_iterated_value(rsprintf(nce_fmt,
 					     F_ROUND(nce_arr[spkr],nce_prec)));
+	  } else {
+ 	    Desc_set_iterated_value(rsprintf("# "));
+	  }
 	Desc_flush_iterated_row();
     }
     Desc_add_row_separation('=',BEFORE_ROW); 
@@ -1426,7 +1432,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
 
     Desc_set_iterated_value(rsprintf(tot_pct_fmt,F_ROUND(mean_serr,tprec)));
     if (has_hyp_conf) 
-        Desc_set_iterated_value(rsprintf(nce_fmt,F_ROUND(mean_nce,nce_prec)));
+        Desc_set_iterated_value(rsprintf((Zero_spkr > 0) ? nce_fmt : Znce_fmt,F_ROUND(mean_nce,nce_prec)));
     Desc_flush_iterated_row();
 
     if (has_hyp_conf == 0){
@@ -1456,7 +1462,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
     Desc_set_iterated_value(rsprintf(tpct_fmt,F_ROUND(sd_err,tprec)));
     Desc_set_iterated_value(rsprintf(tot_pct_fmt,F_ROUND(sd_serr,tprec)));
     if (has_hyp_conf) 
-        Desc_set_iterated_value(rsprintf(nce_fmt,F_ROUND(sd_nce,nce_prec)));
+        Desc_set_iterated_value(rsprintf((Zero_spkr > 0) ? nce_fmt : Znce_fmt,F_ROUND(sd_nce,nce_prec)));
     Desc_flush_iterated_row();
 
     if (has_hyp_conf == 0){
@@ -1486,7 +1492,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
     Desc_set_iterated_value(rsprintf(tpct_fmt,F_ROUND(median_err,tprec)));
     Desc_set_iterated_value(rsprintf(tot_pct_fmt,F_ROUND(median_serr,tprec)));
     if (has_hyp_conf) 
-      Desc_set_iterated_value(rsprintf(nce_fmt,F_ROUND(median_nce,nce_prec)));
+      Desc_set_iterated_value(rsprintf((Zero_spkr > 0) ? nce_fmt : Znce_fmt,F_ROUND(median_nce,nce_prec)));
     
     Desc_flush_iterated_row();
 
@@ -1496,6 +1502,7 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
       fprintf(fp,"\n"
       "* No Reference words for this/these speaker(s).  Word counts supplied\n"
       "  rather than percents.\n"
+      "# No Reference words for this/these speaker(s).  NCE not computable.\n"
       "+ Speaker(s) with no reference data is ignored\n");
 
 
