@@ -14,8 +14,7 @@ static int STATIC_ext_ASCII = 1;
 #define VTtoupper(_p) ((is_EXTASC(_p)) ? (char)(*((unsigned char *)_p) - 32) : toupper(*(_p)))
 
 #define VTislower(_p) (is_2byte(&(_p)) ? 0 : \
-		       (is_EXTASC(&(_p)) ? ((unsigned char)(_p) >= 224 && \
-					    (unsigned char)(_p) <= 255) \
+		       (is_EXTASC(&(_p)) ? ((unsigned char)(_p) >= 224) \
 			: islower(_p)))
 #define VTtolower(_p) ((is_EXTASC(_p)) ? (char)(*((unsigned char *)_p) + 32) : tolower(*(_p)))
 
