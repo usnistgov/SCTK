@@ -8,8 +8,8 @@ sub runIt{
     my $baseDir = $testId.".base";
     my $outDir = $testId.($op eq "setTests" ? ".base" : ".test");
     print "   Running test '$testId', operation '$op', directory '$outDir'\n";
-    system ("rm -rf $outDir");
     system ("mkdir -p $outDir");
+    system ("rm -f $outDir/test* $outDir/lvc*");
     ### Copy files
     foreach my $file($glm, $ref, split(/\s+/,$systems)){
 	system("cp $file $outDir");

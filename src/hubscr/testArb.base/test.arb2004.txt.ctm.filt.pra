@@ -260,16 +260,16 @@ REF:  Foreign span3 outside outside (Inside) outside outside (Inside) outside ou
 HYP:  Foreign span3 outside outside (Inside) outside outside (Inside) outside outside 
 Eval:                                                                                 
 
-Speaker sentences   2:  test.arb2004_B   #utts: 6
+Speaker sentences   2:  test.arb2004_B   #utts: 7
 id: (test.arb2004_B-000)
 Labels: <O>
 File: test.arb2004
 Channel: B
-Scores: (#C #S #D #I) 7 0 0 0
+Scores: (#C #S #D #I) 11 0 1 0
 Attributes: Case_sensitve 
-REF:  (إيوه) (%تردّد) (طبعاً) Make sure unclear works 
-HYP:  (إيوه) (%تردّد) (طبعاً) Make sure unclear works 
-Eval:                                                               
+REF:  (إيوه) (%تردّد) (طبعاً) Make sure unclear works (%تردّد) (طبعاً) yeah (طبعاً) (%تردّد) 
+HYP:  (إيوه) (%تردّد) (طبعاً) Make sure unclear works                            ****                            
+Eval:                                                                                          D                               
 
 id: (test.arb2004_B-001)
 Labels: <O>
@@ -321,7 +321,17 @@ REF:  او او او او
 HYP:  او او او او 
 Eval:                     
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   #utts: 6
+id: (test.arb2004_B-006)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 3 0 0 0
+Attributes: Case_sensitve 
+REF:  (%تردّد) (بشتغل) (بالمناهج) 
+HYP:                                                
+Eval:                                               
+
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   #utts: 7
 id: (test.arb2004_B_inter_segment_gap-000)
 Labels: <O>
 File: test.arb2004
@@ -358,6 +368,13 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 
 id: (test.arb2004_B_inter_segment_gap-005)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 0 0 0 0
+Attributes: Case_sensitve 
+
+id: (test.arb2004_B_inter_segment_gap-006)
 Labels: <O>
 File: test.arb2004
 Channel: B

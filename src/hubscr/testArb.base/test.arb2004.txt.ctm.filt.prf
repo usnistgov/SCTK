@@ -7,7 +7,7 @@ VERSION 0.1
 System name:   test.arb2004.txt.ctm
 Ref file:      test.arb2004.txt.stm.filt
 Hyp file:      test.arb2004.txt.ctm.filt
-Creation date: "Mon Aug 30 09:34:33 2004"
+Creation date: "Tue Aug 31 11:07:53 2004"
 Fragment Correct Flag Set
 Optionally Deletable Flag Set
 
@@ -366,21 +366,21 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 19.60 t2= 999999.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 0 of 6
+Speaker sentences   2:  test.arb2004_B   utt# 0 of 7
 id: (test.arb2004_B-000)
 Labels: <O>
 File: test.arb2004
 Channel: B
-Scores: (#C #S #D #I) 7 0 0 0
+Scores: (#C #S #D #I) 11 0 1 0
 Attributes: Case_sensitve 
 Ref times: t1= 0.00 t2= 1.00
-REF:  (إيوه) (%تردّد) (طبعاً) Make    sure    unclear works   
-HYP:  (إيوه) (%تردّد) (طبعاً) Make    sure    unclear works   
-H_T1: 0.05       0.18          0.31         0.44    0.56    0.69    0.82    
-H_T2: 0.18       0.31          0.44         0.57    0.69    0.82    0.95    
-Eval:                                                                       
+REF:  (إيوه) (%تردّد) (طبعاً) Make    sure    unclear works   (%تردّد) (طبعاً) yeah    (طبعاً) (%تردّد) 
+HYP:  (إيوه) (%تردّد) (طبعاً) Make    sure    unclear works                              ****                               
+H_T1: 0.05       0.18          0.31         0.44    0.56    0.69    0.82    0.00          0.00                 0.00         0.00          
+H_T2: 0.18       0.31          0.44         0.57    0.69    0.82    0.95    0.00          0.00                 0.00         0.00          
+Eval:                                                                                                  D                                  
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 0 of 6
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 0 of 7
 id: (test.arb2004_B_inter_segment_gap-000)
 Labels: <O>
 File: test.arb2004
@@ -389,7 +389,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 1.00 t2= 2.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 1 of 6
+Speaker sentences   2:  test.arb2004_B   utt# 1 of 7
 id: (test.arb2004_B-001)
 Labels: <O>
 File: test.arb2004
@@ -403,7 +403,7 @@ H_T1: 2.05    2.20    2.35    2.50    2.65    2.80
 H_T2: 2.20    2.35    2.50    2.65    2.80    2.95    
 Eval:                                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 1 of 6
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 1 of 7
 id: (test.arb2004_B_inter_segment_gap-001)
 Labels: <O>
 File: test.arb2004
@@ -412,7 +412,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 3.00 t2= 4.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 2 of 6
+Speaker sentences   2:  test.arb2004_B   utt# 2 of 7
 id: (test.arb2004_B-002)
 Labels: <O>
 File: test.arb2004
@@ -426,7 +426,7 @@ H_T1: 4.05     4.20    4.35    4.50    4.65    4.80
 H_T2: 4.20     4.35    4.50    4.65    4.80    4.95    
 Eval:                                                  
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 2 of 6
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 2 of 7
 id: (test.arb2004_B_inter_segment_gap-002)
 Labels: <O>
 File: test.arb2004
@@ -435,7 +435,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 5.00 t2= 6.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 3 of 6
+Speaker sentences   2:  test.arb2004_B   utt# 3 of 7
 id: (test.arb2004_B-003)
 Labels: <O>
 File: test.arb2004
@@ -449,7 +449,7 @@ H_T1: 6.05    6.20    6.35    6.50    6.65    6.80
 H_T2: 6.20    6.35    6.50    6.65    6.80    6.95    
 Eval:                                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 3 of 6
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 3 of 7
 id: (test.arb2004_B_inter_segment_gap-003)
 Labels: <O>
 File: test.arb2004
@@ -458,7 +458,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 7.00 t2= 8.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 4 of 6
+Speaker sentences   2:  test.arb2004_B   utt# 4 of 7
 id: (test.arb2004_B-004)
 Labels: <O>
 File: test.arb2004
@@ -472,7 +472,7 @@ H_T1: 8.05    8.20    8.35    8.50    8.65    8.80
 H_T2: 8.20    8.35    8.50    8.65    8.80    8.95    
 Eval:                                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 4 of 6
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 4 of 7
 id: (test.arb2004_B_inter_segment_gap-004)
 Labels: <O>
 File: test.arb2004
@@ -481,7 +481,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 9.00 t2= 10.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 5 of 6
+Speaker sentences   2:  test.arb2004_B   utt# 5 of 7
 id: (test.arb2004_B-005)
 Labels: <O>
 File: test.arb2004
@@ -495,13 +495,36 @@ H_T1: 10.05   10.28   10.50   10.73
 H_T2: 10.28   10.51   10.73   10.96   
 Eval:                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 5 of 6
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 5 of 7
 id: (test.arb2004_B_inter_segment_gap-005)
 Labels: <O>
 File: test.arb2004
 Channel: B
 Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
-Ref times: t1= 11.00 t2= 999999.00
+Ref times: t1= 11.00 t2= 12.00
+
+Speaker sentences   2:  test.arb2004_B   utt# 6 of 7
+id: (test.arb2004_B-006)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 3 0 0 0
+Attributes: Case_sensitve 
+Ref times: t1= 12.00 t2= 13.00
+REF:  (%تردّد) (بشتغل) (بالمناهج) 
+HYP:                                                
+H_T1: 0.00          0.00         0.00               
+H_T2: 0.00          0.00         0.00               
+Eval:                                               
+
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 6 of 7
+id: (test.arb2004_B_inter_segment_gap-006)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 0 0 0 0
+Attributes: Case_sensitve 
+Ref times: t1= 13.00 t2= 999999.00
 
 
