@@ -40,6 +40,3 @@ check: all
 	(cd def_art; $(MAKE) $@)
 	(cd hubscr; $(MAKE) $@)
 	(cd utf_filt; $(MAKE) $@)
-
-dist:
-	echo "Make the distro"
