@@ -2,18 +2,22 @@
 
 use strict;
 
-my $Version="1.0";
+my $Version="1.1";
 
 #####
-#  Version 1.0  Released August 25, 2004
+#  Version 1.0  Released October, 2004
 #        - Initial Release
-
+#  Version 1.1  Released October 12, 2004
+#        - Added -a option
+#        - Fixed problem with word-final tanween characters that were optionally deletable
+ 
 my $Usage="Usage: tanweenFilt.pl [ -i fmt ] Infile|- OutFile|-\n".
 "Version: $Version\n".
 "Desc: tanweenFilt removes the tanween Arabic characters from the end of a word.\n".
 "      In the Buckwalter normalization scheme, the word-final letters\n".
 "      'F', 'N', and 'K' are removed".
 "Options:\n".
+"      -a       Remove all tanween characters, not just the final characters.\n".
 "      -i fmt   Set the input file formant to 'fmt'.  The possible choices are:\n".
 "                  txt -> plain text, the default\n".
 "                  ctm -> CTM format, ignores all but the 5th column, and if\n".
@@ -23,8 +27,8 @@ my $Usage="Usage: tanweenFilt.pl [ -i fmt ] Infile|- OutFile|-\n".
 "\n";
 
 use Getopt::Long;
-my ($InFmt) = undef;
-my $result = GetOptions ("i:s" => \$InFmt);
+my ($InFmt, $AllTanween) = (undef, 0);
+my $result = GetOptions ("i:s" => \$InFmt, "a" => \$AllTanween);
 die "Aborting:\n$Usage\n:" if (!$result);
 
 if (defined($InFmt)) {
@@ -87,8 +91,14 @@ exit 0;
 sub normalize{
     my ($text) = @_;
     $text = " ".$text;    
-    $text =~ s/(\331\215|\331\214|\331\213)$/ /g;
-    $text =~ s/(\331\215|\331\214|\331\213) / /g;
+    if ($AllTanween){
+	$text =~ s/(\331\215|\331\214|\331\213)//g;
+    } else {
+	$text =~ s/(\331\215|\331\214|\331\213)$//g;
+	$text =~ s/(\331\215|\331\214|\331\213)\)$/\)/g;
+	$text =~ s/(\331\215|\331\214|\331\213)\) /\) /g;
+	$text =~ s/(\331\215|\331\214|\331\213) / /g;
+    }
     $text =~ s/^ //;
     $text;
 }
