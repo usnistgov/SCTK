@@ -25,7 +25,7 @@ sub runIt{
     print "      Executing command\n";
     my $oldEnv = $ENV{PATH};
     $ENV{PATH} = "";
-    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../sclite:$oldEnv ".
+    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../rfilter1:../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../sclite:$oldEnv ".
 	"-l $lang -g $glmRoot -h $hub -r $refRoot $systemsRoot > log)";
     my $ret = system "$com";
     die "Error: Execution failed" if ($ret != 0);
