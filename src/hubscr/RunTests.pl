@@ -45,7 +45,6 @@ sub runIt{
 runIt($operation, "testArb", "-H -d", "../test_suite/test.arb2004.glm", "hub5", "arabic",
       "../test_suite/test.arb2004.txt.stm", 
       "../test_suite/test.arb2004.txt.ctm");
-exit
 runIt($operation, "test1", "", "../test_suite/example.glm", "hub5", "english",
       "../test_suite/lvc_refe.stm", 
       "../test_suite/lvc_hyp.ctm ../test_suite/lvc_hyp2.ctm");
