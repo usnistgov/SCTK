@@ -5,7 +5,6 @@ SHELL = /bin/sh
 PREFIX=
 bindir = $(PREFIX)/bin
 T=../test_suite
-PERL=/slp/sware/Linux/bin/perl
 
 all: chfilt.pl
 
@@ -13,19 +12,19 @@ chfilt.pl:
 	chmod +x chfilt.pl
 
 setTests:
-	${PERL} ./chfilt.pl -m -l english $(T)/testmss.in -- - > $(T)/testmss.stm
-	${PERL} ./chfilt.pl -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.-optdel.stm
-	${PERL} ./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.stm
-	${PERL} ./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.-contexp.stm
-	${PERL} ./chfilt.pl -c -l arabic -i -b 0 -e 999999 -d -k $(T)/test.arb2004.txt -- - > $(T)/test.arb2004.txt.stm
+	./chfilt.pl -m -l english $(T)/testmss.in -- - > $(T)/testmss.stm
+	./chfilt.pl -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.-optdel.stm
+	./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.stm
+	./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.-contexp.stm
+	./chfilt.pl -c -l arabic -i -b 0 -e 999999 -d -k $(T)/test.arb2004.txt -- - > $(T)/test.arb2004.txt.stm
 
 check: all
 	@echo "Testing chfilt.pl"
-	${PERL} ./chfilt.pl -m -l english $(T)/testmss.in -- - | diff - $(T)/testmss.stm
-	${PERL} ./chfilt.pl -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-optdel.stm
-	${PERL} ./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.stm
-	${PERL} ./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-contexp.stm
-	${PERL} ./chfilt.pl -c -l arabic -i -b 0 -e 999999 -d -k $(T)/test.arb2004.txt -- - | diff - $(T)/test.arb2004.txt.stm
+	./chfilt.pl -m -l english $(T)/testmss.in -- - | diff - $(T)/testmss.stm
+	./chfilt.pl -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-optdel.stm
+	./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.stm
+	./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-contexp.stm
+	./chfilt.pl -c -l arabic -i -b 0 -e 999999 -d -k $(T)/test.arb2004.txt -- - | diff - $(T)/test.arb2004.txt.stm
 	@echo "   chfilt.pl tests successfully completed"
 
 install: all
