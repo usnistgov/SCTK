@@ -1,4 +1,4 @@
-<SYSTEM title="lvc_hyp2.ctm" ref_fname="lvc_refe.stm.filt" hyp_fname="lvc_hyp2.ctm.filt" creation_date="Tue Aug 31 11:07:58 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
+<SYSTEM title="lvc_hyp2.ctm" ref_fname="lvc_refe.stm.filt" hyp_fname="lvc_hyp2.ctm.filt" creation_date="Tue Sep  7 12:50:06 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
 <LABEL id="O" title="Overall" desc="Overall Scores">
 </LABEL>
 <LABEL id="WA" title="With Alt" desc="Segments Containing Alternations">

@@ -1,4 +1,4 @@
-<SYSTEM title="test.arb2004.txt.ctm" ref_fname="test.arb2004.txt.stm.filt" hyp_fname="test.arb2004.txt.ctm.filt" creation_date="Tue Aug 31 11:07:53 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
+<SYSTEM title="test.arb2004.txt.ctm" ref_fname="test.arb2004.txt.stm.filt" hyp_fname="test.arb2004.txt.ctm.filt" creation_date="Tue Sep  7 12:50:02 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
 <LABEL id="O" title="Overall" desc="All Segments in the test set">
 </LABEL>
 <CATEGORY id="0" title="" desc="">
