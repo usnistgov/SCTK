@@ -228,7 +228,7 @@ tk_dist: $(tk_distfiles)
 	tar cf - `find slm_v2/src \( -name makefile.in -o -name install-sh -o -name "*.[ch]" \) -print` | (cd ../`cat .fname`/src; tar xf -)
 	echo "Tar-ing SLM to make it ISO-compatable"
 	(cd ../`cat .fname`/src; tar chf slm_v2.tar ./slm_v2; rm -r slm_v2)
-	(cd .. ; tar -chf - `cat src/.fname` | compress > `cat src/.fname`.tar.Z)
+	(cd .. ; tar -chf - --exclude=CVS `cat src/.fname` | compress > `cat src/.fname`.tar.Z)
 	rm -rf ../`cat .fname`
 	echo "Decompressing the release file"
 	(cd .. ; zcat `cat src/.fname`.tar.Z | tar xf -)
