@@ -1,6 +1,6 @@
 File:  README
-Date:  October 1, 2000
-SCTK Version: 1.2b
+Date:  July 30, 2004
+SCTK Version: 1.3
 
 Hack this file secnond hack
 
@@ -8,11 +8,11 @@ This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains
 the source code, documentation and example data for the following
 programs:
 
-	sclite   V2.2 - "Score Lite",
+	sclite   V2.3 - "Score Lite",
 	sc_stats V1.2 - sclite's Statistical Significance Comparison tool
 	rover    V0.1 - Recognition Output Voting Error Reduction
 
-The distribution has been written in ANSI C on a SUN Workstation.  To
+The distribution was initially written in ANSI C on a SUN Workstation.  To
 date, The code has been successfully compiled and tested on the
 following platforms:
 
@@ -31,8 +31,15 @@ DEC Alpha running DEC OSF/1 V2.0 "gcc"            1.1
 IBM Powerstation running AIX V3.2 using cc    1.0
 IBM Powerstation running AIX V3.2 using gcc*  1.0
 Linux Version 2.0.33                          1.0 1.1 1.2
+Cygwin                                                    1.3
+Linux Version 2.2.17                                      1.3
+Linux Version 2.4.20-20-9 **                              1.3
+Mac Darwin 7.4.0                                          1.3
 
 	* compiled with warning messages, but successful self test
+	** compiled and ran, but test6, which uses GNU's diff for
+           alignment fails.  The use of DIFF for alignment is rarely
+           used and the failure can be safely ignored.
 
 Read install.txt to compile and install the package.  UNIX-style
 manual pages and 'HTML' formatted manuals are provided in the 'doc'
