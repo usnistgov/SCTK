@@ -6,11 +6,12 @@ SHELL = /bin/sh
 
 all: rfilter1
 
-###################Options for compilation################
-#######  If you have an old GCC, Strcmpi is not defined.
-#######  Setting OPTIONS to -DNEED_STRCMP=1 will compile
-#######  The supplied versions of strncmp and strncmpi
-OPTIONS=
+###########################   Options for compilation  #########################
+#######  If you have an very new version of GCC, the strcmp* family of functions
+#######  is included in the distribution.  Changing the value of OPTIONS to 
+#######  be blank will diable the use of supplied versions of these functions.
+OPTIONS=-DNEED_STRCMP=1
+
 rfilter1: rfilter1.c
 	gcc $(OPTIONS) -o rfilter1 rfilter1.c
 
