@@ -19,8 +19,6 @@
 
 #include "sctk.h"
 
-static int sign_test_analysis(int, int, int, char *, char *, int, double, int, char *, char *, int *, int, FILE *, double *confidence);
-
 /****************************************************************/
 /*   main procedure to perform the sign test on the RANK        */
 /*   structure.                                                 */
@@ -219,7 +217,7 @@ int compute_signtest_for_treatment(RANK *rank, int treat1, int treat2, char *blo
 /*   Given the vital numbers for computing a rank sum test,     */
 /*   Compute it, and if requested, print a verbose analysis     */
 /****************************************************************/
-static int sign_test_analysis(int num_a, int num_b, int num_z, char *str_a, char *str_b, int str_z, double alpha, int verbose, char *treat1_str, char *treat2_str, int *tptr, int zero_is_best, FILE *fp, double *confidence)
+int sign_test_analysis(int num_a, int num_b, int num_z, char *str_a, char *str_b, int str_z, double alpha, int verbose, char *treat1_str, char *treat2_str, int *tptr, int zero_is_best, FILE *fp, double *confidence)
 {
     double test_stat, p=0.5;
     int i;

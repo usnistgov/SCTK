@@ -157,6 +157,7 @@ void compute_anovar PROTO((RANK *, int, int, int ***, char *, int, double ***));
 
 int compute_signtest_for_treatment(RANK *, int, int, char *, char *, int, int, FILE *, double *);
 void perform_signtest PROTO((RANK *rank, int verbose, int report, char *formula_str, char formula_id, int ***winner, char *, int, double ***));
+int sign_test_analysis PROTO((int, int, int, char *, char *, int, double, int, char *, char *, int *, int, FILE *, double *confidence));
 
 int compute_wilcoxon_for_treatment(RANK *rank, int treat1, int treat2, char *block_id, char *formula_str, int verbose, int zero_is_best, FILE *fp, double *conf);
 void perform_wilcoxon PROTO((RANK *rank, int verbose, int report, char *formula_str, char formula_id, int ***winner, char *, int, double ***confidence));
