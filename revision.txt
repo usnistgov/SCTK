@@ -154,3 +154,10 @@ SCTK Version 1.3 - Release July 30, 2004
         - Expanded the maximum alternation size to 10000 characters.
         - Added a "Lattice" error rate calculation in the .prn reports.  It's the
           percent of reference tokens not correct in any systems transcript.
+
+SCTC Version 2.0 Beta 1 - Released Aug 30, 2004
+        - Restructured release directories.  'src' now includes many programs
+        - Integrated in all programs in the 'tranfilt' package
+        - make install no makes move programs to 'bin'
+	- hamzaNorm is a new program.
+	- 2004 Arabic transcripts are now handled by hubscr and chfilt.

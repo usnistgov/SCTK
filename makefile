@@ -4,14 +4,10 @@
 ####  Creation Date:  Aug 7, 1997
 MAKE=make
 
-####
-sctk: 
-	(cd src; $(MAKE))
-
-config:
-	(cd src; sh config.sh)
-
-check clean dist distclean install:
+check clean dist install config all:
 	(cd src; $(MAKE) $@)
 
+distclean:
+	(rm -f bin/*)
+	(cd src; $(MAKE) $@)
 
