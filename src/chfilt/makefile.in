@@ -18,6 +18,7 @@ setTests:
 	./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.stm
 	./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.-contexp.stm
 	./chfilt.pl -c -l arabic -i -b 0 -e 999999 -d -k $(T)/test.arb2004.txt -- - > $(T)/test.arb2004.txt.stm
+	./chfilt.pl -c -l mandarin -i -b 0 -e 999999 -d -k $(T)/test.man2004.txt -- - > $(T)/test.man2004.txt.stm
 
 check: all
 	@echo "Testing chfilt.pl"
@@ -25,8 +26,9 @@ check: all
 	./chfilt.pl -C numbers -m -l english $(T)/testmss.in -- - | diff - $(T)/testmss.numbers.stm
 	./chfilt.pl -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-optdel.stm
 	./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.stm
-	./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-contexp.stm
+	./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-contexp.stm	
 	./chfilt.pl -c -l arabic -i -b 0 -e 999999 -d -k $(T)/test.arb2004.txt -- - | diff - $(T)/test.arb2004.txt.stm
+	./chfilt.pl -c -l mandarin -i -b 0 -e 999999 -d -k $(T)/test.man2004.txt -- - | diff - $(T)/test.man2004.txt.stm
 	@echo "   chfilt.pl tests successfully completed"
 
 install: all

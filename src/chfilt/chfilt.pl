@@ -79,8 +79,10 @@ use strict;
 #           are to be processed.
 #  Version 1.17
 #       JGF Added -C
+#  Version 1.18
+#       JGF Added two new hesitations
 
-my $Version="1.17";
+my $Version="1.18";
 
 my $usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
 "Version: $Version\n".
@@ -690,6 +692,8 @@ foreach $_ (@Trans){
          s/\s⁄¿\s/ $HES /g;
          s/\sﬂ¿\s/ $HES /g;
          s/\s‡≈\s/ $HES /g;
+         s/\sﬂÌ\s/ $HES /g;
+         s/\s∫«\s/ $HES /g;
      }	
 	
      # JAPANESE

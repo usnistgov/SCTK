@@ -20,10 +20,12 @@ rfilter1: rfilter1.c
 
 setTests:
 	./rfilter1 ../test_suite/test.arb2004.glm < ../test_suite/test.arb2004.txt > ../test_suite/test.arb2004.txt.rfilter1
+	./rfilter1 ../test_suite/test.man2004.glm < ../test_suite/test.man2004.txt > ../test_suite/test.man2004.txt.rfilter1
 
 check:
 	@echo "Testing rfilter1"
 	./rfilter1 ../test_suite/test.arb2004.glm < ../test_suite/test.arb2004.txt | diff - ../test_suite/test.arb2004.txt.rfilter1
+	./rfilter1 ../test_suite/test.man2004.glm < ../test_suite/test.man2004.txt | diff - ../test_suite/test.man2004.txt.rfilter1
 	@echo "   rfilter1 tests successfully completed"
 
 install: all
