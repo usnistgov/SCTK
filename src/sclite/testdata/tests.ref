@@ -70,3 +70,4 @@ a aa\;a b\;b\;b;hyp\;tag1;hyptag2 b;reftag1 c;;reftag2 d;reftag1;reftag2 (tags-1
 a aa\;a b\;b\;b;hyptag1;hyp\;tag2 b;reftag1 c;;reftag2 d;reftag1;reftag2 (tags-2)
 (tags-3)
 a aa\;a b\;b\;b;hyp\;tag1;hyptag2 b;reftag1 c;;reftag2 d;reftag1;reftag2 (tags-4)
+{a aa\;a b\;b\;b;hyp\;tag1;hyptag2 b;reftag1 c;;reftag2 d;reftag1;reftag2 / y y y y y y y y y y y y} (tags-5)

@@ -71,3 +71,4 @@ a aa\;a b\;b\;b;hyp\;tag1;hyptag2 b;hyptag1 c;;hyptag2 d;hyptag1;hyptag2 (tags-1
 (tags-2)
 a aa\;a b\;b\;b;hyptag1;hyp\;tag2 b;hyptag1 c;;hyptag2 d;hyptag1;hyptag2 (tags-3)
 z aa\;a b\;b\;b;hyptag1;hyptag2 y;hyptag1 x;;hyptag2 w;hyptag1;hyptag2 (tags-4)
+{ z aa\;a b\;b\;b;hyptag1;hyptag2 y;hyptag1 x;;hyptag2 w;hyptag1;hyptag2 / x x x x x x x x x x x x x } (tags-5)
