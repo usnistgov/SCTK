@@ -7,7 +7,7 @@ VERSION 0.1
 System name:   test.arb2004.txt.ctm
 Ref file:      test.arb2004.txt.stm.filt
 Hyp file:      test.arb2004.txt.ctm.filt
-Creation date: "Tue Sep  7 15:20:39 2004"
+Creation date: "Tue Oct  5 12:08:03 2004"
 Fragment Correct Flag Set
 Optionally Deletable Flag Set
 
@@ -366,7 +366,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 19.60 t2= 999999.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 0 of 7
+Speaker sentences   2:  test.arb2004_B   utt# 0 of 11
 id: (test.arb2004_B-000)
 Labels: <O>
 File: test.arb2004
@@ -380,7 +380,7 @@ H_T1: 0.05       0.18          0.31         0.44    0.56    0.69    0.82    0.00
 H_T2: 0.18       0.31          0.44         0.57    0.69    0.82    0.95    0.00          0.00                 0.00         0.00          
 Eval:                                                                                                  D                                  
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 0 of 7
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 0 of 8
 id: (test.arb2004_B_inter_segment_gap-000)
 Labels: <O>
 File: test.arb2004
@@ -389,7 +389,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 1.00 t2= 2.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 1 of 7
+Speaker sentences   2:  test.arb2004_B   utt# 1 of 11
 id: (test.arb2004_B-001)
 Labels: <O>
 File: test.arb2004
@@ -403,7 +403,7 @@ H_T1: 2.05    2.20    2.35    2.50    2.65    2.80
 H_T2: 2.20    2.35    2.50    2.65    2.80    2.95    
 Eval:                                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 1 of 7
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 1 of 8
 id: (test.arb2004_B_inter_segment_gap-001)
 Labels: <O>
 File: test.arb2004
@@ -412,7 +412,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 3.00 t2= 4.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 2 of 7
+Speaker sentences   2:  test.arb2004_B   utt# 2 of 11
 id: (test.arb2004_B-002)
 Labels: <O>
 File: test.arb2004
@@ -426,7 +426,7 @@ H_T1: 4.05     4.20    4.35    4.50    4.65    4.80
 H_T2: 4.20     4.35    4.50    4.65    4.80    4.95    
 Eval:                                                  
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 2 of 7
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 2 of 8
 id: (test.arb2004_B_inter_segment_gap-002)
 Labels: <O>
 File: test.arb2004
@@ -435,7 +435,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 5.00 t2= 6.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 3 of 7
+Speaker sentences   2:  test.arb2004_B   utt# 3 of 11
 id: (test.arb2004_B-003)
 Labels: <O>
 File: test.arb2004
@@ -449,7 +449,7 @@ H_T1: 6.05    6.20    6.35    6.50    6.65    6.80
 H_T2: 6.20    6.35    6.50    6.65    6.80    6.95    
 Eval:                                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 3 of 7
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 3 of 8
 id: (test.arb2004_B_inter_segment_gap-003)
 Labels: <O>
 File: test.arb2004
@@ -458,7 +458,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 7.00 t2= 8.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 4 of 7
+Speaker sentences   2:  test.arb2004_B   utt# 4 of 11
 id: (test.arb2004_B-004)
 Labels: <O>
 File: test.arb2004
@@ -472,7 +472,7 @@ H_T1: 8.05    8.20    8.35    8.50    8.65    8.80
 H_T2: 8.20    8.35    8.50    8.65    8.80    8.95    
 Eval:                                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 4 of 7
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 4 of 8
 id: (test.arb2004_B_inter_segment_gap-004)
 Labels: <O>
 File: test.arb2004
@@ -481,7 +481,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 9.00 t2= 10.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 5 of 7
+Speaker sentences   2:  test.arb2004_B   utt# 5 of 11
 id: (test.arb2004_B-005)
 Labels: <O>
 File: test.arb2004
@@ -495,7 +495,7 @@ H_T1: 10.05   10.28   10.50   10.73
 H_T2: 10.28   10.51   10.73   10.96   
 Eval:                                 
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 5 of 7
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 5 of 8
 id: (test.arb2004_B_inter_segment_gap-005)
 Labels: <O>
 File: test.arb2004
@@ -504,7 +504,7 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 Ref times: t1= 11.00 t2= 12.00
 
-Speaker sentences   2:  test.arb2004_B   utt# 6 of 7
+Speaker sentences   2:  test.arb2004_B   utt# 6 of 11
 id: (test.arb2004_B-006)
 Labels: <O>
 File: test.arb2004
@@ -518,13 +518,78 @@ H_T1: 0.00          0.00         0.00
 H_T2: 0.00          0.00         0.00               
 Eval:                                               
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 6 of 7
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 6 of 8
 id: (test.arb2004_B_inter_segment_gap-006)
 Labels: <O>
 File: test.arb2004
 Channel: B
 Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
-Ref times: t1= 13.00 t2= 999999.00
+Ref times: t1= 13.00 t2= 14.00
+
+Speaker sentences   2:  test.arb2004_B   utt# 7 of 11
+id: (test.arb2004_B-007)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 7 0 0 0
+Attributes: Case_sensitve 
+Ref times: t1= 14.00 t2= 15.00
+REF:  Tanween initial ًأبدا medial  ابًدا final   ابدا 
+HYP:  Tanween initial ًأبدا medial  ابًدا final   ابدا 
+H_T1: 14.05   14.18   14.31      14.44   14.56      14.69   14.82    
+H_T2: 14.18   14.31   14.44      14.57   14.69      14.82   14.95    
+Eval:                                                                
+
+Speaker sentences   2:  test.arb2004_B   utt# 8 of 11
+id: (test.arb2004_B-008)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 7 0 0 0
+Attributes: Case_sensitve 
+Ref times: t1= 15.00 t2= 16.00
+REF:  Tanween initial ٌإجراءات medial  اجراٌءات final   اجراءات 
+HYP:  Tanween initial ٌإجراءات medial  اجراٌءات final   اجراءات 
+H_T1: 15.05   15.18   15.31            15.44   15.56            15.69   15.82          
+H_T2: 15.18   15.31   15.44            15.57   15.69            15.82   15.95          
+Eval:                                                                                  
+
+Speaker sentences   2:  test.arb2004_B   utt# 9 of 11
+id: (test.arb2004_B-009)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 7 0 0 0
+Attributes: Case_sensitve 
+Ref times: t1= 16.00 t2= 17.00
+REF:  Tanween initial ٍاختطاف medial  اختطٍاف final   اختطاف 
+HYP:  Tanween initial ٍاختطاف medial  اختطٍاف final   اختطاف 
+H_T1: 16.05   16.18   16.31          16.44   16.56          16.69   16.82        
+H_T2: 16.18   16.31   16.44          16.57   16.69          16.82   16.95        
+Eval:                                                                            
+
+Speaker sentences   2:  test.arb2004_B   utt# 10 of 11
+id: (test.arb2004_B-010)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 4 0 0 0
+Attributes: Case_sensitve 
+Ref times: t1= 17.00 t2= 18.00
+REF:  Multiple Rules   needed  MultiRule 
+HYP:  Multiple Rules   needed  MultiRule 
+H_T1: 17.05    17.28   17.50   17.73     
+H_T2: 17.28    17.51   17.73   17.96     
+Eval:                                    
+
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   utt# 7 of 8
+id: (test.arb2004_B_inter_segment_gap-007)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 0 0 0 0
+Attributes: Case_sensitve 
+Ref times: t1= 18.00 t2= 999999.00
 
 

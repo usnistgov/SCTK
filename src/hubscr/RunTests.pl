@@ -23,7 +23,7 @@ sub runIt{
 	$systemsRoot .= " ".$_;
     }
     print "      Executing command\n";
-    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../rfilter1:../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../sclite ".
+    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../rfilter1:../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../tanweenFilt:../../sclite ".
 	"-l $lang -g $glmRoot -h $hub -r $refRoot $systemsRoot > log)";
     my $ret = system "$com";
     die "Error: Execution failed" if ($ret != 0);
@@ -39,7 +39,7 @@ sub runIt{
     }
 }
 
-runIt($operation, "testArb", "-H -d", "../test_suite/test.arb2004.glm", "hub5", "arabic",
+runIt($operation, "testArb", "-H -T -d", "../test_suite/test.arb2004.glm", "hub5", "arabic",
       "../test_suite/test.arb2004.txt.stm", 
       "../test_suite/test.arb2004.txt.ctm");
 runIt($operation, "test1", "", "../test_suite/example.glm", "hub5", "english",

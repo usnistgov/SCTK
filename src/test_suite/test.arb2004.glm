@@ -16,3 +16,6 @@
 هاي  => %تردّد / [ ] __ [ ]
 %مهم => %تردّد / [ ] __ [ ]
 مهم  => %تردّد / [ ] __ [ ]
+
+;;; This Rule will ONLY work IF tanween removal happens
+اخاف => MultiRule / [ ] __ [ ]

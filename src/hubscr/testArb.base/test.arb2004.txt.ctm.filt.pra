@@ -260,7 +260,7 @@ REF:  Foreign span3 outside outside (Inside) outside outside (Inside) outside ou
 HYP:  Foreign span3 outside outside (Inside) outside outside (Inside) outside outside 
 Eval:                                                                                 
 
-Speaker sentences   2:  test.arb2004_B   #utts: 7
+Speaker sentences   2:  test.arb2004_B   #utts: 11
 id: (test.arb2004_B-000)
 Labels: <O>
 File: test.arb2004
@@ -331,7 +331,47 @@ REF:  (%تردّد) (بشتغل) (بالمناهج)
 HYP:                                                
 Eval:                                               
 
-Speaker sentences   3:  test.arb2004_B_inter_segment_gap   #utts: 7
+id: (test.arb2004_B-007)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 7 0 0 0
+Attributes: Case_sensitve 
+REF:  Tanween initial ًأبدا medial ابًدا final ابدا 
+HYP:  Tanween initial ًأبدا medial ابًدا final ابدا 
+Eval:                                                             
+
+id: (test.arb2004_B-008)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 7 0 0 0
+Attributes: Case_sensitve 
+REF:  Tanween initial ٌإجراءات medial اجراٌءات final اجراءات 
+HYP:  Tanween initial ٌإجراءات medial اجراٌءات final اجراءات 
+Eval:                                                                               
+
+id: (test.arb2004_B-009)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 7 0 0 0
+Attributes: Case_sensitve 
+REF:  Tanween initial ٍاختطاف medial اختطٍاف final اختطاف 
+HYP:  Tanween initial ٍاختطاف medial اختطٍاف final اختطاف 
+Eval:                                                                         
+
+id: (test.arb2004_B-010)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 4 0 0 0
+Attributes: Case_sensitve 
+REF:  Multiple Rules needed MultiRule 
+HYP:  Multiple Rules needed MultiRule 
+Eval:                                 
+
+Speaker sentences   3:  test.arb2004_B_inter_segment_gap   #utts: 8
 id: (test.arb2004_B_inter_segment_gap-000)
 Labels: <O>
 File: test.arb2004
@@ -375,6 +415,13 @@ Scores: (#C #S #D #I) 0 0 0 0
 Attributes: Case_sensitve 
 
 id: (test.arb2004_B_inter_segment_gap-006)
+Labels: <O>
+File: test.arb2004
+Channel: B
+Scores: (#C #S #D #I) 0 0 0 0
+Attributes: Case_sensitve 
+
+id: (test.arb2004_B_inter_segment_gap-007)
 Labels: <O>
 File: test.arb2004
 Channel: B

@@ -32,9 +32,11 @@ use strict;
 #    - Added specialized sort for CTM data to make it run faster
 # Version 0.9
 #    - added -H to enable hamza normalization
+# Version 0.10
+#    - added -T to enable tanween filtering
 #
-my $Version = "0.9"; 
-my $Usage="hubscr09.pl [ -p PATH -H -d -R -v -L LEX ] [ -M LM | -w WWL ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
+my $Version = "0.10"; 
+my $Usage="hubscr09.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
 "Version: $Version\n".
 "Desc: Score a Hub-4E/NE or Hub-5E/NE evaluation using the established\n".
 "      guidelines.  There are a set of language dependent options that this\n".
@@ -59,6 +61,7 @@ my $Usage="hubscr09.pl [ -p PATH -H -d -R -v -L LEX ] [ -M LM | -w WWL ] -g glm 
 "      -w WWL     ->  Use the Word-Weight List File to perform Weighted-Word\n".
 "                     scoring.  May not be used with -M\n".
 "      -H         ->  Perform hamza normalization for Arabic data. \n".
+"      -T         ->  Perform tanween filteing (i.e., removal) for Arabic data. \n".
 "Other Options:\n".
 "      -n str     ->  Root filename to write the ensemble reports to.  Default\n".
 "                     is 'Ensemble'\n".
@@ -86,9 +89,11 @@ my $Usage="hubscr09.pl [ -p PATH -H -d -R -v -L LEX ] [ -M LM | -w WWL ] -g glm 
     my $CSRFILT="csrfilt.sh";
     my $DEF_ART="def_art.pl";
     my $HAMZA_NORM="hamzaNorm.pl";
+    my $TANWEEN_FILTER="tanweenFilt.pl";
     my $ACOMP = "acomp.pl";
     my $DEF_ART_ENABLED=1;
     my $HAMZA_NORM_ENABLED=0;
+    my $TANWEEN_FILT_ENABLED=0;
     my $GLM = "";
     my $LDCLEX = "";
     ### Defaults for SC_stats
@@ -133,7 +138,7 @@ sub ProcessCommandLine{
 
     use Getopt::Std;
     #&Getopts('l:h:r:vg:L:n:e:RM:w:');
-    getopts('HdvRl:h:r:g:L:n:e:M:w:p:');
+    getopts('HTdvRl:h:r:g:L:n:e:M:w:p:');
 
     if (defined($main::opt_l)) {	$Lang = $main::opt_l; $Lang =~ tr/A-Z/a-z/; }
     if (defined($main::opt_h)) {	$Hub = $main::opt_h; $Hub =~ tr/A-Z/a-z/; }
@@ -160,6 +165,10 @@ sub ProcessCommandLine{
     if (defined($main::opt_H)){
 	die "Error: Hamza normalization only applies to Arabic data\n" if ($Lang ne "arabic");
 	$HAMZA_NORM_ENABLED = $main::opt_H;
+    }
+    if (defined($main::opt_T)){
+	die "Error: Tanween filtering only applies to Arabic data\n" if ($Lang ne "arabic");
+	$TANWEEN_FILT_ENABLED = $main::opt_T;
     }
     ####
 
@@ -291,22 +300,27 @@ sub VerifyResources{
     #### Check for CSRFILT
     $ver = &get_version($CSRFILT,"csrfilt.sh");
     die ("CSRFILT executed by the command '$CSRFILT' is too old. \n".
-	 "       Version 1.10 or better is needed.  Get the up-to-date tranfilt package\n".
+	 "       Version 1.10 or better is needed.  Get the up-to-date SCTK package\n".
 	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 1.10 || $ver >= 1.2);
 
     $ver = &get_version($DEF_ART,"def_art.pl");
     die ("def_art.pl executed by the command '$DEF_ART' is too old. \n".
-	 "       Version 1.0 or better is needed.   Get the up-to-date tranfilt package\n".
+	 "       Version 1.0 or better is needed.   Get the up-to-date SCTK package\n".
 	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 1.0);
 
     $ver = &get_version($ACOMP,"acomp.sh");
     die ("acomp.pl executed by the command '$ACOMP' is too old. \n".
-	 "       Version 1.0 or better is needed.   Get the up-to-date tranfilt package\n".
+	 "       Version 1.0 or better is needed.   Get the up-to-date SCTK package\n".
 	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 1.0);
 
     $ver = &get_version($HAMZA_NORM,"hamzaNorm.pl");
     die ("acomp.pl executed by the command '$HAMZA_NORM' is too old. \n".
-	 "       Version 1.0 or better is needed.   Get the up-to-date tranfilt package\n".
+	 "       Version 1.0 or better is needed.   Get the up-to-date SCTK package\n".
+	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 1.0);
+
+    $ver = &get_version($TANWEEN_FILTER,"tanweenFilt.pl");
+    die ("acomp.pl executed by the command '$TANWEEN_FILTER' is too old. \n".
+	 "       Version 1.0 or better is needed.   Get the up-to-date SCTK package\n".
 	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 1.0);
 
 
@@ -318,6 +332,7 @@ sub FilterFile{
     my($csrfilt_com);
     my($def_art_com);
     my($hamza_norm_com);
+    my($tanween_filter_com);
     my($acomp_com);
     my($sort_com);
     my($com);
@@ -348,7 +363,12 @@ sub FilterFile{
 	    } else {
 		$hamza_norm_com = "cat";
 	    }
-	    $com = "$sort_com $file | $rtFilt | $def_art_com | $hamza_norm_com | $csrfilt_com > $outfile";
+	    if ($TANWEEN_FILT_ENABLED){
+		$tanween_filter_com = "$TANWEEN_FILTER -i $format -- - -";
+	    } else {
+	        $tanween_filter_com = "cat";
+	    }
+	    $com = "$sort_com $file | $rtFilt | $def_art_com | $hamza_norm_com | $tanween_filter_com | $csrfilt_com > $outfile";
 	} elsif ($Lang =~ /^(mandarin)$/){ 
 	    $csrfilt_com = "$CSRFILT -i $format -dh $GLM";
 

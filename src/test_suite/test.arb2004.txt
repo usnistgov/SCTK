@@ -27,3 +27,7 @@
 8.0 9.0 B: اه inital ياش medial ةا final
 10.0 11.0 B: آو أو إو او
 12.0 13.0 B: %ضجّة (( أه بشتغل بالمناهج )) 
+14.0 15.0 B: Tanween initial ًأبدا medial أبًدا final أبداً  
+15.0 16.0 B: Tanween initial ٌإجراءات medial إجراٌءات final إجراءاتٌ  
+16.0 17.0 B: Tanween initial ٍاختطاف medial اختطٍاف final اختطافٍ 
+17.0 18.0 B: Multiple Rules needed اخافٍ 

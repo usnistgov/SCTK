@@ -39,4 +39,9 @@ test.arb2004 B test.arb2004_B_inter_segment_gap 9.00  10.00 <O>
 test.arb2004 B test.arb2004_B 10.0  11.00 <O>  آو أو إو او 
 test.arb2004 B test.arb2004_B_inter_segment_gap 11.00  12.00 <O> 
 test.arb2004 B test.arb2004_B 12.0  13.00 <O>  (%تردّد) (بشتغل) (بالمناهج) 
-test.arb2004 B test.arb2004_B_inter_segment_gap 13.00 999999.00 <O> 
+test.arb2004 B test.arb2004_B_inter_segment_gap 13.00  14.00 <O> 
+test.arb2004 B test.arb2004_B 14.0  15.00 <O>  Tanween initial ًأبدا medial أبًدا final أبداً 
+test.arb2004 B test.arb2004_B 15.0  16.00 <O>  Tanween initial ٌإجراءات medial إجراٌءات final إجراءاتٌ 
+test.arb2004 B test.arb2004_B 16.0  17.00 <O>  Tanween initial ٍاختطاف medial اختطٍاف final اختطافٍ 
+test.arb2004 B test.arb2004_B 17.0  18.00 <O>  Multiple Rules needed اخافٍ 
+test.arb2004 B test.arb2004_B_inter_segment_gap 18.00 999999.00 <O> 

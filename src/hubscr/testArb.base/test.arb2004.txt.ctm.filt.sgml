@@ -1,4 +1,4 @@
-<SYSTEM title="test.arb2004.txt.ctm" ref_fname="test.arb2004.txt.stm.filt" hyp_fname="test.arb2004.txt.ctm.filt" creation_date="Tue Sep  7 15:20:39 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
+<SYSTEM title="test.arb2004.txt.ctm" ref_fname="test.arb2004.txt.stm.filt" hyp_fname="test.arb2004.txt.ctm.filt" creation_date="Tue Oct  5 12:08:03 2004" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
 <LABEL id="O" title="Overall" desc="All Segments in the test set">
 </LABEL>
 <CATEGORY id="0" title="" desc="">
@@ -107,6 +107,18 @@ C,"او","او",10.050+10.280:C,"او","او",10.280+10.510:C,"او","او",10.5
 <PATH id="(test.arb2004_B-006)" word_cnt="3" labels="<O>" file="test.arb2004" channel="B" sequence="38" R_T1="12.000" R_T2="13.000" case_sense="1" word_aux="h_t1+t2">
 C,"(%تردّد)","",0.000+0.000:C,"(بشتغل)","",0.000+0.000:C,"(بالمناهج)","",0.000+0.000
 </PATH>
+<PATH id="(test.arb2004_B-007)" word_cnt="7" labels="<O>" file="test.arb2004" channel="B" sequence="40" R_T1="14.000" R_T2="15.000" case_sense="1" word_aux="h_t1+t2">
+C,"Tanween","Tanween",14.050+14.180:C,"initial","initial",14.180+14.310:C,"ًأبدا","ًأبدا",14.310+14.440:C,"medial","medial",14.440+14.570:C,"ابًدا","ابًدا",14.560+14.690:C,"final","final",14.690+14.820:C,"ابدا","ابدا",14.820+14.950
+</PATH>
+<PATH id="(test.arb2004_B-008)" word_cnt="7" labels="<O>" file="test.arb2004" channel="B" sequence="41" R_T1="15.000" R_T2="16.000" case_sense="1" word_aux="h_t1+t2">
+C,"Tanween","Tanween",15.050+15.180:C,"initial","initial",15.180+15.310:C,"ٌإجراءات","ٌإجراءات",15.310+15.440:C,"medial","medial",15.440+15.570:C,"اجراٌءات","اجراٌءات",15.560+15.690:C,"final","final",15.690+15.820:C,"اجراءات","اجراءات",15.820+15.950
+</PATH>
+<PATH id="(test.arb2004_B-009)" word_cnt="7" labels="<O>" file="test.arb2004" channel="B" sequence="42" R_T1="16.000" R_T2="17.000" case_sense="1" word_aux="h_t1+t2">
+C,"Tanween","Tanween",16.050+16.180:C,"initial","initial",16.180+16.310:C,"ٍاختطاف","ٍاختطاف",16.310+16.440:C,"medial","medial",16.440+16.570:C,"اختطٍاف","اختطٍاف",16.560+16.690:C,"final","final",16.690+16.820:C,"اختطاف","اختطاف",16.820+16.950
+</PATH>
+<PATH id="(test.arb2004_B-010)" word_cnt="4" labels="<O>" file="test.arb2004" channel="B" sequence="43" R_T1="17.000" R_T2="18.000" case_sense="1" word_aux="h_t1+t2">
+C,"Multiple","Multiple",17.050+17.280:C,"Rules","Rules",17.280+17.510:C,"needed","needed",17.500+17.730:C,"MultiRule","MultiRule",17.730+17.960
+</PATH>
 </SPEAKER>
 <SPEAKER id="test.arb2004_B_inter_segment_gap">
 <PATH id="(test.arb2004_B_inter_segment_gap-000)" word_cnt="0" labels="<O>" file="test.arb2004" channel="B" sequence="27" R_T1="1.000" R_T2="2.000" case_sense="1" word_aux="h_t1+t2">
@@ -127,7 +139,10 @@ C,"(%تردّد)","",0.000+0.000:C,"(بشتغل)","",0.000+0.000:C,"(بالمن�
 <PATH id="(test.arb2004_B_inter_segment_gap-005)" word_cnt="0" labels="<O>" file="test.arb2004" channel="B" sequence="37" R_T1="11.000" R_T2="12.000" case_sense="1" word_aux="h_t1+t2">
 
 </PATH>
-<PATH id="(test.arb2004_B_inter_segment_gap-006)" word_cnt="0" labels="<O>" file="test.arb2004" channel="B" sequence="39" R_T1="13.000" R_T2="999999.000" case_sense="1" word_aux="h_t1+t2">
+<PATH id="(test.arb2004_B_inter_segment_gap-006)" word_cnt="0" labels="<O>" file="test.arb2004" channel="B" sequence="39" R_T1="13.000" R_T2="14.000" case_sense="1" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(test.arb2004_B_inter_segment_gap-007)" word_cnt="0" labels="<O>" file="test.arb2004" channel="B" sequence="44" R_T1="18.000" R_T2="999999.000" case_sense="1" word_aux="h_t1+t2">
 
 </PATH>
 </SPEAKER>
