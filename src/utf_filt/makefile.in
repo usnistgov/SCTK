@@ -1,0 +1,27 @@
+# **********************************************************
+# Makefile for rfilter1 Directory
+# **********************************************************
+SHELL = /bin/sh
+PREFIX=../..
+bindir = $(PREFIX)/bin
+T=../test_suite
+PERL=/slp/sware/Linux/bin/perl
+
+all: utf_filt.pl
+
+utf_filt.pl: 
+	chmod +x utf_filt.pl
+
+setTests:
+
+check: all
+	@echo "Testing utf_filt.pl"
+	@echo "   No tests defined"
+
+install: all
+	cp utf_filt.pl $(bindir)
+
+clean:
+
+distclean: clean
+	rm -r *~ makefile
