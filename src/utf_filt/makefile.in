@@ -13,9 +13,11 @@ utf_filt.pl:
 	chmod +x utf_filt.pl
 
 setTests:
+	utf_filt.pl -e utf-1.2.dtd -f stm -i ../test_suite/test.man.utf -o ../test_suite/test.man.stm -d
 
 check: all
 	@echo "Testing utf_filt.pl"
+	utf_filt.pl -e utf-1.2.dtd -f stm -i ../test_suite/test.man.utf -o - -d | diff - ../test_suite/test.man.stm 
 	@echo "   No tests defined"
 
 install: all
