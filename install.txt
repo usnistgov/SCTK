@@ -27,7 +27,11 @@ alignments do not work with Version 2.8.1 of diff.  To avoid
 unnecessary installation complications, not including the
 functionality is prudent.
 
-The 'make all' command will compile all toolkit executables and libraries.
+The 'make all' command will compile all toolkit executables and
+libraries.  Compilation of rfilter1 may fail if your version of libC
+is very new because it now includes the strcmp* family of functions.
+You can use the libC versions, and avoid compilation complaints, by
+following the isntrcutions in 'src/rfilter1/makefile'.
 
 The 'make check' will perform self tests on the toolkit.  Please
 report any problems to Jon Fiscus at NIST with any bug reports or
