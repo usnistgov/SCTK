@@ -166,10 +166,10 @@ die "$usage\nError: -i requires -b and -e to be used"
 
 if (defined($opt_d)) {
     $OptDel       = 1;  $opt_d = 1;
-    $HES = "(%HESITATION)";
+    $HES = " (%HESITATION) ";
 } else {
     $OptDel = 0; $opt_d = 0;
-    $HES = "%HESBITATION";
+    $HES = "%HESITATION";
 }
 
 #### The main functions arguements:
@@ -316,7 +316,7 @@ foreach $_ (@Trans){
 	if ($OptDel == 0){
 	    $hes="%\330\252\330\261\330\257\331\221\330\257";
 	} else {
-	    $hes="(%\330\252\330\261\330\257\331\221\330\257)";
+	    $hes=" (%\330\252\330\261\330\257\331\221\330\257) ";
 	}
         s/[% ]\330\243\331\207 /$hes /g;           ## %>h
         s/[% ]\330\245\331\212\331\207 /$hes /g;   ## %<yh
@@ -412,7 +412,7 @@ foreach $_ (@Trans){
             #  handle unintelligle markers within OOL markers
             s/\(\((\s*<[^>]+>\s*)([^\)]*)\)\)/$1 \(\($2\)\)/;
             #  handle optionally deletable tokens within unintelligble markers
-            s/(\(\(.*)(\s*\([^()\s]+\))+(.*\)\))/$1 )) $2 (( $3/;
+            s/(\(\(.*)(\s+\([^()\s]+\))+(.*\)\))/$1 )) $2 (( $3/;
             $unm="";
 
 	    #Change 1st unintelligable word, if its an alternate
