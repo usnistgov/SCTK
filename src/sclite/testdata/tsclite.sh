@@ -45,7 +45,7 @@ else
 	DIFF_ENABLED=1
 	echo "    Diff Alignments Enabled"
 fi
-if test "`grep SLM_TARGETS ../makefile| grep SLM`" = "" ; then
+if test "`grep "SLM_TARGETS =" ../makefile| sed 's/.*= *//'`" = "" ; then
 	SLM_ENABLED=0
 	echo "    SLM-Toolkit Disabled"
 else
@@ -110,11 +110,16 @@ PURECOVOPTIONS="-counts-file=`pwd`/$TEST.sclite.pvc"; export PURECOVOPTIONS
 PURIFYOPTIONS="-log-file=`pwd`/$TEST.sclite.pure -view-file=`pwd`/$TEST.sclite.pv";
 export PURIFYOPTIONS
 echo "Test $TN:    Same as test1, but using a language model for weights"
-$exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/csrnab.ref -h $DATA/csrnab.hyp -i wsj \
+if test $SLM_ENABLED = 1 ; then
+    $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/csrnab.ref -h $DATA/csrnab.hyp \
+	-i wsj \
 	-L $DATA/csrnab_r.blm \
 	-o sum wws prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+    sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+else
+    echo "            **** SLM weighted alignment is disabled, not testing ***"
+fi
 
 # TEST Number 1c
 TN=1c
@@ -502,36 +507,31 @@ $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/lvc_refr.stm stm -h $DATA/lvc_hypr.ctm
 
 echo ""
 echo "Executions complete: Comparing output"
+filter="diff -r $base_dir $OUT | grep -v CVS"
+vfilter="diff -c -r $base_dir $OUT | grep -v CVS"
+if test $DIFF_ENABLED = 0 ; then
+    echo "   Removing DIFF tests"
+    filter="$filter | grep -ve 'test[2456]\.'"
+    vfilter="$vfilter | grep -ve 'test[2456]\.'"
+fi
+if test $SLM_ENABLED = 0 ; then
+    echo "   Removing SLM tests"
+    filter="$filter | grep -ve 'test1b\.'"
+    vfilter="$vfilter | grep -ve 'test1b\.'"
+fi
 echo ""
 
-if test $DIFF_ENABLED = 1 ; then
-	if test "`diff -r $base_dir $OUT`" = "" ; then
-		echo "ALL TESTS SUCCESSFULLY COMPLETED"
-		if [ $clean = "TRUE" ] ; then
-			rm -r $OUT
-		fi
-		exit 0
-	else
-		echo "     !!!!!  TESTS HAVE FAILED  !!!!!"
-		echo ""
-		echo "Read Failed.log"
-		diff -c -r $base_dir $OUT > Failed.log
-		exit 1
-	fi
+if test "`eval $filter`" = "" ; then
+    echo "ALL TESTS SUCCESSFULLY COMPLETED"
+    if [ $clean = "TRUE" ] ; then
+	rm -r $OUT
+    fi
+    exit 0
 else
-	if test "`diff -r $base_dir $OUT | grep -v 'test[2456]'`" = "" ; then
-		echo "ALL TESTS SUCCESSFULLY COMPLETED"
-		if [ $clean = "TRUE" ] ; then
-			rm -r $OUT
-		fi
-		exit 0
-	else
-		echo "     !!!!!  TESTS HAVE FAILED  !!!!!"
-		echo ""
-		echo "Read Failed.log"
-		diff -c -r $base_dir $OUT | grep -ve 'test[2456]' > Failed.log
-		exit 1
-	fi
+    echo "     !!!!!  TESTS HAVE FAILED  !!!!!"
+    echo ""
+    echo "Read Failed.log"
+    eval $vfilter > Failed.log
+    exit 1
 fi
 
-exit 0
