@@ -260,6 +260,7 @@ WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int
   TEXT *endOfElement;
   TEXT *text, *tag1 = (TEXT *)NULL, *tag2 = (TEXT *)NULL;
   TEXT *textPtr = t;
+  WORD *word;
 
   //  printf("Element is %s\n",t);
 
@@ -279,7 +280,7 @@ WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int
   //  printf("   TExt is %s\n",text);
   //  printf("   Tag1 is %s\n",(tag1 != (TEXT *)0) ? tag1 : (TEXT *)"null");
   //  printf("   Tag2 is %s\n",(tag2 != (TEXT *)0) ? tag2 : (TEXT *)"null");
-  WORD *word = new_WORD(text, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
+  word = new_WORD(text, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
   free_1dimarr(text, TEXT);
   if (tag1 != (TEXT *)0) free_1dimarr(tag1, TEXT);
   if (tag2 != (TEXT *)0) free_1dimarr(tag2, TEXT);
