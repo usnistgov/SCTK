@@ -113,6 +113,7 @@ extern void           kill_node2(NODE *node1);
 #define NT_CA_Back    0x0200
 #define NT_Verbose    0x8000
 
+extern NETWORK *Network_init_from_net(NETWORK *net, char *name);
 extern NETWORK *Network_init(void (*arc_data_prn)(void *), int (*arcs_equal)(void *, void *), void arc_data_destroy(void *), int (*is_null_alt)(void *), int (*is_opt_del)(void *), void *(*copy)(void *), void *(*make_empty)(void *), int (*use_count)(void *, int), char* desc);
 extern NETWORK *Network_copy(NETWORK *in_net);
 extern int      Network_destroy(NETWORK *net);

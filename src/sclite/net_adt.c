@@ -503,8 +503,19 @@ NETWORK *Network_create_from_TEXT(TEXT *text, char *name, void (*aprn)(void *), 
 }
 
 
-extern NETWORK *Network_init(void (*arc_data_prn)(void *), int (*arcs_equal)(void *, void *), void arc_data_destroy(void *), int (*is_null_alt)(void *), int (*is_opt_del)(void *), void *(*copy)(void *), void *(*make_empty)(void *), int (*use_count)(void *, int), char *name)
-{
+extern NETWORK *Network_init_from_net(NETWORK *net, char *name){
+  return Network_init(net->arc_func.print, 
+		      net->arc_func.equal, 
+		      net->arc_func.destroy, 
+		      net->arc_func.is_null_alt,
+		      net->arc_func.is_opt_del, 
+		      net->arc_func.copy,
+		      net->arc_func.make_empty,
+		      net->arc_func.use_count,
+		      name);
+}
+
+extern NETWORK *Network_init(void (*arc_data_prn)(void *), int (*arcs_equal)(void *, void *), void arc_data_destroy(void *), int (*is_null_alt)(void *), int (*is_opt_del)(void *), void *(*copy)(void *), void *(*make_empty)(void *), int (*use_count)(void *, int), char *name){
     char *proc="Network_init";
     NETWORK *net;
     int err, *perr = &err;
@@ -577,7 +588,7 @@ void print_arc(ARC *arc, void *p)
 	if (arc->to_node != NULL)   printf("%9s",arc->to_node->name);
 	else                        printf(" **NULL**");
 	printf("  addr: %6x  weight: %d  ",(int)arc,arc->weight); 
-	/* printf("  weight: %d  ",arc->weight); */
+	printf("  data addr: %x ",arc->data); 
 	arc->net->arc_func.print((void *)arc->data);
     }
     return;
