@@ -1,0 +1,28 @@
+# **********************************************************
+# Makefile for rfilter1 Directory
+# **********************************************************
+SHELL = /bin/sh
+PREFIX=
+bindir = $(PREFIX)/bin
+
+all: rfilter1
+
+rfilter1: rfilter1.c
+	cc -o rfilter1 rfilter1.c
+
+setTests:
+	./rfilter1 ../test_suite/test.arb2004.glm < ../test_suite/test.arb2004.txt > ../test_suite/test.arb2004.txt.rfilter1
+
+check:
+	@echo "Testing rfilter1"
+	./rfilter1 ../test_suite/test.arb2004.glm < ../test_suite/test.arb2004.txt | diff - ../test_suite/test.arb2004.txt.rfilter1
+	@echo "   rfilter1 tests successfully completed"
+
+install: all
+	cp rfilter1 $(bindir)
+
+clean:
+	rm -f rfilter1
+
+distclean: clean
+	rm -r *~ makefile
