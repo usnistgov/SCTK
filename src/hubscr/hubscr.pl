@@ -364,7 +364,7 @@ sub FilterFile{
 		$hamza_norm_com = "cat";
 	    }
 	    if ($TANWEEN_FILT_ENABLED){
-		$tanween_filter_com = "$TANWEEN_FILTER -i $format -- - -";
+		$tanween_filter_com = "$TANWEEN_FILTER -a -i $format -- - -";
 	    } else {
 	        $tanween_filter_com = "cat";
 	    }
