@@ -294,6 +294,8 @@ foreach $_ (@Trans){
     s/ /  /g;                      #multiple spaces go to one
     s/^/ /;                        #add spaces at begining of line
     s/$/ /;                        #put a space at the end of each line
+    s/\(\(/ (( /g;                 #add spaces around unintelligble markers
+    s/\)\)/ )) /g;                 #add spaces around unintelligble markers
     if ($OptDel == 0){
         s:<foreign\s+language=[^>]+>([^><]+)</foreign>:$1:gi;
     } else {
