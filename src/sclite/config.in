@@ -119,7 +119,7 @@ while test "$ans" = "" ; do
 		echo "    Checking Endian-ness for SLM toolkit"
 		echo 'main(){short s=1; char *b=(char *)&s; printf("%s",(*b==0)?"Big":"Little");}' > x.c
 		$CC $CFLAGS_BEFORE_DIFF x.c -o a.out
-		endian=`a.out`
+		endian=`./a.out`
 		rm -f a.out x.c
 
 		if test "$endian" = "Little" ; then
