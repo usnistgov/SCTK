@@ -36,7 +36,7 @@ use strict;
 #    - added -T to enable tanween filtering
 #
 my $Version = "0.10"; 
-my $Usage="hubscr09.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
+my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
 "Version: $Version\n".
 "Desc: Score a Hub-4E/NE or Hub-5E/NE evaluation using the established\n".
 "      guidelines.  There are a set of language dependent options that this\n".
