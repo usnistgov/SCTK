@@ -1,0 +1,36 @@
+SCTK Basic Installation for Version 1.2
+=======================================
+
+*****  If you have extracted this package off of a CDROM, on some   *****
+*****  systems, the main makefile will have a period appended to    *****
+*****  the filename.  If this has occurred, please rename the       *****
+*****  makefile without the trailing period.                        *****
+
+To install compile and install sctk, from the main directory
+type the commands:
+
+	% make config
+	% make 
+	% make check
+	% make install
+
+The 'make config' command exeuctes the script 'config.sh' in the src
+directory.  The script probes the installation system and creates a
+makefile based on the probe.  For typical installations, the default
+execution of the script will be statisfactory.  See the description of
+'config.sh' in the file 'src/config.txt'.
+
+The 'make' command will compile all toolkit executables and libraries.
+
+The 'make check' will perform self tests on the toolkit.  Please
+report any problems to Jon Fiscus at NIST with any bug reports or
+comments at the email address jonathan.fiscus@nist.gov or by phone,
+(301)-975-3182.  Please include the version number of rover, and any
+other relevant information such as OS, compiler, etc.  
+
+The 'make install' command will copy the executables to
+/usr/local/bin, and the manual pages to /usr/local/man.  You can
+specify an installation prefix other than `/usr/local' by giving
+`config.sh' the option `--prefix=PATH' manually.  See 'src/config.txt'
+for further details.
+
