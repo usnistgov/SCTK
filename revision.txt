@@ -166,3 +166,8 @@ SCTK Version 2.0 Beta 3 - Released Oct. 5, 2004
         - Fixed the install for rfilter1
         - Added an option to chfilt.pl to map channel id's A or B to 1 and 2 respectively.
         - Added a new program tanweenFilt.pl
+
+SCTK Version 2.0 Beta 4 - Released Oct. 18, 2004
+        - Modified tanweenFilt to remove all tanween characters.
+        - Fixed a bug in tanweenFilt and hamzaNorm to also change optionally
+          deletable words.
