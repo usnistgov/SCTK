@@ -29,8 +29,8 @@ extern char          *prtrim2(char *s);
 extern char          *remove_comments(char *s, char *comment_flag);
 extern SUBSTRING      sstok2(char *sx, char *delimiters);
 extern boolean        string_equal(char *cs, char *ct, int ignore_case);
-extern int            strcmpi(char *ps1, char *ps2);  /* BCD 4.2; not TURBO C */
-extern int            strncmpi(char *ps1, char *ps2, int n);  /* BCD 4.2; not TURBO C */
+// extern int            strcmpi(char *ps1, char *ps2);  /* BCD 4.2; not TURBO C */
+// extern int            strncmpi(char *ps1, char *ps2, int n);  /* BCD 4.2; not TURBO C */
 extern char          *strdup_safe(char *ps, char *calling_proc);
 extern int            substr_length(SUBSTRING *substr);
 extern char          *substr_to_str(SUBSTRING *substr, char *str, int lmax);
