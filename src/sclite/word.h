@@ -44,6 +44,7 @@ WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int
 WORD *new_WORD(TEXT *t, int id, double t1, double t2, double conf, TEXT *tag1, TEXT *tag2, int frag, int opt_del, double weight);
 void release_WORD(void *p);
 void *copy_WORD(void *p);
+void *copy_WORD_via_use_count(void *p);
 void *make_empty_WORD(void *p);
 void print_WORD(void *p);
 void print_WORD_wt(void *p);

@@ -420,6 +420,13 @@ void *copy_WORD(void *p){
     return(nw);
 }
 
+void *copy_WORD_via_use_count(void *p){
+    WORD *tw = (WORD *)p, *nw;
+    if (tw == (WORD *)0) return((void *)0);
+    tw->use ++;
+    return(tw);
+}
+
 void *make_empty_WORD(void *p){
     WORD *nw;
 
