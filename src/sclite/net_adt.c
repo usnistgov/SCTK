@@ -10,6 +10,7 @@ static void set_node_flag1_to_outarc_count(NODE *node, void *ptr);
 void recursive_connect(NETWORK *net, int connect_factor, void *(*append)(void *, void *), int (*test)(void *, void *), void *test_data, ARC *base_arc, ARC *cur_arc, void *value);
 void find_null_arcs(ARC *arc, void *ptr);
 
+#define MAXSTRING 10000
 
 int Network_add_arc_to_head(NETWORK *net, void *str){
     char *proc="Network_add_arc_to_head";
@@ -470,7 +471,7 @@ NETWORK *Network_create_from_TEXT(TEXT *text, char *name, void (*aprn)(void *), 
     NETWORK *net;
     WORD *tword = NULL_WORD;          /* temp storage getting new words */
     TEXT *ctext = text,               /* current position is text string */
-         token[100];                  /* temp storage for tokens */
+         token[MAXSTRING];                  /* temp storage for tokens */
 
     if (db >= 1) printf("Entering: %s\n",proc);
     if (db >= 2) printf("    function args: text='%s'\n",text);
@@ -482,8 +483,9 @@ NETWORK *Network_create_from_TEXT(TEXT *text, char *name, void (*aprn)(void *), 
 		       is_opt_del, copy,make_empty,use_count,name);
 
     while (! end_of_TEXT(*ctext)) {
-	if (find_next_TEXT_token(&ctext,token,100)) {	
+	if (find_next_TEXT_token(&ctext,token,MAXSTRING)) {	
 	    if (db > 5) printf("    Token: '%s'\n",token);
+	//	 printf("    Token: '%s'\n",token);
 	    /* create new word structure */
 	    
 	    tword = new_WORD_parseText(token, -1, 0.0, 0.0, 0.0, 0, 0, -1.0);
@@ -957,7 +959,7 @@ static void change_node_name(NODE *node, void *ptr){
 static void expand_alternates(ARC *arc, void *ptr){
     char *proc = "expand_alternates";
     WORD *tw = (WORD *)(arc->data);
-    TEXT *ctext, *p, token[100], *p1;
+    TEXT *ctext, *p, token[MAXSTRING], *p1;
     NETWORK *subnet, *subnet2=NULL_NETWORK;
     int first=1;
     char buf[20];
@@ -975,7 +977,7 @@ static void expand_alternates(ARC *arc, void *ptr){
 	    *p1 = NULL_TEXT;
 	
 	while (! end_of_TEXT(*p)) {
-	    if (find_next_TEXT_alternation(&p,token,100)) {
+	    if (find_next_TEXT_alternation(&p,token,MAXSTRING)) {
 		if (db >= 5)printf("    Token: '%s'\n",token);
 		sprintf(buf,"Alt-net %d",alt);
 		subnet = Network_create_from_TEXT(token, buf,

@@ -262,29 +262,33 @@ WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int
   TEXT *textPtr = t;
   WORD *word;
 
-  //  printf("Element is %s\n",t);
-
-  endOfElement = nextColon(textPtr);
-  text = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
-  if (*endOfElement != (TEXT)NULL){
-    textPtr = endOfElement + 1;
+//  printf("Element is %s\n",t);
+  // Is this an alternation
+  if (*textPtr == '{'){
+    word = new_WORD(t, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
+  } else {
     endOfElement = nextColon(textPtr);
-    tag1 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+    text = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
     if (*endOfElement != (TEXT)NULL){
       textPtr = endOfElement + 1;
       endOfElement = nextColon(textPtr);
-      tag2 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+      tag1 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+      if (*endOfElement != (TEXT)NULL){
+        textPtr = endOfElement + 1;
+        endOfElement = nextColon(textPtr);
+        tag2 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+      }
     }
-  }
 
-  //  printf("   TExt is %s\n",text);
-  //  printf("   Tag1 is %s\n",(tag1 != (TEXT *)0) ? tag1 : (TEXT *)"null");
-  //  printf("   Tag2 is %s\n",(tag2 != (TEXT *)0) ? tag2 : (TEXT *)"null");
-  word = new_WORD(text, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
-  free_1dimarr(text, TEXT);
-  if (tag1 != (TEXT *)0) free_1dimarr(tag1, TEXT);
-  if (tag2 != (TEXT *)0) free_1dimarr(tag2, TEXT);
-  return word;
+//    printf("   TExt is %s\n",text);
+//    printf("   Tag1 is %s\n",(tag1 != (TEXT *)0) ? tag1 : (TEXT *)"null");
+//    printf("   Tag2 is %s\n",(tag2 != (TEXT *)0) ? tag2 : (TEXT *)"null");
+    word = new_WORD(text, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
+    free_1dimarr(text, TEXT);
+    if (tag1 != (TEXT *)0) free_1dimarr(tag1, TEXT);
+    if (tag2 != (TEXT *)0) free_1dimarr(tag2, TEXT);
+    return word;
+ }
 }
 
 WORD *new_WORD(TEXT *t, int id, double t1, double t2, double conf, TEXT *tag1, TEXT *tag2, int fcorr, int odel, double weight){
