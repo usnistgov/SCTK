@@ -77,8 +77,10 @@ use strict;
 #  Version 1.16
 #       JGF added code to check for unannotated, non-posessive contractions IFF contractions
 #           are to be processed.
+#  Version 1.17
+#       JGF Added -C
 
-my $Version="1.16";
+my $Version="1.17";
 
 my $usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
 "Version: $Version\n".
@@ -118,6 +120,9 @@ my $usage = "Usage: chfilt <OPTIONS> infile outfile|-- -\n".
 "       -p time        Pad segment boundaries with 'time' seconds of silence if\n".
 "                      the time is available\n".
 "       -c             Don't expand the contractions if they are annotated\n".
+"       -C (numbers|letters)\n".
+"                      If 'numbers', change channels A and B to 1 and 2 respectively \n".
+"                      If 'letters', change channels 1 and 2 to A and B respectively \n".
 "       -E             Exclude overlapping segments in the output STMs\n";;
 
 ##########3  Globals 
@@ -142,10 +147,11 @@ my $id;
 my %TranslateAArray;
 my %EquivsAArray;
 my @Trans;
+my $ChannelsTo = "asis";
 
 use Getopt::Long;
 $Getopt::Long::ignorecase = 0;
-my $ret = GetOptions ("s:f", "p:f", "l=s", "b:f", "e:f", "o=s", "t:s", "q:s", "a", "d", "m", "i", "k", "E", "c");
+my $ret = GetOptions ("s:f", "p:f", "l=s", "b:f", "e:f", "o=s", "t:s", "q:s", "a", "d", "m", "i", "k", "E", "c", "C=s");
 die "\n$usage\nError: Failed to parse argements" if (! $ret);
 if (defined($main::opt_o)) {
     $Format = $main::opt_o;
@@ -183,6 +189,10 @@ if (defined($main::opt_E)) { $ExcludeOverlap = $main::opt_E } else{ $ExcludeOver
 if (defined($main::opt_p)) { $PadSilence   = $main::opt_p } else{ $PadSilence = -1.0}
 if (defined($main::opt_s)) { $SmoothSegments = $main::opt_s } else{ $SmoothSegments = -1.0}
 if (defined($main::opt_c)) { $ExpandContractions = !(defined($main::opt_c))} else{ $ExpandContractions = 1}
+if (defined($main::opt_C)) { 
+    die "Error: Unknown channel conversion '$main::opt_C'" if ($main::opt_C !~ /^(numbers|letters)/);
+    $ChannelsTo = $main::opt_C;
+}
 $AddInterSegGap = defined($main::opt_i);
 die "$usage\nError: -i requires -b and -e to be used"
     if (defined($main::opt_i) && (! defined($main::opt_b) || !defined($main::opt_e)));	
@@ -281,7 +291,7 @@ for (my $n=0; $n<=$#Trans; $n++){
 	    ### delete all tokens annotated as contractions
 	    $ct =~ s/(<contraction\s+e_form=\"([^\"]+)\">([^ \t\n\r\f\)]+))//gi;
 	    foreach my $ctt(split(/[\s\,\.\?]+/,$ct)){
-		print "Warning: Possible non-annotated contraction \"$ctt\"\n" if ($ctt =~ /\w'\w+/ && $ctt !~ /\w's$/);
+		print STDERR "Warning: Possible non-annotated contraction \"$ctt\"\n" if ($ctt =~ /\w'\w+/ && $ctt !~ /\w's$/);
 	    }
 	}
 	while ($Trans[$n] =~ /(<contraction\s+e_form=\"([^\"]+)\">([^ \t\n\r\f\)]+))/i){
@@ -735,11 +745,27 @@ foreach $_ (@Trans){
      ($chan = $spkr) =~ s/[0-9]$//;
      if (&in_range($bt, $et) && ($KeepEmptyLines || $_ !~ /^\s*$/)){
          if ($Format eq "stm"){
-	     push @STMS, sprintf "%s %s %s %s %6.2f <O> %s\n",$id,$chan,$id."_".$spkr,$bt,$et,$_; 
+	     push @STMS, sprintf "%s %s %s %s %6.2f <O> %s\n",$id,makeChannel($chan),$id."_".$spkr,$bt,$et,$_; 
          } elsif ($Format eq "pem"){
-	     printf OUTPUT "%s %s %s %s %s\n",$id,$chan,"unknown_speaker",$bt,$et; 
+	     printf OUTPUT "%s %s %s %s %s\n",$id,makeChannel($chan),"unknown_speaker",$bt,$et; 
          }
      }
+}
+
+sub makeChannel{
+    my ($chan) = @_;
+    if ($ChannelsTo eq "numbers") {
+	$chan =~ s/a/1/i;
+	$chan =~ s/b/2/i;
+    } elsif ($ChannelsTo eq "letters") {
+	$chan =~ s/1/A/i;
+	$chan =~ s/2/B/i;
+    } elsif ($ChannelsTo eq "asis") {
+	;
+    } else {
+	die "Error: unknown Channel conversion $ChannelsTo";
+    }
+    $chan;
 }
 
 sub MIN{

@@ -13,6 +13,7 @@ chfilt.pl:
 
 setTests:
 	./chfilt.pl -m -l english $(T)/testmss.in -- - > $(T)/testmss.stm
+	./chfilt.pl -C numbers -m -l english $(T)/testmss.in -- - > $(T)/testmss.numbers.stm
 	./chfilt.pl -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.-optdel.stm
 	./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.stm
 	./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - > $(T)/test.txt.-contexp.stm
@@ -21,6 +22,7 @@ setTests:
 check: all
 	@echo "Testing chfilt.pl"
 	./chfilt.pl -m -l english $(T)/testmss.in -- - | diff - $(T)/testmss.stm
+	./chfilt.pl -C numbers -m -l english $(T)/testmss.in -- - | diff - $(T)/testmss.numbers.stm
 	./chfilt.pl -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-optdel.stm
 	./chfilt.pl -d -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.stm
 	./chfilt.pl -c -l english -i -b 0 -e 999999 -k $(T)/test.txt -- - | diff - $(T)/test.txt.-contexp.stm
