@@ -1,7 +1,5 @@
 #!/usr/bin/env perl
 
-die "Error: This program requires Perl Version 5.006 or higher.  Perl reports you have $]" if ($] < 5.006);
-
 ### This changes the function of a runtime warning to dump a stack trace
 #use Carp ();  local $SIG{__WARN__} = \&Carp::cluck;
 ### This dies on a warning after the stack dump

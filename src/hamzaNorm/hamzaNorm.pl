@@ -2,8 +2,6 @@
 
 use strict;
 
-die "Error: This program requires Perl Version 5.006 or higher.  Perl reports you have $]" if ($] < 5.006);
-
 my $Version="1.0";
 
 #####
