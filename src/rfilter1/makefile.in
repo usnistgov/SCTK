@@ -12,6 +12,7 @@ all: rfilter1
 #######  be blank will diable the use of supplied versions of these functions.
 OPTIONS=-DNEED_STRCMP=1
 
+PREFIX=
 bindir = $(PREFIX)/bin
 
 rfilter1: rfilter1.c
