@@ -343,7 +343,7 @@ REF:  b ( ten - ) ( the ) C A N D
 HYP:  b * ten * * * the * * * * AND 
 Eval:   D     D D D     D D D D S   
 
-Speaker sentences   9:  tags   #utts: 4
+Speaker sentences   9:  tags   #utts: 5
 id: (tags-1)
 Scores: (#C #S #D #I) 4 2 7 0
 REF:  A A A ; a B ; B ;    B     b c d 
@@ -367,5 +367,11 @@ Scores: (#C #S #D #I) 0 6 7 0
 REF:  A A A ; A B ; B ;    B     B C D 
 HYP:  * * * * * * * Z AA;A B;B;B Y X W 
 Eval: D D D D D D D S S    S     S S S 
+
+id: (tags-5)
+Scores: (#C #S #D #I) 1 5 6 0
+REF:  Y Y Y Y Y Y Y Y    Y     y Y Y 
+HYP:  * * * * * * Z AA;A B;B;B y X W 
+Eval: D D D D D D S S    S       S S 
 
 

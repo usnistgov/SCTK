@@ -343,7 +343,7 @@ REF:  b *** (TEN-) (THE) CAN d
 HYP:  b TEN THE    A     N   d 
 Eval:   I   S      S     S     
 
-Speaker sentences   9:  tags   #utts: 4
+Speaker sentences   9:  tags   #utts: 5
 id: (tags-1)
 Scores: (#C #S #D #I) 4 2 0 7
 REF:  * * * * a * * * AA;A B;B;B b c d 
@@ -363,6 +363,12 @@ HYP:  A A A ; A B ; B ; B B C D
 Eval: I I I I I I I I I I I I I 
 
 id: (tags-4)
+Scores: (#C #S #D #I) 2 4 0 7
+REF:  * * * * a * * AA;A B;B;B b * C D 
+HYP:  Z A A ; a B ; B    ;     b Y X W 
+Eval: I I I I   I I S    S       I S S 
+
+id: (tags-5)
 Scores: (#C #S #D #I) 2 4 0 7
 REF:  * * * * a * * AA;A B;B;B b * C D 
 HYP:  Z A A ; a B ; B    ;     b Y X W 
