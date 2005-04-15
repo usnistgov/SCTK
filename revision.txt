@@ -171,3 +171,6 @@ SCTK Version 2.0 Beta 4 - Released Oct. 18, 2004
         - Modified tanweenFilt to remove all tanween characters.
         - Fixed a bug in tanweenFilt and hamzaNorm to also change optionally
           deletable words.
+
+SCTK Version 2.0 Beta 5 - Released Oct. 22, 2004
+        - Added Mandarin hesitations to chfilt.pl and utf_filt.pl
