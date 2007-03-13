@@ -30,8 +30,7 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		size_t m_MaxSize;
 		size_t* m_MultiplicatorDimension;
 		bool*   m_TabbIsCompressed;
-		ulint*   m_TabHitsSec;
-		ulint*   m_TabHitsuSec;
+		unsigned long long int* m_TabHitsTimer;
 		
 		ucl_intp* m_TabStartByte;
 		ucl_uint* m_TabSizes;
@@ -73,6 +72,8 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		double m_UsableMemoryKB;
 		double m_PercentageMemoryTriggerStart;
 		double m_PercentageMemoryTriggerStop;
+		
+		unsigned long long int m_CurrentTimer;
 		
 		double MemoryUsedKB() { return(((double)m_CurrentMemorySize)/((double)1024)); }
 		bool isCallGarbageCollector() { return( MemoryUsedKB() >= m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart) ); }

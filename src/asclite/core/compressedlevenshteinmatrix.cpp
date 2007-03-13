@@ -54,8 +54,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	m_TabStartByte = new ucl_intp[m_NbrCompressedTabs];
 	m_TabSizes = new ucl_uint[m_NbrCompressedTabs];
 	m_TabbIsCompressed = new bool[m_NbrCompressedTabs];
-	m_TabHitsSec = new ulint[m_NbrCompressedTabs];
-	m_TabHitsuSec = new ulint[m_NbrCompressedTabs];
+	m_TabHitsTimer = new unsigned long long int[m_NbrCompressedTabs];
 	m_TabIsCreated = new bool[m_NbrCompressedTabs];
 	m_CurrentMemorySize = 0;
 	
@@ -75,8 +74,9 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	
 	m_SizeOfArray = 0;
 	m_NbrCreatedBlocks = 0;
+	m_CurrentTimer = 0;
 	
-	m_OverHeadMemory = m_BaseLengthOut + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( sizeof(ucl_intp) + sizeof(ucl_uint) + 2*sizeof(bool) + 2*sizeof(ulint) ) + 20*sizeof(double);
+	m_OverHeadMemory = m_BaseLengthOut + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( sizeof(ucl_intp) + sizeof(ucl_uint) + 2*sizeof(bool) + sizeof(unsigned long long int) ) + 20*sizeof(double);
 	m_UsableMemoryKB = 0.98*( ((double) m_MaxMemoryKBProp) - ((double) m_OverHeadMemory)/((double) 1024) );
 	m_PercentageMemoryTriggerStart = 0.01;
 	m_PercentageMemoryTriggerStop = 0.2;
@@ -119,8 +119,7 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 	delete [] m_TabStartByte;
 	delete [] m_TabSizes;
 	delete [] m_TabbIsCompressed;
-	delete [] m_TabHitsSec;
-	delete [] m_TabHitsuSec;
+	delete [] m_TabHitsTimer;
 	delete [] m_TabIsCreated;
 }
 
@@ -211,10 +210,7 @@ bool CompressedLevenshteinMatrix::DecompressBlock(size_t block_index)
 
 void CompressedLevenshteinMatrix::TouchBlock(size_t block_index)
 {
-	timeval tv;
-	gettimeofday(&tv, NULL);
-	m_TabHitsSec[block_index] = tv.tv_sec;
-	m_TabHitsuSec[block_index] = tv.tv_usec;
+	m_TabHitsTimer[block_index] = m_CurrentTimer++;
 	++m_Accesses;
 	
 	// For information only
@@ -253,8 +249,7 @@ void CompressedLevenshteinMatrix::GarbageCollection()
 
 bool CompressedLevenshteinMatrix::ForcedGarbageCollection()
 {
-	ulint minsec = ULONG_MAX;
-	ulint minusec = ULONG_MAX;
+	unsigned long long int mintouch = ULLONG_MAX;
 	size_t min_index = 0;
 
 	// Do the ugly Java GC
@@ -267,21 +262,11 @@ bool CompressedLevenshteinMatrix::ForcedGarbageCollection()
 			if(!m_TabbIsCompressed[i])
 			{
 				// not compressed
-				if(m_TabHitsSec[i] < minsec)
+				if(m_TabHitsTimer[i] < mintouch)
 				{				
-					minsec = m_TabHitsSec[i];
-					minusec = m_TabHitsuSec[i];
+					mintouch = m_TabHitsTimer[i];
 					min_index = i;
 					found = true;
-				}
-				else if(m_TabHitsSec[i] == minsec)
-				{
-					if(m_TabHitsuSec[i] < minusec)
-					{
-						minusec = m_TabHitsuSec[i];
-						min_index = i;
-						found = true;
-					}
 				}
 			}
 		}
