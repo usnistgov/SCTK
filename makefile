@@ -27,7 +27,7 @@ dist:
 	@ echo "Building a release version" `cat .fname`
 	@ echo "Verifying and up-to-date CVS copy"
 	@ cvs -d gaston:/home/sware/cvs up 
-	@ cvs -d gaston:/home/sware/cvs co -r asclite-merge-branch -d `cat .fname` sctk
+	@ cvs -d gaston:/home/sware/cvs co -d `cat .fname` sctk
 	@ echo "Building the TAR file"
 	@ echo `cat .fname`"-"`date +%Y%m%d-%H%M`.tar.bz2 > .distname
 	@ tar jcf `cat .distname` --exclude CVS  --exclude .svn `cat .fname` 
