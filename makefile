@@ -34,6 +34,10 @@ dist:
 	@ (cd `cat .fname`; make config all check)
 	@ rm -rf `cat .fname` .fname .distname
 
+cvs-tag-current-distribution:
+	@ echo "Tagging the current CVS for distribution '"`grep Version: readme.txt | head -1 | perl -pe 's/.*Version:\s+/release-/; s/\s+\$$//; s/\s+/_/g; s/\./-/g'`"'"
+	@ cvs -d gaston:/home/sware/cvs tag `grep Version: readme.txt | head -1 | perl -pe 's/.*Version:\s+/release-/; s/\s+\$$//; s/\s+/_/g; s/\./-/g'`
+
 check:
 	@ uname -a
 	(cd src; $(MAKE) $@)
