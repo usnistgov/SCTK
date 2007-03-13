@@ -227,3 +227,7 @@ SCTK Version 2.2.0 - Release March 12th, 2007
   [*] core: fixed align2html display
   [+] core: added compression to align bigger matrices
   [+] core: added pruning using time
+
+SCTK Version 2.2.1 - Release March 13th, 2007
+  [*] Fixed the sequence number in SGML when using RTTM Refs
+  [+] Added Difficulty limit

@@ -254,6 +254,8 @@ void Recording::AddInterSegmentGapsToRefs()
 	
 	int minRef = INT_MAX2;
 	int maxRef = 0;
+	long int ElmNum = 0;
+	long int LinNum = 0;
 	
 	while (pCTMSTMRTTMSegmentor->HasNext())
 	{
@@ -277,6 +279,12 @@ void Recording::AddInterSegmentGapsToRefs()
 					
 				file = vecSeg[j]->GetSource();
 				channel = vecSeg[j]->GetChannel();
+				
+				if(vecSeg[j]->GetSourceLineNum() > LinNum)
+					LinNum = vecSeg[j]->GetSourceLineNum();
+					
+				if(vecSeg[j]->GetSourceElementNum() > ElmNum)
+					ElmNum = vecSeg[j]->GetSourceElementNum();
 			}
 		}
 		
@@ -355,11 +363,13 @@ void Recording::AddInterSegmentGapsToRefs()
 		{
 			Segment* Inter_Segment_Gap = Segment::CreateWithEndTime(begintime, endtime, ISGspeech);
 			
+			++ElmNum;
+			++LinNum;
 			Inter_Segment_Gap->SetSource(file);
 			Inter_Segment_Gap->SetChannel(channel);
 			Inter_Segment_Gap->SetSpeakerId(string("inter_segment_gap"));
-			Inter_Segment_Gap->SetSourceLineNum(0);
-			Inter_Segment_Gap->SetSourceElementNum(0);
+			Inter_Segment_Gap->SetSourceLineNum(ElmNum);
+			Inter_Segment_Gap->SetSourceElementNum(LinNum);
 			
 			size_t nbSeg = ISGspeech->NbOfSegments();
 			
