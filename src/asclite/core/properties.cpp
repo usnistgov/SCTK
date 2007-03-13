@@ -103,6 +103,11 @@ void Properties::SetProperties(map<string, string> props)
 		properties["recording.maxnbofgb"] = "1";
 	}
 	
+	if(properties.find("recording.nbrdifficultygb") == properties.end())
+	{
+		properties["recording.nbrdifficultygb"] = "16";
+	}
+	
 	if(properties.find("align.memorycompressionblock") == properties.end())
 	{
 		properties["align.memorycompressionblock"] = "64";

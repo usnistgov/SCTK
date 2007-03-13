@@ -518,6 +518,8 @@ void Recording::Align()
 			else if (cellnumber > max_nb_gb)
             {
 				bool m_bUseCompression = (string("true").compare(Properties::GetProperty("align.memorycompression")) == 0);
+				bool bDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.difficultygb")) == 0);
+				size_t difficulty_nb_gb = (size_t) ceil(GIGCELLS*atof(Properties::GetProperty("recording.nbrdifficultygb").c_str()));
 				
 				if(!m_bUseCompression)
 				{
@@ -525,10 +527,16 @@ void Recording::Align()
 					sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large", (ulint) segmentsGroup->GetsID());
 					LOG_WARN(logger, buffer);
 				}
+				else if( (bDifficultyLimit) && (cellnumber > difficulty_nb_gb) )
+				{
+					ignoreSegs = true;
+					sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large regarding the difficulty", (ulint) segmentsGroup->GetsID());
+					LOG_WARN(logger, buffer);
+				}
 				else
 				{
 					buseCompArray = true;
-					sprintf(buffer, "Using Levenshtein Matrix Compression Algorihm for group of segments (%lu)", (ulint) segmentsGroup->GetsID());
+					sprintf(buffer, "Using Levenshtein Matrix Compression Algorithm for group of segments (%lu)", (ulint) segmentsGroup->GetsID());
 					LOG_INFO(logger, buffer);
 				}
             }

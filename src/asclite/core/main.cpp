@@ -74,6 +74,8 @@ void PrintHelp()
     cout << "                  Force the  memory compression." << endl;
 	cout << "    -memory-limit <max_GB>" << endl;
     cout << "                  Set the maximum memory allocation in GB for the LCM (default: 1.0)." << endl;
+	cout << "    -difficulty-limit <max_GB>" << endl;
+    cout << "                  Set the maximum difficulty memory in GB for the LCM (disabled)." << endl;
 	
     #if defined (__ppc64__) || defined (__x86_64__)
     cout << "                  64 bits compilation: no limit for memory allocation." << endl;
@@ -131,6 +133,8 @@ int main(int argc, char **argv)
 	int arg_width = 27;
     bool arg_bmaxgb = false;
     string arg_maxgb = "1";
+	bool arg_bdifficultygb = false;
+    string arg_difficultygb = "16";
     
     string arg_glmfilename = "";
     string arg_glmoption = "";
@@ -387,6 +391,26 @@ int main(int argc, char **argv)
 			{
 				arg_ok = false;
 				cout << "Max GB missing!" << endl;
+			}
+		}
+		else
+		// Difficulty Limit
+		if(strcmp(argv[arg_index], "-difficulty-limit") == 0)
+		{
+			if(arg_index < argc-1)
+			{
+				if(argv[arg_index+1][0] != '-')
+				{
+					arg_index++;
+                    arg_bdifficultygb = true;
+					arg_difficultygb = string(argv[arg_index]);
+				}
+			}
+			
+			if(!arg_bdifficultygb)
+			{
+				arg_ok = false;
+				cout << "Difficulty GB missing!" << endl;
 			}
 		}
 		else
@@ -670,6 +694,9 @@ int main(int argc, char **argv)
 		Properties::SetProperty("align.adaptivecost", arg_badaptivecost ? "true" : "false");
 		Properties::SetProperty("recording.maxspeakeroverlaping", arg_maxnboverlapingspkr);
         Properties::SetProperty("recording.maxnbofgb", arg_maxgb);
+		
+		Properties::SetProperty("recording.difficultygb", arg_bdifficultygb ? "true" : "false");
+		Properties::SetProperty("recording.nbrdifficultygb", arg_difficultygb);
 		
         if(vecHyps.begin()->fileformat == "rttm")
             Properties::SetProperty("recording.maxoverlapinghypothesis", arg_maxnboverlapingspkr);
