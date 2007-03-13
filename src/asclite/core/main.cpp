@@ -75,14 +75,7 @@ void PrintHelp()
 	cout << "    -memory-limit <max_GB>" << endl;
     cout << "                  Set the maximum memory allocation in GB for the LCM (default: 1.0)." << endl;
 	cout << "    -difficulty-limit <max_GB>" << endl;
-    cout << "                  Set the maximum difficulty memory in GB for the LCM (disabled)." << endl;
-	
-    #if defined (__ppc64__) || defined (__x86_64__)
-    cout << "                  64 bits compilation: no limit for memory allocation." << endl;
-    #else
-    cout << "                  32 bits compilation: 2 GB limit for memory allocation." << endl;
-    #endif
-	
+    cout << "                  Set the maximum difficulty limit in GB for the LCM (disabled)." << endl;
 	cout << "Output Options:" << endl;
 	cout << "    -O <output_dir>" << endl;
 	cout << "                  Writes all output files into output_dir." << endl;
