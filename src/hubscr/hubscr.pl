@@ -47,10 +47,13 @@ use strict;
 #    - Calls to md-eval
 # Version 0.16 March 12, 2007
 #    - Turned on Pruning for ASCLITE Runs.  
+# Version 0.17 March 13, 2007
+#    - Renamed -M SLM to -K SLM...  (no one ever uses it!)
+#    - Added the dificulty tag for 
 # 
 
 my $Version = "0.16"; 
-my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o numSpkr ] [ -m GB_Max ] [ -f FORMAT ] [ - a ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
+my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o numSpkr ] [ -m GB_Max_Memory[:GB_Max_Difficulty] ] [ -f FORMAT ] [ - a ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
 "Version: $Version\n".
 "Desc: Score a Hub-4E/NE or Hub-5E/NE evaluation using the established\n".
 "      guidelines.  There are a set of language dependent options that this\n".
@@ -69,12 +72,12 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
 "                     rt-stt       -> removes non-lexical items from systems CTM input\n".
 "                     sastt        -> performs SASTT scoring.  System/reference inputs\n".
 "                                     must both be RTTMs. ASCLITE must be used for alignments.\n".
+"      -K SLM_lm  ->  Use the CMU-Cambridge SLM V2.0 binary language model 'LM'\n".
+"                     to perform Weighted-Word Scoring.  May not be used with -w\n".
 "      -l [ arabic | english | german | mandarin | spanish ]\n".
 "                 ->  Set the input language.\n".
 "      -L LDC_Lex ->  Filename of an LDC Lexicon.  The option is required only to\n".
 "                     score a German test.  Previous version for Arabic req'd this option.\n".
-"      -M SLM_lm  ->  Use the CMU-Cambridge SLM V2.0 binary language model 'LM'\n".
-"                     to perform Weighted-Word Scoring.  May not be used with -w\n".
 "      -w WWL     ->  Use the Word-Weight List File to perform Weighted-Word\n".
 "                     scoring.  May not be used with -M\n".
 "      -H         ->  Perform hamza normalization for Arabic data. \n".
@@ -88,8 +91,9 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
 "                     Otherwise the default path is used.\n".
 "      -o numSpkr\n".
 "                 ->  Overlap using 'numSpkr' number of speakers.\n".
-"      -m GB_Max\n".
-"                 ->  Set the maximum memory allocation in GB for the LCM.\n".
+"      -m GB_Max_Memory[:GB_Max_Difficulty]\n".
+"                 ->  'GB_Max_Memory' Set the maximum memory allocation in GB for the LCM.\n".
+"                 ->  'GB_Max_Difficulty' Set the limit of LCM difficulty (expressed in GB of memory).\n".
 "      -a\n".
 "                 ->  Use asclite for the alignment.\n".
 "      -f [ ctm | rttm ]\n".
@@ -133,6 +137,7 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
     my $GLM = "";
     my $LDCLEX = "";
     my $MemoryLimit = 1.0;
+    my $DifficultyLimit = 1.0;
     ### Defaults for SC_stats
     my $EnsembleRoot = "";
     my $EnsembleDesc = "";
@@ -192,7 +197,7 @@ sub ProcessCommandLine
 
 	use Getopt::Std;
 	#&Getopts('l:h:r:vg:L:n:e:RM:w:');
-	getopts('GaHTdvRl:h:r:g:L:n:e:M:w:p:o:m:f:F:u:M:');
+	getopts('GaHTdvRl:h:r:g:L:n:e:K:w:p:o:m:f:F:u:M:');
 
 	if (defined($main::opt_l)) {	$Lang = $main::opt_l; $Lang =~ tr/A-Z/a-z/; }
 	if (defined($main::opt_h)) {	$Hub = $main::opt_h; $Hub =~ tr/A-Z/a-z/; }
@@ -202,11 +207,22 @@ sub ProcessCommandLine
 	if (defined($main::opt_L)) {	$LDCLEX = $main::opt_L; }
 	if (defined($main::opt_n)) {	$EnsembleRoot = $main::opt_n; }
 	if (defined($main::opt_e)) {	$EnsembleDesc = $main::opt_e; }
-	if (defined($main::opt_M)) {	$SLM_LM = $main::opt_M; }
+	if (defined($main::opt_K)) {	$SLM_LM = $main::opt_K; }
 	if (defined($main::opt_o)) {	$OVRLAPSPK = $main::opt_o; }
 	if (defined($main::opt_w)) {	$WWL = $main::opt_w; }
 	if (defined($main::opt_a)) {	$bUseAsclite = 1; $main::opt_a = 1; }
-	if (defined($main::opt_m)) {	$MemoryLimit = $main::opt_m; }
+	if (defined($main::opt_m)) {
+	    if ($main::opt_m =~ /^(\d+|\d*\.\d+|\d+\.):(\d+|\d*\.\d+|\d+\.)$/){
+		$MemoryLimit = $1;
+		$DifficultyLimit = $2;
+	    } elsif ($main::opt_m =~ /^(\d+|\d*\.\d+|\d+\.)$/){
+		$MemoryLimit = $1;
+	    } else {
+		die "Failed to parse -m option value '$main::opt_m'";
+	    }
+	    print "Warning: Difficulty Limit($DifficultyLimit) is less than the MemoryLimit($MemoryLimit).  Did you want to do both?\n"
+		if ($DifficultyLimit < $MemoryLimit);
+	}
 	if (defined($main::opt_f)) {	$hypfileformat = $main::opt_f; }
 	if (defined($main::opt_F)) {	$reffileformat = $main::opt_F; }
 	if (defined($main::opt_u)) {	$UEM = $main::opt_u; }
@@ -612,14 +628,9 @@ sub RunScoring
             $overlapscoring = "-overlap-limit $OVRLAPSPK";
         }
         
-        my $OptionMemoryLimit = "";
-	
-        if($MemoryLimit != 1)
-        {
-            $OptionMemoryLimit = "-memory-limit $MemoryLimit";
-        }
+        my $OptionMemoryLimit = "-memory-limit $MemoryLimit -difficulty-limit $DifficultyLimit";
                 
-        $command = "$ASCLITE -f 6 $spkrOpt $overlapscoring -adaptive-cost -time-prune 300 -word-time-align 300 -memory-compression 256 $OptionMemoryLimit -r $reff $reffileformat -h $hyp_oname $hypfileformat $hyp_iname -F -D -o sgml sum rsum 2> $hyp_oname.aligninfo.csv";
+        $command = "$ASCLITE -f 6 $spkrOpt $overlapscoring -adaptive-cost -time-prune 100 -word-time-align 100 -memory-compression 256 $OptionMemoryLimit -r $reff $reffileformat -h $hyp_oname $hypfileformat $hyp_iname -F -D -o sgml sum rsum 2> $hyp_oname.aligninfo.csv";
 	print "   Exec: $command\n" if ($Vb);
 	$rtn = system($command);
 	die("Error: ASCLITE execution failed\n      Command: $command") if ($rtn != 0);
