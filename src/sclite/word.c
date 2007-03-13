@@ -240,7 +240,7 @@ TEXT *nextColon(TEXT *t){
   int endFound = 0;
   TEXT *nextColon;
   do {
-    nextColon = TEXT_strstr(t+extentPos, WORD_SGML_SUB_WORD_SEP_STR);
+    nextColon = TEXT_strstr(t+extentPos, (TEXT *)WORD_SGML_SUB_WORD_SEP_STR);
     if (nextColon == (TEXT *)NULL){
        endFound = 1;
        extentPos = TEXT_strlen(t);

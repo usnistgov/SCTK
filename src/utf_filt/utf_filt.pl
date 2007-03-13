@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 ########################################################
-# File: utf_filt_v53.pl
+# File: utf_filt_v55.pl
 #
 # History:
 #
@@ -134,6 +134,16 @@
 #  Version 53
 #         Added code to warn IF there are non-posessive contractions that are not annotated.
 #
+#  Version 54
+#         Added code to not translate non-lexemes to %hesitation.
+#         Added code to not translate non-lexemes to %hesitation.
+#
+#  Version 55          
+#         Don't lowercase the speaker and channel of a turn
+#
+#  Version 56          
+#         Added support for onsgmls
+#
 ########################################################
 
 
@@ -242,6 +252,9 @@ $USAGE = "\n\n$0 [-wkph] -f <format> -e <dtd_file> -i <input file> -o <output fi
 "   -p flag to process overlap instead of ignoring it\n".
 "   -w flag to use word time tag instead of average word duration for CTM format\n".
 "   -t do not translate contractions to their expanded form\n".
+"   -n do not delete acousticnoise and nonspeech events.  Do not translate nonlexemes\n".
+"      to the %hesitation symbol\n".
+"   -s 'prog' set the SGML parsing program name to 'prog'".
 "\n";
 
 @TextAttribs = ('ACOUSTICNOISE', 'NONSPEECH', 'ACRONYM', 'NONLEXEME', 'MISPRONOUNCED', 'MISSPELLING', 'PNAME', 'IDIOSYNCRATIC');
@@ -303,6 +316,10 @@ $inter_segment_gap_enabled = 1; #enable/disable marking inter-segment gaps
 $DBoff = "";
 $keep_exclude_text = 0;
 $translateContractions = 1;
+$translateNonlexemes = 1;
+$deleteNonspeech = 1;
+$deleteAcousticnoise = 1;
+$NSGMLS = "nsgmls";
 
 ########################################################
 # include extended perl libraries
@@ -319,7 +336,7 @@ use SGMLS;
 #require "getopts.pl";
 #&Getopts('pwkchd:f:e:i:o:');
 use Getopt::Long;
-my $ret = GetOptions ("p", "w", "k", "c", "h", "d:i", "f=s", "e=s", "i=s", "o=s", "t");
+my $ret = GetOptions ("p", "w", "k", "c", "h", "d:i", "f=s", "e=s", "i=s", "o=s", "t", "n", "s=s");
 
 $use_wtag = $opt_w if (defined($opt_w));
 $process_overlap = $opt_p if (defined($opt_p));
@@ -328,6 +345,11 @@ $output = $opt_o if (defined($opt_o));
 $debug_level = $opt_d if (defined($opt_d));
 $focus_condition_enabled = (! $opt_c) if (defined($opt_c));
 $translateContractions = (!$opt_t) if (defined($opt_t));
+if (defined($opt_n)){
+    $translateNonlexemes = (!$opt_n);
+    $deleteNonspeech = (!$opt_n);
+    $deleteAcousticnoise = (!$opt_n);
+}
 if (defined($opt_k)){
     $keep_exclude_text = $opt_k;
     die "${USAGE}Error: option -k only valid with option -p"
@@ -346,6 +368,7 @@ if (defined($opt_i)){
     die "Error: Input file '$opt_i' is not a readable file" if (! -r $opt_i);
     $input = $opt_i;
 }
+$NSGMLS = $opt_s if (defined($opt_s));
 
 # check command line arguments
 #
@@ -361,7 +384,7 @@ die ("ERROR: use -w only with IECTM format\n")
 
 # open files
 #
-open(IN, "cat $dtd_file $input | nsgmls |") or 
+open(IN, "cat $dtd_file $input | $NSGMLS |") or 
     die("Unable to open nsgmls parsed data $input");
 binmode IN;
 
@@ -823,7 +846,6 @@ sub proc_beg_turn{
     foreach $key (keys %section_attr) {
 	$turn_elems{$key} = $section_attr{$key};
     }
-
     foreach $key($data->attribute_names){
 	$turn_attr{$key} = ($data->attribute($key)->is_implied) ? "" :
 	    lc($data->attribute($key)->value);
@@ -915,18 +937,32 @@ sub proc_beg_separator{
 	    print "$key=".$attr_stack{$key} . " ";
 	}
 
-	# do not keep nonspeech or acousticnoise word
+	# do not keep nonspeech 
 	#
-	if ($key eq "NONSPEECH" || $key eq "ACOUSTICNOISE") {
-	    $kept_text = 0;
+	if ($key eq "NONSPEECH") {	    
+	    if ($deleteNonspeech){
+		$kept_text = 0;		
+	    } else {
+		$text = "{".$text;
+	    }
+	} elsif ($key eq "ACOUSTICNOISE") {	    
+	    if ($deleteAcousticnoise){
+		$kept_text = 0;		
+	    } else {
+		$text = "\[".$text;
+	    }
 	}
 
 	# output (%hesitation) for nonlexeme
 	#
 	elsif ($key eq "NONLEXEME") {
-	    ### This perserves any named entity tag appended to a hesitation
-	    $text =~ s/^[^<>]+/(%hesitation)/;
-	    $text =~ s/[^<>\(\)]+$/(%hesitation)/;
+	    if ($translateNonlexemes){
+		### This perserves any named entity tag appended to a hesitation
+		$text =~ s/^[^<>]+/(%hesitation)/;
+		$text =~ s/[^<>\(\)]+$/(%hesitation)/;
+	    } else {
+		$text = "%".$text;
+	    }
 	}
 
 	# change contraction to full word

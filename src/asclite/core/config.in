@@ -1,0 +1,28 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(main.cpp)
+
+dnl Checks for programs.
+AC_PROG_CXX
+dnl AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+
+dnl Checks for libraries.
+dnl Replace `main' with a function in -lm:
+AC_CHECK_LIB(m, main)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(unistd.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_TYPE_SIZE_T
+
+dnl Checks for library functions.
+dnl AC_FUNC_VPRINTF
+dnl AC_CHECK_FUNCS(strdup)
+dnl AC_CHECK_FUNC(readpipe)
+
+AC_PATH_PROGS(INSTALL, install cp copy)
+
+AC_OUTPUT(Makefile)

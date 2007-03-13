@@ -119,3 +119,4 @@
 ;; Test cases
  " OK " => " OKAY "
 SHE'S => SHE IS
+[S.'S] => [{S.'S / S. IS / S. HAS}] / [ ] __ [ ]

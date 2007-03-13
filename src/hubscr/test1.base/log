@@ -1,7 +1,7 @@
 lvc_hyp.ctm
 lvc_hyp2.ctm
 Filtering english file 'lvc_refe.stm', stm format
-   Exec: cat lvc_refe.stm | cat | csrfilt.sh -i stm -dh example.glm > lvc_refe.stm.filt
+   Exec: ../hubscr.pl sortSTM <  lvc_refe.stm | cat | csrfilt.sh -i stm -dh example.glm > lvc_refe.stm.filt
 Filtering english file 'lvc_hyp.ctm', ctm format
    Exec: ../hubscr.pl sortCTM <  lvc_hyp.ctm | cat | csrfilt.sh -i ctm -dh example.glm > lvc_hyp.ctm.filt
 Scoring english Hyp 'lvc_hyp.ctm.filt' against ref 'lvc_refe.stm.filt'

@@ -1,0 +1,36 @@
+README
+Program: mergectm2rttm
+Author: Jerome Ajot <jerome.ajot@nist.gov>
+Date: 2006-02-07
+
+1. General information
+2. Usage
+3. Results
+
+1. General information
+mergectm2rttm is a script which merged a ctm file and a rttm file to produce
+a rttm file. It takes in input a ctm file containing the lexemes information
+and a rttm file containing the speakers and segments information. It associa-
+tes the lexemes and speakers present in the ctm according to the segments
+definitions from the rttm file (by segment definition, it means time intervals,
+filename and channel).
+
+2. Usage
+The script can be run using the following commandline:
+perl mergectm2rttm.pl [-p pathtools] -r rttmfile -c ctmfile > outputfile
+
+As the script requires two other scripts: rttmSmooth.pl and rttmSort.pl, the
+path of the SCTK tools directory can be specified on the commandline using
+the '-p' option.
+
+The script checks if the two scripts are present and run the merging process.
+To avoid any complication, there are 3 options to run the script:
+(a) Run the script into its directory without the -p option,
+(b) Run the script from any location by specifying the path with -p and the 
+path of the SCTK tools directory (.../stck/src/),
+(c) Edit the mergectm2rttm.pl line at line 184 and 185 to give the locations
+of the two scripts.
+
+3. Results
+The resulting rttm file is displayed in the standard output (STDOUT), by doing
+the redirection '>', it can be stored into a file.

@@ -1,5 +1,5 @@
-SCTK Basic Installation for Version 2.0 Beta 2
-==============================================
+SCTK Basic Installation for Version 2.2.0
+=========================================
 
 To install compile and install sctk, from the main directory
 type the commands:

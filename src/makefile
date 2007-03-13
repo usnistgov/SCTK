@@ -6,9 +6,10 @@ MAKE=make
 ### Set the installation prefix directory to the default.  (If
 ### relative paths are used, the are relative to two directories below
 ### 'src'.)
-PREFIX=../..
+PREFIX=`cd ../..; pwd`
 
 all clean distclean install:
+	(cd asclite; $(MAKE) $@)
 	(cd sclite; $(MAKE) $@)
 	(cd rfilter1; $(MAKE) $@)
 	(cd csrfilt; $(MAKE) $@)
@@ -19,8 +20,16 @@ all clean distclean install:
 	(cd def_art; $(MAKE) $@)
 	(cd hubscr; $(MAKE) $@)
 	(cd utf_filt; $(MAKE) $@)
+	(cd rttmSort; $(MAKE) $@)
+	(cd rttmSmooth; $(MAKE) $@)
+	(cd spkr2sad; $(MAKE) $@)
+	(cd mergectm2rttm; $(MAKE) $@)
+	(cd align2html; $(MAKE) $@)
+	(cd md-eval; $(MAKE) $@)
+	(cd stm2rttm; $(MAKE) $@)
 
 config:
+	(cd asclite; $(MAKE) $@)
 	(cd sclite; sh config.sh -prefix=${PREFIX})
 	(cd rfilter1; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
 	(cd csrfilt; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
@@ -30,9 +39,17 @@ config:
 	(cd acomp; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 	(cd def_art; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 	(cd hubscr; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
-	(cd utf_filt; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd utf_filt; sh config.sh -prefix=${PREFIX})
+	(cd rttmSort; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd rttmSmooth; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd spkr2sad; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd mergectm2rttm; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd align2html; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd md-eval; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd stm2rttm; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 
 checkFast:
+	(cd asclite; $(MAKE) check)
 	(cd rfilter1; $(MAKE) check)
 	(cd csrfilt; $(MAKE) check)
 	(cd chfilt; $(MAKE) check)
@@ -42,6 +59,10 @@ checkFast:
 	(cd def_art; $(MAKE) check)
 	(cd hubscr; $(MAKE) check)
 	(cd utf_filt; $(MAKE) check)
+	(cd rttmSort; $(MAKE) check)
+	(cd mergectm2rttm; $(MAKE) check)
+	(cd align2html; $(MAKE) check)
+	(cd md-eval; $(MAKE) check)
 
 check: all checkFast
 	(cd sclite; $(MAKE) $@)

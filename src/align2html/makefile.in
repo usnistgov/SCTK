@@ -1,0 +1,25 @@
+# **********************************************************
+# Makefile for rfilter1 Directory
+# **********************************************************
+SHELL = /bin/sh
+PREFIX=
+bindir = $(PREFIX)/bin
+T=../test_suite
+
+all: align2html.pl
+
+align2html.pl: align2html-main.pl buildInstallVersion.pl
+	perl buildInstallVersion.pl > align2html.pl
+	chmod +x align2html.pl
+
+check: all
+	@echo "No Tests for align2html.pl"
+
+install: all
+	perl buildInstallVersion.pl > $(bindir)/align2html.pl
+	chmod +x $(bindir)/align2html.pl
+
+clean:
+
+distclean: clean
+	rm -r *~ makefile

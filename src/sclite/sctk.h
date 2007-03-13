@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include <sys/time.h>
+#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,11 +40,11 @@ extern "C" {
 #else
 /* rsprintf.c */ char *rsprintf PROTO((va_alist));
 #endif
-#define pct(num,dem)      (((dem)==0) ? 0 : (float)(num)/(float)(dem) * 100.0)
 #define F_ROUND(_n,_p)    (((float)((int)((_n) * pow(10.0,(float)(_p)) + ((_n>0.0)?0.5:-0.5)))) / pow(10.0,(float)(_p)))
 #define F_CEIL(_n,_p)    ( ((double)ceil((double)((_n) * pow(10.0,(double)(_p))))) / pow(10.0,(double)(_p)))
-#define pct(num,dem)    (((dem)==0) ? 0 : (float)(num)/(float)(dem) * 100.0)
+#define pct(num,dem)    (((dem)==0) ? 0 : (double)(num)/(double)(dem) * 100.0)
 #define form_feed(_f)     fprintf(_f,"");
+
 #define TRUE		1
 #define FALSE		0
 

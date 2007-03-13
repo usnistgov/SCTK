@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 #  File:  csrfilt.sh
-#  Date:  Nov 25, 1995
+#  Date:  May 3, 2005
 #  Usage: csrfilt.sh global-map-file [ utterance-map-file ] < infile > outfile
 #         Filter the input for stdin, and write the output to stdout
 #
@@ -59,8 +59,19 @@
 #       JGF Added rttm input type
 #  Version 1.11
 #       JGF Removed the use of EXE_DIR.  All utilities are expected in the path
+#  Version 1.12
+#       JGF Rewrote the delete hypen processor
+#  Version 1.13
+#       JGF Fixed hyphen processor, fragment markers were deleted!
+#  Version 1.14 Apr 21, 2006
+#       JA  Update the rttm filtering to accept the asclite specifications
+#       JGF Fix the -dh option for rttm
+#  Version 1.15 Feb 9, 2007
+#       JGF Added the data purpose field so that the filtering can be contolled 
+#           based on if the texts are references ot hyps
+#
 
-version="1.11"
+version="1.15"
 
 trap "/bin/rm -f /tmp/hs_filt.*.$$ ; exit 1" 1 2 3 15
 
@@ -70,7 +81,7 @@ DeleteHyphens=false
 UpCase=true;
 ExtASCII=false;
 
-Usage="Usage: csrfilt.sh [ -dh -s -e ] -i [ stm | ctm ] global-map-file [ utterance-map-file ] < infile > outfile
+Usage="Usage: csrfilt.sh [ -dh -s -e ] -i [ stm | ctm | trn | txt | rttm ] global-map-file [ utterance-map-file ] < infile > outfile
 Version: $version
 Desc: csrfilt.sh applys a set of text transformation rules contained in 
       'global-map-file' and the optional 'utterance-map-file' to the input
@@ -90,10 +101,13 @@ Desc: csrfilt.sh applys a set of text transformation rules contained in
     -i txt  ->  sets the input type to txt, no formatting, all words are fair game.
     -i rttm ->  sets the input type to rttm.
     -s      ->  do not up-case everything
-    -e      ->  textual data is extended ASCII"
+    -e      ->  textual data is extended ASCII
+    -t [ref|hyp] -> sets the input type either reference data or hyp data so that
+                the rule-sets within the GLM can be activated"
 
 
 inputtype="trn"
+dataPurpose=""
 while test ! "`echo $1| egrep '^-'`" = "" ; do
     if test "$1" = "-dh" ; then
 	DeleteHyphens=true
@@ -108,7 +122,17 @@ while test ! "`echo $1| egrep '^-'`" = "" ; do
 	else
 	    echo "$Usage"
 	    echo "$2"
-	    echo "Error: -i option requires either \"ctm\", \"stm\", \"txt\" or \"trn\" not $2"
+	    echo "Error: -i option requires either \"ctm\", \"stm\", \"txt\", \"trn\", or \"rttm\" not $2"
+	    exit 1
+	fi
+    elif test "$1" = "-t" ; then
+	if test "$2" = "ref" -o "$2" = "hyp" ; then
+	    dataPurpose=$2
+	    shift
+	else
+	    echo "$Usage"
+	    echo "$2"
+	    echo "Error: -i option requires either \"ctm\", \"stm\", \"txt\", \"trn\", or \"rttm\" not $2"
 	    exit 1
 	fi
     else
@@ -164,7 +188,9 @@ cat $glob_map | perl -e '
 	while (<>){
 		if ($_ =~ /^;;\s+INPUT_DEPENDENT_APPLICATION\s*=\s*\"([^\"]*)\"/){
 			($exp = $1) =~ tr/A-Z/a-z/;
-			if ($type =~ /$exp/){ $applies = 1; } else { $applies = 0; }
+			$applies = 0;
+			if ($type =~ /$exp/){ $applies = 1; }
+			if ($dataPurpose =~ /$exp/){ $applies = 1; }
 		}
 		if ($applies == 1){	print;		}
 	} ' >  /tmp/hs_filt.glm.$$
@@ -244,7 +270,54 @@ fi
 
 filt_com="cat /tmp/hs_filt.out.$$ | perl -pe 's/\(/( /g; s/\)/ )/g;' | rfilter1 /tmp/hs_filt.glm.$$ | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g;' "
 if test "$DeleteHyphens" = "true" ; then
-    filt_com="$filt_com | perl -pe 's/([^ \(0-9])-([^ \)0-9])/\$1 \$2/g; s/([^\(\) 0-9])-([^\(\) 0-9])/\$1 \$2/g'"
+cat > /tmp/hs_filt.dh.$$ << EOF
+use strict;
+my \$type = \$ARGV[0];
+my @a;
+
+sub findNextNum
+{
+    my (\$start, \$aa) = @_;
+    
+    for (my \$x=\$start; \$x<scalar(@\$aa); \$x++)
+    {
+        return \$x-1 if (\$aa->[\$x] =~ /^[0-9\.]+\$/);
+    }
+    
+    return \$#{ @\$aa };
+}
+sub dh{
+    my (\$start, \$end) = @_;
+#    print "(\$start, \$end)\n";    
+    for (my \$x=\$start; \$x<=\$end; \$x++){ \$a[\$x] =~ s/([^\(])-(?=[^\)])/\$1 /g; }   
+}
+while (<STDIN>){
+    if (\$_ =~ /;;/ || \$_ =~ /^\$/){
+	print;
+    } else {
+	chomp;    
+	@a= split(/(\s+)/);
+	my \$pad = (\$a[0] eq "") ? 2 : 0;    
+#	print "data pad \$pad '",join("|",@a)."'\n";
+	if (\$type eq "ctm") {     dh(8+\$pad,findNextNum(8+\$pad,\\@a)); }
+	elsif (\$type eq "stm") {  dh(10 + \$pad + (\$a[10+\$pad] =~ /<.*>/ ? 2 : 0),\$#a); }
+	elsif (\$type eq "rttm") { dh(10 + \$pad, 10 + \$pad) if ( (\$_ =~ /^\s*LEXEME/i) && (\$_ =~ /\s+lex\s+/i) ); }
+	elsif (\$type eq "trn") {  dh(0, \$#a - 1 - ((\$a[\$#a] =~ /^\s+\$/) ? 1 : 0)); }
+	elsif (\$type eq "txt") {  dh(0, \$#a); }
+	else {
+	    die "Unknown format \$type";
+	}
+#    if (\$type eq "trn") { dh(0, \$#a -1); }
+	print join("",@a)."\n";
+    }
+}
+EOF
+    if test "$inputtype" = "stm"  -o "$inputtype" = "trn" ; then 
+	filt_com="$filt_com | perl -w /tmp/hs_filt.dh.$$ txt "
+    else
+	filt_com="$filt_com | perl -w /tmp/hs_filt.dh.$$ $inputtype "
+    fi
+#    cp /tmp/hs_filt.dh.$$ dl.x.pl
 fi
 
 if test "$inputtype" = "ctm" ; then
@@ -287,30 +360,67 @@ cat > /tmp/hs_filt.ctm.$$ << EOF
     }
   }
 EOF
-    filt_com="$filt_com |perl /tmp/hs_filt.ctm.$$"
+    filt_com="$filt_com | perl /tmp/hs_filt.ctm.$$"
 elif test "$inputtype" = "rttm" ; then
-cat > /tmp/hs_filt.ctm.$$ << EOF
-while (<>){
-    if (\$_ =~ /^;;/) {print}
-    else {
+
+cat > /tmp/hs_filt.rttm.$$ << EOF
+while (<>)
+{
+    if (\$_ =~ /^;;/)
+    {
+        print
+    }
+    else
+    {
         s/^\s+//;
         s/([{}])/ \1 /g;
+                
         @l = split;
-        if (\$#l == 8) {print}
-        else {
-                (\$start, \$dur) = splice(@l, 3, 2);
-                @words = splice(@l, 3, @l-6);
-                \$i=0;
-                foreach \$word(@words){
-                    print "\$l[0] \$l[1] \$l[2] ".(\$start + (\$dur/@words*\$i))." ".(\$dur/@words)." \$word \$l[3] \$l[4] \$l[5]\n";
-                    \$i++;
+        
+        #print "\$#l \$l[5] \$l[\$#l-2]\n";
+            
+        if (\$#l == 8)
+        {
+            print
+        }
+        else 
+        {
+            if( (\$l[\$#l-2] ne "LEX") && (\$l[\$#l-2] ne "lex") )
+            {
+                print
+            }
+            else
+            {
+                \$start = \$l[3];
+                \$dur = \$l[4];
+                
+                if(\$dur eq "<NA>")
+                {
+                    \$dur = 0;
                 }
+                
+                if(\$start eq "<NA>")
+                {
+                    \$start = 0;
+                }
+                
+                \$newword = \$l[5];
+                
+                #for (\$j=7; \$j<=\$#l-2; \$j++)
+                for (\$j=6; \$j<=\$#l-3; \$j++)
+                {
+                    \$newword .= "_" . \$l[\$j];
+                }
+                
+                #print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-1] \$l[\$#l]\n";
+                print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-2] \$l[\$#l-1] \$l[\$#l]\n";
+            }
         }
     }
 }
 EOF
-    chmod +x /tmp/hs_filt.ctm.$$
-    filt_com="$filt_com | perl /tmp/hs_filt.ctm.$$"
+    chmod +x /tmp/hs_filt.rttm.$$
+    filt_com="$filt_com | perl /tmp/hs_filt.rttm.$$"
 fi
 
 if test "$inputtype" = "ctm" ; then

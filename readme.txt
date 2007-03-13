@@ -1,6 +1,8 @@
 File:  README
-Date:  October 22, 2003
-SCTK Version: 2.0 Beta 5
+Date:  March 12, 2007
+SCTK Version: 2.2.0
+
+asclite memory usage update.
 
 This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains
 the source code, documentation and example data for the following
@@ -9,6 +11,7 @@ programs:
 	sclite   V2.3 - "Score Lite",
 	sc_stats V1.2 - sclite's Statistical Significance Comparison tool
 	rover    V0.1 - Recognition Output Voting Error Reduction
+	asclite  V1.4 - Multidimensional alignment replacement for sclite
 
 The distribution was initially written in ANSI C on a SUN Workstation.  To
 date, The code has been successfully compiled and tested on the
@@ -25,14 +28,18 @@ SGI IRIX 4.0.3H using gcc
 HP 735 using gcc                              
 HP using "cc"                                 1.0 1.1 1.2
 DEC Alpha running DEC OSF/1 V2.0 "cc -std1"   
-DEC Alpha running DEC OSF/1 V2.0 "gcc"            1.1
+DEC Alpha running DEC OSF/1 V2.0 "gcc"        1.1
 IBM Powerstation running AIX V3.2 using cc    1.0
 IBM Powerstation running AIX V3.2 using gcc*  1.0
 Linux Version 2.0.33                          1.0 1.1 1.2
-Cygwin                                                    1.3 2.0B2
-Linux Version 2.2.17                                      1.3 2.0B2
-Linux Version 2.4.20-20-9 **                              1.3 2.0B2
-Mac Darwin 7.4.0                                          1.3
+Cygwin                                        1.3 2.0B2
+Linux Version 2.2.17                          1.3 2.0B2
+Linux Version 2.4.20-20-9 **                  1.3 2.0B2 2.1.7
+Linux Version 2.6.19.fc5                      2.2.0
+Linux Version 2.6.9.EL                        2.2.0
+Mac Darwin 7.4.0                              1.3
+Mac Darwin 8.5.0 (g++ v4.0.1)                 2.1.2 2.1.3 2.1.4 2.1.5 2.1.6
+					      2.1.7 2.2.0
 
 	* compiled with warning messages, but successful self test
 	** compiled and ran, but test6, which uses GNU's diff for
@@ -53,7 +60,13 @@ word-weighted scoring.
 
 
 			  Optional Software:
-	
+
+To use the interactive installation for sclite, edit the file
+src/sclite/config.sh at line 36, set the user_interaction=1 it will
+ask you during the configuration (make config) if you want to use
+GNU diff instead of sclite and CMU-Cambridge SLM for sclite.
+Those choices are not recommended and not used anymore.
+
 Sclite has the ability to use GNU's "diff" utility as an alternate 
 string alignment method.  The installer has the choice whether or not
 to include this ability in the compiled version.  
@@ -70,3 +83,9 @@ called one of these.
 Special Note to SGI owners: When installing GNU's "diff" make sure to
 call it "gnudiff" or "diffgnu", if you use "gdiff" the executable name
 may be overshadowed by a pre-existing executable.
+
+utf_filt is using SGML external software and modules like SGMLS perl 
+module and nsgmls program which have be updated and continued: OpenSP
+(http://sourceforge.net/project/showfiles.php?group_id=2115&package_id=2869).
+The version v1.5.2 of OpenSP have been tested and working with the 
+current version of utf_filt.

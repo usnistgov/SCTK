@@ -33,6 +33,7 @@ target=NONE
 verbose=
 x_includes=NONE
 x_libraries=NONE
+user_interaction=0
 
 # Initialize some other variables.
 subdirs=
@@ -899,32 +900,35 @@ fi
 test -n "$INSTALL" && break
 done
 
-
-echo ""
-echo "!!!!!!!!!!!!!   USER INFORMATION NEEDED   !!!!!!!!!!!!!"
-echo ""
-echo "Sclite has the ability to use GNU's 'diff' program as means to"
-echo "align reference and hypothesis strings.  Currently, no evaluations"
-echo "have used GNU-DIFF for alignments, so it may be un-neccessary for"
-echo "you to enable its use.  Also, some versions of GNU's diff, V2.8.1,"
-echo "will not work with GB encoded Mandarin characters and test6 of the"
-echo "test suite will fail."
-echo ""
-echo "    Do you want to enable alignments via GNU's 'diff'.  yes or no"
-echo ""
-ans=""
-while test "$ans" = "" ; do 
-	read ans
-	ans=`echo $ans | tr 'A-Z' 'a-z'`
-	if test "$ans" = "no" ; then
-		echo "Disabling GNU-DIFF alignments"
-	elif test "$ans" = "yes" ; then
-		echo "Enabling GNU-DIFF alignments"
-	else
-		echo "Error: You must respond either yes or no"
-		ans=""
-	fi
-done
+if test "$user_interaction" = "1" ; then
+	echo ""
+	echo "!!!!!!!!!!!!!   USER INFORMATION NEEDED   !!!!!!!!!!!!!"
+	echo ""
+	echo "Sclite has the ability to use GNU's 'diff' program as means to"
+	echo "align reference and hypothesis strings.  Currently, no evaluations"
+	echo "have used GNU-DIFF for alignments, so it may be un-neccessary for"
+	echo "you to enable its use.  Also, some versions of GNU's diff, V2.8.1,"
+	echo "will not work with GB encoded Mandarin characters and test6 of the"
+	echo "test suite will fail."
+	echo ""
+	echo "    Do you want to enable alignments via GNU's 'diff'.  yes or no"
+	echo ""
+	ans=""
+	while test "$ans" = "" ; do 
+		read ans
+		ans=`echo $ans | tr 'A-Z' 'a-z'`
+		if test "$ans" = "no" ; then
+			echo "Disabling GNU-DIFF alignments"
+		elif test "$ans" = "yes" ; then
+			echo "Enabling GNU-DIFF alignments"
+		else
+			echo "Error: You must respond either yes or no"
+			ans=""
+		fi
+	done
+else
+	ans="no"
+fi
 
 CFLAGS_BEFORE_DIFF=$CFLAGS
 if test "$ans" = "yes" ; then
@@ -1022,19 +1026,24 @@ else
   DIFF=""
 fi
 
-echo ""
-echo "!!!!!!!!!!!!!   USER INFORMATION NEEDED   !!!!!!!!!!!!!"
-echo ""
-echo "In support of the LVCSR/HUB-5 evaluations, a newly defined DP"
-echo "alignment cost function has been incorporated into SCTK.  The cost"
-echo "function is defined to be a function of language model probabilities."
-echo "In order to compute the LM probabilities, the CMU-Cambridge SLM"
-echo "Toolkit - V2 has been included in SCTK.  The compilation including"
-echo "the SLM toolkit is optionally, depending on your needs."
-echo ""
-echo "    Do you want to compile in the CMU-Cambridge SLM toolkit?.  yes or no"
-echo ""
-ans=""
+if test "$user_interaction" = "0" ; then
+	ans="no"
+else
+	echo ""
+	echo "!!!!!!!!!!!!!   USER INFORMATION NEEDED   !!!!!!!!!!!!!"
+	echo ""
+	echo "In support of the LVCSR/HUB-5 evaluations, a newly defined DP"
+	echo "alignment cost function has been incorporated into SCTK.  The cost"
+	echo "function is defined to be a function of language model probabilities."
+	echo "In order to compute the LM probabilities, the CMU-Cambridge SLM"
+	echo "Toolkit - V2 has been included in SCTK.  The compilation including"
+	echo "the SLM toolkit is optionally, depending on your needs."
+	echo ""
+	echo "    Do you want to compile in the CMU-Cambridge SLM toolkit?.  yes or no"
+	echo ""
+	ans=""
+fi
+
 SLM_DEFS=""
 while test "$ans" = "" ; do 
 	read ans

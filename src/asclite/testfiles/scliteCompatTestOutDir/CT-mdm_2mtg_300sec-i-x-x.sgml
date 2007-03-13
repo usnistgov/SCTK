@@ -1,0 +1,1237 @@
+<SYSTEM title="CT-mdm_2mtg_300sec-i-x-x" ref_fname="mdm_2mtg_300sec.stm.filt" hyp_fname="mdm_2mtg_300sec.ctm.filt" creation_date="" format="2.4" frag_corr="FALSE" opt_del="FALSE" weight_ali="FALSE" weight_filename="">
+<LABEL id="female" title="Female" desc="">
+</LABEL>
+<LABEL id="male" title="Male" desc="">
+</LABEL>
+<LABEL id="O" title="Overall" desc="Overall">
+</LABEL>
+<LABEL id="unk" title="Unknown" desc="">
+</LABEL>
+<LABEL id="C1" title="CMU_20030109-1530" desc="">
+</LABEL>
+<LABEL id="C2" title="CMU_20030109-1600" desc="">
+</LABEL>
+<CATEGORY id="0" title="" desc="">
+</CATEGORY>
+<CATEGORY id="1" title="Speaker Sex" desc="">
+</CATEGORY>
+<CATEGORY id="2" title="Meeting IDs" desc="">
+</CATEGORY>
+<SPEAKER id="nwxrpl">
+<PATH id="(nwxrpl-000)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="0" R_T1="33.800" R_T2="36.000" word_aux="h_t1+t2">
+I,,"i",33.900+34.100:I,,"any",34.370+34.580:I,,"keys",34.580+35.000:I,,"for",35.000+35.180:I,,"each",35.180+35.370:I,,"got",35.370+35.570:I,,"that",35.700+35.910
+</PATH>
+<PATH id="(nwxrpl-001)" word_cnt="5" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="10" R_T1="56.200" R_T2="59.000" word_aux="h_t1+t2">
+I,,"antifreeze",56.690+57.390:I,,"and",57.770+57.970:I,,"everything",57.970+58.330:I,,"gets",58.420+58.760:I,,"like",58.760+58.980
+</PATH>
+<PATH id="(nwxrpl-002)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="37" R_T1="109.225" R_T2="111.450" word_aux="h_t1+t2">
+D,"disagreement",,
+</PATH>
+<PATH id="(nwxrpl-003)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="52" R_T1="138.900" R_T2="139.300" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(nwxrpl-004)" word_cnt="2" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="77" R_T1="190.550" R_T2="192.750" word_aux="h_t1+t2">
+D,"screw",,:D,"cost",,
+</PATH>
+<PATH id="(nwxrpl-005)" word_cnt="6" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="105" R_T1="237.850" R_T2="239.975" word_aux="h_t1+t2">
+D,"was",,:S,"not","it's",238.220+238.440:S,"there","all",238.440+238.650:S,"twelve","the",238.650+238.710:C,"original","original",238.710+239.150:C,"members","members",239.280+239.700
+</PATH>
+<PATH id="(nwxrpl-006)" word_cnt="27" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="116" R_T1="254.975" R_T2="260.525" word_aux="h_t1+t2">
+C,"but","but",255.190+255.330:D,"if",,:S,"they","i",255.330+255.360:S,"go","think",255.360+255.510:S,"with","it",255.510+255.570:S,"this","would",255.570+255.680:S,"flag","it's",255.680+255.850:S,"that","my",255.850+256.160:S,"has","head",256.290+256.530:S,"everybody's","everybody",256.700+257.050:S,"flag","on",257.130+257.250:C,"what","what",257.350+257.520:C,"happens","happens",257.520+257.750:C,"when","when",257.750+257.840:C,"they","they",257.840+257.920:S,"add","had",257.920+258.100:C,"more","more",258.150+258.380:D,"countries",,:D,"do",,:D,"they",,:D,"have",,:D,"to",,:D,"go",,:D,"back",,:D,"and",,:D,"revise",,:D,"it",,
+</PATH>
+<PATH id="(nwxrpl-007)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="120" R_T1="260.625" R_T2="264.025" word_aux="h_t1+t2">
+D,"add",,:S,"even","that",263.081+263.311:S,"more","would",263.311+263.451:S,"countries","like",263.531+263.791:C,"to","to",263.791+263.941:D,"it",,:D,"make",,:D,"it",,:D,"even",,:D,"more",,:D,"squished",,
+</PATH>
+<PATH id="(nwxrpl-008)" word_cnt="6" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="125" R_T1="271.825" R_T2="273.700" word_aux="h_t1+t2">
+D,"that",,:D,"is",,:D,"not",,:D,"part",,:S,"of","the",273.441+273.521:S,"europe","care",273.521+273.711
+</PATH>
+<PATH id="(nwxrpl-009)" word_cnt="5" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="130" R_T1="275.300" R_T2="278.075" word_aux="h_t1+t2">
+D,"oh",,:D,"that",,:S,"(%hesitation)","but",277.591+277.721:S,"yeah","they",277.721+277.841:S,"istanbul","still",277.841+278.051
+</PATH>
+<PATH id="(nwxrpl-010)" word_cnt="2" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="133" R_T1="279.575" R_T2="280.850" word_aux="h_t1+t2">
+D,"o.",,:D,"k.",,
+</PATH>
+<PATH id="(nwxrpl-011)" word_cnt="15" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="151" R_T1="613.625" R_T2="618.525" word_aux="h_t1+t2">
+D,"yeah",,:D,"but",,:D,"if",,:D,"you",,:D,"want",,:D,"that",,:D,"nice",,:D,"of",,:D,"experience",,:D,"just",,:D,"get",,:D,"your",,:D,"own",,:D,"private",,:D,"jet",,
+</PATH>
+<PATH id="(nwxrpl-012)" word_cnt="14" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="153" R_T1="619.075" R_T2="622.325" word_aux="h_t1+t2">
+D,"well",,:D,"if",,:D,"you",,:D,"keep",,:D,"do",,:D,"that",,:D,"over",,:D,"and",,:D,"over",,:D,"and",,:D,"over",,:D,"again",,:D,"you",,:D,"know",,
+</PATH>
+<PATH id="(nwxrpl-013)" word_cnt="3" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="156" R_T1="623.850" R_T2="626.500" word_aux="h_t1+t2">
+D,"all",,:D,"right",,:D,"well",,
+</PATH>
+<PATH id="(nwxrpl-014)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="162" R_T1="631.825" R_T2="635.425" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(nwxrpl-015)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="166" R_T1="640.275" R_T2="644.025" word_aux="h_t1+t2">
+D,"well",,:D,"you",,:D,"learn",,:D,"to",,:D,"fly",,:D,"it",,:D,"yourself",,
+</PATH>
+<PATH id="(nwxrpl-016)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="171" R_T1="644.225" R_T2="645.375" word_aux="h_t1+t2">
+D,"hey",,
+</PATH>
+<PATH id="(nwxrpl-017)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="173" R_T1="647.600" R_T2="649.000" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(nwxrpl-018)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="177" R_T1="652.800" R_T2="656.225" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(nwxrpl-019)" word_cnt="5" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="205" R_T1="693.000" R_T2="695.000" word_aux="h_t1+t2">
+D,"so",,:D,"does",,:D,"almost",,:D,"anything",,:D,"worthwhile",,
+</PATH>
+<PATH id="(nwxrpl-020)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="207" R_T1="9.100" R_T2="9.800" word_aux="h_t1+t2">
+I,,"yeah",9.550+9.820
+</PATH>
+<PATH id="(nwxrpl-021)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="216" R_T1="20.175" R_T2="21.350" word_aux="h_t1+t2">
+D,"oh",,:D,"everybody",,:D,"does",,
+</PATH>
+<PATH id="(nwxrpl-022)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="220" R_T1="21.975" R_T2="22.850" word_aux="h_t1+t2">
+D,"volkswagen",,
+</PATH>
+<PATH id="(nwxrpl-023)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="221" R_T1="25.125" R_T2="27.550" word_aux="h_t1+t2">
+I,,"the",25.480+25.750
+</PATH>
+<PATH id="(nwxrpl-024)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="227" R_T1="29.350" R_T2="29.850" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(nwxrpl-025)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="292" R_T1="144.475" R_T2="145.650" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(nwxrpl-026)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="313" R_T1="183.150" R_T2="185.225" word_aux="h_t1+t2">
+D,"because",,:D,"you",,:D,"have",,:D,"to",,:D,"replace",,:D,"the",,:C,"transmission","transmission",184.240+184.660:D,"more",,:D,"often",,
+</PATH>
+<PATH id="(nwxrpl-027)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="317" R_T1="189.100" R_T2="189.925" word_aux="h_t1+t2">
+I,,"be",189.670+189.810:S,"oh","even",189.810+190.040
+</PATH>
+<PATH id="(nwxrpl-028)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="321" R_T1="193.700" R_T2="196.625" word_aux="h_t1+t2">
+D,"yeah",,:D,"i",,:D,"do",,:S,"not","if",195.460+195.560:S,"know","you",195.560+195.790:S,"that","did",195.790+195.960:S,"much","you",195.960+196.190:S,"about","say",196.190+196.320:S,"cars","more",196.410+196.590
+</PATH>
+<PATH id="(nwxrpl-029)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="324" R_T1="198.100" R_T2="198.950" word_aux="h_t1+t2">
+D,"all",,:S,"right","gasoline",198.570+198.920
+</PATH>
+<PATH id="(nwxrpl-030)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="337" R_T1="218.500" R_T2="219.825" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(nwxrpl-031)" word_cnt="11" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="352" R_T1="247.225" R_T2="250.600" word_aux="h_t1+t2">
+C,"well","well",248.140+248.300:C,"mainly","mainly",248.300+248.560:C,"just","just",248.560+248.710:C,"because","because",248.710+248.910:C,"i","i",248.910+249.010:C,"feel","feel",249.010+249.260:C,"that","that",249.260+249.370:D,"they",,:S,"are","there",249.430+249.670:S,"(%hesitation)","to",249.890+249.960:S,"contributing","germany",249.960+250.300
+</PATH>
+<PATH id="(nwxrpl-032)" word_cnt="7" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="355" R_T1="250.850" R_T2="252.775" word_aux="h_t1+t2">
+D,"more",,:D,"pollution",,:D,"than",,:C,"almost","almost",251.720+252.000:C,"every","every",252.000+252.160:C,"other","other",252.160+252.280:C,"vehicle","vehicle",252.280+252.670
+</PATH>
+<PATH id="(nwxrpl-033)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="356" R_T1="252.900" R_T2="253.750" word_aux="h_t1+t2">
+C,"and","and",253.250+253.530:C,"i","i",253.530+253.680
+</PATH>
+<PATH id="(nwxrpl-034)" word_cnt="15" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="358" R_T1="254.125" R_T2="257.025" word_aux="h_t1+t2">
+C,"probably","probably",254.450+254.730:D,"if",,:D,"there",,:D,"were",,:S,"no","afterward",254.730+255.090:S,"s.","i",255.090+255.220:S,"u.","think",255.220+255.400:S,"v.s","he",255.400+255.560:S,"gas","got",255.560+255.780:S,"prices","but",255.780+255.950:S,"would","we",256.160+256.260:S,"be","had",256.430+256.560:S,"ten","to",256.560+256.630:S,"cents","to",256.670+256.760:S,"more","work",256.760+256.970
+</PATH>
+<PATH id="(nwxrpl-035)" word_cnt="27" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="362" R_T1="257.225" R_T2="261.125" word_aux="h_t1+t2">
+C,"i","i",257.480+257.540:C,"mean","mean",257.540+257.660:C,"i","i",257.660+257.750:C,"have","have",257.750+257.870:C,"no","no",257.870+258.020:C,"proof","proof",258.020+258.200:D,"to",,:D,"back",,:D,"this",,:D,"up",,:D,"and",,:C,"i","i",258.820+259.010:I,,"like",259.010+259.160:S,"do","to",259.160+259.240:S,"not","try",259.240+259.410:S,"even","to",259.410+259.480:S,"drive","construct",259.600+260.000:C,"a","a",260.000+260.080:D,"car",,:D,"so",,:D,"i",,:D,"can",,:D,"not",,:D,"really",,:D,"talk",,:S,"about","crock",260.080+260.460:S,"it","pot",260.460+260.650
+</PATH>
+<PATH id="(nwxrpl-036)" word_cnt="7" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="366" R_T1="261.125" R_T2="262.975" word_aux="h_t1+t2">
+D,"i",,:D,"do",,:S,"not","a",261.270+261.450:S,"pay","paper",261.450+261.710:S,"for","cut",261.710+261.930:S,"gas","how",262.720+262.810:S,"so","much",262.810+263.090
+</PATH>
+<PATH id="(nwxrpl-037)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="371" R_T1="269.100" R_T2="273.075" word_aux="h_t1+t2">
+I,,"with",269.950+270.100:S,"meat","it",270.100+270.190:S,"has","well",270.911+271.141:S,"nothing","but",271.341+271.571:S,"to","you",271.851+271.931:S,"do","could",271.931+272.041:S,"with","you",272.041+272.151:S,"s.","talking",272.151+272.401:S,"u.","about",272.401+272.581:S,"v.s","resource",272.581+273.001
+</PATH>
+<PATH id="(nwxrpl-038)" word_cnt="11" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="378" R_T1="279.400" R_T2="284.150" word_aux="h_t1+t2">
+D,"well",,:D,"of",,:D,"course",,:D,"efficiency",,:D,"is",,:S,"man's","man",281.010+281.290:S,"greatest","three",281.290+281.680:S,"achievement","cheap",281.830+282.070:S,"or","for",282.790+282.930:C,"not","not",283.160+283.370:S,"efficient","just",283.610+283.840
+</PATH>
+<PATH id="(nwxrpl-039)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="383" R_T1="285.050" R_T2="287.650" word_aux="h_t1+t2">
+D,"i",,:D,"did",,:D,"not",,:S,"mean","could",286.100+286.370:S,"that","be",286.370+286.760:C,"i","i",287.280+287.440:D,"meant",,:S,"yeah","did",287.440+287.590
+</PATH>
+<PATH id="(nwxrpl-040)" word_cnt="18" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="388" R_T1="292.100" R_T2="295.350" word_aux="h_t1+t2">
+D,"i",,:D,"did",,:D,"not",,:D,"say",,:D,"they",,:D,"are",,:D,"to",,:D,"(pol-)",,:D,"every",,:D,"car",,:D,"is",,:D,"pollution",,:D,"i",,:S,"said","solution",293.670+294.150:S,"they","at",294.150+294.270:S,"are","the",294.270+294.380:S,"more","network",294.380+294.780:S,"pollution","with",294.780+294.930
+</PATH>
+<PATH id="(nwxrpl-041)" word_cnt="6" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="397" R_T1="297.525" R_T2="298.600" word_aux="h_t1+t2">
+S,"hey","yeah",297.881+297.991:C,"i","i",297.991+298.081:D,"walk",,:D,"to",,:C,"work","work",298.081+298.241:I,,"for",298.241+298.431
+</PATH>
+</SPEAKER>
+<SPEAKER id="ywtktm">
+<PATH id="(ywtktm-000)" word_cnt="21" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="1" R_T1="33.800" R_T2="34.175" word_aux="h_t1+t2">
+D,"i",,:D,"am",,:D,"sorry",,:D,"all",,:D,"right",,:D,"i",,:D,"will",,:D,"(%hesitation)",,:D,"we",,:D,"will",,:D,"move",,:D,"on",,:D,"so",,:D,"i",,:D,"think",,:D,"denise",,:D,"had",,:D,"a",,:D,"question",,:D,"about",,:D,"(%hesitation)",,
+</PATH>
+<PATH id="(ywtktm-001)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="5" R_T1="47.575" R_T2="48.050" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-002)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="8" R_T1="50.375" R_T2="52.700" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-003)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="13" R_T1="56.700" R_T2="58.000" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-004)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="17" R_T1="63.050" R_T2="63.950" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-005)" word_cnt="16" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="18" R_T1="64.700" R_T2="68.850" word_aux="h_t1+t2">
+D,"i",,:D,"am",,:D,"surprised",,:D,"that",,:D,"that",,:D,"(%hesitation)",,:D,"kids",,:D,"being",,:D,"able",,:D,"to",,:D,"draw",,:D,"it",,:D,"was",,:D,"an",,:D,"issue",,:S,"like","oh",67.281+67.481
+</PATH>
+<PATH id="(ywtktm-006)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="22" R_T1="74.200" R_T2="77.600" word_aux="h_t1+t2">
+S,"yeah","it's",76.241+76.361:S,"i","still",76.361+76.591:S,"guess","not",76.641+76.891:S,"(%hesitation)","like",76.891+77.141:C,"it","it",77.141+77.231:D,"loses",,:D,"any",,:D,"kind",,:D,"of",,:S,"symbolic","supposed",77.231+77.541:S,"value","to",77.541+77.611
+</PATH>
+<PATH id="(ywtktm-007)" word_cnt="16" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="27" R_T1="87.675" R_T2="91.825" word_aux="h_t1+t2">
+D,"was",,:D,"it",,:D,"was",,:D,"this",,:D,"like",,:D,"a",,:S,"plan","for",89.271+89.411:S,"that","the",89.411+89.541:S,"is","planning",89.541+89.871:S,"moving","for",90.271+90.471:S,"forward","word",90.471+90.661:C,"or","or",90.661+91.001:D,"are",,:D,"they",,:D,"going",,:D,"to",,
+</PATH>
+<PATH id="(ywtktm-008)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="30" R_T1="92.450" R_T2="93.675" word_aux="h_t1+t2">
+D,"this",,:D,"is",,:D,"just",,:D,"some",,
+</PATH>
+<PATH id="(ywtktm-009)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="36" R_T1="108.275" R_T2="110.700" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(ywtktm-010)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="44" R_T1="124.600" R_T2="125.950" word_aux="h_t1+t2">
+S,"%hesitation","this",125.780+125.920
+</PATH>
+<PATH id="(ywtktm-011)" word_cnt="14" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="51" R_T1="135.125" R_T2="140.450" word_aux="h_t1+t2">
+D,"(in-)",,:S,"yeah","an",136.170+136.430:C,"inconsistency","inconsistency",136.430+137.120:D,"in",,:D,"mission",,:D,"seems",,:D,"to",,:D,"be",,:S,"a","efficient",137.120+137.560:S,"problem","it's",137.680+137.810:S,"in","real",138.130+138.390:S,"in","and",139.150+139.250:S,"their","and",139.250+139.520:S,"group","there",139.810+139.990
+</PATH>
+<PATH id="(ywtktm-012)" word_cnt="17" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="54" R_T1="140.550" R_T2="146.725" word_aux="h_t1+t2">
+D,"we",,:D,"visited",,:D,"the",,:D,"who",,:D,"did",,:S,"we","%bcack",142.750+142.870:S,"visit","uses",142.870+143.280:C,"the","the",143.280+143.350:C,"translation","translation",143.350+144.010:C,"services","services",144.010+144.590:D,"in",,:D,"luxembourg",,:D,"when",,:S,"we","and",144.870+145.040:S,"went","wants",145.040+145.330:S,"to","was",145.850+146.090:S,"europe","here",146.090+146.390
+</PATH>
+<PATH id="(ywtktm-013)" word_cnt="15" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="55" R_T1="146.975" R_T2="150.450" word_aux="h_t1+t2">
+D,"denise",,:D,"and",,:D,"i",,:D,"took",,:D,"(an)",,:D,"(all)",,:D,"(e.)",,:S,"(u.)","basically",147.190+147.730:S,"u.","we",147.730+147.850:C,"trip","trip",148.560+148.820:D,"for",,:C,"the","the",148.890+148.960:I,,"pruning",148.960+149.500:S,"linguistics","six",149.580+149.790:S,"class","so",149.790+150.020
+</PATH>
+<PATH id="(ywtktm-014)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="59" R_T1="151.500" R_T2="153.850" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"yeah",,:D,"and",,:D,"(%hesitation)",,
+</PATH>
+<PATH id="(ywtktm-015)" word_cnt="16" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="61" R_T1="154.275" R_T2="157.925" word_aux="h_t1+t2">
+D,"you",,:D,"know",,:S,"we","yeah",154.530+154.660:C,"we","we",154.660+154.800:S,"had","could",154.800+154.970:S,"spent","spend",154.970+155.200:C,"like","like",155.200+155.390:S,"days","eight",155.680+155.950:C,"talking","talking",155.950+156.380:D,"in",,:C,"class","class",156.380+156.720:C,"about","about",156.720+156.890:C,"how","how",156.890+157.110:C,"it","it",157.110+157.240:D,"was",,:D,"(%hesitation)",,
+</PATH>
+<PATH id="(ywtktm-016)" word_cnt="9" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="62" R_T1="157.925" R_T2="160.925" word_aux="h_t1+t2">
+C,"virtually","virtually",157.980+158.420:C,"impossible","impossible",158.420+158.860:D,"for",,:D,"them",,:S,"to","been",158.860+159.070:S,"incorporate","incorporated",159.070+159.740:S,"any","mean",159.740+159.890:S,"new","you",159.890+160.030:C,"languages","languages",160.030+160.630
+</PATH>
+<PATH id="(ywtktm-017)" word_cnt="14" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="63" R_T1="160.925" R_T2="164.550" word_aux="h_t1+t2">
+D,"into",,:D,"(%hesitation)",,:D,"all",,:D,"of",,:S,"the","if",161.070+161.280:S,"publications","you",161.280+161.530:S,"and","multiplication",161.830+162.770:C,"translations","translations",162.840+163.350:C,"that","that",163.350+163.440:C,"they","they",163.440+163.510:C,"have","have",163.510+163.660:C,"to","to",163.690+163.750:C,"do","do",163.810+164.080:C,"like","like",164.080+164.290
+</PATH>
+<PATH id="(ywtktm-018)" word_cnt="13" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="64" R_T1="164.725" R_T2="168.750" word_aux="h_t1+t2">
+D,"because",,:S,"you","if",164.960+165.290:S,"know","if",165.290+165.420:C,"there","there",165.420+165.605:C,"is","is",165.605+165.790:I,,"the",166.060+166.300:I,,"act",166.520+166.970:S,"estonia","yeah",166.970+167.270:C,"and","and",167.270+167.520:S,"latvia","we",167.520+167.570:S,"and","are",167.570+167.620:S,"lithuania","doing",167.620+168.060:S,"joined","something",168.120+168.440
+</PATH>
+<PATH id="(ywtktm-019)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="65" R_T1="168.750" R_T2="171.075" word_aux="h_t1+t2">
+D,"there",,:C,"is","is",168.860+169.000:C,"a","a",169.000+169.030:C,"million","million",169.030+169.390:C,"speakers","speakers",169.390+169.810:D,"of",,:D,"each",,:S,"language","at",169.810+169.870:S,"which","least",169.870+170.050:S,"is","mine",170.050+170.260
+</PATH>
+<PATH id="(ywtktm-020)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="66" R_T1="171.175" R_T2="173.600" word_aux="h_t1+t2">
+S,"proportionally","unfortunately",171.390+171.940:S,"almost","all",171.940+172.150:C,"nothing","nothing",172.250+172.590:C,"but","but",173.040+173.400
+</PATH>
+<PATH id="(ywtktm-021)" word_cnt="16" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="68" R_T1="173.850" R_T2="177.875" word_aux="h_t1+t2">
+C,"they","they",174.300+174.390:C,"have","have",174.390+174.550:C,"to","to",174.580+174.640:C,"incorporate","incorporate",174.640+175.040:C,"the","the",175.040+175.130:C,"language","language",175.130+175.570:D,"as",,:C,"part","part",175.690+175.890:D,"of",,:D,"the",,:D,"deal",,:C,"of","of",175.890+175.970:D,"joining",,:S,"the","you",176.330+176.650:S,"e.","doing",176.780+177.100:S,"u.","you",177.300+177.550
+</PATH>
+<PATH id="(ywtktm-022)" word_cnt="15" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="70" R_T1="178.550" R_T2="182.025" word_aux="h_t1+t2">
+D,"but",,:C,"at","at",178.790+178.900:C,"the","the",178.900+178.960:C,"same","same",178.960+179.220:C,"time","time",179.220+179.550:C,"like","like",179.550+179.790:C,"they","they",180.090+180.200:C,"do","do",180.200+180.325:C,"not","not",180.325+180.450:C,"have","have",180.450+180.610:C,"the","the",180.610+180.670:C,"resources","resources",180.670+181.140:C,"to","to",181.140+181.240:C,"do","do",181.290+181.490:C,"it","it",181.490+181.630
+</PATH>
+<PATH id="(ywtktm-023)" word_cnt="6" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="71" R_T1="182.025" R_T2="183.950" word_aux="h_t1+t2">
+C,"but","but",182.270+182.390:C,"the","the",182.390+182.470:C,"people","people",182.470+182.830:S,"at","of",182.830+182.890:C,"the","the",182.890+182.950:C,"translation","translation",182.950+183.700
+</PATH>
+<PATH id="(ywtktm-024)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="72" R_T1="184.025" R_T2="186.775" word_aux="h_t1+t2">
+I,,"service",184.290+184.620:S,"services","this",184.620+184.950:C,"claim","claim",184.950+185.210:C,"that","that",185.210+185.300:C,"they","they",185.300+185.350:C,"are","are",185.350+185.400:C,"going","going",185.400+185.520:C,"to","to",185.520+185.590:C,"do","do",185.680+185.860:C,"it","it",185.860+185.920:C,"anyway","anyway",185.920+186.390
+</PATH>
+<PATH id="(ywtktm-025)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="74" R_T1="187.275" R_T2="189.575" word_aux="h_t1+t2">
+D,"regardless",,:D,"of",,:D,"cost",,:D,"or",,
+</PATH>
+<PATH id="(ywtktm-026)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="75" R_T1="189.900" R_T2="191.475" word_aux="h_t1+t2">
+S,"impossibility","well",190.430+190.870
+</PATH>
+<PATH id="(ywtktm-027)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="78" R_T1="191.625" R_T2="192.500" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(ywtktm-028)" word_cnt="5" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="80" R_T1="194.825" R_T2="198.475" word_aux="h_t1+t2">
+D,"yeah",,:D,"right",,:D,"the",,:S,"eblul","we",196.690+196.850:S,"eblul","language",197.060+197.460
+</PATH>
+<PATH id="(ywtktm-029)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="83" R_T1="198.825" R_T2="203.250" word_aux="h_t1+t2">
+I,,"it's",199.260+199.410:S,"eblul","true",199.410+199.710:S,"european","%bcack",200.270+200.770:S,"bureau","what",201.100+201.220:S,"lesser","is",201.220+201.340:S,"used","your",201.340+201.630:S,"languages","flight",202.070+202.610
+</PATH>
+<PATH id="(ywtktm-030)" word_cnt="12" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="85" R_T1="203.950" R_T2="206.975" word_aux="h_t1+t2">
+D,"i",,:D,"for",,:D,"some",,:D,"reason",,:D,"i",,:D,"had",,:D,"to",,:D,"type",,:D,"that",,:D,"acronym",,:D,"a",,:S,"lot","but",205.280+205.430
+</PATH>
+<PATH id="(ywtktm-031)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="94" R_T1="217.550" R_T2="218.225" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(ywtktm-032)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="101" R_T1="228.000" R_T2="229.025" word_aux="h_t1+t2">
+D,"right",,
+</PATH>
+<PATH id="(ywtktm-033)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="103" R_T1="231.525" R_T2="232.050" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-034)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="104" R_T1="234.150" R_T2="237.575" word_aux="h_t1+t2">
+S,"is","if",234.340+234.510:S,"there","it",234.510+234.670:C,"was","was",234.670+234.810:D,"there",,:D,"originally",,:D,"a",,:S,"significance","seriously",234.810+235.510:S,"to","so",236.100+236.190:S,"the","that",236.190+236.300:C,"twelve","twelve",236.300+236.580:S,"stars","seconds",236.580+237.040
+</PATH>
+<PATH id="(ywtktm-035)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="108" R_T1="240.475" R_T2="242.875" word_aux="h_t1+t2">
+D,"eleven",,:C,"original","original",241.570+241.870:C,"members","members",241.870+242.210:C,"of","of",242.210+242.300
+</PATH>
+<PATH id="(ywtktm-036)" word_cnt="8" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="112" R_T1="243.050" R_T2="245.600" word_aux="h_t1+t2">
+D,"o.",,:D,"k.",,:D,"of",,:D,"the",,:D,"european",,:D,"council",,:D,"or",,:S,"the","%bcack",244.600+245.340
+</PATH>
+<PATH id="(ywtktm-037)" word_cnt="13" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="124" R_T1="268.650" R_T2="272.700" word_aux="h_t1+t2">
+D,"and",,:D,"what",,:D,"happens",,:D,"if",,:D,"they",,:D,"add",,:S,"turkey","curtains",270.291+270.641:C,"or","or",270.921+271.011:C,"any","any",271.011+271.181:C,"other","other",271.181+271.381:S,"muslim","treatment",271.841+272.251:S,"country","property",272.251+272.561:S,"and","here",272.561+272.751
+</PATH>
+<PATH id="(ywtktm-038)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="126" R_T1="273.200" R_T2="275.525" word_aux="h_t1+t2">
+S,"but","if",273.711+273.791:S,"turkey","you",273.791+273.861:S,"wants","listen",273.861+274.141:C,"to","to",274.141+274.241:I,,"it",274.241+274.351:I,,"hit",274.351+274.581:S,"join","a",274.581+274.621:S,"the","little",274.621+275.031:S,"european","bit",275.031+275.201:S,"union","here",275.201+275.501
+</PATH>
+<PATH id="(ywtktm-039)" word_cnt="18" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="132" R_T1="277.175" R_T2="282.400" word_aux="h_t1+t2">
+D,"but",,:D,"they",,:D,"still",,:C,"want","want",278.051+278.241:C,"to","to",278.241+278.301:C,"join","join",278.301+278.651:D,"the",,:D,"e.",,:D,"u.",,:D,"at",,:D,"least",,:D,"that",,:D,"is",,:S,"like","will",280.780+280.940:S,"an","yet",281.490+281.720:S,"ultimate","over",281.720+281.930:S,"goal","and",281.990+282.080:S,"because","over",282.130+282.360
+</PATH>
+<PATH id="(ywtktm-040)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="138" R_T1="285.875" R_T2="287.975" word_aux="h_t1+t2">
+C,"really","really",286.250+286.600:S,"in","hard",286.660+286.860:S,"turkey","yeah",286.860+287.200:S,"wow","yeah",287.560+287.750
+</PATH>
+<PATH id="(ywtktm-041)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="148" R_T1="607.673" R_T2="608.596" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(ywtktm-042)" word_cnt="2" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="157" R_T1="623.880" R_T2="624.508" word_aux="h_t1+t2">
+D,"oh",,:D,"yeah",,
+</PATH>
+<PATH id="(ywtktm-043)" word_cnt="22" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="159" R_T1="625.881" R_T2="631.630" word_aux="h_t1+t2">
+D,"citation",,:D,"ten",,:D,"can",,:D,"go",,:D,"the",,:D,"speed",,:D,"of",,:D,"sound",,:D,"almost",,:D,"it",,:D,"is",,:D,"the",,:D,"fastest",,:D,"(%hesitation)",,:D,"business",,:D,"jet",,:D,"that",,:D,"exists",,:D,"but",,:D,"it",,:D,"is",,:D,"like",,
+</PATH>
+<PATH id="(ywtktm-044)" word_cnt="5" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="161" R_T1="631.768" R_T2="633.472" word_aux="h_t1+t2">
+D,"eighty",,:D,"million",,:D,"and",,:D,"it",,:D,"costs",,
+</PATH>
+<PATH id="(ywtktm-045)" word_cnt="8" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="163" R_T1="633.690" R_T2="636.692" word_aux="h_t1+t2">
+D,"several",,:D,"thousand",,:D,"dollars",,:D,"to",,:D,"put",,:D,"gas",,:D,"in",,:D,"it",,
+</PATH>
+<PATH id="(ywtktm-046)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="164" R_T1="637.085" R_T2="640.420" word_aux="h_t1+t2">
+D,"several",,:D,"thousand",,:D,"dollars",,:D,"to",,:D,"pay",,:D,"the",,:D,"pilots",,:D,"to",,:D,"fly",,:D,"it",,
+</PATH>
+<PATH id="(ywtktm-047)" word_cnt="6" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="169" R_T1="642.520" R_T2="646.346" word_aux="h_t1+t2">
+D,"yeah",,:D,"if",,:D,"you",,:D,"are",,:D,"john",,:D,"travolta",,
+</PATH>
+<PATH id="(ywtktm-048)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="175" R_T1="651.330" R_T2="652.252" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(ywtktm-049)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="180" R_T1="653.213" R_T2="654.037" word_aux="h_t1+t2">
+D,"it",,
+</PATH>
+<PATH id="(ywtktm-050)" word_cnt="8" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="181" R_T1="654.783" R_T2="656.549" word_aux="h_t1+t2">
+D,"and",,:D,"(%hesitation)",,:D,"is",,:D,"he",,:D,"going",,:D,"to",,:D,"like",,:D,"actually",,
+</PATH>
+<PATH id="(ywtktm-051)" word_cnt="2" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="184" R_T1="657.196" R_T2="657.981" word_aux="h_t1+t2">
+D,"sorry",,:D,"what",,
+</PATH>
+<PATH id="(ywtktm-052)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="185" R_T1="659.040" R_T2="661.140" word_aux="h_t1+t2">
+D,"i",,:D,"do",,:D,"not",,:D,"never",,:D,"met",,:D,"him",,:D,"yeah",,
+</PATH>
+<PATH id="(ywtktm-053)" word_cnt="6" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="188" R_T1="663.828" R_T2="665.868" word_aux="h_t1+t2">
+D,"she",,:D,"has",,:D,"a",,:D,"private",,:D,"jet",,:D,"wow",,
+</PATH>
+<PATH id="(ywtktm-054)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="192" R_T1="673.874" R_T2="674.678" word_aux="h_t1+t2">
+D,"wow",,
+</PATH>
+<PATH id="(ywtktm-055)" word_cnt="8" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="195" R_T1="675.836" R_T2="678.501" word_aux="h_t1+t2">
+D,"i",,:D,"took",,:D,"flying",,:D,"lessons",,:D,"when",,:D,"i",,:D,"was",,:D,"fourteen",,
+</PATH>
+<PATH id="(ywtktm-056)" word_cnt="5" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="197" R_T1="678.756" R_T2="681.281" word_aux="h_t1+t2">
+D,"for",,:D,"a",,:D,"few",,:D,"months",,:D,"year",,
+</PATH>
+<PATH id="(ywtktm-057)" word_cnt="22" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="200" R_T1="682.978" R_T2="686.588" word_aux="h_t1+t2">
+D,"it",,:D,"is",,:D,"not",,:D,"like",,:D,"the",,:D,"kind",,:D,"of",,:D,"thing",,:D,"you",,:D,"would",,:D,"want",,:D,"to",,:D,"drop",,:D,"out",,:D,"of",,:D,"school",,:D,"to",,:D,"do",,:D,"i",,:D,"think",,:D,"because",,:D,"it",,
+</PATH>
+<PATH id="(ywtktm-058)" word_cnt="12" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="203" R_T1="689.511" R_T2="693.141" word_aux="h_t1+t2">
+D,"no",,:D,"but",,:D,"that",,:D,"takes",,:D,"years",,:D,"and",,:D,"years",,:D,"and",,:D,"years",,:D,"to",,:D,"do",,:D,"that",,
+</PATH>
+<PATH id="(ywtktm-059)" word_cnt="5" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="208" R_T1="9.175" R_T2="10.925" word_aux="h_t1+t2">
+I,,"so",9.820+10.050:I,,"those",10.050+10.370:I,,"are",10.370+10.430:I,,"those",10.430+10.680:I,,"are",10.680+10.830
+</PATH>
+<PATH id="(ywtktm-060)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="215" R_T1="19.900" R_T2="21.825" word_aux="h_t1+t2">
+D,"oh",,:D,"yeah",,:D,"they",,:S,"make","you",20.140+20.270:S,"like","know",20.270+20.440:S,"at","everybody",20.440+20.840:S,"least","guys",20.840+21.190:S,"two","you",21.300+21.460
+</PATH>
+<PATH id="(ywtktm-061)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="219" R_T1="21.900" R_T2="24.450" word_aux="h_t1+t2">
+D,"toyota",,:D,"makes",,:D,"like",,:D,"four",,:D,"different",,:D,"s.",,:D,"u.",,:D,"v.s",,
+</PATH>
+<PATH id="(ywtktm-062)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="223" R_T1="25.375" R_T2="27.425" word_aux="h_t1+t2">
+D,"they",,:D,"make",,:D,"the",,:D,"one",,:D,"like",,:D,"that",,:D,"is",,:D,"a",,:D,"car",,:D,"size",,
+</PATH>
+<PATH id="(ywtktm-063)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="232" R_T1="32.725" R_T2="34.675" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-064)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="239" R_T1="55.925" R_T2="57.700" word_aux="h_t1+t2">
+I,,"of",57.220+57.330:I,,"the",57.330+57.460
+</PATH>
+<PATH id="(ywtktm-065)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="242" R_T1="59.075" R_T2="61.025" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"you",,:D,"have",,:D,"to",,:D,"kind",,:D,"of",,:S,"laugh","well",59.640+59.890:S,"at","o.",60.010+60.080:S,"those","k.",60.080+60.150
+</PATH>
+<PATH id="(ywtktm-066)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="245" R_T1="61.050" R_T2="65.025" word_aux="h_t1+t2">
+I,,"that's",64.211+64.471:I,,"what",64.471+64.611:I,,"you",64.611+64.801
+</PATH>
+<PATH id="(ywtktm-067)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="248" R_T1="67.525" R_T2="68.700" word_aux="h_t1+t2">
+I,,"to",68.121+68.201:I,,"just",68.201+68.351:I,,"to",68.421+68.631
+</PATH>
+<PATH id="(ywtktm-068)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="251" R_T1="69.850" R_T2="70.625" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(ywtktm-069)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="252" R_T1="71.575" R_T2="73.675" word_aux="h_t1+t2">
+D,"i",,:D,"think",,:D,"i",,:D,"think",,:D,"the",,:D,"problem",,:D,"with",,:D,"s.",,:D,"u.",,:D,"v.s",,:D,"is",,:S,"that","be",72.791+73.011:C,"that","that",73.171+73.371
+</PATH>
+<PATH id="(ywtktm-070)" word_cnt="22" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="253" R_T1="73.925" R_T2="77.450" word_aux="h_t1+t2">
+C,"they","they",74.071+74.166:C,"are","are",74.166+74.261:C,"they","they",74.261+74.316:C,"are","are",74.316+74.371:C,"really","really",74.371+74.561:C,"good","good",74.561+74.781:C,"for","for",74.911+75.071:C,"people","people",75.111+75.371:S,"who","to",75.371+75.431:C,"know","know",75.431+75.541:C,"how","how",75.541+75.621:C,"to","to",75.621+75.691:C,"drive","drive",75.691+76.001:D,"them",,:D,"and",,:D,"have",,:D,"an",,:D,"actual",,:S,"use","the",76.001+76.141:S,"for","next",76.391+76.651:S,"them","peacefully",76.651+77.101:C,"but","but",77.101+77.311
+</PATH>
+<PATH id="(ywtktm-071)" word_cnt="5" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="254" R_T1="77.600" R_T2="79.075" word_aux="h_t1+t2">
+D,"they",,:D,"have",,:S,"too","it's",77.751+77.961:S,"much","which",77.961+78.161:S,"appeal","appeals",78.161+78.621
+</PATH>
+<PATH id="(ywtktm-072)" word_cnt="6" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="255" R_T1="79.325" R_T2="81.425" word_aux="h_t1+t2">
+D,"to",,:C,"everybody","everybody",79.500+80.190:C,"and","and",80.190+80.280:C,"everybody","everybody",80.280+80.680:C,"wants","wants",80.680+81.000:C,"one","one",81.000+81.160
+</PATH>
+<PATH id="(ywtktm-073)" word_cnt="18" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="257" R_T1="81.775" R_T2="86.550" word_aux="h_t1+t2">
+C,"and","and",81.950+82.160:D,"(%hesitation)",,:D,"they",,:D,"they",,:D,"they",,:S,"are","it",82.240+82.340:S,"like","really",82.790+83.000:S,"a","the",83.000+83.100:C,"family","family",83.190+83.590:D,"vehicle",,:S,"now","people",83.590+84.080:C,"which","which",84.480+84.630:C,"is","is",84.630+84.750:C,"kind","kind",85.200+85.400:C,"of","of",85.400+85.480:C,"ridiculous","ridiculous",85.480+86.020:D,"i",,:D,"think",,
+</PATH>
+<PATH id="(ywtktm-074)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="264" R_T1="89.702" R_T2="89.963" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-075)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="270" R_T1="99.125" R_T2="100.525" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-076)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="275" R_T1="109.650" R_T2="110.300" word_aux="h_t1+t2">
+D,"%hesitation",,
+</PATH>
+<PATH id="(ywtktm-077)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="291" R_T1="143.650" R_T2="146.600" word_aux="h_t1+t2">
+D,"oh",,:D,"saturn",,:D,"i",,:C,"i","i",144.930+145.070:C,"can","can",145.070+145.270:D,"imagine",,:D,"saturn",,:D,"would",,:D,"make",,:S,"one","that's",146.250+146.470
+</PATH>
+<PATH id="(ywtktm-078)" word_cnt="15" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="294" R_T1="148.300" R_T2="151.250" word_aux="h_t1+t2">
+D,"is",,:C,"that","that",148.480+148.600:C,"the","the",148.600+148.730:I,,"key",148.830+149.050:I,,"yeah",149.391+149.691:I,,"just",149.691+149.881:I,,"to",149.881+150.011:I,,"wheel",150.011+150.251:S,"view","as",150.251+150.371:C,"the","the",150.371+150.481:I,,"two",150.481+150.621:S,"saturn","person",150.621+150.861:S,"view","and",150.861+150.991:S,"o.","they",150.991+151.091:S,"k.","just",151.091+151.291
+</PATH>
+<PATH id="(ywtktm-079)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="299" R_T1="156.050" R_T2="156.725" word_aux="h_t1+t2">
+S,"%bcack","it's",156.310+156.480
+</PATH>
+<PATH id="(ywtktm-080)" word_cnt="14" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="301" R_T1="157.275" R_T2="160.325" word_aux="h_t1+t2">
+D,"does",,:D,"that",,:D,"mean",,:C,"like","like",157.890+158.050:I,,"the",158.490+158.560:S,"(know)","others",158.560+158.830:S,"exact","are",158.830+158.980:S,"gears","years",159.130+159.540:C,"that","that",159.610+159.720:C,"it","it",159.720+159.790:C,"is","is",159.790+159.860:D,"in",,:D,"(i-)",,:S,"it","easy",159.860+160.180
+</PATH>
+<PATH id="(ywtktm-081)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="311" R_T1="183.000" R_T2="183.825" word_aux="h_t1+t2">
+I,,"if",183.160+183.370:S,"o.","if",183.370+183.530:S,"k.","any",183.530+183.770
+</PATH>
+<PATH id="(ywtktm-082)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="315" R_T1="185.775" R_T2="188.700" word_aux="h_t1+t2">
+D,"or",,:D,"you",,:D,"just",,:D,"lose",,:C,"more","more",186.980+187.090:C,"power","power",187.090+187.470:D,"through",,:D,"this",,:D,"transmission",,
+</PATH>
+<PATH id="(ywtktm-083)" word_cnt="4" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="318" R_T1="189.200" R_T2="190.275" word_aux="h_t1+t2">
+D,"because",,:D,"it",,:D,"is",,:D,"not",,
+</PATH>
+<PATH id="(ywtktm-084)" word_cnt="14" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="320" R_T1="191.650" R_T2="195.350" word_aux="h_t1+t2">
+D,"(optimus)",,:D,"i",,:C,"i","i",192.520+192.780:C,"i","i",192.780+192.900:D,"do",,:S,"not","might",193.090+193.300:S,"(kn-)","be",193.450+193.560:S,"mine","able",193.560+193.880:S,"mechanical","to",193.880+193.990:S,"knowledge","have",193.990+194.100:S,"is","a",194.100+194.180:C,"pretty","pretty",194.180+194.350:S,"limited","women",194.480+194.780:S,"but","yeah",194.970+195.460
+</PATH>
+<PATH id="(ywtktm-085)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="330" R_T1="211.650" R_T2="213.075" word_aux="h_t1+t2">
+I,,"riding",212.150+212.460:I,,"power",212.460+212.780:I,,"to",212.780+213.090
+</PATH>
+<PATH id="(ywtktm-086)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="332" R_T1="213.775" R_T2="215.400" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-087)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="334" R_T1="216.175" R_T2="218.125" word_aux="h_t1+t2">
+D,"why",,:D,"do",,:S,"not","well",216.830+217.140:C,"i","i",217.140+217.210:C,"like","like",217.210+217.380:D,"s.",,:D,"u.",,:S,"v.s","it",217.380+217.500
+</PATH>
+<PATH id="(ywtktm-088)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="336" R_T1="218.325" R_T2="220.000" word_aux="h_t1+t2">
+D,"sort",,:S,"of","certainly",218.520+218.830:S,"explained","point",218.920+219.140:S,"why","though",219.140+219.300:C,"i","i",219.300+219.360:C,"do","do",219.360+219.445:C,"not","not",219.445+219.530:C,"like","like",219.530+219.700:D,"them",,
+</PATH>
+<PATH id="(ywtktm-089)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="338" R_T1="220.225" R_T2="223.250" word_aux="h_t1+t2">
+C,"i","i",220.370+220.460:C,"do","do",220.460+220.520:C,"not","not",220.520+220.580:C,"like","like",220.580+220.750:D,"them",,:D,"because",,:C,"the","the",220.750+220.860:D,"(%hesitation)",,:S,"i","it",221.620+221.800:S,"associate","ate",221.860+222.090:C,"them","them",222.090+222.380:D,"with",,:D,"(%hesitation)",,
+</PATH>
+<PATH id="(ywtktm-090)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="339" R_T1="223.425" R_T2="224.200" word_aux="h_t1+t2">
+S,"kind","and",223.660+223.760:S,"of","the",223.760+223.820:S,"like","way",223.820+224.000
+</PATH>
+<PATH id="(ywtktm-091)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="340" R_T1="224.500" R_T2="227.600" word_aux="h_t1+t2">
+I,,"you",224.630+224.800:I,,"may",224.800+225.120:I,,"you",225.160+225.250:I,,"need",225.250+225.430:S,"the","to",225.430+225.490:S,"american","be",225.550+225.690:S,"individual","to",225.690+226.020:C,"crush","crush",226.060+226.410:C,"everybody","everybody",226.410+226.970:C,"ideal","ideal",226.970+227.450
+</PATH>
+<PATH id="(ywtktm-092)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="341" R_T1="228.175" R_T2="229.575" word_aux="h_t1+t2">
+C,"like","like",228.740+229.020:D,"i",,
+</PATH>
+<PATH id="(ywtktm-093)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="342" R_T1="229.725" R_T2="232.700" word_aux="h_t1+t2">
+C,"where","where",229.940+230.120:C,"you","you",230.120+230.260:C,"need","need",230.260+230.440:C,"to","to",230.440+230.500:C,"have","have",230.500+230.670:D,"the",,:D,"biggest",,:D,"car",,:S,"on","babies",230.820+231.100:S,"the","caron",231.100+231.520:S,"road","right",231.640+231.980:S,"so","that",232.070+232.240:C,"that","that",232.240+232.420
+</PATH>
+<PATH id="(ywtktm-094)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="343" R_T1="233.300" R_T2="235.425" word_aux="h_t1+t2">
+C,"you","you",233.490+233.550:C,"do","do",233.550+233.655:C,"not","not",233.655+233.760:C,"have","have",233.760+233.910:S,"to","feeling",233.910+234.340:S,"feel","you",234.520+234.640:S,"insecure","were",234.640+234.830:S,"about","on",234.830+234.970:C,"it","it",234.970+235.050
+</PATH>
+<PATH id="(ywtktm-095)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="344" R_T1="236.275" R_T2="238.750" word_aux="h_t1+t2">
+C,"i","i",236.560+236.660:C,"do","do",236.660+236.730:C,"not","not",236.730+236.800:C,"that","that",236.800+236.970:D,"is",,:C,"just","just",237.140+237.310:D,"a",,:D,"stereotype",,:S,"though","area",237.550+237.920
+</PATH>
+<PATH id="(ywtktm-096)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="346" R_T1="239.125" R_T2="241.075" word_aux="h_t1+t2">
+C,"i","i",239.430+239.460:C,"am","am",239.460+239.490:C,"not","not",239.490+239.600:C,"sure","sure",239.600+239.800:S,"i","if",239.800+239.870:S,"can","it",239.870+240.000:S,"really","was",240.000+240.130:C,"back","back",240.130+240.400:D,"that",,:S,"up","to",240.400+240.460
+</PATH>
+<PATH id="(ywtktm-097)" word_cnt="5" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="349" R_T1="242.950" R_T2="244.550" word_aux="h_t1+t2">
+D,"yeah",,:D,"back",,:D,"me",,:D,"up",,:D,"denise",,
+</PATH>
+<PATH id="(ywtktm-098)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="351" R_T1="246.922" R_T2="247.644" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-099)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="353" R_T1="248.318" R_T2="249.400" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-100)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="354" R_T1="250.325" R_T2="251.775" word_aux="h_t1+t2">
+I,,"more",250.920+251.150:I,,"pollution",251.150+251.570:I,,"that",251.570+251.720
+</PATH>
+<PATH id="(ywtktm-101)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="357" R_T1="253.025" R_T2="254.155" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-102)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="360" R_T1="254.818" R_T2="255.931" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-103)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="361" R_T1="257.100" R_T2="257.500" word_aux="h_t1+t2">
+D,"(%hesitation)",,
+</PATH>
+<PATH id="(ywtktm-104)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="363" R_T1="258.575" R_T2="259.575" word_aux="h_t1+t2">
+D,"(yeah)",,
+</PATH>
+<PATH id="(ywtktm-105)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="370" R_T1="268.444" R_T2="269.650" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-106)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="373" R_T1="270.860" R_T2="271.750" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-107)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="374" R_T1="272.600" R_T2="273.571" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-108)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="375" R_T1="274.743" R_T2="275.429" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-109)" word_cnt="7" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="377" R_T1="279.300" R_T2="280.887" word_aux="h_t1+t2">
+I,,"of",279.600+279.800:I,,"course",279.800+280.200:I,,"if",280.200+280.270:I,,"if",280.270+280.440:I,,"you",280.440+280.500:I,,"see",280.500+280.650:I,,"the",280.710+280.880
+</PATH>
+<PATH id="(ywtktm-110)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="379" R_T1="282.130" R_T2="282.473" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-111)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="380" R_T1="282.600" R_T2="283.500" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(ywtktm-112)" word_cnt="6" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="381" R_T1="284.083" R_T2="285.875" word_aux="h_t1+t2">
+I,,"you",284.330+284.480:I,,"do",284.480+284.660:I,,"it",284.660+284.740:I,,"even",284.940+285.210:I,,"could",285.350+285.600:I,,"be",285.600+285.800
+</PATH>
+<PATH id="(ywtktm-113)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="384" R_T1="285.975" R_T2="288.772" word_aux="h_t1+t2">
+D,"but",,:D,"so",,:D,"you",,:D,"think",,:D,"it",,:D,"is",,:D,"kind",,:D,"of",,:D,"shortsighted",,:D,"to",,:D,"just",,:D,"point",,:D,"to",,
+</PATH>
+<PATH id="(ywtktm-114)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="385" R_T1="288.825" R_T2="290.850" word_aux="h_t1+t2">
+D,"s.",,:D,"u.",,:D,"v.s",,:D,"are",,:S,"pollution","but",288.970+289.140:S,"that","you",289.140+289.410:S,"is","should",289.410+289.510:S,"bad","we",289.640+289.780:S,"(and)","should",290.040+290.140
+</PATH>
+<PATH id="(ywtktm-115)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="387" R_T1="291.325" R_T2="292.025" word_aux="h_t1+t2">
+D,"it",,:D,"is",,:D,"(%hesitation)",,
+</PATH>
+<PATH id="(ywtktm-116)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="390" R_T1="293.223" R_T2="294.146" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(ywtktm-117)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="394" R_T1="294.880" R_T2="295.875" word_aux="h_t1+t2">
+S,"%bcack","right",295.540+295.870
+</PATH>
+<PATH id="(ywtktm-118)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="398" R_T1="298.278" R_T2="298.538" word_aux="h_t1+t2">
+D,"(%hesitation)",,
+</PATH>
+<PATH id="(ywtktm-119)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="400" R_T1="298.950" R_T2="299.725" word_aux="h_t1+t2">
+
+</PATH>
+</SPEAKER>
+<SPEAKER id="cou">
+<PATH id="(cou-000)" word_cnt="14" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="2" R_T1="33.825" R_T2="38.425" word_aux="h_t1+t2">
+D,"i",,:D,"was",,:D,"reading",,:D,"a",,:D,"british",,:D,"graphic",,:D,"design",,:D,"magazine",,:D,"recently",,:D,"called",,:S,"eye","might",35.910+36.140:S,"e.","be",36.140+36.210:S,"y.","useful",36.630+36.980:S,"e.","life",37.070+37.320
+</PATH>
+<PATH id="(cou-001)" word_cnt="21" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="3" R_T1="38.525" R_T2="43.025" word_aux="h_t1+t2">
+C,"and","and",38.580+38.990:C,"they","they",39.140+39.245:C,"were","were",39.245+39.350:C,"doing","doing",39.350+39.530:D,"an",,:D,"article",,:D,"about",,:D,"the",,:D,"e.",,:D,"u.",,:D,"flag",,:D,"and",,:D,"they",,:D,"were",,:S,"saying","i",39.530+39.750:S,"that","thought",39.750+40.010:S,"it","you",40.170+40.260:S,"had","flat",40.260+40.590:S,"been","eight",40.950+41.300:S,"suggested","yes",42.150+42.460:C,"and","and",42.560+42.880
+</PATH>
+<PATH id="(cou-002)" word_cnt="19" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="4" R_T1="43.450" R_T2="48.300" word_aux="h_t1+t2">
+S,"apparently","terribly",43.600+44.200:S,"approved","from",44.580+44.820:C,"they","they",45.030+45.105:C,"were","were",45.105+45.180:C,"going","going",45.180+45.300:C,"to","to",45.300+45.360:C,"change","change",45.360+45.710:D,"the",,:S,"design","that",45.710+45.830:S,"from","that's",45.830+46.150:C,"the","the",46.150+46.230:C,"basic","basic",46.230+46.600:C,"twelve","twelve",46.600+46.920:D,"yellow",,:D,"stars",,:S,"in","knows",46.920+47.210:S,"the","that",47.210+47.520:S,"blue","you",47.950+48.110:S,"field","know",48.110+48.210
+</PATH>
+<PATH id="(cou-003)" word_cnt="32" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="7" R_T1="48.600" R_T2="55.175" word_aux="h_t1+t2">
+D,"to",,:D,"something",,:S,"that","people",49.070+49.320:S,"incorporates","read",49.320+49.540:C,"every","every",49.540+49.820:C,"single","single",49.820+50.020:D,"color",,:D,"from",,:D,"all",,:D,"the",,:D,"flags",,:D,"and",,:S,"it","coatsville",50.020+50.500:S,"is","like",50.600+50.840:C,"a","a",51.070+51.120:C,"lot","lot",51.120+51.620:D,"a",,:C,"lot","lot",51.710+51.910:D,"a",,:C,"lot","lot",51.970+52.220:D,"of",,:D,"vertical",,:D,"stripes",,:D,"and",,:S,"it","bird",52.300+52.620:S,"(l-)","straight",52.840+53.250:S,"basically","in",53.360+53.520:S,"looks","the",53.520+53.610:S,"like","basement",53.610+54.110:S,"a","the",54.110+54.200:S,"really","company",54.200+54.570:S,"colorful","couple",54.570+55.160
+</PATH>
+<PATH id="(cou-004)" word_cnt="2" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="9" R_T1="55.325" R_T2="56.025" word_aux="h_t1+t2">
+D,"bar",,:S,"code","mark",55.440+55.670
+</PATH>
+<PATH id="(cou-005)" word_cnt="4" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="12" R_T1="56.550" R_T2="57.625" word_aux="h_t1+t2">
+D,"and",,:D,"it",,:D,"is",,:D,"crazy",,
+</PATH>
+<PATH id="(cou-006)" word_cnt="21" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="14" R_T1="57.750" R_T2="61.950" word_aux="h_t1+t2">
+D,"and",,:D,"there",,:D,"are",,:D,"reasons",,:D,"against",,:D,"it",,:D,"like",,:D,"you",,:D,"know",,:D,"it",,:D,"is",,:D,"really",,:D,"hard",,:D,"for",,:D,"kids",,:D,"to",,:D,"draw",,:S,"it","keep",59.970+60.210:S,"is","dropped",60.400+60.960:C,"kind","kind",61.270+61.600:C,"of","of",61.600+61.820
+</PATH>
+<PATH id="(cou-007)" word_cnt="12" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="16" R_T1="62.525" R_T2="67.200" word_aux="h_t1+t2">
+S,"messy","either",62.980+63.210:S,"looking","teen",63.210+63.405:S,"and","age",63.405+63.600:S,"it","years",64.230+64.470:C,"is","is",65.441+65.631:D,"just",,:S,"weird","it",65.701+65.821:S,"and","does",65.941+66.061:S,"it","not",66.061+66.181:S,"is","seem",66.181+66.441:S,"just","to",66.441+66.511:S,"strange","be",66.511+66.611
+</PATH>
+<PATH id="(cou-008)" word_cnt="11" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="19" R_T1="67.625" R_T2="70.475" word_aux="h_t1+t2">
+C,"well","well",69.481+69.781:D,"that",,:S,"was","it's",69.781+70.041:C,"just","just",70.041+70.241:D,"one",,:D,"of",,:D,"the",,:D,"suggestions",,:D,"it",,:D,"was",,:S,"probably","been",70.291+70.451
+</PATH>
+<PATH id="(cou-009)" word_cnt="5" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="21" R_T1="72.975" R_T2="74.775" word_aux="h_t1+t2">
+D,"yeah",,:D,"because",,:D,"they",,:D,"were",,:D,"like",,
+</PATH>
+<PATH id="(cou-010)" word_cnt="1" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="24" R_T1="76.925" R_T2="77.975" word_aux="h_t1+t2">
+D,"exactly",,
+</PATH>
+<PATH id="(cou-011)" word_cnt="22" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="25" R_T1="80.900" R_T2="85.275" word_aux="h_t1+t2">
+D,"and",,:D,"from",,:D,"far",,:D,"away",,:D,"this",,:D,"would",,:D,"look",,:S,"gray","by",81.391+81.541:C,"i","i",82.651+82.691:C,"think","think",82.691+82.951:C,"it","it",82.951+83.201:D,"really",,:C,"would","would",83.201+83.341:D,"because",,:D,"it",,:D,"is",,:C,"like","like",83.631+83.771:S,"there","it",83.951+84.081:C,"was","was",84.081+84.181:C,"like","like",84.181+84.321:D,"fifty",,:D,"(%hesitation)",,
+</PATH>
+<PATH id="(cou-012)" word_cnt="19" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="26" R_T1="85.300" R_T2="89.000" word_aux="h_t1+t2">
+D,"maybe",,:D,"forty",,:D,"or",,:D,"fifty",,:D,"vertical",,:D,"stripes",,:D,"and",,:D,"they",,:S,"were","we",85.800+85.940:S,"really","need",85.940+86.110:S,"skinny","great",86.400+86.620:S,"but","i",86.790+86.940:S,"they","he",87.500+87.660:S,"were","did",87.920+88.100:C,"not","not",88.100+88.260:D,"all",,:D,"the",,:S,"same","call",88.260+88.440:S,"width","it",88.500+88.680
+</PATH>
+<PATH id="(cou-013)" word_cnt="16" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="29" R_T1="91.625" R_T2="96.175" word_aux="h_t1+t2">
+D,"the",,:D,"article",,:S,"(s-)","yeah",91.801+91.961:S,"seemed","i",92.021+92.061:S,"to","i",92.131+92.321:S,"indicate","do",92.321+92.436:S,"that","not",92.436+92.551:S,"it","see",93.021+93.101:C,"had","had",93.871+94.111:D,"been",,:D,"approved",,:D,"and",,:C,"it","it",94.211+94.341:D,"was",,:D,"indeed",,:S,"affirmatively","one",94.631+94.951
+</PATH>
+<PATH id="(cou-014)" word_cnt="13" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="31" R_T1="96.475" R_T2="100.550" word_aux="h_t1+t2">
+D,"in",,:D,"the",,:D,"process",,:D,"of",,:D,"becoming",,:D,"the",,:D,"official",,:D,"e.",,:D,"u.",,:S,"flag","that",97.190+97.420:S,"which","convenience",98.170+98.850:S,"confused","i",99.110+99.260:S,"me","he",100.450+100.630
+</PATH>
+<PATH id="(cou-015)" word_cnt="4" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="35" R_T1="107.825" R_T2="108.925" word_aux="h_t1+t2">
+D,"you",,:D,"do",,:D,"not",,:D,"say",,
+</PATH>
+<PATH id="(cou-016)" word_cnt="1" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="38" R_T1="110.700" R_T2="111.400" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(cou-017)" word_cnt="4" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="53" R_T1="139.550" R_T2="142.050" word_aux="h_t1+t2">
+D,"in",,:S,"any","we",140.920+141.050:S,"large","see",141.150+141.410:S,"organization","it",141.410+141.550
+</PATH>
+<PATH id="(cou-018)" word_cnt="2" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="56" R_T1="148.900" R_T2="149.600" word_aux="h_t1+t2">
+D,"we",,:D,"were",,
+</PATH>
+<PATH id="(cou-019)" word_cnt="13" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="58" R_T1="150.000" R_T2="153.150" word_aux="h_t1+t2">
+D,"(inver-)",,:D,"interviewing",,:S,"e.","if",150.470+150.650:S,"u.","you",150.650+150.800:S,"officials","can",150.800+150.890:S,"collecting","use",150.890+151.300:S,"data","yeah",151.890+152.300:C,"and","and",152.410+152.670:D,"all",,:D,"that",,:D,"kind",,:D,"of",,:D,"stuff",,
+</PATH>
+<PATH id="(cou-020)" word_cnt="10" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="73" R_T1="187.125" R_T2="189.475" word_aux="h_t1+t2">
+D,"they",,:D,"were",,:C,"yeah","yeah",187.630+187.850:D,"it",,:D,"was",,:D,"sort",,:D,"of",,:D,"a",,:D,"lofty",,:D,"goal",,
+</PATH>
+<PATH id="(cou-021)" word_cnt="7" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="76" R_T1="190.100" R_T2="192.650" word_aux="h_t1+t2">
+D,"meanwhile",,:D,"across",,:D,"the",,:D,"city",,:D,"there",,:S,"was","if",191.730+191.870:S,"the","it's",191.940+192.120
+</PATH>
+<PATH id="(cou-022)" word_cnt="6" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="79" R_T1="192.750" R_T2="194.925" word_aux="h_t1+t2">
+C,"the","the",192.820+192.930:C,"second","second",193.090+193.420:D,"floor",,:D,"apartment",,:D,"of",,:S,"the","box",193.730+194.050
+</PATH>
+<PATH id="(cou-023)" word_cnt="6" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="81" R_T1="195.150" R_T2="198.250" word_aux="h_t1+t2">
+D,"like",,:D,"(commo-)",,:D,"less",,:D,"commonly",,:D,"used",,:D,"languages",,
+</PATH>
+<PATH id="(cou-024)" word_cnt="1" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="82" R_T1="198.525" R_T2="199.250" word_aux="h_t1+t2">
+S,"eblul","yeah",198.630+199.050
+</PATH>
+<PATH id="(cou-025)" word_cnt="8" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="84" R_T1="201.250" R_T2="204.500" word_aux="h_t1+t2">
+D,"european",,:D,"plus",,:D,"yeah",,:D,"that",,:D,"what",,:D,"it",,:D,"european",,:S,"bureau","right",204.250+204.440
+</PATH>
+<PATH id="(cou-026)" word_cnt="9" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="87" R_T1="205.650" R_T2="207.975" word_aux="h_t1+t2">
+D,"there",,:D,"was",,:D,"they",,:D,"seemed",,:D,"like",,:D,"a",,:D,"bunch",,:D,"of",,:D,"activists",,
+</PATH>
+<PATH id="(cou-027)" word_cnt="9" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="95" R_T1="219.775" R_T2="221.825" word_aux="h_t1+t2">
+D,"you",,:D,"can",,:D,"not",,:D,"do",,:D,"that",,:D,"with",,:D,"out",,:D,"offending",,:D,"somebody",,
+</PATH>
+<PATH id="(cou-028)" word_cnt="22" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="102" R_T1="230.900" R_T2="234.125" word_aux="h_t1+t2">
+D,"i",,:D,"wish",,:D,"i",,:D,"could",,:D,"pull",,:D,"it",,:D,"up",,:D,"on",,:D,"the",,:D,"internet",,:D,"and",,:D,"show",,:D,"it",,:D,"to",,:D,"you",,:D,"guys",,:D,"if",,:D,"i",,:D,"could",,:D,"find",,:D,"it",,:D,"somewhere",,
+</PATH>
+<PATH id="(cou-029)" word_cnt="4" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="107" R_T1="239.475" R_T2="241.650" word_aux="h_t1+t2">
+C,"eleven","eleven",240.760+241.140:D,"original",,:S,"(m-)","times",241.140+241.380:S,"members","the",241.510+241.570
+</PATH>
+<PATH id="(cou-030)" word_cnt="0" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="110" R_T1="242.100" R_T2="242.450" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(cou-031)" word_cnt="5" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="111" R_T1="242.975" R_T2="244.175" word_aux="h_t1+t2">
+D,"i",,:D,"think",,:D,"there",,:D,"were",,:D,"eleven",,
+</PATH>
+<PATH id="(cou-032)" word_cnt="16" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="113" R_T1="244.825" R_T2="248.325" word_aux="h_t1+t2">
+C,"yeah","yeah",245.650+245.890:S,"maybe","yeah",245.890+246.230:C,"that","that",246.230+246.470:D,"was",,:D,"it",,:D,"i",,:S,"thought","that's",246.470+246.670:S,"that","the",246.670+246.760:C,"number","number",246.760+246.990:C,"twelve","twelve",246.990+247.300:C,"even","even",247.300+247.470:C,"though","though",247.470+247.600:C,"it","it",247.600+247.685:C,"is","is",247.685+247.770:C,"no","no",247.770+247.910:S,"longer","wonder",247.910+248.130
+</PATH>
+<PATH id="(cou-033)" word_cnt="16" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="114" R_T1="248.425" R_T2="252.275" word_aux="h_t1+t2">
+D,"a",,:D,"symbol",,:D,"of",,:D,"anything",,:D,"it",,:S,"is","well",248.691+248.921:S,"just","do",248.991+249.061:S,"sort","you",249.061+249.181:S,"of","think",249.181+249.451:S,"a","said",249.671+249.861:S,"symbolic","up",250.081+250.331:S,"unifying","this",250.481+250.791:C,"number","number",250.921+251.331:D,"and",,:D,"it",,:D,"is",,
+</PATH>
+<PATH id="(cou-034)" word_cnt="8" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="115" R_T1="252.375" R_T2="254.400" word_aux="h_t1+t2">
+D,"nice",,:D,"because",,:D,"it",,:D,"is",,:D,"the",,:D,"number",,:D,"twelve",,:D,"and",,
+</PATH>
+<PATH id="(cou-035)" word_cnt="12" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="118" R_T1="258.850" R_T2="263.025" word_aux="h_t1+t2">
+D,"that",,:D,"was",,:D,"that",,:D,"was",,:D,"another",,:D,"concern",,:D,"there",,:D,"you",,:D,"go",,:S,"that","of",262.321+262.391:S,"is","course",262.391+262.631:S,"it","but",262.631+262.781
+</PATH>
+<PATH id="(cou-036)" word_cnt="9" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="122" R_T1="263.025" R_T2="265.750" word_aux="h_t1+t2">
+D,"now",,:D,"like",,:D,"flags",,:D,"are",,:D,"clearly",,:D,"(%hesitation)",,:S,"(inic-)","see",264.501+264.841:C,"like","like",264.991+265.191:S,"clearly","me",265.431+265.631
+</PATH>
+<PATH id="(cou-037)" word_cnt="26" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="123" R_T1="265.750" R_T2="270.425" word_aux="h_t1+t2">
+D,"but",,:D,"i",,:C,"mean","mean",265.951+266.111:D,"some",,:D,"of",,:D,"them",,:S,"are","not",266.221+266.591:C,"like","like",266.591+266.771:D,"white",,:S,"blue","that",266.771+266.951:S,"white","like",266.951+267.081:S,"blue","let",267.201+267.381:S,"white","the",267.581+267.681:S,"blue","net",267.951+268.101:C,"and","and",268.981+269.101:D,"you",,:D,"are",,:D,"like",,:D,"%hesitation",,:D,"that",,:D,"could",,:S,"be","what",269.101+269.251:S,"greece","happens",269.251+269.611:S,"or","if",269.721+269.841:S,"what","they",269.841+270.021:S,"ever","are",270.021+270.201
+</PATH>
+<PATH id="(cou-038)" word_cnt="6" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="128" R_T1="274.050" R_T2="277.100" word_aux="h_t1+t2">
+D,"ooh",,:D,"little",,:D,"beast",,:D,"yeah",,:S,"hanging","oh",275.631+275.811:S,"on","successful",276.791+277.391
+</PATH>
+<PATH id="(cou-039)" word_cnt="2" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="134" R_T1="279.725" R_T2="280.575" word_aux="h_t1+t2">
+D,"even",,:D,"though",,
+</PATH>
+<PATH id="(cou-040)" word_cnt="1" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="135" R_T1="281.400" R_T2="282.350" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(cou-041)" word_cnt="2" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="140" R_T1="286.600" R_T2="288.600" word_aux="h_t1+t2">
+D,"yes",,:S,"yes","with",288.500+288.700
+</PATH>
+<PATH id="(cou-042)" word_cnt="3" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="160" R_T1="626.975" R_T2="628.800" word_aux="h_t1+t2">
+D,"wait",,:D,"a",,:D,"second",,
+</PATH>
+<PATH id="(cou-043)" word_cnt="6" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="170" R_T1="642.650" R_T2="644.550" word_aux="h_t1+t2">
+D,"you",,:D,"would",,:D,"do",,:D,"a",,:D,"private",,:D,"plan",,
+</PATH>
+<PATH id="(cou-044)" word_cnt="7" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="174" R_T1="650.450" R_T2="652.475" word_aux="h_t1+t2">
+D,"i",,:D,"know",,:D,"a",,:D,"few",,:D,"people",,:D,"like",,:D,"that",,
+</PATH>
+<PATH id="(cou-045)" word_cnt="5" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="178" R_T1="652.850" R_T2="654.175" word_aux="h_t1+t2">
+D,"he",,:D,"goes",,:D,"to",,:D,"visit",,:D,"his",,
+</PATH>
+<PATH id="(cou-046)" word_cnt="3" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="182" R_T1="654.800" R_T2="656.425" word_aux="h_t1+t2">
+D,"remember",,:D,"b.",,:D,"j.",,
+</PATH>
+<PATH id="(cou-047)" word_cnt="7" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="183" R_T1="656.875" R_T2="659.800" word_aux="h_t1+t2">
+D,"(sor-)",,:D,"remember",,:D,"b.",,:D,"j.",,:D,"his",,:D,"mom",,:D,"had",,
+</PATH>
+<PATH id="(cou-048)" word_cnt="12" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="186" R_T1="659.800" R_T2="662.300" word_aux="h_t1+t2">
+D,"you",,:D,"oh",,:D,"sorry",,:D,"you",,:D,"never",,:D,"met",,:D,"him",,:D,"his",,:D,"mom",,:D,"has",,:D,"a",,:D,"(%hesitation)",,
+</PATH>
+<PATH id="(cou-049)" word_cnt="7" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="187" R_T1="662.525" R_T2="664.725" word_aux="h_t1+t2">
+D,"private",,:D,"jet",,:D,"and",,:D,"he",,:D,"would",,:D,"you",,:D,"know",,
+</PATH>
+<PATH id="(cou-050)" word_cnt="16" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="189" R_T1="665.100" R_T2="668.075" word_aux="h_t1+t2">
+D,"yeah",,:D,"she",,:D,"she",,:D,"(%hesitation)",,:D,"she",,:D,"if",,:D,"she",,:D,"does",,:D,"not",,:D,"have",,:D,"one",,:D,"then",,:D,"i",,:D,"think",,:D,"she",,:D,"does",,
+</PATH>
+<PATH id="(cou-051)" word_cnt="21" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="190" R_T1="668.175" R_T2="671.825" word_aux="h_t1+t2">
+D,"%hesitation",,:D,"she",,:D,"has",,:D,"access",,:D,"to",,:D,"one",,:D,"and",,:D,"she",,:D,"calls",,:D,"up",,:D,"the",,:D,"f.",,:D,"a.",,:D,"a.",,:D,"a",,:D,"couple",,:D,"days",,:D,"before",,:D,"it",,:D,"and",,:D,"says",,
+</PATH>
+<PATH id="(cou-052)" word_cnt="15" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="191" R_T1="672.025" R_T2="673.650" word_aux="h_t1+t2">
+D,"i",,:D,"want",,:D,"to",,:D,"fly",,:D,"to",,:D,"here",,:D,"and",,:D,"they",,:D,"are",,:D,"like",,:D,"all",,:D,"right",,:D,"you",,:D,"are",,:D,"good",,
+</PATH>
+<PATH id="(cou-053)" word_cnt="0" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="193" R_T1="674.050" R_T2="674.950" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(cou-054)" word_cnt="2" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="196" R_T1="677.550" R_T2="679.225" word_aux="h_t1+t2">
+D,"my",,:D,"friend",,
+</PATH>
+<PATH id="(cou-055)" word_cnt="11" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="198" R_T1="679.900" R_T2="682.150" word_aux="h_t1+t2">
+D,"my",,:D,"friend",,:D,"dropped",,:D,"out",,:D,"of",,:D,"school",,:D,"here",,:D,"to",,:D,"take",,:D,"flying",,:D,"lessons",,
+</PATH>
+<PATH id="(cou-056)" word_cnt="0" labels="<o,female,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="201" R_T1="683.700" R_T2="684.575" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(cou-057)" word_cnt="10" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="211" R_T1="13.450" R_T2="15.250" word_aux="h_t1+t2">
+D,"what",,:D,"kind",,:D,"of",,:D,"s.",,:D,"u.",,:D,"v.",,:D,"you",,:D,"do",,:D,"not",,:S,"know","it",15.070+15.180
+</PATH>
+<PATH id="(cou-058)" word_cnt="5" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="213" R_T1="15.500" R_T2="16.625" word_aux="h_t1+t2">
+D,"is",,:D,"it",,:D,"like",,:D,"a",,:D,"big",,
+</PATH>
+<PATH id="(cou-059)" word_cnt="5" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="214" R_T1="18.325" R_T2="20.175" word_aux="h_t1+t2">
+D,"honda",,:D,"makes",,:D,"s.",,:D,"u.",,:S,"v.","but",20.030+20.140
+</PATH>
+<PATH id="(cou-060)" word_cnt="4" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="218" R_T1="21.225" R_T2="23.575" word_aux="h_t1+t2">
+I,,"oh",22.030+22.160:S,"honda","you",22.160+22.340:S,"honda","like",22.340+22.490:S,"the","it",23.420+23.540
+</PATH>
+<PATH id="(cou-061)" word_cnt="6" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="224" R_T1="25.950" R_T2="27.625" word_aux="h_t1+t2">
+D,"i",,:D,"wanted",,:D,"them",,:D,"to",,:D,"be",,:D,"like",,
+</PATH>
+<PATH id="(cou-062)" word_cnt="5" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="225" R_T1="27.825" R_T2="29.925" word_aux="h_t1+t2">
+D,"the",,:D,"speakers",,:D,"for",,:D,"the",,:S,"environment","well",29.620+29.820
+</PATH>
+<PATH id="(cou-063)" word_cnt="6" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="229" R_T1="30.075" R_T2="31.400" word_aux="h_t1+t2">
+D,"and",,:D,"to",,:D,"know",,:D,"better",,:D,"than",,:D,"that",,
+</PATH>
+<PATH id="(cou-064)" word_cnt="1" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="241" R_T1="58.275" R_T2="59.100" word_aux="h_t1+t2">
+D,"good",,
+</PATH>
+<PATH id="(cou-065)" word_cnt="4" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="258" R_T1="82.075" R_T2="83.725" word_aux="h_t1+t2">
+D,"they",,:D,"are",,:D,"not",,:D,"safe",,
+</PATH>
+<PATH id="(cou-066)" word_cnt="1" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="259" R_T1="84.325" R_T2="85.125" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(cou-067)" word_cnt="2" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="261" R_T1="87.475" R_T2="88.100" word_aux="h_t1+t2">
+I,,"what",87.740+87.950:I,,"is",87.950+88.070
+</PATH>
+<PATH id="(cou-068)" word_cnt="0" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="263" R_T1="89.650" R_T2="90.175" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(cou-069)" word_cnt="2" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="271" R_T1="99.500" R_T2="101.100" word_aux="h_t1+t2">
+D,"much",,:D,"momentum",,
+</PATH>
+<PATH id="(cou-070)" word_cnt="1" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="287" R_T1="137.725" R_T2="138.300" word_aux="h_t1+t2">
+D,"%hesitation",,
+</PATH>
+<PATH id="(cou-071)" word_cnt="1" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="297" R_T1="155.200" R_T2="155.825" word_aux="h_t1+t2">
+D,"%hesitation",,
+</PATH>
+<PATH id="(cou-072)" word_cnt="1" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="304" R_T1="164.475" R_T2="165.125" word_aux="h_t1+t2">
+I,,"like",164.880+165.050
+</PATH>
+<PATH id="(cou-073)" word_cnt="2" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="306" R_T1="167.375" R_T2="169.325" word_aux="h_t1+t2">
+I,,"like",168.840+169.040:I,,"that",169.170+169.320
+</PATH>
+<PATH id="(cou-074)" word_cnt="0" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="322" R_T1="194.000" R_T2="195.325" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(cou-075)" word_cnt="6" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="347" R_T1="241.775" R_T2="244.525" word_aux="h_t1+t2">
+D,"sure",,:D,"you",,:S,"can","in",243.290+243.380:S,"you","fact",243.530+243.760:S,"just","the",243.760+243.880:S,"did","only",243.880+244.320
+</PATH>
+<PATH id="(cou-076)" word_cnt="15" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="386" R_T1="290.675" R_T2="293.725" word_aux="h_t1+t2">
+D,"but",,:D,"right",,:D,"now",,:D,"we",,:D,"are",,:D,"talking",,:D,"about",,:D,"s.",,:D,"u.",,:D,"v.s",,:D,"and",,:D,"yes",,:D,"they",,:D,"are",,:S,"bad","required",293.320+293.670
+</PATH>
+<PATH id="(cou-077)" word_cnt="1" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="392" R_T1="294.125" R_T2="295.100" word_aux="h_t1+t2">
+D,"right",,
+</PATH>
+<PATH id="(cou-078)" word_cnt="6" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="396" R_T1="295.375" R_T2="297.700" word_aux="h_t1+t2">
+D,"ride",,:D,"a",,:D,"bike",,:D,"stop",,:S,"eating","i",296.930+297.030:S,"meat","mean",297.030+297.540
+</PATH>
+<PATH id="(cou-079)" word_cnt="3" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="399" R_T1="298.625" R_T2="299.950" word_aux="h_t1+t2">
+D,"yeah",,:D,"do",,:D,"that",,
+</PATH>
+<PATH id="(cou-080)" word_cnt="13" labels="<o,female,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="402" R_T1="299.950" R_T2="302.725" word_aux="h_t1+t2">
+D,"i",,:D,"walked",,:D,"to",,:D,"work",,:D,"today",,:D,"too",,:D,"because",,:D,"it",,:D,"is",,:D,"like",,:D,"sixty",,:D,"degrees",,:S,"out","but",300.631+300.721
+</PATH>
+</SPEAKER>
+<SPEAKER id="tbvstt">
+<PATH id="(tbvstt-000)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="6" R_T1="48.450" R_T2="48.975" word_aux="h_t1+t2">
+S,"right","some",48.780+48.960
+</PATH>
+<PATH id="(tbvstt-001)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="11" R_T1="56.525" R_T2="57.425" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-002)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="15" R_T1="61.225" R_T2="61.925" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-003)" word_cnt="36" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="20" R_T1="69.100" R_T2="75.525" word_aux="h_t1+t2">
+D,"well",,:D,"it",,:D,"was",,:D,"a",,:D,"it",,:D,"is",,:D,"an",,:D,"interesting",,:D,"point",,:D,"i",,:S,"mean","fighting",70.451+70.771:C,"if","if",70.771+70.891:C,"you","you",70.891+70.981:D,"have",,:C,"got","got",70.981+71.211:D,"a",,:S,"flag","like",71.291+71.581:C,"nobody","nobody",71.711+72.021:C,"can","can",72.021+72.161:C,"actually","actually",72.161+72.421:C,"remember","remember",72.421+72.701:C,"what","what",72.701+72.941:D,"colors",,:D,"are",,:D,"in",,:S,"it","color",72.941+73.251:S,"and","there",73.251+73.441:S,"nobody","anyway",73.911+74.151:S,"can","drive",74.421+74.781:S,"draw","yeah",74.781+75.021:C,"it","it",75.021+75.091:I,,"is",75.091+75.161:C,"it","it",75.161+75.276:C,"is","is",75.276+75.391:D,"kind",,:D,"of",,
+</PATH>
+<PATH id="(tbvstt-004)" word_cnt="15" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="23" R_T1="76.425" R_T2="81.400" word_aux="h_t1+t2">
+D,"a",,:D,"flag",,:D,"is",,:D,"supposed",,:D,"to",,:C,"be","be",77.611+77.741:C,"something","something",77.741+78.041:C,"visible","visible",78.091+78.441:S,"at","and",78.441+78.531:S,"a","it",78.531+78.631:S,"distance","did",78.631+78.801:S,"that","and",78.891+79.071:C,"everybody","everybody",79.211+79.781:C,"universally","universally",79.781+80.281:S,"recognizes","recognized",80.281+80.911
+</PATH>
+<PATH id="(tbvstt-005)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="28" R_T1="90.925" R_T2="91.825" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-006)" word_cnt="16" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="32" R_T1="100.175" R_T2="105.387" word_aux="h_t1+t2">
+D,"the",,:D,"e.",,:S,"u.","he",100.830+100.950:S,"is","was",100.950+101.140:C,"a","a",101.140+101.240:C,"very","very",101.330+101.690:C,"very","very",101.950+102.260:C,"large","large",102.410+102.960:C,"bureaucratic","bureaucratic",103.030+103.560:C,"organization","organization",103.610+104.300:C,"that","that",104.300+104.390:C,"has","has",104.390+104.580:I,,"a",104.580+104.620:C,"lot","lot",104.620+104.780:C,"of","of",104.780+104.870:C,"different","different",104.870+105.170
+</PATH>
+<PATH id="(tbvstt-007)" word_cnt="6" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="33" R_T1="105.387" R_T2="107.600" word_aux="h_t1+t2">
+C,"groups","groups",105.520+105.800:C,"that","that",105.800+105.890:D,"seem",,:S,"to","into",106.000+106.270:C,"sometimes","sometimes",106.270+106.730:C,"disagree","disagree",106.860+107.410
+</PATH>
+<PATH id="(tbvstt-008)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="34" R_T1="107.675" R_T2="110.695" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"with",,:C,"among","among",108.740+109.050:C,"each","each",109.050+109.250:C,"other","other",109.250+109.400:I,,"like",109.530+109.690:I,,"to",109.730+109.820:I,,"read",109.820+109.990:S,"quiet","because",109.990+110.280:S,"significantly","i",110.410+110.500
+</PATH>
+<PATH id="(tbvstt-009)" word_cnt="19" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="39" R_T1="110.859" R_T2="115.267" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"i",,:D,"i",,:C,"i","i",111.460+111.810:D,"seem",,:D,"to",,:D,"remember",,:S,"something","seriously",111.810+112.270:C,"about","about",112.270+112.510:D,"some",,:D,"of",,:S,"this","the",112.650+112.820:C,"some","some",113.240+113.360:C,"of","of",113.360+113.460:C,"the","the",113.460+113.780:D,"(%hesitation)",,:C,"surveillance","surveillance",113.890+114.380:C,"technology","technology",114.380+114.920:C,"like","like",114.920+115.080
+</PATH>
+<PATH id="(tbvstt-010)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="40" R_T1="115.275" R_T2="118.050" word_aux="h_t1+t2">
+C,"one","one",115.330+115.560:C,"part","part",115.560+115.760:C,"of","of",115.760+115.820:C,"the","the",115.820+115.880:D,"e.",,:C,"u.","u.",115.880+116.190:C,"was","was",116.190+116.430:C,"producing","producing",116.520+116.880:S,"a","the",116.880+116.940:C,"report","report",116.940+117.440:C,"on","on",117.440+117.760
+</PATH>
+<PATH id="(tbvstt-011)" word_cnt="6" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="41" R_T1="118.310" R_T2="119.949" word_aux="h_t1+t2">
+I,,"actually",118.600+118.830:I,,"wants",118.830+119.070:S,"the","to",119.070+119.130:S,"echelon","deal",119.130+119.320:S,"surveillance","with",119.320+119.440:S,"system","the",119.530+119.590
+</PATH>
+<PATH id="(tbvstt-012)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="42" R_T1="119.949" R_T2="122.594" word_aux="h_t1+t2">
+C,"and","and",120.080+120.260:D,"(a-)",,:D,"(%hesitation)",,:S,"(%hesitation)","that",120.260+120.410:C,"another","another",121.290+121.530:C,"part","part",121.530+121.850:S,"looked","looks",121.850+122.000:C,"like","like",122.000+122.180:C,"they","they",122.180+122.290:C,"were","were",122.290+122.470
+</PATH>
+<PATH id="(tbvstt-013)" word_cnt="13" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="43" R_T1="122.781" R_T2="125.692" word_aux="h_t1+t2">
+C,"interested","interested",122.820+123.320:C,"in","in",123.320+123.410:C,"using","using",123.620+124.030:C,"using","using",124.030+124.400:C,"it","it",124.400+124.560:S,"so","to",124.560+124.630:C,"one","one",124.630+124.760:C,"of","of",124.760+124.840:I,,"the",124.840+124.950:S,"them","basic",124.950+125.280:S,"basically","thing",125.280+125.470:S,"saying","i",125.470+125.500:C,"like","like",125.500+125.650
+</PATH>
+<PATH id="(tbvstt-014)" word_cnt="17" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="45" R_T1="125.692" R_T2="128.048" word_aux="h_t1+t2">
+D,"this",,:D,"exists",,:D,"and",,:D,"these",,:S,"are","because",125.920+126.250:S,"the","neither",126.250+126.560:S,"bad","that",126.560+126.760:C,"things","things",126.760+126.940:D,"that",,:C,"are","are",126.940+127.020:C,"being","being",127.020+127.180:C,"done","done",127.180+127.430:D,"the",,:D,"other",,:D,"part",,:S,"is","to",127.430+127.590:S,"like","protect",127.590+127.990
+</PATH>
+<PATH id="(tbvstt-015)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="46" R_T1="128.048" R_T2="129.843" word_aux="h_t1+t2">
+D,"oh",,:D,"this",,:D,"is",,:D,"a",,:D,"useful",,:D,"thing",,:D,"for",,:S,"us","others",128.060+128.350:S,"to","of",128.350+128.420:S,"have","these",128.420+128.520
+</PATH>
+<PATH id="(tbvstt-016)" word_cnt="9" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="47" R_T1="129.843" R_T2="131.400" word_aux="h_t1+t2">
+C,"so","so",130.220+130.360:C,"you","you",130.360+130.500:C,"know","know",130.500+130.580:D,"they",,:D,"are",,:S,"they","that",130.580+130.760:S,"are","that",130.760+130.910:C,"kind","kind",130.910+131.100:C,"of","of",131.100+131.180
+</PATH>
+<PATH id="(tbvstt-017)" word_cnt="3" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="48" R_T1="131.700" R_T2="133.120" word_aux="h_t1+t2">
+S,"going","at",131.930+132.020:C,"across","across",132.020+132.350:C,"purposes","purposes",132.350+132.870
+</PATH>
+<PATH id="(tbvstt-018)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="49" R_T1="133.276" R_T2="133.689" word_aux="h_t1+t2">
+D,"(%hesitation)",,
+</PATH>
+<PATH id="(tbvstt-019)" word_cnt="9" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="50" R_T1="133.954" R_T2="136.050" word_aux="h_t1+t2">
+D,"i",,:C,"i","i",134.540+134.710:C,"do","do",134.710+134.775:C,"not","not",134.775+134.840:C,"know","know",134.840+135.000:S,"the","that",135.000+135.110:S,"(%hesitation)","that",135.180+135.380:S,"flight","seems",135.380+135.510:S,"(tri-)","like",135.510+135.680
+</PATH>
+<PATH id="(tbvstt-020)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="57" R_T1="149.026" R_T2="149.425" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(tbvstt-021)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="60" R_T1="152.105" R_T2="152.700" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(tbvstt-022)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="67" R_T1="172.850" R_T2="173.375" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(tbvstt-023)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="69" R_T1="178.058" R_T2="178.446" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(tbvstt-024)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="86" R_T1="204.198" R_T2="204.469" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-025)" word_cnt="15" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="88" R_T1="208.027" R_T2="210.586" word_aux="h_t1+t2">
+D,"well",,:D,"the",,:S,"the","was",208.130+208.230:C,"the","the",208.230+208.490:S,"(%hesitation)","that",208.490+208.610:S,"the","that",208.780+208.990:S,"(ha-)","have",208.990+209.160:C,"the","the",209.160+209.250:C,"flight","flight",209.250+209.570:D,"that",,:C,"you","you",209.570+209.720:C,"mentioned","mentioned",209.720+210.060:C,"seems","seems",210.060+210.260:C,"like","like",210.260+210.440:D,"a",,
+</PATH>
+<PATH id="(tbvstt-026)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="89" R_T1="210.586" R_T2="212.528" word_aux="h_t1+t2">
+D,"like",,:D,"just",,:S,"a","it",210.720+210.800:S,"(wo-)","is",210.800+210.920:C,"a","a",210.920+210.970:C,"wonderful","wonderful",210.970+211.490:C,"example","example",211.490+212.040:D,"of",,:C,"of","of",212.040+212.190:C,"of","of",212.190+212.330
+</PATH>
+<PATH id="(tbvstt-027)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="90" R_T1="212.528" R_T2="214.526" word_aux="h_t1+t2">
+C,"some","some",212.660+212.800:C,"of","of",212.800+212.860:C,"the","the",212.860+212.930:C,"worst","worst",212.930+213.200:C,"things","things",213.200+213.420:D,"the",,:D,"e.",,:S,"u.","he",213.420+213.670:C,"tries","tries",213.670+214.010:C,"to","to",214.050+214.110:C,"do","do",214.110+214.350
+</PATH>
+<PATH id="(tbvstt-028)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="91" R_T1="214.526" R_T2="215.275" word_aux="h_t1+t2">
+D,"try",,:S,"(%hesitation)","chuck",214.610+214.820:C,"you","you",214.820+214.900:C,"know","know",214.900+215.030
+</PATH>
+<PATH id="(tbvstt-029)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="92" R_T1="215.275" R_T2="217.325" word_aux="h_t1+t2">
+I,,"they",215.320+215.420:S,"like","could",215.420+215.550:S,"(%hesitation)","be",215.550+215.670:C,"they","they",215.670+215.770:C,"do","do",215.770+215.850:C,"not","not",215.850+215.930:C,"want","want",215.930+216.100:C,"to","to",216.100+216.210:I,,"do",216.210+216.290:S,"offend","anything",216.400+216.980:S,"anybody","but",216.980+217.170
+</PATH>
+<PATH id="(tbvstt-030)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="93" R_T1="217.350" R_T2="219.859" word_aux="h_t1+t2">
+D,"and",,:S,"they","we",217.531+217.681:C,"want","want",217.681+217.921:D,"to",,:D,"(i-)",,:S,"include","from",217.921+218.141:C,"everybody","everybody",218.971+219.581
+</PATH>
+<PATH id="(tbvstt-031)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="96" R_T1="219.859" R_T2="221.125" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"(a-)",,:D,"and",,:D,"%hesitation",,
+</PATH>
+<PATH id="(tbvstt-032)" word_cnt="14" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="97" R_T1="221.808" R_T2="223.507" word_aux="h_t1+t2">
+C,"well","well",221.850+221.990:D,"you",,:D,"(g-)",,:D,"(right)",,:S,"you","he",221.990+222.110:S,"(c-)","greek",222.110+222.490:C,"you","you",222.490+222.640:S,"(c-)","cannot",222.640+222.830:C,"you","you",222.830+222.910:C,"can","can",222.910+223.000:C,"not","not",223.000+223.090:C,"do","do",223.090+223.150:C,"that","that",223.150+223.320:S,"and","if",223.320+223.570
+</PATH>
+<PATH id="(tbvstt-033)" word_cnt="12" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="98" R_T1="223.507" R_T2="225.525" word_aux="h_t1+t2">
+S,"there","this",223.570+223.730:C,"is","is",223.730+223.810:D,"just",,:D,"a",,:S,"some","this",223.810+223.960:S,"point","is",223.960+224.050:S,"at","simply",224.050+224.410:S,"which","would",224.410+224.570:C,"you","you",224.660+224.730:C,"have","have",224.730+224.870:C,"to","to",224.870+224.960:C,"decide","decide",224.960+225.330
+</PATH>
+<PATH id="(tbvstt-034)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="99" R_T1="225.567" R_T2="227.275" word_aux="h_t1+t2">
+S,"where","weird",225.660+225.940:C,"to","to",225.940+226.010:D,"include",,:D,"and",,:S,"where","including",226.010+226.490:S,"not","right",226.490+226.670:S,"to","now",226.670+226.880
+</PATH>
+<PATH id="(tbvstt-035)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="100" R_T1="227.537" R_T2="231.289" word_aux="h_t1+t2">
+C,"and","and",227.560+227.830:S,"flags","fly",228.250+228.510:S,"flag","like",229.010+229.220:C,"colors","colors",229.220+229.600:S,"are","or",229.600+229.680:S,"one","when",229.680+229.930:S,"place","like",230.070+230.260:C,"not","not",230.260+230.490:D,"to",,:D,"include",,:S,"(%hesitation)","too",230.490+230.670
+</PATH>
+<PATH id="(tbvstt-036)" word_cnt="2" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="106" R_T1="238.238" R_T2="239.300" word_aux="h_t1+t2">
+D,"twelve",,:D,"members",,
+</PATH>
+<PATH id="(tbvstt-037)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="109" R_T1="241.041" R_T2="241.401" word_aux="h_t1+t2">
+D,"oh",,
+</PATH>
+<PATH id="(tbvstt-038)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="117" R_T1="255.099" R_T2="255.342" word_aux="h_t1+t2">
+D,"you",,
+</PATH>
+<PATH id="(tbvstt-039)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="119" R_T1="259.683" R_T2="260.419" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-040)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="121" R_T1="262.208" R_T2="262.333" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-041)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="127" R_T1="273.430" R_T2="273.784" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-042)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="129" R_T1="274.200" R_T2="275.531" word_aux="h_t1+t2">
+D,"turkey",,:D,"is",,:D,"a",,:D,"little",,:D,"bit",,:D,"of",,:D,"europe",,
+</PATH>
+<PATH id="(tbvstt-043)" word_cnt="8" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="131" R_T1="275.545" R_T2="277.525" word_aux="h_t1+t2">
+D,"the",,:D,"bosphorus",,:D,"the",,:D,"other",,:D,"side",,:D,"of",,:D,"the",,:D,"bosphorus",,
+</PATH>
+<PATH id="(tbvstt-044)" word_cnt="8" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="136" R_T1="281.662" R_T2="283.600" word_aux="h_t1+t2">
+D,"oh",,:D,"yeah",,:D,"they",,:D,"are",,:D,"really",,:S,"hot","rated",282.440+282.830:S,"on","the",282.830+282.920:S,"that","problem",282.920+283.270
+</PATH>
+<PATH id="(tbvstt-045)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="137" R_T1="283.650" R_T2="286.136" word_aux="h_t1+t2">
+C,"they","they",283.790+283.870:C,"even","even",283.870+284.090:D,"they",,:S,"they","baby",284.090+284.410:S,"abolished","about",284.410+284.590:C,"the","the",284.590+284.670:C,"death","death",284.760+284.980:C,"penalty","penalty",284.980+285.350:C,"for","for",285.580+285.660:C,"example","example",285.660+286.060
+</PATH>
+<PATH id="(tbvstt-046)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="139" R_T1="286.281" R_T2="287.315" word_aux="h_t1+t2">
+D,"as",,:D,"a",,:D,"part",,:D,"yes",,
+</PATH>
+<PATH id="(tbvstt-047)" word_cnt="7" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="141" R_T1="287.509" R_T2="289.675" word_aux="h_t1+t2">
+D,"yes",,:D,"(%hesitation)",,:D,"what",,:D,"was",,:S,"the","that",288.700+288.830:C,"the","the",288.830+288.990:C,"kurdish","kurdish",288.990+289.400
+</PATH>
+<PATH id="(tbvstt-048)" word_cnt="9" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="142" R_T1="289.916" R_T2="292.149" word_aux="h_t1+t2">
+D,"p.",,:S,"k.","he",290.150+290.260:S,"k.","came",290.260+290.560:S,"leader","these",290.560+290.720:S,"that","are",290.720+290.870:C,"they","they",291.170+291.360:D,"that",,:C,"they","they",291.450+291.670:S,"caught","cost",291.670+292.140
+</PATH>
+<PATH id="(tbvstt-049)" word_cnt="28" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="143" R_T1="292.163" R_T2="296.650" word_aux="h_t1+t2">
+D,"(w-)",,:D,"(%hesitation)",,:C,"one","one",292.870+293.060:C,"of","of",293.060+293.170:C,"the","the",293.170+293.380:D,"that",,:D,"was",,:C,"that","that",293.430+293.550:C,"was","was",293.550+293.670:C,"a","a",293.760+293.880:I,,"for",293.960+294.060:S,"fairly","the",294.060+294.160:S,"big","the",294.160+294.250:C,"case","case",294.250+294.540:S,"and","in",294.540+294.650:C,"one","one",294.650+294.810:C,"of","of",294.810+294.880:C,"the","the",294.940+295.280:D,"(%hesitation)",,:D,"you",,:D,"know",,:D,"he",,:C,"would","would",295.280+295.450:D,"have",,:D,"faced",,:S,"the","be",295.450+295.600:S,"death","that",295.690+296.000:S,"penalty","that",296.240+296.390
+</PATH>
+<PATH id="(tbvstt-050)" word_cnt="4" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="144" R_T1="296.650" R_T2="298.183" word_aux="h_t1+t2">
+C,"they","they",296.690+297.010:C,"they","they",297.300+297.480:C,"abolished","abolished",297.480+297.970:C,"it","it",297.970+298.090
+</PATH>
+<PATH id="(tbvstt-051)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="145" R_T1="298.183" R_T2="300.860" word_aux="h_t1+t2">
+C,"and","and",298.430+298.800:D,"he",,:D,"is",,:D,"(go-)",,:C,"he","he",299.200+299.320:D,"is",,:D,"sentenced",,:D,"to",,:S,"life","got",299.590+299.770:S,"in","the",299.770+299.830:S,"prison","desolate",299.830+300.280
+</PATH>
+<PATH id="(tbvstt-052)" word_cnt="23" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="146" R_T1="601.401" R_T2="607.030" word_aux="h_t1+t2">
+D,"pretty",,:D,"sure",,:D,"they",,:D,"give",,:D,"you",,:D,"(%hesitation)",,:D,"you",,:D,"go",,:D,"through",,:D,"different",,:D,"(%hesitation)",,:D,"(secur-)",,:D,"different",,:D,"checkpoints",,:D,"they",,:D,"do",,:D,"not",,:D,"have",,:D,"the",,:D,"same",,:D,"level",,:D,"of",,:D,"lines",,
+</PATH>
+<PATH id="(tbvstt-053)" word_cnt="13" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="147" R_T1="607.061" R_T2="610.712" word_aux="h_t1+t2">
+D,"you",,:D,"know",,:D,"(the-)",,:D,"they",,:D,"they",,:D,"over",,:D,"all",,:D,"you",,:D,"get",,:D,"a",,:D,"much",,:D,"nicer",,:D,"experience",,
+</PATH>
+<PATH id="(tbvstt-054)" word_cnt="11" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="149" R_T1="610.744" R_T2="613.490" word_aux="h_t1+t2">
+D,"and",,:D,"i",,:D,"am",,:D,"sure",,:D,"they",,:D,"work",,:D,"very",,:D,"hard",,:D,"to",,:D,"ensure",,:D,"that",,
+</PATH>
+<PATH id="(tbvstt-055)" word_cnt="2" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="150" R_T1="613.490" R_T2="614.291" word_aux="h_t1+t2">
+D,"you",,:D,"%hesitation",,
+</PATH>
+<PATH id="(tbvstt-056)" word_cnt="12" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="152" R_T1="616.025" R_T2="618.700" word_aux="h_t1+t2">
+D,"well",,:D,"a",,:D,"private",,:D,"i",,:D,"mean",,:D,"you",,:D,"know",,:D,"how",,:D,"much",,:D,"private",,:D,"jets",,:D,"cost",,
+</PATH>
+<PATH id="(tbvstt-057)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="154" R_T1="619.087" R_T2="619.951" word_aux="h_t1+t2">
+D,"(probably)",,
+</PATH>
+<PATH id="(tbvstt-058)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="155" R_T1="621.150" R_T2="623.900" word_aux="h_t1+t2">
+D,"a",,:D,"private",,:D,"jet",,:D,"costs",,:D,"(arou-)",,:D,"costs",,:D,"thirty",,:D,"or",,:D,"forty",,:D,"million",,
+</PATH>
+<PATH id="(tbvstt-059)" word_cnt="13" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="158" R_T1="624.310" R_T2="627.046" word_aux="h_t1+t2">
+D,"those",,:D,"things",,:D,"are",,:D,"(re-)",,:D,"are",,:D,"are",,:D,"i",,:D,"mean",,:D,"those",,:D,"things",,:D,"are",,:D,"really",,:D,"expensive",,
+</PATH>
+<PATH id="(tbvstt-060)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="165" R_T1="637.283" R_T2="638.406" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-061)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="167" R_T1="640.331" R_T2="640.924" word_aux="h_t1+t2">
+D,"right",,
+</PATH>
+<PATH id="(tbvstt-062)" word_cnt="5" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="168" R_T1="641.954" R_T2="643.733" word_aux="h_t1+t2">
+D,"well",,:D,"that",,:D,"well",,:D,"(%hesitation)",,:D,"(act-)",,
+</PATH>
+<PATH id="(tbvstt-063)" word_cnt="28" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="172" R_T1="644.690" R_T2="650.547" word_aux="h_t1+t2">
+D,"a",,:D,"friend",,:D,"a",,:D,"friend",,:D,"of",,:D,"mine",,:D,"is",,:D,"doing",,:D,"that",,:D,"actually",,:D,"he",,:D,"he",,:D,"graduated",,:D,"with",,:D,"a",,:D,"c.",,:D,"s.",,:D,"degree",,:D,"from",,:D,"here",,:D,"and",,:D,"he",,:D,"is",,:D,"now",,:D,"(%hesitation)",,:D,"a",,:D,"certified",,:D,"pilot",,
+</PATH>
+<PATH id="(tbvstt-064)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="176" R_T1="651.421" R_T2="653.054" word_aux="h_t1+t2">
+D,"it",,:D,"is",,:D,"a",,:D,"very",,:D,"(str-)",,:D,"you",,:D,"know",,:D,"a",,:D,"very",,:D,"strange",,
+</PATH>
+<PATH id="(tbvstt-065)" word_cnt="10" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="179" R_T1="653.054" R_T2="655.073" word_aux="h_t1+t2">
+D,"he",,:D,"graduated",,:D,"and",,:D,"(s-)",,:D,"went",,:D,"straight",,:D,"into",,:D,"(po-)",,:D,"flight",,:D,"school",,
+</PATH>
+<PATH id="(tbvstt-066)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="194" R_T1="675.703" R_T2="676.202" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-067)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="199" R_T1="682.184" R_T2="683.797" word_aux="h_t1+t2">
+D,"(yeah)",,
+</PATH>
+<PATH id="(tbvstt-068)" word_cnt="16" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="202" R_T1="685.024" R_T2="689.279" word_aux="h_t1+t2">
+D,"have",,:D,"you",,:D,"seen",,:D,"how",,:D,"much",,:D,"they",,:D,"make",,:D,"if",,:D,"you",,:D,"get",,:D,"to",,:D,"a",,:D,"top",,:D,"level",,:D,"commercial",,:D,"pilot",,
+</PATH>
+<PATH id="(tbvstt-069)" word_cnt="0" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="204" R_T1="692.879" R_T2="693.128" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-070)" word_cnt="1" labels="<o,male,c1>" file="cmu_20030109-1530_d_none" channel="1" sequence="206" R_T1="693.274" R_T2="693.981" word_aux="h_t1+t2">
+D,"three",,
+</PATH>
+<PATH id="(tbvstt-071)" word_cnt="18" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="209" R_T1="9.275" R_T2="12.875" word_aux="h_t1+t2">
+D,"yeah",,:D,"so",,:D,"i",,:D,"was",,:D,"i",,:D,"was",,:D,"as",,:D,"i",,:D,"was",,:D,"(driv-)",,:S,"driving","seven",10.930+11.240:C,"over","over",11.240+11.390:C,"here","here",11.390+11.530:S,"today","they",11.590+11.810:S,"there","do",12.060+12.180:S,"was","is",12.180+12.310:S,"(th-)","this",12.310+12.460:C,"this","this",12.460+12.580
+</PATH>
+<PATH id="(tbvstt-072)" word_cnt="5" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="210" R_T1="12.875" R_T2="14.825" word_aux="h_t1+t2">
+C,"some","some",13.100+13.320:C,"some","some",13.320+13.560:C,"brand","brand",13.650+13.920:C,"new","new",13.920+14.030:S,"shiny","any",14.190+14.370
+</PATH>
+<PATH id="(tbvstt-073)" word_cnt="20" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="212" R_T1="14.975" R_T2="18.950" word_aux="h_t1+t2">
+D,"it",,:C,"was","was",15.180+15.320:D,"a",,:C,"it","it",15.320+15.420:I,,"really",15.420+15.570:C,"i","i",15.570+15.670:C,"think","think",15.670+15.790:D,"it",,:D,"was",,:D,"a",,:S,"honda","on",16.020+16.200:S,"thing","the",16.200+16.260:S,"it","same",16.260+16.580:S,"was","with",16.740+16.880:C,"a","a",16.880+16.940:C,"brand","brand",16.940+17.310:C,"new","new",17.310+17.480:C,"black","black",17.480+17.870:C,"shiny","shiny",18.060+18.500:S,"one","way",18.500+18.720
+</PATH>
+<PATH id="(tbvstt-074)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="217" R_T1="21.007" R_T2="21.404" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-075)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="222" R_T1="25.325" R_T2="26.250" word_aux="h_t1+t2">
+D,"yeah",,
+</PATH>
+<PATH id="(tbvstt-076)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="226" R_T1="27.850" R_T2="28.450" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-077)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="228" R_T1="29.475" R_T2="29.925" word_aux="h_t1+t2">
+D,"well",,
+</PATH>
+<PATH id="(tbvstt-078)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="230" R_T1="30.225" R_T2="31.000" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"i",,:D,"am",,
+</PATH>
+<PATH id="(tbvstt-079)" word_cnt="23" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="231" R_T1="32.150" R_T2="37.075" word_aux="h_t1+t2">
+C,"so","so",32.450+32.790:C,"people","people",33.060+33.330:D,"are",,:S,"(pe-)","lucky",33.330+33.690:C,"people","people",33.690+34.080:C,"are","are",34.080+34.160:C,"buying","buying",34.160+34.500:C,"them","them",34.500+34.590:D,"i",,:C,"mean","mean",34.680+34.820:C,"you","you",34.820+34.930:C,"can","can",34.930+35.130:D,"you",,:D,"know",,:D,"(th-)",,:D,"(th-)",,:S,"there","even",35.180+35.410:S,"are","that",35.540+35.730:C,"there","there",35.730+35.960:C,"is","is",35.960+36.150:I,,"this",36.230+36.370:C,"very","very",36.370+36.580:C,"little","little",36.580+36.760
+</PATH>
+<PATH id="(tbvstt-080)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="233" R_T1="37.075" R_T2="39.500" word_aux="h_t1+t2">
+D,"there",,:D,"is",,:S,"there","this",37.330+37.460:C,"is","is",37.510+37.640:C,"very","very",37.640+37.810:C,"little","little",37.810+38.010:C,"you","you",38.010+38.140:C,"can","can",38.140+38.330:S,"you","do",38.410+38.520:C,"you","you",38.660+38.760:C,"can","can",38.760+38.890:C,"do","do",38.890+39.070:C,"about","about",39.070+39.350
+</PATH>
+<PATH id="(tbvstt-081)" word_cnt="21" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="234" R_T1="39.650" R_T2="43.650" word_aux="h_t1+t2">
+C,"about","about",39.840+40.100:C,"that","that",40.100+40.250:C,"directly","directly",40.250+40.730:I,,"that",40.730+40.910:S,"but","that",41.030+41.140:S,"(thi-)","to",41.140+41.240:S,"so","do",41.240+41.340:C,"this","this",41.340+41.490:C,"guy","guy",41.490+41.700:D,"is",,:C,"driving","driving",41.700+42.070:D,"and",,:C,"the","the",42.070+42.150:C,"road","road",42.150+42.390:D,"is",,:S,"(k-)","kind",42.620+42.740:S,"is","of",42.740+42.800:C,"getting","getting",42.800+42.950:C,"kind","kind",42.950+43.150:C,"of","of",43.210+43.270:S,"narrow","eric",43.270+43.610
+</PATH>
+<PATH id="(tbvstt-082)" word_cnt="36" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="235" R_T1="43.650" R_T2="48.525" word_aux="h_t1+t2">
+D,"and",,:D,"as",,:D,"i",,:C,"and","and",43.740+43.930:D,"as",,:S,"we","they",43.930+44.040:C,"are","are",44.160+44.220:C,"getting","getting",44.220+44.430:D,"coming",,:D,"towards",,:D,"this",,:D,"bridge",,:S,"he","from",44.520+44.670:S,"has","frustration",44.670+45.350:C,"got","got",45.350+45.510:S,"his","it",45.510+45.640:C,"left","left",45.760+45.980:C,"turn","turn",45.980+46.220:C,"signal","signal",46.220+46.430:D,"on",,:C,"and","and",46.430+46.520:C,"he","he",46.520+46.580:C,"is","is",46.580+46.640:C,"in","in",46.640+46.700:C,"the","the",46.700+46.760:C,"right","right",46.760+46.970:C,"lane","lane",46.970+47.200:D,"with",,:C,"two","two",47.280+47.400:C,"lanes","lanes",47.400+47.710:D,"there",,:D,"are",,:C,"a","a",47.710+47.760:C,"lot","lot",47.760+47.970:C,"of","of",47.970+48.030:S,"cars","card",48.030+48.330
+</PATH>
+<PATH id="(tbvstt-083)" word_cnt="18" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="236" R_T1="48.525" R_T2="51.425" word_aux="h_t1+t2">
+C,"and","and",48.640+48.810:C,"and","and",48.810+49.060:D,"i",,:D,"am",,:D,"trying",,:D,"to",,:D,"figure",,:D,"out",,:S,"(wh-)","track",49.060+49.290:S,"why","of",49.290+49.390:S,"he","what",49.390+49.520:S,"has","white",49.520+49.890:C,"got","got",49.890+50.060:D,"his",,:S,"his","it",50.060+50.150:C,"turn","turn",50.520+50.770:C,"signal","signal",50.810+51.120:D,"on",,
+</PATH>
+<PATH id="(tbvstt-084)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="237" R_T1="51.425" R_T2="53.700" word_aux="h_t1+t2">
+C,"and","and",51.590+51.720:D,"then",,:S,"as","that",51.720+51.960:C,"and","and",51.960+52.100:D,"he",,:C,"he","he",52.100+52.370:C,"goes","goes",52.450+52.720:C,"very","very",52.760+53.100:C,"close","close",53.100+53.440
+</PATH>
+<PATH id="(tbvstt-085)" word_cnt="17" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="238" R_T1="53.700" R_T2="56.775" word_aux="h_t1+t2">
+C,"and","and",53.730+53.880:C,"he","he",53.880+53.940:C,"has","has",53.940+54.000:C,"got","got",54.000+54.190:C,"a","a",54.190+54.250:S,"side","five",54.250+54.500:S,"mirror","year",54.500+54.800:S,"and","if",54.800+54.910:C,"it","it",54.910+55.020:D,"just",,:D,"(s-)",,:S,"hits","it's",55.531+55.701:C,"against","against",55.701+56.001:C,"the","the",56.001+56.071:C,"side","side",56.071+56.421:C,"of","of",56.421+56.481:S,"the","these",56.481+56.691
+</PATH>
+<PATH id="(tbvstt-086)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="240" R_T1="56.775" R_T2="59.075" word_aux="h_t1+t2">
+D,"(o-)",,:D,"of",,:D,"the",,:C,"bridge","bridge",57.570+58.040:D,"you",,:D,"know",,:D,"he",,:S,"is","may",58.530+58.710
+</PATH>
+<PATH id="(tbvstt-087)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="243" R_T1="59.200" R_T2="60.450" word_aux="h_t1+t2">
+D,"well",,:D,"i",,:D,"mean",,
+</PATH>
+<PATH id="(tbvstt-088)" word_cnt="20" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="244" R_T1="60.725" R_T2="64.100" word_aux="h_t1+t2">
+C,"well","well",61.051+61.421:D,"(%hesitation)",,:D,"you",,:S,"you","if",61.421+61.521:C,"you","you",61.521+61.781:S,"get","if",61.781+61.871:C,"you","you",61.871+61.981:C,"get","get",61.981+62.121:C,"a","a",62.121+62.191:D,"car",,:D,"that",,:S,"is","cards",62.191+62.571:C,"too","too",62.571+62.721:C,"big","big",62.721+63.001:C,"i","i",63.001+63.031:C,"mean","mean",63.031+63.191:C,"that","that",63.191+63.391:D,"is",,:C,"that","that",63.701+63.931:D,"is",,
+</PATH>
+<PATH id="(tbvstt-089)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="246" R_T1="64.100" R_T2="66.225" word_aux="h_t1+t2">
+D,"that",,:C,"is","is",65.211+65.341:D,"what",,:D,"you",,:D,"that",,:S,"is","it",65.341+65.441:C,"the","the",65.441+65.511:D,"disadvantage",,:S,"of","idea",65.511+65.791:S,"them","that",65.791+65.951
+</PATH>
+<PATH id="(tbvstt-090)" word_cnt="6" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="247" R_T1="66.225" R_T2="67.575" word_aux="h_t1+t2">
+C,"among","among",66.341+66.591:C,"other","other",66.591+66.791:C,"things","things",66.791+67.061:C,"you","you",67.061+67.131:C,"have","have",67.131+67.201:C,"got","got",67.201+67.431
+</PATH>
+<PATH id="(tbvstt-091)" word_cnt="6" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="249" R_T1="67.975" R_T2="69.750" word_aux="h_t1+t2">
+D,"they",,:D,"are",,:D,"just",,:D,"too",,:S,"too","to",68.881+69.051:S,"wide","why",69.101+69.461
+</PATH>
+<PATH id="(tbvstt-092)" word_cnt="15" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="250" R_T1="69.750" R_T2="72.775" word_aux="h_t1+t2">
+I,,"now",69.921+70.081:S,"and","we",70.081+70.191:S,"obviously","do",70.191+70.311:C,"the","the",70.311+70.401:C,"road","road",70.401+70.651:S,"was","is",70.781+70.861:S,"designed","not",70.861+71.091:S,"for","so",71.091+71.171:C,"much","much",71.171+71.621:I,,"i",71.751+71.831:I,,"think",71.831+71.991:I,,"one",71.991+72.181:S,"much","of",72.181+72.241:S,"smaller","the",72.241+72.301:S,"cars","problems",72.301+72.791
+</PATH>
+<PATH id="(tbvstt-093)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="256" R_T1="81.300" R_T2="81.850" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(tbvstt-094)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="260" R_T1="86.591" R_T2="87.575" word_aux="h_t1+t2">
+C,"right","right",87.190+87.430
+</PATH>
+<PATH id="(tbvstt-095)" word_cnt="21" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="262" R_T1="87.575" R_T2="91.425" word_aux="h_t1+t2">
+D,"well",,:D,"one",,:D,"of",,:D,"the",,:D,"one",,:S,"of","it",88.070+88.190:S,"the","would",88.350+88.480:S,"things","not",88.480+88.610:S,"that","think",88.610+88.830:S,"i","a",88.910+89.140:S,"was","certain",89.140+89.410:S,"talking","so",89.410+89.530:S,"to","you",89.530+89.610:S,"somebody","talk",89.610+89.870:C,"about","about",90.040+90.250:S,"(s-)","when",90.250+90.410:S,"about","you",90.410+90.455:S,"winter","are",90.455+90.500:C,"driving","driving",90.500+90.780:C,"conditions","conditions",90.780+91.170:D,"and",,
+</PATH>
+<PATH id="(tbvstt-096)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="265" R_T1="91.425" R_T2="92.875" word_aux="h_t1+t2">
+D,"one",,:S,"of","when",91.530+91.720:C,"the","the",91.720+91.800:D,"points",,:S,"they","when",91.850+92.010:S,"raised","there",92.060+92.390:C,"is","is",92.440+92.580:C,"that","that",92.630+92.790
+</PATH>
+<PATH id="(tbvstt-097)" word_cnt="11" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="266" R_T1="92.875" R_T2="95.275" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"with",,:D,"the",,:D,"four",,:S,"wheel","will",93.580+93.720:C,"drive","drive",93.850+94.140:C,"you","you",94.140+94.250:C,"have","have",94.250+94.410:D,"(f-)",,:C,"four","four",94.580+94.730:S,"wheels","wheel",94.730+95.030
+</PATH>
+<PATH id="(tbvstt-098)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="267" R_T1="95.275" R_T2="96.950" word_aux="h_t1+t2">
+D,"moving",,:S,"you","be",95.520+95.830:C,"faster","faster",95.920+96.370
+</PATH>
+<PATH id="(tbvstt-099)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="268" R_T1="97.050" R_T2="98.925" word_aux="h_t1+t2">
+D,"%hesitation",,:D,"%hesitation",,:C,"to","to",97.500+97.580:C,"get","get",97.580+97.730:C,"you","you",97.730+97.850:C,"into","into",97.850+98.000:C,"more","more",98.000+98.190:C,"trouble","trouble",98.190+98.540
+</PATH>
+<PATH id="(tbvstt-100)" word_cnt="7" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="269" R_T1="98.925" R_T2="101.200" word_aux="h_t1+t2">
+C,"all","all",99.070+99.260:D,"cars",,:C,"have","have",99.550+99.740:D,"four",,:S,"wheels","ideals",99.950+100.350:C,"of","of",100.350+100.440:S,"braking","breaking",100.620+100.980
+</PATH>
+<PATH id="(tbvstt-101)" word_cnt="18" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="272" R_T1="101.200" R_T2="105.800" word_aux="h_t1+t2">
+D,"(y-)",,:D,"(y-)",,:D,"(y-)",,:D,"you",,:S,"know","uses",101.530+101.870:S,"so","those",101.870+102.050:S,"so","the",102.050+102.130:C,"people","people",102.130+102.520:D,"when",,:S,"they","need",102.730+103.010:S,"feel","you",103.230+103.360:C,"more","more",103.360+103.540:C,"traction","traction",103.540+104.070:C,"from","from",104.160+104.380:C,"from","from",104.490+104.680:C,"going","going",104.680+104.860:D,"from",,:C,"accelerating","accelerating",105.010+105.680
+</PATH>
+<PATH id="(tbvstt-102)" word_cnt="11" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="273" R_T1="105.800" R_T2="108.250" word_aux="h_t1+t2">
+D,"(s-)",,:C,"tend","tend",106.180+106.480:C,"to","to",106.480+106.570:C,"feel","feel",106.570+106.890:C,"that","that",106.890+106.990:C,"they","they",106.990+107.060:C,"have","have",107.060+107.220:C,"a","a",107.220+107.250:C,"lot","lot",107.250+107.430:C,"more","more",107.430+107.580:C,"control","control",107.580+108.170
+</PATH>
+<PATH id="(tbvstt-103)" word_cnt="4" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="274" R_T1="108.250" R_T2="109.600" word_aux="h_t1+t2">
+S,"then","than",108.390+108.490:S,"they","the",108.490+108.600:S,"actually","actual",108.600+108.950:C,"do","do",109.060+109.290
+</PATH>
+<PATH id="(tbvstt-104)" word_cnt="11" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="276" R_T1="110.075" R_T2="112.975" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"a",,:S,"lot","one",110.830+111.000:C,"of","of",111.000+111.060:C,"the","the",111.060+111.120:C,"newer","newer",111.120+111.290:C,"ones","ones",111.290+111.530:D,"are",,:S,"(act-)","action",111.770+112.050:C,"actually","actually",112.090+112.430:S,"have","house",112.430+112.740
+</PATH>
+<PATH id="(tbvstt-105)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="277" R_T1="112.975" R_T2="115.750" word_aux="h_t1+t2">
+D,"%hesitation",,:C,"better","better",113.260+113.460:C,"four","four",113.460+113.620:C,"wheel","wheel",113.620+113.870:C,"drive","drive",113.870+114.220:S,"like","it",114.470+114.590:S,"the","was",114.590+114.690:C,"the","the",114.690+114.820:C,"early","early",114.820+115.080:S,"ones","one",115.080+115.340
+</PATH>
+<PATH id="(tbvstt-106)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="278" R_T1="115.750" R_T2="117.550" word_aux="h_t1+t2">
+D,"when",,:D,"you",,:D,"switched",,:S,"them","system",116.070+116.440:S,"into","to",116.440+116.500:C,"four","four",116.500+116.660:C,"wheel","wheel",116.660+116.840:C,"drive","drive",116.840+117.130:S,"mode","modes",117.130+117.450
+</PATH>
+<PATH id="(tbvstt-107)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="279" R_T1="117.550" R_T2="120.425" word_aux="h_t1+t2">
+D,"(%hesitation)",,:S,"really","maybe",118.370+118.620:C,"would","would",118.620+118.725:C,"not","not",118.725+118.830:C,"work","work",118.900+119.070:C,"properly","properly",119.130+119.550:C,"on","on",119.550+119.710:S,"roads","bro",119.710+119.980
+</PATH>
+<PATH id="(tbvstt-108)" word_cnt="7" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="280" R_T1="120.425" R_T2="122.614" word_aux="h_t1+t2">
+C,"because","because",120.550+120.860:D,"the",,:C,"the","the",120.990+121.310:D,"way",,:C,"the","the",121.410+121.490:S,"differential","quintessential",121.490+122.190:C,"worked","worked",122.190+122.550
+</PATH>
+<PATH id="(tbvstt-109)" word_cnt="11" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="281" R_T1="122.614" R_T2="124.925" word_aux="h_t1+t2">
+C,"if","if",122.750+122.840:C,"you","you",122.840+122.960:C,"were","were",122.960+123.080:C,"on","on",123.080+123.200:C,"a","a",123.200+123.270:C,"hard","hard",123.270+123.570:C,"surface","surface",123.570+123.970:D,"and",,:D,"you",,:D,"were",,:S,"turning","returning",124.210+124.780
+</PATH>
+<PATH id="(tbvstt-110)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="282" R_T1="124.925" R_T2="128.000" word_aux="h_t1+t2">
+D,"the",,:D,"wheels",,:S,"would","meals",125.161+125.491:S,"want","and",125.491+125.581:S,"to","once",125.581+125.881:S,"turn","in",125.881+125.941:S,"at","a",125.941+125.981:C,"different","different",125.981+126.271:S,"rates","rate",126.271+126.541:C,"and","and",126.691+127.031:S,"asphalt","half",127.191+127.441:S,"does","of",127.441+127.561:S,"not","them",127.561+127.701
+</PATH>
+<PATH id="(tbvstt-111)" word_cnt="3" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="283" R_T1="128.075" R_T2="129.200" word_aux="h_t1+t2">
+D,"deal",,:S,"with","q",128.280+128.460:S,"that","what",128.460+128.640
+</PATH>
+<PATH id="(tbvstt-112)" word_cnt="16" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="284" R_T1="129.200" R_T2="132.425" word_aux="h_t1+t2">
+C,"the","the",129.380+129.470:C,"newer","newer",129.470+129.770:C,"ones","ones",129.770+130.020:S,"are","i",130.020+130.150:S,"(a-)","i",130.150+130.270:C,"actually","actually",130.270+130.530:C,"have","have",130.530+130.760:D,"like",,:C,"a","a",131.280+131.370:I,,"whole",131.470+131.680:C,"lot","lot",131.900+132.090:C,"of","of",132.090+132.170:D,"the",,:D,"all",,:D,"wheel",,:D,"drive",,
+</PATH>
+<PATH id="(tbvstt-113)" word_cnt="17" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="285" R_T1="132.425" R_T2="136.575" word_aux="h_t1+t2">
+C,"stuff","stuff",132.560+132.900:D,"where",,:S,"they","with",132.900+133.020:C,"actually","actually",133.020+133.390:C,"can","can",133.390+133.530:I,,"do",133.530+133.740:S,"dynamically","damage",133.740+134.020:C,"control","control",134.130+134.500:C,"that","that",134.500+134.630:D,"so",,:S,"they","is",134.630+134.760:C,"actually","actually",134.760+135.160:C,"can","can",135.160+135.510:D,"get",,:C,"you","you",135.510+135.600:I,,"can",135.600+135.720:S,"benefits","benefit",135.720+136.100
+</PATH>
+<PATH id="(tbvstt-114)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="286" R_T1="136.900" R_T2="137.650" word_aux="h_t1+t2">
+S,"normally","normal",137.020+137.420
+</PATH>
+<PATH id="(tbvstt-115)" word_cnt="7" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="288" R_T1="137.975" R_T2="139.925" word_aux="h_t1+t2">
+D,"(%hesitation)",,:C,"two","two",138.410+138.630:C,"wheel","wheel",138.630+138.890:C,"drive","drive",138.890+139.170:D,"s.",,:D,"u.",,:D,"v.s",,
+</PATH>
+<PATH id="(tbvstt-116)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="289" R_T1="141.350" R_T2="142.125" word_aux="h_t1+t2">
+S,"they","he",141.490+141.660:S,"exist","could",141.660+141.830
+</PATH>
+<PATH id="(tbvstt-117)" word_cnt="7" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="290" R_T1="142.400" R_T2="144.150" word_aux="h_t1+t2">
+S,"saturn","happen",142.630+142.880:S,"and","in",142.880+142.960:C,"a","a",142.960+143.000:C,"couple","couple",143.000+143.230:I,,"of",143.230+143.290:S,"other","the",143.290+143.350:S,"companies","come",143.350+143.530
+</PATH>
+<PATH id="(tbvstt-118)" word_cnt="17" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="293" R_T1="145.600" R_T2="148.500" word_aux="h_t1+t2">
+D,"yeah",,:D,"that",,:D,"is",,:D,"not",,:D,"it",,:D,"is",,:C,"not","not",146.590+146.750:C,"just","just",146.750+146.930:D,"saturn",,:S,"there","not",146.930+147.110:S,"are","in",147.110+147.210:C,"a","a",147.210+147.250:C,"couple","couple",147.250+147.530:C,"other","other",147.530+147.680:C,"ones","ones",147.680+147.900:C,"as","as",147.900+148.030:C,"well","well",148.030+148.340
+</PATH>
+<PATH id="(tbvstt-119)" word_cnt="23" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="295" R_T1="149.225" R_T2="152.375" word_aux="h_t1+t2">
+D,"yeah",,:D,"there",,:D,"is",,:D,"a",,:D,"two",,:D,"wheel",,:D,"there",,:D,"is",,:D,"there",,:D,"is",,:D,"two",,:D,"(versio-)",,:D,"i",,:D,"mean",,:D,"there",,:D,"are",,:D,"(diff-)",,:D,"there",,:D,"are",,:D,"a",,:D,"couple",,:S,"different","the",151.291+151.391:S,"versions","public",151.391+151.651
+</PATH>
+<PATH id="(tbvstt-120)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="296" R_T1="152.550" R_T2="154.725" word_aux="h_t1+t2">
+D,"(%hesitation)",,:C,"one","one",152.870+153.090:C,"of","of",153.090+153.180:S,"them","the",153.180+153.300:S,"has","methods",153.300+153.530:S,"a","used",153.530+153.740:S,"continuously","to",153.740+153.800:C,"variable","variable",153.800+154.090:S,"transmissions","transition",154.090+154.580
+</PATH>
+<PATH id="(tbvstt-121)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="298" R_T1="155.400" R_T2="155.925" word_aux="h_t1+t2">
+D,"as",,:D,"well",,
+</PATH>
+<PATH id="(tbvstt-122)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="300" R_T1="156.075" R_T2="157.810" word_aux="h_t1+t2">
+I,,"the",156.880+156.940:S,"which","truth",157.110+157.490:C,"is","is",157.490+157.630:D,"kind",,:D,"of",,:D,"kind",,:S,"of","i",157.630+157.680:S,"interesting","mean",157.680+157.890
+</PATH>
+<PATH id="(tbvstt-123)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="302" R_T1="160.825" R_T2="161.625" word_aux="h_t1+t2">
+S,"yes","yeah",161.000+161.250
+</PATH>
+<PATH id="(tbvstt-124)" word_cnt="18" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="303" R_T1="161.675" R_T2="164.675" word_aux="h_t1+t2">
+C,"it","it",161.800+161.860:C,"has","has",161.860+162.280:C,"something","something",162.280+162.710:S,"either","other",162.710+162.970:C,"i","i",162.970+163.050:C,"do","do",163.050+163.120:C,"not","not",163.120+163.190:C,"know","know",163.190+163.260:D,"if",,:C,"i","i",163.310+163.390:C,"do","do",163.390+163.460:C,"not","not",163.460+163.530:C,"know","know",163.530+163.650:D,"what",,:S,"kind","how",163.710+163.880:C,"this","this",163.880+164.130:D,"has",,:D,"but",,
+</PATH>
+<PATH id="(tbvstt-125)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="305" R_T1="164.675" R_T2="168.350" word_aux="h_t1+t2">
+D,"likely",,:C,"a","a",165.190+165.240:S,"metal","mental",165.240+165.560:C,"band","band",165.620+165.910:S,"of","is",165.910+165.990:C,"some","some",165.990+166.140:C,"kind","kind",166.140+166.430:S,"(%hesitation)","of",166.430+166.790:C,"with","with",167.400+167.670:C,"two","two",167.670+167.990
+</PATH>
+<PATH id="(tbvstt-126)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="307" R_T1="168.650" R_T2="172.425" word_aux="h_t1+t2">
+D,"plates",,:D,"that",,:D,"move",,:S,"in","movie",169.470+169.790:C,"and","and",169.790+169.930:D,"out",,:S,"and","have",169.930+170.190:S,"will","an",170.280+170.480:S,"actually","election",170.530+170.910:C,"change","change",170.910+171.340:D,"the",,:S,"gear","your",171.590+171.740:C,"ratio","ratio",171.740+172.190
+</PATH>
+<PATH id="(tbvstt-127)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="308" R_T1="172.625" R_T2="175.016" word_aux="h_t1+t2">
+C,"so","so",172.830+173.040:C,"you","you",173.040+173.150:C,"get","get",173.150+173.340:D,"a",,:S,"(l-)","all",173.450+173.560:C,"you","you",173.750+173.850:C,"get","get",173.850+174.010:C,"better","better",174.010+174.210:S,"fuel","you",174.270+174.370:S,"(eff-)","look",174.370+174.510
+</PATH>
+<PATH id="(tbvstt-128)" word_cnt="20" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="309" R_T1="175.033" R_T2="179.550" word_aux="h_t1+t2">
+S,"you","get",175.160+175.310:C,"get","get",175.310+175.450:I,,"rid",175.450+175.550:I,,"of",175.550+175.620:S,"theoretically","the",175.620+175.690:S,"better","difficult",175.690+176.130:S,"fuel","to",176.130+176.200:S,"efficiency","see",176.200+176.490:C,"the","the",176.490+176.580:C,"problem","problem",176.580+176.850:C,"is","is",176.850+177.000:D,"that",,:C,"that","that",177.210+177.350:C,"the","the",177.470+177.540:C,"transmission","transmission",177.540+178.270:D,"is",,:D,"not",,:C,"as","as",178.480+178.630:C,"efficient","efficient",178.630+179.030:C,"so","so",179.030+179.320
+</PATH>
+<PATH id="(tbvstt-129)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="310" R_T1="179.550" R_T2="182.850" word_aux="h_t1+t2">
+C,"it","it",179.670+179.770:C,"works","works",179.770+179.990:C,"out","out",179.990+180.110:C,"to","to",180.110+180.190:C,"be","be",180.190+180.410:C,"around","around",180.570+181.280:S,"equal","people",181.580+181.830:S,"to","just",181.830+181.980:S,"slight","like",182.050+182.260:C,"benefit","benefit",182.260+182.690
+</PATH>
+<PATH id="(tbvstt-130)" word_cnt="2" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="312" R_T1="183.050" R_T2="184.375" word_aux="h_t1+t2">
+S,"because","other",183.770+183.880:S,"engines","places",183.880+184.240
+</PATH>
+<PATH id="(tbvstt-131)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="314" R_T1="185.650" R_T2="186.700" word_aux="h_t1+t2">
+D,"(%hesitation)",,
+</PATH>
+<PATH id="(tbvstt-132)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="316" R_T1="188.575" R_T2="189.300" word_aux="h_t1+t2">
+C,"yeah","yeah",188.890+189.670
+</PATH>
+<PATH id="(tbvstt-133)" word_cnt="4" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="319" R_T1="191.250" R_T2="192.475" word_aux="h_t1+t2">
+D,"it",,:D,"is",,:S,"(y-)","well",191.920+192.110:S,"yeah","i",192.390+192.520
+</PATH>
+<PATH id="(tbvstt-134)" word_cnt="18" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="323" R_T1="194.425" R_T2="198.425" word_aux="h_t1+t2">
+D,"right",,:D,"it",,:D,"is",,:D,"yeah",,:D,"it",,:D,"(j-)",,:D,"(j-)",,:D,"(j-)",,:D,"just",,:D,"has",,:D,"more",,:C,"friction","friction",196.590+196.980:D,"and",,:D,"(%hesitation)",,:C,"and","and",196.980+197.150:C,"and","and",197.330+197.490:C,"such","such",197.780+198.060:C,"but","but",198.060+198.190
+</PATH>
+<PATH id="(tbvstt-135)" word_cnt="4" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="325" R_T1="198.425" R_T2="200.125" word_aux="h_t1+t2">
+D,"gasoline",,:S,"engines","engine",198.920+199.210:C,"are","are",199.280+199.460:C,"very","very",199.460+199.880
+</PATH>
+<PATH id="(tbvstt-136)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="326" R_T1="200.125" R_T2="204.475" word_aux="h_t1+t2">
+D,"poor",,:S,"at","kept",200.670+200.980:C,"working","working",200.980+201.420:D,"at",,:D,"(%hesitation)",,:S,"some","that",201.500+201.700:S,"speeds","so",201.820+202.110:S,"i","something",202.461+202.861:S,"mean","and",203.111+203.211:S,"they","the",203.211+203.291:C,"basically","basically",203.291+203.671:S,"their","this",203.671+203.861:S,"efficiency","is",203.861+204.081
+</PATH>
+<PATH id="(tbvstt-137)" word_cnt="10" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="327" R_T1="204.475" R_T2="207.575" word_aux="h_t1+t2">
+S,"varies","very",204.661+204.931:S,"drastically","practical",205.131+205.631:S,"so","for",205.891+205.991:C,"this","this",205.991+206.391:D,"keeps",,:D,"it",,:D,"running",,:D,"at",,:S,"optimal","morning",206.391+206.671:S,"efficiency","is",207.131+207.301
+</PATH>
+<PATH id="(tbvstt-138)" word_cnt="13" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="328" R_T1="207.900" R_T2="210.775" word_aux="h_t1+t2">
+D,"kind",,:D,"of",,:D,"the",,:D,"same",,:S,"way","something",208.021+208.351:S,"a","weird",208.351+208.491:C,"hybrid","hybrid",208.491+208.781:C,"car","car",208.781+209.051:C,"with","with",209.281+209.401:C,"gas","gas",209.681+209.971:C,"and","and",209.971+210.221:D,"(y-)",,:C,"gas","gas",210.281+210.671
+</PATH>
+<PATH id="(tbvstt-139)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="329" R_T1="210.975" R_T2="211.800" word_aux="h_t1+t2">
+C,"engine","engine",211.170+211.590
+</PATH>
+<PATH id="(tbvstt-140)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="331" R_T1="211.950" R_T2="214.250" word_aux="h_t1+t2">
+D,"providing",,:D,"power",,:D,"to",,:D,"an",,:D,"electric",,:C,"to","to",213.180+213.290:D,"electric",,:S,"wheels","selected",213.290+213.740
+</PATH>
+<PATH id="(tbvstt-141)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="333" R_T1="214.907" R_T2="216.212" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-142)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="335" R_T1="217.940" R_T2="218.369" word_aux="h_t1+t2">
+D,"%bcack",,
+</PATH>
+<PATH id="(tbvstt-143)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="345" R_T1="238.294" R_T2="238.550" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-144)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="348" R_T1="242.825" R_T2="243.475" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-145)" word_cnt="16" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="350" R_T1="244.125" R_T2="247.375" word_aux="h_t1+t2">
+D,"(%hesitation)",,:D,"(w-)",,:D,"(y-)",,:S,"wait","thing",244.640+244.780:C,"you","you",244.960+245.080:S,"have","could",245.080+245.290:S,"not","get",245.340+245.510:S,"spoken","up",246.060+246.170:C,"much","much",246.170+246.400:D,"on",,:D,"why",,:D,"you",,:D,"do",,:S,"not","money",246.400+246.660:S,"like","to",246.660+246.780:S,"them","buy",247.020+247.080
+</PATH>
+<PATH id="(tbvstt-146)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="359" R_T1="254.607" R_T2="254.863" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-147)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="364" R_T1="258.775" R_T2="259.550" word_aux="h_t1+t2">
+D,"%hesitation",,
+</PATH>
+<PATH id="(tbvstt-148)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="365" R_T1="260.675" R_T2="261.075" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-149)" word_cnt="12" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="367" R_T1="262.525" R_T2="265.950" word_aux="h_t1+t2">
+C,"how","how",263.230+263.490:D,"much",,:D,"(h-)",,:D,"(h-)",,:C,"how","how",263.490+263.600:C,"much","much",263.600+263.840:C,"more","more",263.840+264.150:D,"(%hesitation)",,:S,"how","i",264.740+264.830:S,"many","mean",264.830+264.980:S,"more","where",264.980+265.080:C,"resources","resources",265.080+265.570
+</PATH>
+<PATH id="(tbvstt-150)" word_cnt="5" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="368" R_T1="265.950" R_T2="267.483" word_aux="h_t1+t2">
+C,"are","are",266.110+266.250:C,"consumed","consumed",266.250+266.630:C,"by","by",266.630+266.810:D,"eating",,:S,"meat","me",266.970+267.140
+</PATH>
+<PATH id="(tbvstt-151)" word_cnt="9" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="369" R_T1="268.160" R_T2="270.000" word_aux="h_t1+t2">
+D,"probably",,:D,"a",,:D,"lot",,:S,"more","well",268.340+268.810:S,"than","we",269.220+269.350:S,"s.","can",269.350+269.510:S,"u.","something",269.510+269.790:S,"v.s","to",269.790+269.860:S,"(versu-)","do",269.860+269.950
+</PATH>
+<PATH id="(tbvstt-152)" word_cnt="23" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="372" R_T1="270.725" R_T2="276.125" word_aux="h_t1+t2">
+D,"well",,:D,"but",,:D,"and",,:D,"you",,:D,"you",,:D,"talking",,:D,"about",,:D,"resource",,:C,"allocation","allocation",273.001+273.601:C,"and","and",273.891+273.991:I,,"if",273.991+274.151:C,"it","it",274.151+274.221:C,"is","is",274.221+274.291:D,"an",,:D,"(in-)",,:C,"interesting","interesting",274.291+274.681:C,"point","point",274.681+274.931:C,"that","that",274.931+275.031:C,"there","there",275.031+275.201:C,"are","are",275.201+275.281:C,"a","a",275.281+275.321:C,"lot","lot",275.321+275.641:C,"of","of",275.641+275.731
+</PATH>
+<PATH id="(tbvstt-153)" word_cnt="8" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="376" R_T1="276.250" R_T2="279.525" word_aux="h_t1+t2">
+C,"other","other",276.400+276.690:C,"areas","areas",276.690+277.100:C,"that","that",277.100+277.230:C,"resources","resources",277.500+277.930:C,"are","are",277.930+278.000:S,"used","use",278.000+278.410:C,"very","very",278.460+278.710:S,"inefficiently","inefficient",278.710+279.190
+</PATH>
+<PATH id="(tbvstt-154)" word_cnt="5" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="382" R_T1="284.250" R_T2="285.850" word_aux="h_t1+t2">
+D,"the",,:D,"ability",,:D,"to",,:D,"be",,:D,"inefficient",,
+</PATH>
+<PATH id="(tbvstt-155)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="389" R_T1="292.125" R_T2="292.825" word_aux="h_t1+t2">
+D,"right",,
+</PATH>
+<PATH id="(tbvstt-156)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="391" R_T1="293.425" R_T2="294.175" word_aux="h_t1+t2">
+D,"right",,
+</PATH>
+<PATH id="(tbvstt-157)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="393" R_T1="294.622" R_T2="295.076" word_aux="h_t1+t2">
+
+</PATH>
+<PATH id="(tbvstt-158)" word_cnt="1" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="395" R_T1="295.300" R_T2="296.000" word_aux="h_t1+t2">
+D,"right",,
+</PATH>
+<PATH id="(tbvstt-159)" word_cnt="0" labels="<o,male,c2>" file="cmu_20030109-1600_d_none" channel="1" sequence="401" R_T1="299.944" R_T2="300.481" word_aux="h_t1+t2">
+
+</PATH>
+</SPEAKER>
+</SYSTEM>

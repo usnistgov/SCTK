@@ -23,6 +23,8 @@ typedef struct PATH_SET_struct {
 #define PA_REF_CONF       0x0080
 #define PA_HYP_WEIGHT     0x0100
 #define PA_REF_WEIGHT     0x0200
+#define PA_HYP_SPKR       0x0400
+#define PA_HYP_ISSPKRSUB  0x0800
 
 typedef struct PATH_struct {
     int max;             /* maximum number of PATH_set structures in pset*/

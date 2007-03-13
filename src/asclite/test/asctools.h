@@ -1,0 +1,39 @@
+/*
+ * asclite
+ * Author: Ajot Jerome, Radde Nicolas
+ *
+ * This software was developed at the National Institute of Standards and Technology by
+ * employees of the Federal Government in the course of their official duties.  Pursuant to
+ * Title 17 Section 105 of the United States Code this software is not subject to copyright
+ * protection within the United States and is in the public domain. asclite is
+ * an experimental system.  NIST assumes no responsibility whatsoever for its use by any party.
+ *
+ * THIS SOFTWARE IS PROVIDED "AS IS."  With regard to this software, NIST MAKES NO EXPRESS
+ * OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY,
+ * OR FITNESS FOR A PARTICULAR PURPOSE.
+ */
+ 
+/** @file asctools.h
+  * @author Jerome AJOT <jerome.ajot@nist.gov>
+	*/
+ 
+#ifndef ASCTOOLS_H
+#define ASCTOOLS_H
+
+#include "stdinc.h"
+
+#include "timeval.h"
+
+/* Timing functions */
+
+/** Get the current time in ms */
+double timerStart();
+
+/** Return the difference between 2 times ms */
+double timerEnd(double start);
+
+
+/** Print on the screen the memory usage */
+int MemoryUsage();
+
+#endif

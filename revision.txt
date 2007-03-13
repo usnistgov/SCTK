@@ -174,3 +174,56 @@ SCTK Version 2.0 Beta 4 - Released Oct. 18, 2004
 
 SCTK Version 2.0 Beta 5 - Released Oct. 22, 2004
         - Added Mandarin hesitations to chfilt.pl and utf_filt.pl
+
+SCTK Version 2.0 Beta 6 - Released May 2005
+        - Added asclite
+
+SCTK Version 2.1 - Release June 3, 2005
+        - Fixed csrfilt.sh to respect hyphens in optionally deletable fragments.
+
+SCTK Version 2.1.1 - Release December 5, 2005
+	- Hotfix 64bits and Alpha platforms (Thanks to David Huggins-Daines). 
+	
+SCTK Version 2.1.2 - Release April 4, 2006
+  - Updated asclite with bugfix and memory usage
+
+SCTK Version 2.1.3 - Release April 21, 2006
+  - Updated toolkit to handle rttm file format
+
+SCTK Version 2.1.4 - Release May 19th, 2006
+  - Updated asclite to handle 64-bits
+  - Updated asclite with caching information (increase speed +5-10%)
+
+SCTK Version 2.1.5 - Release February 9th, 2007
+  [+] core: asclite handles speakers preferences for alignment
+  [+] core: asclite handles rttm as references and hypotheses
+  [+] core: asclite has a new option '-adaptive-cost' that restricts the
+            alignment with the time
+  [+] core: asclite has a new option '-spkr-align' that handle the new
+            SASTT alignment requirement for speaker mapping
+  [+] core: asclite output a new level of log displaying the alignment 
+            and the group of segments used for the alignment
+  [+] core: asclite has a new error output: speaker error
+  [+] tools: mergectm2rttm script to merged ctm into rttm file
+  [+] tools: md-eval for speaker alignment
+  [+] tools: align2html to display graphical alignment in HTML/Javascript
+  [*] core: fix bugs that ignore tokens and segments in the alignments
+  [*] core: fix the pruning time based algorithm
+  [*] core: fix the floating point bug in asclite
+  [/] core: asclite options '-time-prune' and '-word-time-align' require 
+            milliseconds instead of seconds in the commandline
+
+SCTK Version 2.1.6 - Release February 21st, 2007
+  [+] tools: new display for align2html
+  [*] test: fixed some tests
+  [*] core: fixed sorting issues
+
+SCTK Version 2.1.7 - Release February 22nd, 2007
+  [*] test: fixed some tests
+  [*] core: fixed floating point issue
+
+SCTK Version 2.2.0 - Release March 12th, 2007
+  [*] test: fixed some tests
+  [*] core: fixed align2html display
+  [+] core: added compression to align bigger matrices
+  [+] core: added pruning using time

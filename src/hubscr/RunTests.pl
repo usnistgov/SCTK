@@ -7,9 +7,9 @@ sub runIt{
     my ($op, $testId, $options, $glm, $hub, $lang, $ref, $systems) = @_;
     my $baseDir = $testId.".base";
     my $outDir = $testId.($op eq "setTests" ? ".base" : ".test");
-    print "   Running test '$testId', operation '$op', directory '$outDir'\n";
+    print "   Running test '$testId', operation '$op', options '$options', directory '$outDir'\n";
     system ("mkdir -p $outDir");
-    system ("rm -f $outDir/test* $outDir/lvc*");
+    system ("rm -fr $outDir/test* $outDir/lvc*");
     ### Copy files
     foreach my $file($glm, $ref, split(/\s+/,$systems)){
 	system("cp $file $outDir");
@@ -23,13 +23,18 @@ sub runIt{
 	$systemsRoot .= " ".$_;
     }
     print "      Executing command\n";
-    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../rfilter1:../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../tanweenFilt:../../sclite ".
+    my $com = "(cd $outDir; ../hubscr.pl $options -p ../../rfilter1:../../asclite/core:../../csrfilt:../../def_art:../../acomp:../../hamzaNorm:../../tanweenFilt:../../sclite:../../md-eval:../../rttmSort:../../align2html:../../stm2rttm ".
 	"-l $lang -g $glmRoot -h $hub -r $refRoot $systemsRoot > log)";
+#    print  "$com";
     my $ret = system "$com";
     die "Error: Execution failed" if ($ret != 0);
     if ($op ne "setTests"){
 	print "      Comparing output\n";
-	my $diffCom = "diff -x CVS -I '[cC]reation[ _]date' -r $baseDir $outDir";
+	my $diffoption = "";
+			
+	if($options eq "-a") { $diffoption = "-i"; }
+			
+	my $diffCom = "diff -i -x CVS -x .DS_Store -x log -x \*lur -I '[cC]reation[ _]date' -I 'md-eval' -r $baseDir $outDir";
 	open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
 	my @diff = <DIFF>;
 	close DIFF;
@@ -39,16 +44,22 @@ sub runIt{
     }
 }
 
-runIt($operation, "testArb", "-H -T -d", "../test_suite/test.arb2004.glm", "hub5", "arabic",
-      "../test_suite/test.arb2004.txt.stm", 
-      "../test_suite/test.arb2004.txt.ctm");
+runIt($operation, "test1-notag", "", "../test_suite/example.glm", "hub5", "english",
+      "../test_suite/lvc_refe.notag.noat.stm", 
+      "../test_suite/lvc_hyp.notag.ctm ../test_suite/lvc_hyp2.notag.ctm");
+runIt($operation, "test1-notag-a", "-a", "../test_suite/example.glm", "hub5", "english",
+      "../test_suite/lvc_refe.notag.noat.stm", 
+      "../test_suite/lvc_hyp.notag.ctm ../test_suite/lvc_hyp2.notag.ctm");
 runIt($operation, "test1", "", "../test_suite/example.glm", "hub5", "english",
       "../test_suite/lvc_refe.stm", 
       "../test_suite/lvc_hyp.ctm ../test_suite/lvc_hyp2.ctm");
-
-
-
-
+runIt($operation, "testArb", "-H -T -d", "../test_suite/test.arb2004.glm", "hub5", "arabic",
+      "../test_suite/test.arb2004.txt.stm", 
+      "../test_suite/test.arb2004.txt.ctm");
+runIt($operation, "test1-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
+      "../test_suite/sastt-case1.ref.rttm", "../test_suite/sastt-case1.sys.rttm");
+runIt($operation, "test2-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
+      "../test_suite/sastt-case2.ref.rttm", "../test_suite/sastt-case2.sys.rttm");
 
 exit;
 

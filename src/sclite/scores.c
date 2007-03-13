@@ -142,10 +142,10 @@ TEXT *formatWordForSGML(WORD *word, TEXT *buffer){
   if (word->tag1 == (TEXT *)0 && word->tag2 == (TEXT *)0)
     return buffer;
 
-  TEXT_strcpy(buffer + TEXT_strlen(buffer), WORD_SGML_SUB_WORD_SEP_STR);
+  TEXT_strcpy(buffer + TEXT_strlen(buffer), (TEXT *)WORD_SGML_SUB_WORD_SEP_STR);
   TEXT_strcpy_escaped(buffer + TEXT_strlen(buffer), 
 		      (word->tag1 != (TEXT *)0) ? word->tag1 : (TEXT *)"", WORD_SGML_SUB_WORD_SEP_CHR);
-  TEXT_strcpy(buffer + TEXT_strlen(buffer), WORD_SGML_SUB_WORD_SEP_STR);
+  TEXT_strcpy(buffer + TEXT_strlen(buffer), (TEXT *)WORD_SGML_SUB_WORD_SEP_STR);
   TEXT_strcpy_escaped(buffer + TEXT_strlen(buffer), 
 		      (word->tag2 != (TEXT *)0) ? word->tag2 : (TEXT *)"", WORD_SGML_SUB_WORD_SEP_CHR);
   return buffer;
@@ -513,6 +513,10 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			} else if (TEXT_strncmp(tp,(TEXT *)"h_weight",8) == 0){
 			    BF_SET(path->attrib,PA_HYP_WEIGHT);
 			    word_aux_fields[num_word_aux++] = PA_HYP_WEIGHT;
+			} else if (TEXT_strncmp(tp,(TEXT *)"h_spkr",6) == 0){
+			    word_aux_fields[num_word_aux++] = PA_HYP_SPKR;
+			} else if (TEXT_strncmp(tp,(TEXT *)"h_isSpkrSub",11) == 0){
+                            word_aux_fields[num_word_aux++] = PA_HYP_ISSPKRSUB;
 			} else {
 			    fprintf(scfp,"Warning: Unknown word auxillary inf"
 				    "o type '%s'\n",tp);
@@ -705,6 +709,10 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 				    ((WORD *)path->pset[path->num].b_ptr)->weight
 					= atof((char *)p1+1);
 				break;
+                              case PA_HYP_SPKR:
+                                break;
+			      case PA_HYP_ISSPKRSUB:
+                                break;
 			      default:
 			       fprintf(stderr,"Warning: Unknown auxillary fiel"
 				       "d type\n");

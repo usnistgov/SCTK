@@ -1,0 +1,80 @@
+/*
+ * asclite
+ * Author: Jerome Ajot, Nicolas Radde, Chris Laprun
+ *
+ * This software was developed at the National Institute of Standards and Technology by
+ * employees of the Federal Government in the course of their official duties.  Pursuant to
+ * Title 17 Section 105 of the United States Code this software is not subject to copyright
+ * protection within the United States and is in the public domain. asclite is
+ * an experimental system.  NIST assumes no responsibility whatsoever for its use by any party.
+ *
+ * THIS SOFTWARE IS PROVIDED "AS IS."  With regard to this software, NIST MAKES NO EXPRESS
+ * OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY,
+ * OR FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+#ifndef GRAPHALIGNEDSEGMENT_H
+#define GRAPHALIGNEDSEGMENT_H
+
+#include "stdinc.h"
+
+#include "graphalignedtoken.h"
+#include "token.h"
+
+/**
+ * The result produce by the Graph after a Levenshtein alignment
+ */
+class GraphAlignedSegment
+{
+	private:
+		/** container of the alignedtokens */
+		vector<GraphAlignedToken*> m_vGraphAlignedTokens;
+		/** Hyp-Ref Index */
+		size_t m_HypRefIndex;
+	public:
+		/** class constructor */
+		GraphAlignedSegment(size_t _HypRefIndex);
+		/** class destructor */
+		~GraphAlignedSegment();
+				
+		/** Return the indexed element of the GraphAlignedSegment */
+		GraphAlignedToken* GetGraphAlignedToken(size_t index);
+		/** Return the nb of GraphAlignedToken */
+		size_t GetNbOfGraphAlignedToken() { return m_vGraphAlignedTokens.size(); }
+		/** Add a GraphAlignedToken into the structure to the back */
+		void AddFrontGraphAlignedToken(GraphAlignedToken* _pGToken) { m_vGraphAlignedTokens.push_back(_pGToken); }
+		/** Returns a string representation of this GraphAlignedSegment. */
+		string ToStringAddnChar(string chara, int num);
+		string ToStringAddText(string text, int maxc);
+		string ToString();
+		/** Retrieves the non-null reference for the (gatIndex + 1)th 
+		 * GraphAlignedToken (or NULL if no such reference exists for that 
+		 * GraphAlignedToken) 
+		 */
+		Token* GetNonNullReference(size_t gatIndex);
+		/** Retrieves the non-null hypothesis for the (gatIndex + 1)th 
+		 * GraphAlignedToken (or NULL if no such hypothesis exists for that 
+		 * GraphAlignedToken) 
+		 */
+		Token* GetNonNullHypothesis(size_t gatIndex);
+		
+		/** Retrieves the precedent non-null reference that occured before 
+		 * (gatIndex +1) in this GraphAlignedSegment (or NULL if such reference
+		 * does not exist)
+		 */
+		Token* GetPreviousNonNullReference(size_t gatIndex);
+		
+		/** Retrieves the next non-null reference that occurs after 
+		 * (gatIndex +1) in this GraphAlignedSegment (or NULL if such reference
+		 * does not exist)
+		 */
+		Token* GetNextNonNullReference(size_t gatIndex);
+		
+		/**
+		 * Redefine the == operator to go throw all the object for the comparison
+		 */
+		bool operator ==(const GraphAlignedSegment & gas) const;
+		bool operator !=(const GraphAlignedSegment & gas) const;
+};
+
+#endif // GRAPHALIGNEDSEGMENT_H

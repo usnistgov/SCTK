@@ -263,7 +263,12 @@ if ($#Equivs >= 0){
 
 open(FILE,"< $InFile") || die("cannot open input Callhome file $InFile"); 
 #binmode FILE;
-open(OUTPUT,"| sort -t \\   +0  -1  +1  -2 +3nb -4 $OutFile") || 
+
+my $hubscr_path = "../hubscr/hubscr.pl";
+die "ERROR: 'hubscr.pl' cannot be found, please edit 'chfilt.pl line 267 and set hubscr.pl path."if(! -e $hubscr_path);
+
+#open(OUTPUT,"| sort -t \\   +0  -1  +1  -2 +3nb -4 $OutFile") ||
+open(OUTPUT,"| perl $hubscr_path sortSTM $OutFile") || 
     die("cannot open output file $OutFile"); 
 
 ## make a place holder for the LUR reports
