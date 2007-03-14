@@ -57,9 +57,8 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 				
 		void GarbageCollection();
 		bool ForcedGarbageCollection();
-		void TouchBlock(size_t block_index);
+		void TouchBlock(size_t block_index) { m_TabHitsTimer[block_index] = m_Accesses++; }
 		
-		ulint m_Accesses;
 		ulint m_Decompressions;
 		ulint m_Compressions;
 		ulint m_NbrCompressedBlocks;
@@ -73,7 +72,7 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		double m_PercentageMemoryTriggerStart;
 		double m_PercentageMemoryTriggerStop;
 		
-		unsigned long long int m_CurrentTimer;
+		unsigned long long int m_Accesses;
 		
 		double MemoryUsedKB() { return(((double)m_CurrentMemorySize)/((double)1024)); }
 		bool isCallGarbageCollector() { return( MemoryUsedKB() >= m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart) ); }

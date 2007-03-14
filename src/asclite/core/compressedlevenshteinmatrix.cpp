@@ -74,7 +74,6 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	
 	m_SizeOfArray = 0;
 	m_NbrCreatedBlocks = 0;
-	m_CurrentTimer = 0;
 	
 	m_OverHeadMemory = m_BaseLengthOut + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( sizeof(ucl_intp) + sizeof(ucl_uint) + 2*sizeof(bool) + sizeof(unsigned long long int) ) + 20*sizeof(double);
 	m_UsableMemoryKB = 0.98*( ((double) m_MaxMemoryKBProp) - ((double) m_OverHeadMemory)/((double) 1024) );
@@ -207,23 +206,21 @@ bool CompressedLevenshteinMatrix::DecompressBlock(size_t block_index)
 	TouchBlock(block_index);
 	return decomp;
 }
-
+/*
 void CompressedLevenshteinMatrix::TouchBlock(size_t block_index)
 {
-	m_TabHitsTimer[block_index] = m_CurrentTimer++;
-	++m_Accesses;
+	m_TabHitsTimer[block_index] = m_Accesses++;
 	
 	// For information only
-	/*
 	if(m_pLogger->getLogLevel() >= 5 && m_pLogger->getLogLevel() != 7)
 	{
 		char buffer[BUFFER_SIZE];
 		sprintf(buffer, "Compressed Matrix: Acc: %lu, Decompr-op: %lu, Compr-op: %lu, Size: %lu, DecompBlk: %lu, CompBlk: %lu", m_Accesses, m_Decompressions, m_Compressions, m_CurrentMemorySize, m_NbrDecompressedBlocks, m_NbrCompressedBlocks);	   
 		LOG_DEBUG(m_pLogger, buffer);
 	}
-	*/
 	// End Information
 }
+*/
 
 void CompressedLevenshteinMatrix::GarbageCollection()
 {
