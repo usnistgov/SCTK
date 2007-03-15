@@ -18,8 +18,8 @@
 #include "recording.h"
 #include "properties.h"
 
-#define ASC_VERSION "1.5"
-#define ASC_NAME "You are welcome not hum hum"
+#define ASC_VERSION "1.6"
+#define ASC_NAME "Why not"
 
 struct inputfilename
 {
@@ -29,15 +29,6 @@ struct inputfilename
 void PrintHelp()
 {
 	cout << "Asclite version: " << ASC_VERSION << " (\"" << ASC_NAME << "\")" << endl;
-    
-    #if defined (__ppc64__)
-    cout << " Compiled for PowerPC in 64 bits." << endl;
-    #endif
-    
-    #if defined (__x86_64__)
-    cout << " Compiled for x86 in 64 bits." << endl;
-    #endif
-    
 	cout << "Usage: asclite <Input Options> [<Alignment Options>] [<Output Options>] [Scoring Report Options>]" << endl;
 	cout << "Input Options:" << endl;
 	cout << "    -r <reffilename> [ rttm | stm | trn ]" << endl;

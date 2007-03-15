@@ -101,7 +101,7 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 			CompressBlock(i);		
 	}
 	char buffer2[BUFFER_SIZE];
-	sprintf(buffer2, "Compressed Matrix (ALL): Acc: %lu, Decompr-op: %lu, Compr-op: %lu, Size: %lu, DecompBlk: %lu, CompBlk: %lu", m_Accesses, m_Decompressions, m_Compressions, m_CurrentMemorySize, m_NbrDecompressedBlocks, m_NbrCompressedBlocks);	   
+	sprintf(buffer2, "Compressed Matrix (ALL): Acc: %llu, Decompr-op: %lu, Compr-op: %lu, Size: %lu, DecompBlk: %lu, CompBlk: %lu", m_Accesses, m_Decompressions, m_Compressions, m_CurrentMemorySize, m_NbrDecompressedBlocks, m_NbrCompressedBlocks);	   
 	LOG_DEBUG(m_pLogger, buffer2);
 	*/
 	// End Information
@@ -215,7 +215,7 @@ void CompressedLevenshteinMatrix::TouchBlock(size_t block_index)
 	if(m_pLogger->getLogLevel() >= 5 && m_pLogger->getLogLevel() != 7)
 	{
 		char buffer[BUFFER_SIZE];
-		sprintf(buffer, "Compressed Matrix: Acc: %lu, Decompr-op: %lu, Compr-op: %lu, Size: %lu, DecompBlk: %lu, CompBlk: %lu", m_Accesses, m_Decompressions, m_Compressions, m_CurrentMemorySize, m_NbrDecompressedBlocks, m_NbrCompressedBlocks);	   
+		sprintf(buffer, "Compressed Matrix: Acc: %llu, Decompr-op: %lu, Compr-op: %lu, Size: %lu, DecompBlk: %lu, CompBlk: %lu", m_Accesses, m_Decompressions, m_Compressions, m_CurrentMemorySize, m_NbrDecompressedBlocks, m_NbrCompressedBlocks);	   
 		LOG_DEBUG(m_pLogger, buffer);
 	}
 	// End Information
