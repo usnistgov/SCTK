@@ -46,7 +46,7 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 			
 		static Logger* m_pLogger;
 	
-        size_t CoordinatesToSize(size_t* coordinates);
+        void CoordinatesToBlockOffset(size_t* coordinates, size_t & blockNum, size_t & blockOffset);
 		
 		void CreateBlock(size_t block_index);
 		
@@ -77,6 +77,19 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		double MemoryUsedKB() { return(((double)m_CurrentMemorySize)/((double)1024)); }
 		bool isCallGarbageCollector() { return( MemoryUsedKB() >= m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart) ); }
 		bool isStopGarbageCollector() { return( MemoryUsedKB() <= m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStop) ); }
+		
+		size_t* m_TabBlockDimensionDeep;
+		size_t* m_TabBlockDivider;
+		size_t* m_TabDimensionDeep;
+		size_t* m_MultiplicatorDivider;
+		
+		size_t BlockComputation_GetNumElts(size_t* _tab);
+		void BlockComputation_CreateNewDim();
+		size_t BlockComputation_BiggerDim();
+		void BlockComputation();
+		
+		size_t* m_MultiplicatorBlockDimension;
+		size_t m_BlockSizeElts;
 
 	public:
 		CompressedLevenshteinMatrix(size_t _NbrDimensions, size_t* _TabDimensionDeep);

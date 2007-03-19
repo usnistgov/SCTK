@@ -36,9 +36,6 @@ class LevenshteinMatrix
 		virtual size_t GetNumberOfCalculatedCosts()=0;
 	
 		virtual string ToString()=0;
-	
-	private:
-		virtual size_t CoordinatesToSize(size_t* coordinates)=0;
 };
 
 #endif

@@ -24,6 +24,7 @@ Logger* CompressedLevenshteinMatrix::m_pLogger = Logger::getLogger();
 CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, size_t* _TabDimensionDeep)
 {
 	m_CompressionLevel = 1; /* compression level (1-10) */
+							/* 1 faster and lower compression but still efficient */
 	
 	if (ucl_init() != UCL_E_OK)
 	{
@@ -33,31 +34,49 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	
 	m_MaxMemoryKBProp = (size_t) ceil(1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str()));
 	m_BlockSizeKB = (uint) atoi(Properties::GetProperty("align.memorycompressionblock").c_str());
-		
-	m_BaseLengthIn = m_BlockSizeKB * 256 * sizeof(int); /* block of 'm_BlockSizeKB' KB */
-	m_BaseLengthOut = m_BaseLengthIn + m_BaseLengthIn / 8 + 256;
 	
 	m_NbrDimensions = _NbrDimensions;
+	m_TabDimensionDeep = new size_t[m_NbrDimensions];
 	m_MultiplicatorDimension = new size_t[m_NbrDimensions];
+	m_TabBlockDivider = new size_t[m_NbrDimensions];
+	m_TabBlockDimensionDeep = new size_t[m_NbrDimensions];
 	
 	m_MultiplicatorDimension[0] = 1;
-	m_MaxSize = _TabDimensionDeep[0] - 1;
+	m_TabDimensionDeep[0] = _TabDimensionDeep[0] - 1;
+	m_MaxSize = m_TabDimensionDeep[0];
+	m_TabBlockDivider[0] = 1;
 		
 	for(size_t i=1; i<m_NbrDimensions; ++i)
 	{
-		m_MultiplicatorDimension[i] = m_MultiplicatorDimension[i-1]*(_TabDimensionDeep[i-1] - 1);
-		m_MaxSize = m_MaxSize * (_TabDimensionDeep[i] - 1);
+		m_TabDimensionDeep[i] = _TabDimensionDeep[i] - 1;
+		m_MultiplicatorDimension[i] = m_MultiplicatorDimension[i-1]*m_TabDimensionDeep[i-1];
+		m_MaxSize = m_MaxSize * m_TabDimensionDeep[i];
+		m_TabBlockDivider[i] = 1;
 	}
 	
-	m_NbrCompressedTabs = m_MaxSize / (m_BaseLengthIn/sizeof(int)) + 1;
+	BlockComputation();
 	
+	m_BaseLengthOut = m_BaseLengthIn + m_BaseLengthIn / 8 + 256;
+	
+	m_MultiplicatorBlockDimension = new size_t[m_NbrDimensions];
+	m_MultiplicatorDivider = new size_t[m_NbrDimensions];
+		
+	m_MultiplicatorBlockDimension[0] = 1;
+	m_MultiplicatorDivider[0] = 1;
+		
+	for(size_t i=1; i<m_NbrDimensions; ++i)
+	{
+		m_MultiplicatorBlockDimension[i] = m_MultiplicatorBlockDimension[i-1]*m_TabBlockDimensionDeep[i-1];
+		m_MultiplicatorDivider[i] = m_MultiplicatorDivider[i-1]*m_TabBlockDivider[i-1];
+	}	
+		
 	m_TabStartByte = new ucl_intp[m_NbrCompressedTabs];
 	m_TabSizes = new ucl_uint[m_NbrCompressedTabs];
 	m_TabbIsCompressed = new bool[m_NbrCompressedTabs];
 	m_TabHitsTimer = new unsigned long long int[m_NbrCompressedTabs];
 	m_TabIsCreated = new bool[m_NbrCompressedTabs];
-	m_CurrentMemorySize = 0;
 	
+	m_CurrentMemorySize = 0;
 	m_Decompressions = 0;
 	m_Compressions = 0;
 	m_NbrCompressedBlocks = 0;
@@ -83,7 +102,8 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	LOG_DEBUG(m_pLogger, "Allocation done!");
 	
 	char buffer[BUFFER_SIZE];
-	sprintf(buffer, "Compressed Levenshtein Matrix: Overhead: %luKB, Usable: %.0fKB, StartGC: %.0fKB, StopGC: %.0fKB", m_OverHeadMemory/1024, m_UsableMemoryKB, m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart), m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStop));	   
+	sprintf(buffer, "Compressed Levenshtein Matrix: %lu blocks of %.1fKB, Overhead: %luKB, Usable: %.0fKB, StartGC: %.0fKB, StopGC: %.0fKB", 
+			(ulint) m_NbrCompressedTabs, ((double)(m_BaseLengthIn))/1024.0 , m_OverHeadMemory/1024, m_UsableMemoryKB, m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart), m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStop));	   
 	LOG_DEBUG(m_pLogger, buffer);
 }
 
@@ -106,8 +126,6 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 	*/
 	// End Information
 	
-	delete [] m_MultiplicatorDimension;
-	
 	for(size_t i=0; i<m_NbrCompressedTabs; ++i)
 	{
 		if(isBlockCreated(i))
@@ -120,6 +138,12 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 	delete [] m_TabbIsCompressed;
 	delete [] m_TabHitsTimer;
 	delete [] m_TabIsCreated;
+	delete [] m_TabBlockDimensionDeep;
+	delete [] m_MultiplicatorBlockDimension;
+	delete [] m_TabBlockDivider;
+	delete [] m_TabDimensionDeep;
+	delete [] m_MultiplicatorDivider;
+	delete [] m_MultiplicatorDimension;
 }
 
 void CompressedLevenshteinMatrix::CreateBlock(size_t block_index)
@@ -280,21 +304,23 @@ string CompressedLevenshteinMatrix::ToString()
 	return string("");
 }
 
-size_t CompressedLevenshteinMatrix::CoordinatesToSize(size_t* coordinates)
+void CompressedLevenshteinMatrix::CoordinatesToBlockOffset(size_t* coordinates, size_t & blockNum, size_t & blockOffset)
 {
-	size_t outSize = 0;
+	blockNum = 0;
+	blockOffset = 0;
 	
 	for(size_t i=0; i<m_NbrDimensions; ++i)
-		outSize += m_MultiplicatorDimension[i]*coordinates[i];
-	
-	return outSize;
+	{
+		blockNum += (coordinates[i]/m_TabBlockDimensionDeep[i])*m_MultiplicatorDivider[i];
+		blockOffset += (coordinates[i]%m_TabBlockDimensionDeep[i])*m_MultiplicatorBlockDimension[i];
+	}
 }
 
 int CompressedLevenshteinMatrix::GetCostFor(size_t* coordinates)
 {
-	size_t coord_size = CoordinatesToSize(coordinates);
-	size_t coord_x = coord_size / (m_BaseLengthIn/sizeof(int));
-	size_t coord_y = coord_size % (m_BaseLengthIn/sizeof(int));
+	size_t coord_x;
+	size_t coord_y;
+	CoordinatesToBlockOffset(coordinates, coord_x, coord_y);
 
 	bool decomp = DecompressBlock(coord_x);
 	ucl_intp data = m_TabStartByte[coord_x];
@@ -308,9 +334,9 @@ int CompressedLevenshteinMatrix::GetCostFor(size_t* coordinates)
 
 void CompressedLevenshteinMatrix::SetCostFor(size_t* coordinates, int cost)
 {
-	size_t coord_size = CoordinatesToSize(coordinates);
-	size_t coord_x = coord_size / (m_BaseLengthIn/sizeof(int));
-	size_t coord_y = coord_size % (m_BaseLengthIn/sizeof(int));
+	size_t coord_x;
+	size_t coord_y;
+	CoordinatesToBlockOffset(coordinates, coord_x, coord_y);
 	
 	bool decomp = DecompressBlock(coord_x);
 	ucl_intp data = m_TabStartByte[coord_x];
@@ -323,3 +349,74 @@ void CompressedLevenshteinMatrix::SetCostFor(size_t* coordinates, int cost)
 	if(decomp)
 		GarbageCollection();
 }
+
+size_t CompressedLevenshteinMatrix::BlockComputation_GetNumElts(size_t* _tab)
+{
+	size_t numberElts = 1;
+
+	for(size_t i=0; i<m_NbrDimensions; ++i)
+		numberElts *= _tab[i];
+	
+	return numberElts;
+}
+
+void CompressedLevenshteinMatrix::BlockComputation_CreateNewDim()
+{
+	for(size_t i=0; i<m_NbrDimensions; ++i)
+	{
+		m_TabBlockDimensionDeep[i] = m_TabDimensionDeep[i]/m_TabBlockDivider[i];
+		
+		if(m_TabDimensionDeep[i] % m_TabBlockDivider[i] != 0)
+			m_TabBlockDimensionDeep[i]++;
+	}
+}
+
+size_t CompressedLevenshteinMatrix::BlockComputation_BiggerDim()
+{
+	size_t max = 0;
+	size_t indexmax = ULONG_MAX;
+	size_t num1 = 0;
+	size_t index1 = ULONG_MAX;
+	
+	for(size_t i=0; i<m_NbrDimensions; ++i)
+	{
+		if(m_TabDimensionDeep[i] == m_TabBlockDimensionDeep[i])
+		{
+			num1++;
+			index1 = i;
+		}
+	
+		if(m_TabBlockDimensionDeep[i] > max)
+		{
+			max = m_TabBlockDimensionDeep[i];
+			indexmax = i;
+		}
+	}
+
+	if(num1 != 0)
+		return index1;
+	else
+		return indexmax;
+}
+
+void CompressedLevenshteinMatrix::BlockComputation()
+{
+	BlockComputation_CreateNewDim();
+	size_t blocksize = m_BlockSizeKB*256;
+	BlockComputation_CreateNewDim();
+	size_t numberElts = BlockComputation_GetNumElts(m_TabBlockDimensionDeep);
+	size_t dimm = BlockComputation_BiggerDim();
+	
+	while(numberElts > blocksize && dimm != ULONG_MAX)
+	{
+		m_TabBlockDivider[dimm]++;		
+		BlockComputation_CreateNewDim();
+		numberElts = BlockComputation_GetNumElts(m_TabBlockDimensionDeep);
+		dimm = BlockComputation_BiggerDim();
+	}
+
+	m_BlockSizeElts = numberElts;
+	m_BaseLengthIn = numberElts * sizeof(int);
+	m_NbrCompressedTabs = BlockComputation_GetNumElts(m_TabBlockDivider);
+}
+

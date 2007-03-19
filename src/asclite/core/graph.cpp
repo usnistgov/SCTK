@@ -60,7 +60,7 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _costTr
         }
 		
 		sizevector = m_TabVecHypRef[i].size();
-        				
+		        				
 		SetDimensionDeep(i, sizevector);
 		
 		for(k=0; k<sizevector; ++k)
@@ -69,7 +69,7 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _costTr
 			
 			if(curToken != NULL)
 			{
-				//cerr << curToken->ToString() << endl;
+				//cerr << i << " " << k << " " << curToken->ToString() << endl;
 				
 				m_TabMapTokenIndex[i][curToken] = k;
 				
