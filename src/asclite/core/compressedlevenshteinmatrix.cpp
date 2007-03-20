@@ -44,14 +44,12 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	m_MultiplicatorDimension[0] = 1;
 	m_TabDimensionDeep[0] = _TabDimensionDeep[0] - 1;
 	m_MaxSize = m_TabDimensionDeep[0];
-	m_TabBlockDivider[0] = 1;
 		
 	for(size_t i=1; i<m_NbrDimensions; ++i)
 	{
 		m_TabDimensionDeep[i] = _TabDimensionDeep[i] - 1;
 		m_MultiplicatorDimension[i] = m_MultiplicatorDimension[i-1]*m_TabDimensionDeep[i-1];
 		m_MaxSize = m_MaxSize * m_TabDimensionDeep[i];
-		m_TabBlockDivider[i] = 1;
 	}
 	
 	BlockComputation();
@@ -350,83 +348,102 @@ void CompressedLevenshteinMatrix::SetCostFor(size_t* coordinates, int cost)
 		GarbageCollection();
 }
 
-size_t CompressedLevenshteinMatrix::BlockComputation_GetNumElts(size_t* _tab)
-{
-	size_t numberElts = 1;
-
-	for(size_t i=0; i<m_NbrDimensions; ++i)
-		numberElts *= _tab[i];
-	
-	return numberElts;
-}
-
-void CompressedLevenshteinMatrix::BlockComputation_CreateNewDim()
-{
-	for(size_t i=0; i<m_NbrDimensions; ++i)
-	{
-		m_TabBlockDimensionDeep[i] = m_TabDimensionDeep[i]/m_TabBlockDivider[i];
-		
-		if(m_TabDimensionDeep[i] % m_TabBlockDivider[i] != 0)
-			m_TabBlockDimensionDeep[i]++;
-	}
-}
-
-size_t CompressedLevenshteinMatrix::BlockComputation_BiggerDim()
-{
-	size_t max = 0;
-	size_t indexmax = ULONG_MAX;
-	size_t num1 = 0;
-	size_t index1 = ULONG_MAX;
-	size_t indexdiff = ULONG_MAX;
-	
-	for(size_t i=0; i<m_NbrDimensions; ++i)
-	{
-		if(m_TabDimensionDeep[i] == m_TabBlockDimensionDeep[i])
-		{
-			num1++;
-			index1 = i;
-		}
-	
-		if(m_TabBlockDimensionDeep[i] > max)
-		{
-			max = m_TabBlockDimensionDeep[i];
-			indexmax = i;
-		}
-		
-		size_t diffaf = m_TabDimensionDeep[i] % (m_TabBlockDivider[i]+1);
-		
-		if(diffaf == 0)
-		{
-			indexdiff = i;
-		}
-	}
-
-	if(num1 != 0)
-		return index1;
-	else if(indexdiff != ULONG_MAX)
-		return indexdiff;
-	else
-		return indexmax;
-}
-
 void CompressedLevenshteinMatrix::BlockComputation()
 {
-	BlockComputation_CreateNewDim();
+	// Declaration Vars
+	size_t* Cursor = new size_t[m_NbrDimensions];
+	vector <size_t>* PrimeDiv = new vector <size_t>[m_NbrDimensions];
+	size_t* tmpDivider = new size_t[m_NbrDimensions];
+	size_t* tmpBlockDimensions = new size_t[m_NbrDimensions];
 	size_t blocksize = m_BlockSizeKB*256;
-	BlockComputation_CreateNewDim();
-	size_t numberElts = BlockComputation_GetNumElts(m_TabBlockDimensionDeep);
-	size_t dimm = BlockComputation_BiggerDim();
 	
-	while(numberElts > blocksize && dimm != ULONG_MAX)
+	// Computation
+	
+	// Initialization
+	for(size_t i=0; i<m_NbrDimensions; ++i)
 	{
-		m_TabBlockDivider[dimm]++;		
-		BlockComputation_CreateNewDim();
-		numberElts = BlockComputation_GetNumElts(m_TabBlockDimensionDeep);
-		dimm = BlockComputation_BiggerDim();
+		if(m_TabDimensionDeep[i] == 1)
+			PrimeDiv[i].push_back(1);
+
+		for(size_t j=2; j<=m_TabDimensionDeep[i]; ++j)
+			if(m_TabDimensionDeep[i] % j == 0)
+				PrimeDiv[i].push_back(j);
+		
+		Cursor[i] = 0;
 	}
+	// End Initialization
+	
+	// Main research
+	bool finished = false;
+	size_t closestsize = ULONG_MAX;
+	
+	do
+	{
+		if(Cursor[0] == PrimeDiv[0].size())
+		{
+			finished = true;
+		}
+		else
+		{
+			size_t size = 1;
+			
+			for(size_t i=0; i<m_NbrDimensions; ++i)
+			{
+				tmpDivider[i] = PrimeDiv[i][Cursor[i]];
+				tmpBlockDimensions[i] = m_TabDimensionDeep[i]/tmpDivider[i];
+				size *= tmpBlockDimensions[i];
+			}
+			
+			size_t closer = labs(blocksize - size);
+			
+			if(closer < closestsize)
+			{
+				closestsize = closer;
+				
+				for(size_t i=0; i<m_NbrDimensions; ++i)
+				{
+					m_TabBlockDivider[i] = tmpDivider[i];
+					m_TabBlockDimensionDeep[i] = tmpBlockDimensions[i];
+				}
+			}
+			
+			// Next
+			size_t currdim = m_NbrDimensions - 1;
+			Cursor[currdim]++;
+			
+			while( (currdim > 0) && (Cursor[currdim] == PrimeDiv[currdim].size()) )
+			{
+				Cursor[currdim] = 0;
+				currdim--;
+				Cursor[currdim]++;
+			}
+		}
+	}
+	while(!finished);
+	// Main research
+	
+	m_BlockSizeElts = 1;
+	m_NbrCompressedTabs = 1;
 
-	m_BlockSizeElts = numberElts;
-	m_BaseLengthIn = numberElts * sizeof(int);
-	m_NbrCompressedTabs = BlockComputation_GetNumElts(m_TabBlockDivider);
+	for(size_t i=0; i<m_NbrDimensions; ++i)
+	{
+		m_BlockSizeElts *= m_TabBlockDimensionDeep[i];
+		m_NbrCompressedTabs *= m_TabBlockDivider[i];
+	}
+	
+	if(m_BlockSizeElts*sizeof(int) < 8)
+		m_BlockSizeElts = 8/sizeof(int);
+	
+	m_BaseLengthIn = m_BlockSizeElts * sizeof(int);
+	// End Computation
+	
+	// Destruction Vars
+	delete [] Cursor;
+	
+	for(size_t i=0; i<m_NbrDimensions; ++i)
+		PrimeDiv[i].clear();
+
+	delete [] PrimeDiv;
+	delete [] tmpBlockDimensions;
+	delete [] tmpDivider;	
 }
-
