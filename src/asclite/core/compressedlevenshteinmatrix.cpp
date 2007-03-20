@@ -108,7 +108,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 {
 	char buffer[BUFFER_SIZE];
-	sprintf(buffer, "Compressed Levenshtein Matrix: Total Size: %lu, Theory-blocks: %lu, Created: %lu, Calculated: %lu", (ulint) m_MaxSize, (ulint) m_NbrCompressedTabs, (ulint) m_NbrCreatedBlocks, (ulint) m_SizeOfArray);	   
+	sprintf(buffer, "Compressed Levenshtein Matrix: TotalNbrCells: %lu, CalculatedCells: %lu, RatioCells: %.1f%%, TheoryBlocks: %lu, CreatedBlocks: %lu, RatioBlocks: %.1f%%", (ulint) m_MaxSize, (ulint) m_SizeOfArray, 100.0*((double)m_SizeOfArray)/((double)m_MaxSize), (ulint) m_NbrCompressedTabs, (ulint) m_NbrCreatedBlocks, 100.0*((double)m_NbrCreatedBlocks)/((double)m_NbrCompressedTabs));	   
 	LOG_DEBUG(m_pLogger, buffer);
 	
 	// For information only
