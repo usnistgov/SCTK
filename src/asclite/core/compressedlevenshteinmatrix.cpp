@@ -377,6 +377,7 @@ size_t CompressedLevenshteinMatrix::BlockComputation_BiggerDim()
 	size_t indexmax = ULONG_MAX;
 	size_t num1 = 0;
 	size_t index1 = ULONG_MAX;
+	size_t indexdiff = ULONG_MAX;
 	
 	for(size_t i=0; i<m_NbrDimensions; ++i)
 	{
@@ -391,10 +392,19 @@ size_t CompressedLevenshteinMatrix::BlockComputation_BiggerDim()
 			max = m_TabBlockDimensionDeep[i];
 			indexmax = i;
 		}
+		
+		size_t diffaf = m_TabDimensionDeep[i] % (m_TabBlockDivider[i]+1);
+		
+		if(diffaf == 0)
+		{
+			indexdiff = i;
+		}
 	}
 
 	if(num1 != 0)
 		return index1;
+	else if(indexdiff != ULONG_MAX)
+		return indexdiff;
 	else
 		return indexmax;
 }
