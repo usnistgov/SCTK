@@ -23,13 +23,6 @@
 #include "alignedspeechiterator.h"
 #include "alignedsegmentiterator.h"
 
-
-#ifdef WIN32
-string RAWSYSReportGenerator::FILE_SEPARATOR = "\\";
-#else
-string RAWSYSReportGenerator::FILE_SEPARATOR = "/";
-#endif
-
 Logger* RAWSYSReportGenerator::logger = Logger::getLogger();
 
 RAWSYS_Datas::RAWSYS_Datas()
@@ -893,7 +886,7 @@ void RAWSYSReportGenerator::Generate(Alignment* alignment, int where)
 		
 		if(where == 1)
 		{
-			string filename = Properties::GetProperty("report.outputdir") + FILE_SEPARATOR + alignment->GetSystemFilename(i) + "." + extensionfile;
+			string filename = Properties::GetProperty("report.outputdir") + "/" + GetFileNameFromPath(alignment->GetSystemFilename(i)) + "." + extensionfile;
 			file.open(filename.c_str());
 		}
 		

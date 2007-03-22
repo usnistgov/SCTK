@@ -21,6 +21,10 @@
 
 string ReportGenerator::GetFileNameFromPath(string path)
 {
-	string pass1(path, path.rfind("\\")+1, path.length()-path.rfind("\\")-1);
-	return string(pass1, pass1.rfind("/")+1, pass1.length()-pass1.rfind("/")-1);
+	size_t slash_pos = path.rfind("/");
+	
+	if(slash_pos == string::npos)
+		return path;
+	else
+		return string(path, slash_pos + 1, path.length() - slash_pos);
 }

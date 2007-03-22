@@ -27,16 +27,10 @@ void SGMLReportGenerator::Generate(Alignment* alignment, int where)
 	for(size_t i=0; i<alignment->GetNbOfSystems(); ++i)
 	{
 		ofstream file;
-
-#ifdef WIN32
-string FILE_SEPARATOR = "\\";
-#else
-string FILE_SEPARATOR = "/";
-#endif
-		
+				
 		if(where == 1)
 		{
-			string filename = Properties::GetProperty("report.outputdir") + FILE_SEPARATOR + alignment->GetSystemFilename(i) + ".sgml";
+			string filename = Properties::GetProperty("report.outputdir") + "/" + GetFileNameFromPath(alignment->GetSystemFilename(i)) + ".sgml";
 			file.open(filename.c_str());
 		}
 		

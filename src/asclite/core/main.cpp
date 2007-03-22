@@ -70,7 +70,7 @@ void PrintHelp()
 	cout << "Output Options:" << endl;
 	cout << "    -O <output_dir>" << endl;
 	cout << "                  Writes all output files into output_dir." << endl;
-	cout << "                  The default directory is the hypfile's." << endl;
+	cout << "                  The default directory is the current directory." << endl;
 	cout << "    -f <level>    Defines feedback mode." << endl;
 	cout << "                  The default value is 4." << endl;
     cout << "                  Silent: 0." << endl;
@@ -81,7 +81,6 @@ void PrintHelp()
 	cout << "    -o [ sum | rsum | sgml ] [ sdtout ]" << endl;
 	cout << "                  Defines the output reports." << endl;
 	cout << "                  The default value is 'sum stdout'." << endl;	
-    
     exit(1);
 }
 
