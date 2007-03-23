@@ -71,7 +71,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	m_TabStartByte = new ucl_intp[m_NbrCompressedTabs];
 	m_TabSizes = new ucl_uint[m_NbrCompressedTabs];
 	m_TabbIsCompressed = new bool[m_NbrCompressedTabs];
-	m_TabHitsTimer = new unsigned long long int[m_NbrCompressedTabs];
+	m_TabHitsTimer = new ulint[m_NbrCompressedTabs];
 	m_TabIsCreated = new bool[m_NbrCompressedTabs];
 	
 	m_CurrentMemorySize = 0;
@@ -92,7 +92,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	m_SizeOfArray = 0;
 	m_NbrCreatedBlocks = 0;
 	
-	m_OverHeadMemory = m_BaseLengthOut + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( sizeof(ucl_intp) + sizeof(ucl_uint) + 2*sizeof(bool) + sizeof(unsigned long long int) ) + 20*sizeof(double);
+	m_OverHeadMemory = m_BaseLengthOut + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( sizeof(ucl_intp) + sizeof(ucl_uint) + 2*sizeof(bool) + sizeof(ulint) ) + 20*sizeof(double);
 	m_UsableMemoryKB = 0.98*( ((double) m_MaxMemoryKBProp) - ((double) m_OverHeadMemory)/((double) 1024) );
 	m_PercentageMemoryTriggerStart = 0.01;
 	m_PercentageMemoryTriggerStop = 0.2;
@@ -268,7 +268,7 @@ void CompressedLevenshteinMatrix::GarbageCollection()
 
 bool CompressedLevenshteinMatrix::ForcedGarbageCollection()
 {
-	unsigned long long int mintouch = ULLONG_MAX;
+	ulint mintouch = ULONG_MAX;
 	size_t min_index = 0;
 
 	// Do the ugly Java GC
