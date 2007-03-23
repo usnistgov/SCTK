@@ -114,5 +114,8 @@
 [ALIGNMENT] YES,116,VT_20051027-1400,1,D,44,938.126,939.116,SUB34,52,938.566,938.886,SECOND,,50,54,,,,,,,,,,,
 [ALIGNMENT] YES,116,VT_20051027-1400,1,D,44,938.126,939.116,SUB34,54,938.886,939.116,SHEET,,52,,,,,,,,,,,,
 [  INFO   ] Generate reports
+[  INFO   ] Generating SGML report file 'sastt-case2.sys.rttm.filt.sgml'.
+[  INFO   ] Generating sys report file 'sastt-case2.sys.rttm.filt.sys'.
+[  INFO   ] Generating raw report file 'sastt-case2.sys.rttm.filt.raw'.
 [  DEBUG  ] Array Levenshtein Matrix: Total Size: 656370, Calculated: 656370
 [  INFO   ] Job complete

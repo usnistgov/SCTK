@@ -232,5 +232,8 @@ SCTK Version 2.2.1 - Release March 13th, 2007
   [*] Fixed the sequence number in SGML when using RTTM Refs
   [+] Added Difficulty limit
 
-SCTK Version 2.2.2 - Release XXX XX, 2007
+SCTK Version 2.2.2 - Release March 23rd, 2007
   [/] Speed up the use of Compression Matrix by not using System Timer
+  [/] New implementation of the compressed Levenshtein Matrix to avoid
+      overhead creation
+  [*] Fix the output report file generation for asclite

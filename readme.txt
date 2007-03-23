@@ -1,6 +1,6 @@
 File:  README
-Date:  March 13, 2007
-SCTK Version: 2.2.1
+Date:  March 23, 2007
+SCTK Version: 2.2.2
 
 asclite memory usage update.
 
@@ -35,11 +35,11 @@ Linux Version 2.0.33                          1.0 1.1 1.2
 Cygwin                                        1.3 2.0B2
 Linux Version 2.2.17                          1.3 2.0B2
 Linux Version 2.4.20-20-9 **                  1.3 2.0B2 2.1.7
-Linux Version 2.6.19.fc5                      2.2.0
-Linux Version 2.6.9.EL                        2.2.0
+Linux Version 2.6.19.fc5                      2.2.0 2.2.1 2.2.2
+Linux Version 2.6.9.EL                        2.2.0 2.2.1 2.2.2
 Mac Darwin 7.4.0                              1.3
 Mac Darwin 8.5.0 (g++ v4.0.1)                 2.1.2 2.1.3 2.1.4 2.1.5 2.1.6
-					      2.1.7 2.2.0
+					      2.1.7 2.2.0 2.2.1 2.2.2
 
 	* compiled with warning messages, but successful self test
 	** compiled and ran, but test6, which uses GNU's diff for
