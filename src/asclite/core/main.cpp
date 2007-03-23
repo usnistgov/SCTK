@@ -70,7 +70,7 @@ void PrintHelp()
 	cout << "Output Options:" << endl;
 	cout << "    -O <output_dir>" << endl;
 	cout << "                  Writes all output files into output_dir." << endl;
-	cout << "                  The default directory is the current directory." << endl;
+	cout << "                  The default directory is the hypfile's." << endl;
 	cout << "    -f <level>    Defines feedback mode." << endl;
 	cout << "                  The default value is 4." << endl;
     cout << "                  Silent: 0." << endl;
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 	string arg_optionaltoken = "none";
 	bool arg_bproperty = false;
 	bool arg_badaptivecost = false;
-	string arg_outputdir = ".";
+	string arg_outputdir = "";
 	int arg_feedback = 4;
 	int arg_width = 27;
     bool arg_bmaxgb = false;

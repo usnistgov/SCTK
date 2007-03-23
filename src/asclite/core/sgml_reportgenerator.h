@@ -19,6 +19,7 @@
 #include "reportgenerator.h"
 #include "alignment.h"
 #include "segment.h"
+#include "logger.h"
 
 struct AlignedSegmentSequenceComparator
 {
@@ -123,6 +124,8 @@ class SGMLReportGenerator : public ReportGenerator
 		bool m_bRefHasConf;
 		bool m_bHypHasConf;
 		bool m_bHypHasTimes;
+		
+		static Logger* m_pLogger;
 	public:
 		/** class constructor */
 		SGMLReportGenerator() {}

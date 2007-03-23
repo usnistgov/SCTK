@@ -21,6 +21,8 @@
 #include "speechset.h"
 #include "tokenalignment.h"
 
+Logger* SGMLReportGenerator::m_pLogger = Logger::getLogger();
+
 /** Generate the SGML report */
 void SGMLReportGenerator::Generate(Alignment* alignment, int where)
 {	
@@ -30,8 +32,28 @@ void SGMLReportGenerator::Generate(Alignment* alignment, int where)
 				
 		if(where == 1)
 		{
-			string filename = Properties::GetProperty("report.outputdir") + "/" + GetFileNameFromPath(alignment->GetSystemFilename(i)) + ".sgml";
+			string filename;
+			
+			if(Properties::GetProperty("report.outputdir") == string(""))
+				filename = alignment->GetSystemFilename(i) + ".sgml";
+			else
+				filename = Properties::GetProperty("report.outputdir") + "/" + GetFileNameFromPath(alignment->GetSystemFilename(i)) + ".sgml";
+			
 			file.open(filename.c_str());
+		
+			if(! file.is_open())
+			{
+				LOG_ERR(m_pLogger, "Could not open file '" + filename + "' for SGML report, the output will be redirected in the stdout to avoid any lost.");
+				where = 1;
+			}
+			else
+			{
+				LOG_INFO(m_pLogger, "Generating SGML report file '" + filename + "'.");
+			}
+		}
+		else
+		{
+			LOG_INFO(m_pLogger, "Generating SGML report in the stdout.");
 		}
 		
 		ostream output(where == 1 ? file.rdbuf() : cout.rdbuf());

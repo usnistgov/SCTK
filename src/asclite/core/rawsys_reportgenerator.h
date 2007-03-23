@@ -93,7 +93,6 @@ class RAWSYSReportGenerator : public ReportGenerator
 	
 		void AddSeparator(ostream &outpt, string str, uint fullsize);
 		
-		static string FILE_SEPARATOR;
 		static Logger* logger;
 	
 	public:

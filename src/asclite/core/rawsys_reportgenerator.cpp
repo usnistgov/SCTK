@@ -886,8 +886,28 @@ void RAWSYSReportGenerator::Generate(Alignment* alignment, int where)
 		
 		if(where == 1)
 		{
-			string filename = Properties::GetProperty("report.outputdir") + "/" + GetFileNameFromPath(alignment->GetSystemFilename(i)) + "." + extensionfile;
+			string filename;
+			
+			if(Properties::GetProperty("report.outputdir") == string(""))
+				filename = alignment->GetSystemFilename(i) + "." + extensionfile;
+			else
+				filename = Properties::GetProperty("report.outputdir") + "/" + GetFileNameFromPath(alignment->GetSystemFilename(i)) + "." + extensionfile;
+				
 			file.open(filename.c_str());
+			
+			if(! file.is_open())
+			{
+				LOG_ERR(logger, "Could not open file '" + filename + "' for " + extensionfile + " report, the output will be redirected in the stdout to avoid any lost.");
+				where = 1;
+			}
+			else
+			{
+				LOG_INFO(logger, "Generating " + extensionfile + " report file '" + filename + "'.");
+			}
+		}
+		else
+		{
+			LOG_INFO(logger, "Generating " + extensionfile + " report in the stdout.");
 		}
 		
 		ostream output(where == 1 ? file.rdbuf() : cout.rdbuf());
