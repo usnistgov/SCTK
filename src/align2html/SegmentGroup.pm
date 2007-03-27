@@ -120,8 +120,7 @@ sub CalculateBeginEndTime
 	{
 		foreach my $tknid(sort keys %{ $self->{REF}{$segrefid}->{TOKENS} })
 		{
-			#$self->{BT} = $self->{REF}{$segrefid}->{TOKENS}{$tknid}->{BT} if($self->{REF}{$segrefid}->{TOKENS}{$tknid}->{BT} < $self->{BT});
-			#$self->{ET} = sprintf("%.3f", $self->{REF}{$segrefid}->{TOKENS}{$tknid}->{BT} + $self->{REF}{$segrefid}->{TOKENS}{$tknid}->{DUR}) if(sprintf("%.3f", $self->{REF}{$segrefid}->{TOKENS}{$tknid}->{BT} + $self->{REF}{$segrefid}->{TOKENS}{$tknid}->{DUR}) > $self->{ET});
+			next if( ($self->{REF}{$segrefid}->{TOKENS}{$tknid}->{SEGBT} == 0) && ($self->{REF}{$segrefid}->{TOKENS}{$tknid}->{SEGET} == 0) && ($self->{REF}{$segrefid}->{TOKENS}{$tknid}->{TEXT} eq "") );
 			$self->{BT} = $self->{REF}{$segrefid}->{TOKENS}{$tknid}->{SEGBT} if($self->{REF}{$segrefid}->{TOKENS}{$tknid}->{SEGBT} < $self->{BT});
 			$self->{ET} = $self->{REF}{$segrefid}->{TOKENS}{$tknid}->{SEGET} if($self->{REF}{$segrefid}->{TOKENS}{$tknid}->{SEGET} > $self->{ET});
 		}
@@ -131,6 +130,7 @@ sub CalculateBeginEndTime
 	{
 		foreach my $tknid(sort keys %{ $self->{SYS}{$segsysid}->{TOKENS} })
 		{
+			next if( ($self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{BT} == 0) && ($self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{BT} + $self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{DUR} == 0) && ($self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{TEXT} eq "") );
 			$self->{BT} = $self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{BT} if($self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{BT} < $self->{BT});
 			$self->{ET} = sprintf("%.3f", $self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{BT} + $self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{DUR}) if(sprintf("%.3f", $self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{BT} + $self->{SYS}{$segsysid}->{TOKENS}{$tknid}->{DUR}) > $self->{ET});
 		}

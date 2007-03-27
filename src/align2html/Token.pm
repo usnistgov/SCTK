@@ -143,7 +143,7 @@ sub GetDraw
 		$output .= sprintf("jg.drawImage(\"%s\", %.0f*scale - 7, %.0f - 7, 14, 14);\n", $bullet, $self->{XSTARTPOS} - $minx, $self->{YPOS});
 		$output .= sprintf("jg.drawImage(\"%s\", %.0f*scale - 7, %.0f - 7, 14, 14);\n", $bullet, $self->{XENDPOS} - $minx, $self->{YPOS});
 	}
-	else
+	elsif(!( ($self->{SEGBT} == 0) && ($self->{SEGET} == 0) && ($self->{TEXT} eq "") ) )
 	{
 		$output .= sprintf("jg.setColor(\"brown\");\n");
 		$output .= sprintf("jg.setStroke(%.0f);\n", $self->{WIDTHLINE});
