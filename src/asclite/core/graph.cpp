@@ -491,7 +491,7 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 	for(size_t i=0; i<GetDimension(); ++i)
 		PreviousIndexes(tabPreviousIndexes[i], i, coord[i]);
 		
-	// Change only one coordinate into the Refs
+	// Change two coordinates
 	for(size_t i=m_IndexRef; i<GetDimension(); ++i)
 	{
 		if(coord[i] != 0)
@@ -505,9 +505,6 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 					prevcoordr[j] = coord[j];
 				
 				prevcoordr[i] = *l;
-				
-				if(ValidateTransitionInsertionDeletion(coord, prevcoordr))
-					listPrev.AddFront(prevcoordr);
 				
 				for(size_t j=0; j<m_IndexRef; ++j)
 				{
@@ -530,6 +527,29 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 						}
 					}
 				}
+				
+				++l;
+			}
+		}
+	}
+	
+	// Change only one coordinate into the Refs
+	for(size_t i=m_IndexRef; i<GetDimension(); ++i)
+	{
+		if(coord[i] != 0)
+		{
+			l = tabPreviousIndexes[i].begin();
+			le = tabPreviousIndexes[i].end();
+			
+			while(l != le)
+			{
+				for(size_t j=0; j<GetDimension(); ++j)
+					prevcoordr[j] = coord[j];
+				
+				prevcoordr[i] = *l;
+				
+				if(ValidateTransitionInsertionDeletion(coord, prevcoordr))
+					listPrev.AddFront(prevcoordr);
 				
 				++l;
 			}
