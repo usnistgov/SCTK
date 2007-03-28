@@ -111,7 +111,7 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 	sprintf(buffer, "Compressed Levenshtein Matrix: TotalNbrCells: %lu, CalculatedCells: %lu, RatioCells: %.1f%%, TheoryBlocks: %lu, CreatedBlocks: %lu, RatioBlocks: %.1f%%", (ulint) m_MaxSize, (ulint) m_SizeOfArray, 100.0*((double)m_SizeOfArray)/((double)m_MaxSize), (ulint) m_NbrCompressedTabs, (ulint) m_NbrCreatedBlocks, 100.0*((double)m_NbrCreatedBlocks)/((double)m_NbrCompressedTabs));	   
 	LOG_DEBUG(m_pLogger, buffer);
 	
-	// For information only
+	// For information only uncomment this part
 	/*
 	for(size_t i=0; i<m_NbrCompressedTabs; ++i)
 	{
@@ -228,21 +228,6 @@ bool CompressedLevenshteinMatrix::DecompressBlock(size_t block_index)
 	TouchBlock(block_index);
 	return decomp;
 }
-/*
-void CompressedLevenshteinMatrix::TouchBlock(size_t block_index)
-{
-	m_TabHitsTimer[block_index] = m_Accesses++;
-	
-	// For information only
-	if(m_pLogger->getLogLevel() >= 5 && m_pLogger->getLogLevel() != 7)
-	{
-		char buffer[BUFFER_SIZE];
-		sprintf(buffer, "Compressed Matrix: Acc: %llu, Decompr-op: %lu, Compr-op: %lu, Size: %lu, DecompBlk: %lu, CompBlk: %lu", m_Accesses, m_Decompressions, m_Compressions, m_CurrentMemorySize, m_NbrDecompressedBlocks, m_NbrCompressedBlocks);	   
-		LOG_DEBUG(m_pLogger, buffer);
-	}
-	// End Information
-}
-*/
 
 void CompressedLevenshteinMatrix::GarbageCollection()
 {

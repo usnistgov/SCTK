@@ -237,3 +237,6 @@ SCTK Version 2.2.2 - Release March 23rd, 2007
   [/] New implementation of the compressed Levenshtein Matrix to avoid
       overhead creation
   [*] Fix the output report file generation for asclite
+
+SCTK Version 2.2.3 - Release March 23rd, 2007
+  [*] Fix the time computation in html report when ISG vs. empty segment

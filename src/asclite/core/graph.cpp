@@ -524,7 +524,7 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 							prevcoordh[j] = *m;
 							
 							if(ValidateTransitionInsertionDeletion(coord, prevcoordh))
-								listPrev.AddBack(prevcoordh);
+								listPrev.AddFront(prevcoordh);
 							
 							++m;
 						}
