@@ -27,7 +27,7 @@ use Token;
 
 Getopt::Long::Configure(qw( auto_abbrev no_ignore_case ));
 
-my $VERSION = "0.2";
+my $VERSION = "0.3";
 my $AlignFile = "";
 my $MapFile = "";
 my $Outputdir = "";
@@ -773,12 +773,19 @@ foreach my $file(sort keys %FileChannelSG)
 	}
 }
 
-my $dTpercCorr = sprintf("%.1f%% (%d)", $TpercCorr/$ccount, $TnumCorr);
-my $dTpercSub = sprintf("%.1f%% (%d)", $TpercSub/$ccount, $TnumSub);
-my $dTpercIns = sprintf("%.1f%% (%d)", $TpercIns/$ccount, $TnumIns);
-my $dTpercDel = sprintf("%.1f%% (%d)", $TpercDel/$ccount, $TnumDel);
-my $dTpercSpErr = sprintf("%.1f%% (%d)", $TpercSpErr/$ccount, $TnumSpErr);
-my $dTpercErr = sprintf("%.1f%% (%d)", $TpercErr/$ccount, $TnumErr);
+#my $dTpercCorr = sprintf("%.1f%% (%d)", $TpercCorr/$ccount, $TnumCorr);
+#my $dTpercSub = sprintf("%.1f%% (%d)", $TpercSub/$ccount, $TnumSub);
+#my $dTpercIns = sprintf("%.1f%% (%d)", $TpercIns/$ccount, $TnumIns);
+#my $dTpercDel = sprintf("%.1f%% (%d)", $TpercDel/$ccount, $TnumDel);
+#my $dTpercSpErr = sprintf("%.1f%% (%d)", $TpercSpErr/$ccount, $TnumSpErr);
+#my $dTpercErr = sprintf("%.1f%% (%d)", $TpercErr/$ccount, $TnumErr);
+
+my $dTpercCorr = sprintf("%.1f%% (%d)",  100*$TnumCorr/$Tnumref, $TnumCorr);
+my $dTpercSub = sprintf("%.1f%% (%d)",   100*$TnumSub/$Tnumref, $TnumSub);
+my $dTpercIns = sprintf("%.1f%% (%d)",   100*$TnumIns/$Tnumref, $TnumIns);
+my $dTpercDel = sprintf("%.1f%% (%d)",   100*$TnumDel/$Tnumref, $TnumDel);
+my $dTpercSpErr = sprintf("%.1f%% (%d)", 100*$TnumSpErr/$Tnumref, $TnumSpErr);
+my $dTpercErr = sprintf("%.1f%% (%d)",   100*$TnumErr/$Tnumref, $TnumErr);
 
 print FILEINDEX "<tr>\n";
 print FILEINDEX "<td style=\"vertical-align: top; text-align: left;\"><b>Ensemble</b></td>\n";

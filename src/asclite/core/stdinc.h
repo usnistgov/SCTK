@@ -41,6 +41,7 @@ using namespace std;
 typedef unsigned int uint;
 typedef unsigned long int ulint;
 typedef unsigned long ulong;
+typedef unsigned long long int ullint;
 
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 255

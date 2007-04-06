@@ -18,8 +18,6 @@
 
 #include "stdinc.h"
 
-#define GIGCELLS 268435456
-
 /**
  * Contain the global properties of the aligner.
  * This object in created once and for all during the argument parsing.

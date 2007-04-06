@@ -110,12 +110,12 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _costTr
 	
 	if(m_bCompressedArray)
 	{
-		LOG_INFO(logger, "Lenvenshtein Matrix Compression: ON");
+		LOG_DEBUG(logger, "Lenvenshtein Matrix Compression: ON");
 		m_MapCost = new CompressedLevenshteinMatrix(GetDimension(), m_TabDimensionDeep);
 	}
 	else
 	{
-		LOG_INFO(logger, "Lenvenshtein Matrix Compression: OFF");
+		LOG_DEBUG(logger, "Lenvenshtein Matrix Compression: OFF");
 		m_MapCost = new ArrayLevenshteinMatrix(GetDimension(), m_TabDimensionDeep);
 	}
 	    

@@ -18,8 +18,8 @@
 #include "recording.h"
 #include "properties.h"
 
-#define ASC_VERSION "1.6"
-#define ASC_NAME "Why not"
+#define ASC_VERSION "1.7"
+#define ASC_NAME "Sure"
 
 struct inputfilename
 {
@@ -60,13 +60,23 @@ void PrintHelp()
     cout << "    -overlap-limit <max_nb_of_overlaping speaker>" << endl;
     cout << "                  Change the maximum number of overlaping speaker (default: 1)." << endl;
 	cout << "    -memory-compression <block_KB>" << endl;
-    cout << "                  Set the  memory compression with compressed <block_KB> KB block (default: off / recommanded: 64)." << endl;
+    cout << "                  Set the memory compression with compressed <block_KB> KB block (default: off / recommanded: 64)." << endl;
 	cout << "    -force-memory-compression" << endl;
-    cout << "                  Force the  memory compression." << endl;
+    cout << "                  Force the memory compression." << endl;
 	cout << "    -memory-limit <max_GB>" << endl;
-    cout << "                  Set the maximum memory allocation in GB for the LCM (default: 1.0)." << endl;
+    cout << "                  Set the maximum memory allocation in GB for the LCM (default: 2.0)." << endl;
+	cout << "                  If <max_GB> is smaller then 2 GB then every segmentation above <max_GB> will not be aligned." << endl;
+	cout << "                  If <max_GB> is bigger 2 GB and memory compression has been activated" << endl;
+	cout << "                    then every segmentation above <max_GB> will not be aligned" << endl;
+	cout << "                     and every segmentation between 2 GB and <max_GB> will be aligned." << endl;
+	cout << "                  If <max_GB> is bigger 2 GB and memory compression has not been activated" << endl;
+	cout << "                    every segmentation above 2 GB will not be aligned." << endl;
 	cout << "    -difficulty-limit <max_GB>" << endl;
     cout << "                  Set the maximum difficulty limit in GB for the LCM (disabled)." << endl;
+	cout << "                  Every segmentation above this limit will not be aligned." << endl;
+	cout << "    -min-difficulty-limit <max_GB>" << endl;
+    cout << "                  Set the min difficulty limit in GB for the LCM (disabled)." << endl;
+	cout << "                  Every segmentation below this limit will not be aligned." << endl;
 	cout << "Output Options:" << endl;
 	cout << "    -O <output_dir>" << endl;
 	cout << "                  Writes all output files into output_dir." << endl;
@@ -80,8 +90,12 @@ void PrintHelp()
 	cout << "Scoring Report Options:" << endl;
 	cout << "    -o [ sum | rsum | sgml ] [ sdtout ]" << endl;
 	cout << "                  Defines the output reports." << endl;
-	cout << "                  The default value is 'sum stdout'." << endl;	
-    exit(1);
+	cout << "                  The default value is 'sum stdout'." << endl;
+	cout << endl;
+	cout << "Note:" << endl;
+	cout << "LCM:              Levenshtein Cost Matrix." << endl;
+    
+	exit(1);
 }
 
 int main(int argc, char **argv)
@@ -118,6 +132,8 @@ int main(int argc, char **argv)
     string arg_maxgb = "1";
 	bool arg_bdifficultygb = false;
     string arg_difficultygb = "16";
+	bool arg_bmindifficultygb = false;
+    string arg_mindifficultygb = "0";
     
     string arg_glmfilename = "";
     string arg_glmoption = "";
@@ -394,6 +410,26 @@ int main(int argc, char **argv)
 			{
 				arg_ok = false;
 				cout << "Difficulty GB missing!" << endl;
+			}
+		}
+		else
+		// Min Difficulty Limit
+		if(strcmp(argv[arg_index], "-min-difficulty-limit") == 0)
+		{
+			if(arg_index < argc-1)
+			{
+				if(argv[arg_index+1][0] != '-')
+				{
+					arg_index++;
+                    arg_bmindifficultygb = true;
+					arg_mindifficultygb = string(argv[arg_index]);
+				}
+			}
+			
+			if(!arg_bmindifficultygb)
+			{
+				arg_ok = false;
+				cout << "Min Difficulty GB missing!" << endl;
 			}
 		}
 		else
@@ -681,6 +717,9 @@ int main(int argc, char **argv)
 		Properties::SetProperty("recording.difficultygb", arg_bdifficultygb ? "true" : "false");
 		Properties::SetProperty("recording.nbrdifficultygb", arg_difficultygb);
 		
+		Properties::SetProperty("recording.mindifficultygb", arg_bmindifficultygb ? "true" : "false");
+		Properties::SetProperty("recording.minnbrdifficultygb", arg_mindifficultygb);
+		
         if(vecHyps.begin()->fileformat == "rttm")
             Properties::SetProperty("recording.maxoverlapinghypothesis", arg_maxnboverlapingspkr);
         else
@@ -715,10 +754,10 @@ int main(int argc, char **argv)
 		arg_filters.push_back("validate.spkr_auto_overlap");
 		arg_filters.push_back("validate.glm_filter");
         
-        size_t max_gb = (size_t) ceil(GIGCELLS*atof(Properties::GetProperty("recording.maxnbofgb").c_str()));
+        ullint max_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int));
         
         char buffer_mem[BUFFER_SIZE];
-        sprintf(buffer_mem, "Using %s GB of memory for computation graph. (%li cells)", Properties::GetProperty("recording.maxnbofgb").c_str(), max_gb );
+        sprintf(buffer_mem, "Using %s GB of memory for computation graph. (%llu cells)", Properties::GetProperty("recording.maxnbofgb").c_str(), max_gb );
         LOG_INFO(logger, buffer_mem);
         
 		//launch the processing with the prec args

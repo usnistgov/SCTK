@@ -424,10 +424,13 @@ void Recording::Filter(vector<string> _filters)
 void Recording::Align()
 {
 	uint max_spkrOverlaping = atoi(Properties::GetProperty("recording.maxspeakeroverlaping").c_str());
-    uint max_hypothesisOverlaping = atoi(Properties::GetProperty("recording.maxoverlapinghypothesis").c_str());
-    size_t max_nb_gb = (size_t) ceil(GIGCELLS*atof(Properties::GetProperty("recording.maxnbofgb").c_str()));
+    //uint max_hypothesisOverlaping = atoi(Properties::GetProperty("recording.maxoverlapinghypothesis").c_str());
+    ullint max_nb_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int));
+	ullint max_nb_2gb = (ullint) ceil(2.0*1024*1024*1024/sizeof(int));
 	bool bForceMemoryCompression = (string("true").compare(Properties::GetProperty("align.forcememorycompression")) == 0);
-
+	bool bDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.difficultygb")) == 0);
+	bool bMinDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.mindifficultygb")) == 0);
+	
     map<string, SpeechSet* >::iterator i = hypothesis.begin();
     map<string, SpeechSet* >::iterator ei = hypothesis.end();
 
@@ -469,29 +472,31 @@ void Recording::Align()
 				}
             }
       
-            size_t cellnumber = segmentsGroup->GetDifficultyNumber();
+            ullint cellnumber = segmentsGroup->GetDifficultyNumber();
 
-            float KBused = (((float) cellnumber)*1024*1024)/((float) GIGCELLS);
-            float MBused = KBused/((float) 1024);
-            float GBused = MBused/((float) 1024);
+            double KBused = (((double) (cellnumber))/1024.0) * ((double)(sizeof(int)));
+            double MBused = KBused/1024.0;
+            double GBused = MBused/1024.0;
+			double TBused = GBused/1024.0;
 
             char buffer_size[BUFFER_SIZE];
 
-            if(GBused > 1.0)
+            if(TBused > 1.0)
+                sprintf(buffer_size, "%.2f TB", TBused);
+            else if(GBused > 1.0)
                 sprintf(buffer_size, "%.2f GB", GBused);
             else if(MBused > 1.0)
                 sprintf(buffer_size, "%.2f MB", MBused);
             else
                 sprintf(buffer_size, "%.2f kB", KBused);
       
-			
             char buffer[BUFFER_SIZE];
 
-			sprintf(buffer, "Align SG %lu [%s] %lu dimensions, Difficulty: %lu (%s) ---> bt=%.3f et=%.3f", 
+			sprintf(buffer, "Align SG %lu [%s] %lu dimensions, Difficulty: %llu (%s) ---> bt=%.3f et=%.3f", 
 							(ulint) segmentsGroup->GetsID(), 
                             segmentsGroup->GetDifficultyString().c_str(),
                             (ulint) (segmentsGroup->GetNumberOfHypothesis()+segmentsGroup->GetNumberOfReferences()),
-                            (ulint) cellnumber,
+                            cellnumber,
                             buffer_size,
                             segmentsGroup->GetMinTime()/1000.0,
                             segmentsGroup->GetMaxTime()/1000.0);
@@ -507,40 +512,71 @@ void Recording::Align()
 				sprintf(buffer, "Skip this group of segments (%lu): Inter Segment Gap versus Empty Hyp", (ulint) segmentsGroup->GetsID());
                 LOG_WARN(logger, buffer);
 			}
-            else if (segmentsGroup->isIgnoreInScoring())
+            
+			if(!ignoreSegs && (segmentsGroup->isIgnoreInScoring()) )
             {
                 ignoreSegs = true;
 				sprintf(buffer, "Skip this group of segments (%lu): Ignore this time segments in scoring set into the references", (ulint) segmentsGroup->GetsID());
                 LOG_WARN(logger, buffer);
             }
-			else if (segmentsGroup->GetNumberOfReferences() > max_spkrOverlaping || segmentsGroup->GetNumberOfHypothesis() > max_hypothesisOverlaping)
+			
+			if(!ignoreSegs &&  (segmentsGroup->GetNumberOfReferences() > max_spkrOverlaping) )
             {
                 ignoreSegs = true;        
-				sprintf(buffer, "Skip this group of segments (%lu): nb of speaker overlaping to high", (ulint) segmentsGroup->GetsID());
+				sprintf(buffer, "Skip this group of segments (%lu): nb of reference speaker (%lu) overlaping to high (limit: %lu)", (ulint) segmentsGroup->GetsID(), 
+																																	(ulint) segmentsGroup->GetNumberOfReferences(), 
+																																	(ulint) max_spkrOverlaping);
                 LOG_WARN(logger, buffer);
             }
-			else if(bForceMemoryCompression)
+			
+			if(!ignoreSegs && (bDifficultyLimit) )
 			{
-				buseCompArray = true;
-				sprintf(buffer, "Forcing Levenshtein Matrix Compression Algorihm for group of segments (%lu)", (ulint) segmentsGroup->GetsID());
-				LOG_INFO(logger, buffer);
+				ullint difficulty_nb_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.nbrdifficultygb").c_str())/sizeof(int));
+				
+				if(cellnumber > difficulty_nb_gb)
+				{
+					ignoreSegs = true;
+					sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large (%llu [%s]) regarding the difficulty limit (%llu [%.2f GB])", 
+									(ulint) segmentsGroup->GetsID(),
+									cellnumber,
+									buffer_size,
+									difficulty_nb_gb,
+									atof(Properties::GetProperty("recording.nbrdifficultygb").c_str()));
+					LOG_WARN(logger, buffer);
+				}
 			}
-			else if (cellnumber > max_nb_gb)
+			
+			if(!ignoreSegs && (bMinDifficultyLimit) )
+			{
+				ullint mindifficulty_nb_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.minnbrdifficultygb").c_str())/sizeof(int));
+								
+				if(cellnumber < mindifficulty_nb_gb)
+				{
+					ignoreSegs = true;
+					sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too small (%llu [%s]) regarding the min difficulty limit (%llu [%.2f GB])", 
+									(ulint) segmentsGroup->GetsID(),
+									cellnumber,
+									buffer_size,
+									mindifficulty_nb_gb,
+									atof(Properties::GetProperty("recording.minnbrdifficultygb").c_str()));
+					LOG_WARN(logger, buffer);
+				}
+			}
+			
+			if(!ignoreSegs && ( (cellnumber > max_nb_gb) || (cellnumber > max_nb_2gb) ) )
             {
-				bool m_bUseCompression = (string("true").compare(Properties::GetProperty("align.memorycompression")) == 0);
-				bool bDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.difficultygb")) == 0);
-				size_t difficulty_nb_gb = (size_t) ceil(GIGCELLS*atof(Properties::GetProperty("recording.nbrdifficultygb").c_str()));
+				bool m_bUseCompression = (string("true").compare(Properties::GetProperty("align.memorycompression")) == 0) || bForceMemoryCompression;
 				
 				if(!m_bUseCompression)
 				{
 					ignoreSegs = true;
-					sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large", (ulint) segmentsGroup->GetsID());
-					LOG_WARN(logger, buffer);
-				}
-				else if( (bDifficultyLimit) && (cellnumber > difficulty_nb_gb) )
-				{
-					ignoreSegs = true;
-					sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large regarding the difficulty", (ulint) segmentsGroup->GetsID());
+					sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large (%llu [%s]) regarding the memory limit (%llu [%.2f GB]) and no compression have been set", 
+									(ulint) segmentsGroup->GetsID(),
+									cellnumber,
+									buffer_size,
+									(cellnumber > max_nb_gb) ? max_nb_gb : max_nb_2gb,
+									(cellnumber > max_nb_gb) ? atof(Properties::GetProperty("recording.maxnbofgb").c_str()) : 2.0);
+					
 					LOG_WARN(logger, buffer);
 				}
 				else
@@ -550,6 +586,13 @@ void Recording::Align()
 					LOG_INFO(logger, buffer);
 				}
             }
+			
+			if(!ignoreSegs && (bForceMemoryCompression) )
+			{
+				buseCompArray = true;
+				sprintf(buffer, "Forcing Levenshtein Matrix Compression Algorihm for group of segments (%lu)", (ulint) segmentsGroup->GetsID());
+				LOG_INFO(logger, buffer);
+			}
 			
             //Special case where the SegmentGroup contain a segment time to ignore
             if (!ignoreSegs)

@@ -88,7 +88,7 @@ class SegmentsGroup
          * Get the guessed difficulty number of this alignement
          * linear number > with difficulty
          */
-        size_t GetDifficultyNumber();
+        ullint GetDifficultyNumber();
 		
 		/*
 		 * Return a String definint the difficulty number 

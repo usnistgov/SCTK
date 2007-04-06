@@ -37,7 +37,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	
 	m_NbrDimensions = _NbrDimensions;
 	m_TabDimensionDeep = new size_t[m_NbrDimensions];
-	m_MultiplicatorDimension = new size_t[m_NbrDimensions];
+	m_MultiplicatorDimension = new ullint[m_NbrDimensions];
 	m_TabBlockDivider = new size_t[m_NbrDimensions];
 	m_TabBlockDimensionDeep = new size_t[m_NbrDimensions];
 	
@@ -108,7 +108,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 {
 	char buffer[BUFFER_SIZE];
-	sprintf(buffer, "Compressed Levenshtein Matrix: TotalNbrCells: %lu, CalculatedCells: %lu, RatioCells: %.1f%%, TheoryBlocks: %lu, CreatedBlocks: %lu, RatioBlocks: %.1f%%", (ulint) m_MaxSize, (ulint) m_SizeOfArray, 100.0*((double)m_SizeOfArray)/((double)m_MaxSize), (ulint) m_NbrCompressedTabs, (ulint) m_NbrCreatedBlocks, 100.0*((double)m_NbrCreatedBlocks)/((double)m_NbrCompressedTabs));	   
+	sprintf(buffer, "Compressed Levenshtein Matrix: TotalNbrCells: %llu, CalculatedCells: %llu, RatioCells: %.1f%%, TheoryBlocks: %lu, CreatedBlocks: %lu, RatioBlocks: %.1f%%", (ullint) m_MaxSize, (ullint) m_SizeOfArray, 100.0*((double)m_SizeOfArray)/((double)m_MaxSize), (ulint) m_NbrCompressedTabs, (ulint) m_NbrCreatedBlocks, 100.0*((double)m_NbrCreatedBlocks)/((double)m_NbrCompressedTabs));	   
 	LOG_DEBUG(m_pLogger, buffer);
 	
 	// For information only uncomment this part

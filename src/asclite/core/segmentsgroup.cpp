@@ -141,17 +141,17 @@ string SegmentsGroup::GetDifficultyString()
     return res;
 }
 
-size_t SegmentsGroup::GetDifficultyNumber()
+ullint SegmentsGroup::GetDifficultyNumber()
 {
-    size_t res = 1;
+    ullint res = 1;
     
     for (size_t i=0 ; i < references.size() ; ++i)
     {
-        size_t temp_size = 0;
+        ullint temp_size = 0;
     
         for (size_t j=0 ; j < references[i].size() ; ++j)
         {
-            temp_size += references[i][j]->ToTopologicalOrderedStruct().size();
+            temp_size += (ullint) references[i][j]->ToTopologicalOrderedStruct().size();
 		}
         
 		res = res * (temp_size+1);
@@ -159,11 +159,11 @@ size_t SegmentsGroup::GetDifficultyNumber()
     
     for (size_t i=0 ; i < hypothesiss.size() ; ++i)
     {
-		size_t temp_size = 0;
+		ullint temp_size = 0;
         
         for (size_t j=0 ; j < hypothesiss[i].size() ; ++j)
         {
-            temp_size += hypothesiss[i][j]->ToTopologicalOrderedStruct().size();
+            temp_size += (ullint) hypothesiss[i][j]->ToTopologicalOrderedStruct().size();
         }
     
 		res = res * (temp_size+1);

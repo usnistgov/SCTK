@@ -238,5 +238,10 @@ SCTK Version 2.2.2 - Release March 23rd, 2007
       overhead creation
   [*] Fix the output report file generation for asclite
 
-SCTK Version 2.2.3 - Release March 23rd, 2007
+SCTK Version 2.2.3 - Release XXX XX, 2007
   [*] Fix the time computation in html report when ISG vs. empty segment
+  [/] Fix computation percentage for this table of html display
+  [/] Better handling on exceptions to drop segment groups from alignments
+  [/] Change some outputs to debug level instead of info level
+  [/] Better handling of the memory threshold (2 GB limits for 32 bits)
+  [+] Minimum command line option to drop the small alignments
