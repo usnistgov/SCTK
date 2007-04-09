@@ -10,9 +10,9 @@ INSTALL = @INSTALL@
 
 CPPFLAGS = @CPPFLAGS@
 DEFS = @DEFS@
-CFLAGS = @CFLAGS@ -Iucl-1.03/include
+CFLAGS = @CFLAGS@
 LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@ ucl-1.03/src/libucl.a
+LIBS = @LIBS@
 
 # Some System V machines do not come with libPW.
 # If this is true for you, use the GNU alloca.o here.
@@ -38,7 +38,7 @@ SHELL = /bin/sh
 
 ######################################################################
 # The source files for all of the programs.
-src_c = $(wildcard *.cpp)
+src_c = $(wildcard *.cpp *.c)
 
 ######################################################################
 # The Object files for all of the library code.

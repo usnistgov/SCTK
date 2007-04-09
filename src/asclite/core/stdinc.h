@@ -34,7 +34,7 @@
 #include <float.h>
 #include <limits.h>
 
-#include "ucl/ucl.h"
+#include "minilzo.h"
 
 using namespace std;
 

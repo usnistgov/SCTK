@@ -9,7 +9,6 @@ MAKE=make
 PREFIX=`cd ../../..; pwd`
 
 all clean distclean:
-	(cd core/ucl-1.03; $(MAKE) $@)
 	(cd core; $(MAKE) $@)
 	(cd test; $(MAKE) $@)
 
@@ -18,14 +17,12 @@ install:
 	(cd test; $(MAKE) $@)
 
 config:
-	(cd core/ucl-1.03; ./configure)
 	(cd core; sh config.sh -prefix=${PREFIX})
 	(cd test; sh config.sh -prefix=${PREFIX})
 
 checkFast:
 
 check: all checkFast
-	(cd core/ucl-1.03; $(MAKE) $@)
 	(cd core; $(MAKE) $@)
 	(cd test; $(MAKE) $@)
 	(cd testfiles; perl ascliteTest.pl)

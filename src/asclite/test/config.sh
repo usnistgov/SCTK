@@ -1728,9 +1728,9 @@ if test "$ac_test_CXXFLAGS" = set; then
   CXXFLAGS=$ac_save_CXXFLAGS
 elif test $ac_cv_prog_cxx_g = yes; then
   if test "$GXX" = yes; then
-    CXXFLAGS="-g -O4"
+    CXXFLAGS="-O4"
   else
-    CXXFLAGS="-g"
+    CXXFLAGS=""
   fi
 else
   if test "$GXX" = yes; then
@@ -2335,9 +2335,9 @@ if test "$ac_test_CFLAGS" = set; then
   CFLAGS=$ac_save_CFLAGS
 elif test $ac_cv_prog_cc_g = yes; then
   if test "$GCC" = yes; then
-    CFLAGS="-g -O4"
+    CFLAGS="-O4"
   else
-    CFLAGS="-g"
+    CFLAGS=""
   fi
 else
   if test "$GCC" = yes; then
