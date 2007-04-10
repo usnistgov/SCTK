@@ -29,11 +29,6 @@ struct inputfilename
 void PrintHelp()
 {
 	cout << "Asclite version: " << ASC_VERSION << " (\"" << ASC_NAME << "\")" << endl;
-	/*
-	#ifdef __MACH__
-	cout << "Apple compilation" << endl;
-	#endif
-	*/
 	cout << "Usage: asclite <Input Options> [<Alignment Options>] [<Output Options>] [Scoring Report Options>]" << endl;
 	cout << "Input Options:" << endl;
 	cout << "    -r <reffilename> [ rttm | stm | trn ]" << endl;
