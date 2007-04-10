@@ -89,3 +89,11 @@ module and nsgmls program which have be updated and continued: OpenSP
 (http://sourceforge.net/project/showfiles.php?group_id=2115&package_id=2869).
 The version v1.5.2 of OpenSP have been tested and working with the 
 current version of utf_filt.
+
+Asclite can be compiled into 64 bit if you had -m64 on the 
+src/asclite/core/makefile and src/asclite/test/makefile file to CFLAGS 
+variable.
+
+A bug into Mac OS X have been discovered provoking the virtual memory 
+to not be flushed. In this case add the option -difficulty-limit 3.1 to
+asclite when running to avoid any problem.
