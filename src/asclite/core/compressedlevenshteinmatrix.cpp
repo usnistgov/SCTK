@@ -114,7 +114,7 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 	{
 		if(isBlockCreated(i))
 			if(m_TabStartByte[i])
-				free(m_TabStartByte[i]);		
+				free(m_TabStartByte[i]);
 	}
 	
 	delete [] m_TabStartByte;
@@ -171,6 +171,7 @@ void CompressedLevenshteinMatrix::CompressBlock(size_t block_index)
 		}
 		
 		free(decomp_data);
+		
 		m_TabSizes[block_index] = comp_lengh;
 		m_TabStartByte[block_index] = comp_data;
 		m_TabbIsCompressed[block_index] = true;
@@ -203,6 +204,7 @@ bool CompressedLevenshteinMatrix::DecompressBlock(size_t block_index)
 		}
 		
 		free(comp_data);
+		
 		m_TabSizes[block_index] = decomp_lengh;
 		m_TabStartByte[block_index] = decomp_data;
 		m_TabbIsCompressed[block_index] = false;
@@ -377,7 +379,7 @@ void CompressedLevenshteinMatrix::BlockComputation()
 			
 			// Next
 			size_t currdim = m_NbrDimensions - 1;
-			Cursor[currdim]++;
+			++(Cursor[currdim]);
 			
 			while( (currdim > 0) && (Cursor[currdim] == PrimeDiv[currdim].size()) )
 			{

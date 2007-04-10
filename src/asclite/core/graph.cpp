@@ -137,9 +137,7 @@ Graph::~Graph()
     // Cleaning cache
     for(size_t i=0; i<GetDimension(); ++i)
 	{
-		//m_TabCacheDimTransitionCost[i].clear();
-        
-        for(size_t j=0; j<m_TabDimensionDeep[i]; ++j)
+		for(size_t j=0; j<m_TabDimensionDeep[i]; ++j)
         {
             if(m_TabCacheDimPreviousIndex[i][j])
                 m_TabCacheDimPreviousIndex[i][j]->clear();
@@ -148,7 +146,6 @@ Graph::~Graph()
         delete [] m_TabCacheDimPreviousIndex[i];
 	}
     
-    //delete [] m_TabCacheDimTransitionCost;
     delete [] m_TabCacheDimPreviousIndex;
     
 	delete m_MapCost;
@@ -703,7 +700,7 @@ int Graph::GetCostTransition(Token* pToken1, Token* pToken2)
 	{
 		if(!m_bSpeakerOptimization)
 		{
-			return 0  + AdaptiveCost;
+			return 0 + AdaptiveCost;
 		}
 		else
 		{
@@ -720,12 +717,12 @@ int Graph::GetCostTransition(Token* pToken1, Token* pToken2)
 			if( (file1 != file2) || (channel1 != channel2) )
 			{
 				LOG_FATAL(logger, "Error file and channel mismatch " + file1 + " " + channel1 + " " + file2 + " " + channel2); 
-				exit(1); 
+				exit(0);
 			}
 						
 			if(m_pSpeakerMatch->GetRef(file1, channel1, speaker1) == speaker2)
 			{
-				return 0  + AdaptiveCost;
+				return 0 + AdaptiveCost;
 			}
 			else
 			{
