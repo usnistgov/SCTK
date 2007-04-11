@@ -52,7 +52,7 @@ use strict;
 #    - Added the dificulty tag for 
 # 
 
-my $Version = "0.16"; 
+my $Version = "0.17"; 
 my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o numSpkr ] [ -m GB_Max_Memory[:GB_Max_Difficulty] ] [ -f FORMAT ] [ - a ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
 "Version: $Version\n".
 "Desc: Score a Hub-4E/NE or Hub-5E/NE evaluation using the established\n".
@@ -137,7 +137,7 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
     my $GLM = "";
     my $LDCLEX = "";
     my $MemoryLimit = 1.0;
-    my $DifficultyLimit = 1.0;
+    my $DifficultyLimit = -1.0;
     ### Defaults for SC_stats
     my $EnsembleRoot = "";
     my $EnsembleDesc = "";
@@ -221,7 +221,7 @@ sub ProcessCommandLine
 		die "Failed to parse -m option value '$main::opt_m'";
 	    }
 	    print "Warning: Difficulty Limit($DifficultyLimit) is less than the MemoryLimit($MemoryLimit).  Did you want to do both?\n"
-		if ($DifficultyLimit < $MemoryLimit);
+		if( ($DifficultyLimit < $MemoryLimit) && ($DifficultyLimit >= 0) );
 	}
 	if (defined($main::opt_f)) {	$hypfileformat = $main::opt_f; }
 	if (defined($main::opt_F)) {	$reffileformat = $main::opt_F; }
@@ -628,7 +628,8 @@ sub RunScoring
             $overlapscoring = "-overlap-limit $OVRLAPSPK";
         }
         
-        my $OptionMemoryLimit = "-memory-limit $MemoryLimit -difficulty-limit $DifficultyLimit";
+        my $OptionMemoryLimit = "-memory-limit $MemoryLimit";
+        $OptionMemoryLimit .= " -difficulty-limit $DifficultyLimit" if($DifficultyLimit >= 0);
                 
         $command = "$ASCLITE -f 6 $spkrOpt $overlapscoring -adaptive-cost -time-prune 100 -word-time-align 100 -memory-compression 256 $OptionMemoryLimit -r $reff $reffileformat -h $hyp_oname $hypfileformat $hyp_iname -F -D -o sgml sum rsum 2> $hyp_oname.aligninfo.csv";
 	print "   Exec: $command\n" if ($Vb);
