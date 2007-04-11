@@ -637,7 +637,6 @@ void Recording::Align()
  */
 void Recording::Score()
 {
-	
 	Scorer* scorer_instance = scorer["stt"];
     scorer_instance->Score(alignments, m_pSpeakerMatch);
 }

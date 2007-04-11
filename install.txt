@@ -28,7 +28,7 @@ following the isntrcutions in 'src/rfilter1/makefile'.
 The 'make check' will perform self tests on the toolkit.  Please
 report any problems to Jon Fiscus at NIST with any bug reports or
 comments at the email address jonathan.fiscus@nist.gov or by phone,
-(301)-975-3182.  Please include the version number and any other
+(+1) (301) 975-3182.  Please include the version number and any other
 relevant information such as OS, compiler, etc.
 
 The 'make install' command will copy the executables to $PREFIX, (See

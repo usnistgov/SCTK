@@ -36,9 +36,9 @@ Cygwin                                        1.3 2.0B2
 Linux Version 2.2.17                          1.3 2.0B2
 Linux Version 2.4.20-20-9 **                  1.3 2.0B2 2.1.7
 Linux Version 2.6.19.fc5                      2.2.0 2.2.1 2.2.2 2.2.3
-Linux Version 2.6.9.EL                        2.2.0 2.2.1 2.2.2 2.2.3
+Linux Version 2.6.9-5.EL (gcc 3.4.6-3)        2.2.0 2.2.1 2.2.2 2.2.3
 Mac Darwin 7.4.0                              1.3
-Mac Darwin 8.5.0 (g++ v4.0.1)                 2.1.2 2.1.3 2.1.4 2.1.5 2.1.6
+Mac Darwin 8.5.0 (gcc v4.0.1 build 5367)      2.1.2 2.1.3 2.1.4 2.1.5 2.1.6
 					      2.1.7 2.2.0 2.2.1 2.2.2 2.2.3
 
 	* compiled with warning messages, but successful self test
@@ -93,7 +93,5 @@ current version of utf_filt.
 Asclite can be compiled into 64 bit if you had -m64 on the 
 src/asclite/core/makefile and src/asclite/test/makefile file to CFLAGS 
 variable.
-
-A bug into Mac OS X have been discovered provoking the virtual memory 
-to not be flushed. In this case add the option -difficulty-limit 3.1 to
-asclite when running to avoid any problem.
+If you do not compile in 64 bits you can add a fail safe into the command
+line by adding -difficulty-limit 3.1.

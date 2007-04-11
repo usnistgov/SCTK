@@ -243,6 +243,7 @@ SCTK Version 2.2.3 - Release XXX XX, 2007
   [/] Fix computation percentage for this table of html display
   [/] Better handling on exceptions to drop segment groups from alignments
   [/] Change some outputs to debug level instead of info level
-  [/] Better handling of the memory threshold (2 GB limits for 32 bits)
+  [/] Better handling of the memory threshold
   [/] Changed from ucl library to lzo library for compression
+  [+] Safer memory deallocation in the LCM
   [+] Minimum command line option to drop the small alignments

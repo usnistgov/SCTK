@@ -33,6 +33,7 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		ulint*  m_TabHitsTimer;
 		
 		int** m_TabStartByte;
+		int** m_TabStartByteCompressed;
 		uint* m_TabSizes;
 		size_t    m_NbrCompressedTabs;
 		lzo_uint  m_BaseLengthIn;
