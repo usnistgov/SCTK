@@ -27,7 +27,7 @@ use Token;
 
 Getopt::Long::Configure(qw( auto_abbrev no_ignore_case ));
 
-my $VERSION = "0.3";
+my $VERSION = "0.4";
 my $AlignFile = "";
 my $MapFile = "";
 my $Outputdir = "";
@@ -465,14 +465,14 @@ sub DrawKey
 	$out .= sprintf("jg.drawLine(%.0f - 8, %.0f, %.0f + 8, %.0f);\n", 15, $ystartpos + 13 , 15, $ystartpos + 13);
 	$out .= sprintf("jg.drawLine(%.0f - 5, %.0f, %.0f + 5, %.0f);\n", 15, $ystartpos + 15 , 15, $ystartpos + 15);
 	$out .= sprintf("jg.drawLine(%.0f - 2, %.0f, %.0f + 2, %.0f);\n", 15, $ystartpos + 17 , 15, $ystartpos + 17);
-	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 100, \"left\");\n", "Insertion", 50, $ystartpos + 4);
+	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 100, \"left\");\n", "Deletion", 50, $ystartpos + 4);
 	
 	$out .= sprintf("jg.setColor(\"green\");\n");
 	$out .= sprintf("jg.drawLine(%.0f, %.0f, %.0f, %.0f);\n"        , 215, $ystartpos      , 215, $ystartpos + 13);
 	$out .= sprintf("jg.drawLine(%.0f - 8, %.0f, %.0f + 8, %.0f);\n", 215, $ystartpos + 13 , 215, $ystartpos + 13);
 	$out .= sprintf("jg.drawLine(%.0f - 5, %.0f, %.0f + 5, %.0f);\n", 215, $ystartpos + 15 , 215, $ystartpos + 15);
 	$out .= sprintf("jg.drawLine(%.0f - 2, %.0f, %.0f + 2, %.0f);\n", 215, $ystartpos + 17 , 215, $ystartpos + 17);
-	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 200, \"left\");\n", "Optionally Insertable", 250, $ystartpos + 4);
+	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 200, \"left\");\n", "Optionally Deletable", 250, $ystartpos + 4);
 	
 	$ystartpos += 50;
 	
@@ -481,14 +481,14 @@ sub DrawKey
 	$out .= sprintf("jg.drawLine(%.0f - 8, %.0f, %.0f + 8, %.0f);\n", 15, $ystartpos - 13 , 15, $ystartpos - 13);
 	$out .= sprintf("jg.drawLine(%.0f - 5, %.0f, %.0f + 5, %.0f);\n", 15, $ystartpos - 15 , 15, $ystartpos - 15);
 	$out .= sprintf("jg.drawLine(%.0f - 2, %.0f, %.0f + 2, %.0f);\n", 15, $ystartpos - 17 , 15, $ystartpos - 17);
-	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 100, \"left\");\n", "Deletion", 50, $ystartpos - 17);
+	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 100, \"left\");\n", "Insertion", 50, $ystartpos - 17);
 	
 	$out .= sprintf("jg.setColor(\"green\");\n");
 	$out .= sprintf("jg.drawLine(%.0f, %.0f, %.0f, %.0f);\n"        , 215, $ystartpos      , 215, $ystartpos - 13);
 	$out .= sprintf("jg.drawLine(%.0f - 8, %.0f, %.0f + 8, %.0f);\n", 215, $ystartpos - 13 , 215, $ystartpos - 13);
 	$out .= sprintf("jg.drawLine(%.0f - 5, %.0f, %.0f + 5, %.0f);\n", 215, $ystartpos - 15 , 215, $ystartpos - 15);
 	$out .= sprintf("jg.drawLine(%.0f - 2, %.0f, %.0f + 2, %.0f);\n", 215, $ystartpos - 17 , 215, $ystartpos - 17);
-	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 200, \"left\");\n", "Optionally Deletable", 250, $ystartpos - 17);
+	$out .= sprintf("jg.drawStringRect(\"%s\", %.0f, %.0f, 200, \"left\");\n", "Optionally Insertable", 250, $ystartpos - 17);
 	
 	$ystartpos += 15;
 	
@@ -543,6 +543,8 @@ GetOptions
 
 die "ERROR: An Align file must be set." if($AlignFile eq "");
 die "ERROR: An Output directory must be set." if($Outputdir eq "");
+
+system("mkdir -p $Outputdir");
 
 loadAlignFile($AlignFile);
 
