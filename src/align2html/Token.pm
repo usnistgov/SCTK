@@ -122,6 +122,12 @@ sub SetWidthLine
 	$self->{WIDTHLINE} = $lwidth;
 }
 
+sub IsFakeToken
+{
+    my ($self) = @_;
+    return( ($self->{SEGBT} == 0) && ($self->{SEGET} == 0) && ($self->{TEXT} eq "") );
+}
+
 sub GetDraw
 {
 	my ($self, $minx) = @_;
@@ -151,7 +157,6 @@ sub GetDraw
 		$output .= sprintf("jg.drawLine(%.0f*scale, %.0f, %.0f*scale, %.0f);\n", $self->{XSTARTPOS} - $minx, $self->{YPOS} - 4, $self->{XSTARTPOS} - $minx, $self->{YPOS} + 4);
 		$output .= sprintf("jg.drawLine(%.0f*scale, %.0f, %.0f*scale, %.0f);\n", $self->{XENDPOS} - $minx, $self->{YPOS} - 4, $self->{XENDPOS} - $minx, $self->{YPOS} + 4);
 	}
-	
 	
 	return $output;
 }

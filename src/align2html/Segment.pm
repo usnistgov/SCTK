@@ -69,11 +69,22 @@ sub CalculateMinMaxX
 	
 	foreach my $tknid(keys %{ $self->{TOKENS} })
 	{
-	
 		next if( ($self->{TOKENS}{$tknid}->{XSTARTPOS} == 0) && ($self->{TOKENS}{$tknid}->{XENDPOS} == 0) && ($self->{TOKENS}{$tknid}->{TEXT} eq "") );
 		$self->{MINX} = $self->{TOKENS}{$tknid}->{XSTARTPOS} if($self->{MINX} > $self->{TOKENS}{$tknid}->{XSTARTPOS});
 		$self->{MAXX} = $self->{TOKENS}{$tknid}->{XENDPOS}   if($self->{MAXX} < $self->{TOKENS}{$tknid}->{XENDPOS});
 	}
+}
+
+sub HasOnlyOneFakeToken
+{
+    my ($self) = @_;
+    
+    foreach my $tknid(keys %{ $self->{TOKENS} })
+	{
+		return 0 if( !( ($self->{TOKENS}{$tknid}->{XSTARTPOS} == 0) && ($self->{TOKENS}{$tknid}->{XENDPOS} == 0) && ($self->{TOKENS}{$tknid}->{TEXT} eq "") ) );
+	}
+	
+	return 1;
 }
 
 sub CleanSegmentPrevNext

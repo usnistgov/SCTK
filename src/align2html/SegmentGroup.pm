@@ -88,7 +88,7 @@ sub GetNumHypWords
 	my ($self) = @_;
 	
 	my $number = 0;
-	foreach my $segsysid(keys %{ $self->{SYS} }) { $number += scalar keys %{ $self->{SYS}{$segsysid}->{TOKENS} }; }
+	foreach my $segsysid(keys %{ $self->{SYS} }) { $number += scalar keys %{ $self->{SYS}{$segsysid}->{TOKENS} } if(!($self->{SYS}{$segsysid}->HasOnlyOneFakeToken())); }
 	return $number;
 }
 

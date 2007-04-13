@@ -580,6 +580,17 @@ foreach my $SegGrpID ( sort keys %SegGroups )
 	print FILESG "$out\n";
 	close FILESG;
 	
+	my @refspkrs;
+	foreach my $segref (keys %{ $mySG->{REF} }){ push(@refspkrs, $mySG->{REF}{$segref}->{SPKRID}) if($mySG->{REF}{$segref}->{SPKRID} ne "ref:INTER_SEGMENT_GAP"); }
+	my $countSpeakers = scalar unique @refspkrs;
+	
+	my @sysspkrs;
+	foreach my $segsys (keys %{ $mySG->{SYS} }){ push(@refspkrs, $mySG->{SYS}{$segsys}->{SPKRID}) if(!($mySG->{SYS}{$segsys}->HasOnlyOneFakeToken())); }
+	my $counthypSpeakers = scalar unique @sysspkrs;
+	
+	$mySG->{ALIGNED} = 1 if( ($countSpeakers == 0) && ($counthypSpeakers == 0) );
+	$mySG->{ALIGNED} = 1 if( ($mySG->{ALIGNED} == 0) && ($countSpeakers == 1) && ($counthypSpeakers == 0) && ($mySG->{HASFAKETIME} == 1) );
+	
 	$FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{NCORR} = 0 if(!exists($FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{NCORR}));
 	$FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{NINS} = 0 if(!exists($FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{NINS}));
 	$FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{NSUB} = 0 if(!exists($FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{NSUB}));
@@ -599,11 +610,6 @@ foreach my $SegGrpID ( sort keys %SegGroups )
 	push( @{ $FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{LISTSG} }, $SegGrpID);
 	push( @{ $FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{LISTSGALIGNED} }, $SegGrpID) if($mySG->{ALIGNED} == 1);
 	$FileChannelSG{$mySG->{FILE}}{$mySG->{CHANNEL}}{TOTTIMEALIGNED} += $mySG->{ET} - $mySG->{BT} if($mySG->{ALIGNED} == 1);
-	
-	
-	my @refspkrs;
-	foreach my $segref (keys %{ $mySG->{REF} }){ push(@refspkrs, $mySG->{REF}{$segref}->{SPKRID}); }
-	my $countSpeakers = scalar unique @refspkrs;
 	
 	$Overlap{$countSpeakers}{NREF} = 0 if(!exists($Overlap{$countSpeakers}{NREF}));
 	$Overlap{$countSpeakers}{NREF} += $mySG->{NREF};
@@ -653,7 +659,6 @@ foreach my $SegGrpID ( sort keys %SegGroups )
 	$Overlap{$countSpeakers}{NUMHYPTOKENS} = 0 if(!exists($Overlap{$countSpeakers}{NUMHYPTOKENS}));
 	$Overlap{$countSpeakers}{NUMHYPTOKENS} += $SegGroups{$SegGrpID}->GetNumHypWords();
 }
-
 
 open(FILEINDEX, ">$Outputdir/index.html") or die "$?";
 
@@ -728,7 +733,7 @@ foreach my $file(sort keys %FileChannelSG)
 		$Ttottime += $tottime;
 		
 		my $nbrSGAligned = scalar(@{ $FileChannelSG{$file}{$channel}{LISTSGALIGNED} });
-		 $TnbrSGAligned +=  $nbrSGAligned;
+        $TnbrSGAligned += $nbrSGAligned;
 		
 		my $tottimealigned = sprintf("%.3f", $FileChannelSG{$file}{$channel}{TOTTIMEALIGNED});
 		$Ttottimealigned += $tottimealigned;
@@ -756,7 +761,7 @@ foreach my $file(sort keys %FileChannelSG)
 			$TnumErr += $FileChannelSG{$file}{$channel}{NDEL}+$FileChannelSG{$file}{$channel}{NINS}+$FileChannelSG{$file}{$channel}{NSUB}+$FileChannelSG{$file}{$channel}{NSPKRERR};
 			
 			$ccount++;
-		}	
+		}
 		
 		print FILEINDEX "<tr>\n";
 		print FILEINDEX "<td style=\"vertical-align: top; text-align: left;\"><a href=\"$filename\" target=\"_blank\">$file\/$channel</a></td>\n";
@@ -774,13 +779,6 @@ foreach my $file(sort keys %FileChannelSG)
 		print FILEINDEX "</tr>\n";		
 	}
 }
-
-#my $dTpercCorr = sprintf("%.1f%% (%d)", $TpercCorr/$ccount, $TnumCorr);
-#my $dTpercSub = sprintf("%.1f%% (%d)", $TpercSub/$ccount, $TnumSub);
-#my $dTpercIns = sprintf("%.1f%% (%d)", $TpercIns/$ccount, $TnumIns);
-#my $dTpercDel = sprintf("%.1f%% (%d)", $TpercDel/$ccount, $TnumDel);
-#my $dTpercSpErr = sprintf("%.1f%% (%d)", $TpercSpErr/$ccount, $TnumSpErr);
-#my $dTpercErr = sprintf("%.1f%% (%d)", $TpercErr/$ccount, $TnumErr);
 
 my $dTpercCorr = sprintf("%.1f%% (%d)",  100*$TnumCorr/$Tnumref, $TnumCorr);
 my $dTpercSub = sprintf("%.1f%% (%d)",   100*$TnumSub/$Tnumref, $TnumSub);
@@ -860,6 +858,7 @@ foreach my $spkover (sort {$a <=> $b} keys %Overlap)
 	{
 		$display_nins = sprintf("(%d)", $Overlap{$spkover}{NUMHYPTOKENS});
 		$Total_nins += $Overlap{$spkover}{NUMHYPTOKENS};
+		$Total_nerr += $Total_nins;
 	}
 	
 	if($Overlap{$spkover}{NREF} != 0)
@@ -926,7 +925,6 @@ print FILEINDEX "</tr>\n";
 print FILEINDEX "</tbody>\n";
 print FILEINDEX "</table>\n";
 
-
 print FILEINDEX "</center>\n";
 print FILEINDEX "</body>\n";
 print FILEINDEX "</html>\n";
@@ -979,24 +977,27 @@ foreach my $file(sort keys %FileChannelSG)
 			my $BT = sprintf("%.3f", $SegGroups{$SG_ID}->{BT});
 			my $ET = sprintf("%.3f", $SegGroups{$SG_ID}->{ET});
 			my $Duration = sprintf("%.3f", $SegGroups{$SG_ID}->{ET} - $SegGroups{$SG_ID}->{BT});
-			my $nref = $SegGroups{$SG_ID}->{NREF};
 			
 			my @refspkrs;
 			my @sysspkrs;
 			
-			foreach my $segref (keys %{ $SegGroups{$SG_ID}->{REF} }) { push(@refspkrs, $SegGroups{$SG_ID}->{REF}{$segref}->{SPKRID}); }
-			foreach my $segsys (keys %{ $SegGroups{$SG_ID}->{SYS} }) { push(@sysspkrs, $SegGroups{$SG_ID}->{SYS}{$segsys}->{SPKRID}); }
+			foreach my $segref (keys %{ $SegGroups{$SG_ID}->{REF} }) { push(@refspkrs, $SegGroups{$SG_ID}->{REF}{$segref}->{SPKRID}) if($SegGroups{$SG_ID}->{REF}{$segref}->{SPKRID} ne "ref:INTER_SEGMENT_GAP"); }
+			foreach my $segsys (keys %{ $SegGroups{$SG_ID}->{SYS} }) { push(@sysspkrs, $SegGroups{$SG_ID}->{SYS}{$segsys}->{SPKRID}) if(!($SegGroups{$SG_ID}->{SYS}{$segsys}->HasOnlyOneFakeToken())); }
 			
 			my $nrefspkr = scalar unique @refspkrs;
 			my $nhypspkr = scalar unique @sysspkrs;
 			
+			$SegGroups{$SG_ID}->{ALIGNED} = 1 if( ($nrefspkr == 0) && ($nhypspkr == 0) );
+			$SegGroups{$SG_ID}->{ALIGNED} = 1 if( ($SegGroups{$SG_ID}->{ALIGNED} == 0) && ($nrefspkr == 1) && ($nhypspkr == 0) && ($SegGroups{$SG_ID}->{HASFAKETIME} == 1) );
+			
 			my $titleSG = "<a href=\"segmentgroup-$SG_ID.html\" target=\"_blank\">$SG_ID</a>";
-			my $percCorr = "NA";
-			my $percSub = "NA";
-			my $percIns = "NA";
-			my $percDel = "NA";
-			my $percErr = "NA";
-			my $percSpErr = "NA";
+			my $nref = "-";
+			my $percCorr = "-";
+			my $percSub = "-";
+			my $percIns = "-";
+			my $percDel = "-";
+			my $percErr = "-";
+			my $percSpErr = "-";
 			
 			if($SegGroups{$SG_ID}->{NREF} != 0)
 			{
@@ -1007,23 +1008,24 @@ foreach my $file(sort keys %FileChannelSG)
 				$percErr = sprintf("%.1f%% (%d)", 100*($SegGroups{$SG_ID}->{NDEL}+$SegGroups{$SG_ID}->{NINS}+$SegGroups{$SG_ID}->{NSUB}+$SegGroups{$SG_ID}->{NSPKRERR})/$SegGroups{$SG_ID}->{NREF}, $SegGroups{$SG_ID}->{NDEL}+$SegGroups{$SG_ID}->{NINS}+$SegGroups{$SG_ID}->{NSUB}+$SegGroups{$SG_ID}->{NSPKRERR});
 				$percSpErr = sprintf("%.1f%% (%d)", 100*$SegGroups{$SG_ID}->{NSPKRERR}/$SegGroups{$SG_ID}->{NREF}, $SegGroups{$SG_ID}->{NSPKRERR});
 			}
-			
-			if($SegGroups{$SG_ID}->{ALIGNED} == 0)
+			else
+			{
+                $percIns = sprintf("(%d)", $SegGroups{$SG_ID}->{NINS}) if($SegGroups{$SG_ID}->{ALIGNED} == 1);
+			}
+						
+            if($SegGroups{$SG_ID}->{ALIGNED} == 0)
 			{
 				$titleSG = "*<i>$titleSG</i>";
-				$percCorr = "-";
-				$nref = "-";
-				$percSub = "-";
-				$percIns = "-";
-				$percDel = "-";
-				$percErr = "-";
-				$percSpErr = "-";
 				$nrefspkr = "<i>$nrefspkr</i>";
 				$nhypspkr = "<i>$nhypspkr</i>";
 				$BT = "<i>$BT</i>";
 				$ET = "<i>$ET</i>";
 				$Duration = "<i>$Duration</i>";
 				$bottom = "<br>*: Segment Group ignored for scoring.<br>";
+			}
+			else
+			{
+                $nref = $SegGroups{$SG_ID}->{NREF};
 			}
 					
 			print FILEINDEX "<tr>\n";
@@ -1159,6 +1161,7 @@ foreach my $file(sort keys %FileChannelSG)
 			{
 				$display_nins = sprintf("(%d)", $overallmeeting{$spkover}{NUMHYPTOKENS});
 				$Total_nins += $overallmeeting{$spkover}{NUMHYPTOKENS};
+				$Total_nerr += $Total_nins;
 			}
 			
 			if($overallmeeting{$spkover}{NREF} != 0)
