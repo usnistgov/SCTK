@@ -1,5 +1,5 @@
 File:  README
-Date:  March 23, 2007
+Date:  April 18, 2007
 SCTK Version: 2.2.3
 
 asclite memory usage update.
@@ -94,4 +94,4 @@ Asclite can be compiled into 64 bit if you had -m64 on the
 src/asclite/core/makefile and src/asclite/test/makefile file to CFLAGS 
 variable.
 If you do not compile in 64 bits you can add a fail safe into the command
-line by adding -difficulty-limit 3.1.
+line by adding -difficulty-limit 3.
