@@ -132,7 +132,7 @@ while test ! "`echo $1| egrep '^-'`" = "" ; do
 	else
 	    echo "$Usage"
 	    echo "$2"
-	    echo "Error: -i option requires either \"ctm\", \"stm\", \"txt\", \"trn\", or \"rttm\" not $2"
+	    echo "Error: -i option requires either \"ref\", or \"hyp\" not $2"
 	    exit 1
 	fi
     else
@@ -184,6 +184,7 @@ perl -pe 'if ($_ !~ /^;;/) {
 
 cat $glob_map | perl -e '
 	($type="'$inputtype'") =~ tr/A-Z/a-z/;
+	($dataPurpose="'$dataPurpose'") =~ tr/A-Z/a-z/;
 	$applies = 1;
 	while (<>){
 		if ($_ =~ /^;;\s+INPUT_DEPENDENT_APPLICATION\s*=\s*\"([^\"]*)\"/){
