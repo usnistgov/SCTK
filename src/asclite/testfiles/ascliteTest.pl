@@ -46,7 +46,9 @@ if ($suite =~ /^(std|all|passed)$/)
     RunCompatTest("CT-trn-s-F-D","-s -F -D -i spu_id", "-r trn.ref trn",    "-h trn.hyp trn CT-trn-s-F-D");
 
     RunAscliteTest("CT-overlap.correct-i-x-x", "", "-r overlap.correct.stm stm", "-h overlap.correct.ctm ctm CT-overlap.correct-i-x-x");
+    RunAscliteTest("CT-overlap.correct-i-x-x", "", "-r overlap.correct.stm stm", "-h overlap.correct.ctm ctm CT-overlap.correct-i-x-x -force-memory-compression");
     RunAscliteTest("CT-overlap-i-x-x",         "", "-r overlap.stm stm",         "-h overlap.ctm ctm CT-overlap-i-x-x");
+    RunAscliteTest("CT-overlap-i-x-x",         "", "-r overlap.stm stm",         "-h overlap.ctm ctm CT-overlap-i-x-x -force-memory-compression");
 }
 
 if ($suite =~ /^(mdm04ByFile|all|notpassed)$/)
@@ -56,10 +58,10 @@ if ($suite =~ /^(mdm04ByFile|all|notpassed)$/)
     
 if ($suite =~ /^(mdm04|all|notpassed)$/)
 {
-    RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-F -D -overlap-limit 1", "-r rt04s.040420.mdm.overlap.stm.filt stm",
-		   "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1");
-    RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-F -D -overlap-limit 2", "-r rt04s.040420.mdm.overlap.stm.filt stm",
-		   "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-F -D -overlap-limit 1", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-F -D -overlap-limit 1", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1 -force-memory-compression");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-F -D -overlap-limit 2", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-F -D -overlap-limit 2", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2 -force-memory-compression");
 }
 
 if ($suite =~ /^(sastt|all|notpassed)$/)

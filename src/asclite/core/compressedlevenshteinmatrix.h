@@ -84,7 +84,7 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		size_t* m_TabDimensionDeep;
 		size_t* m_MultiplicatorDivider;
 		
-		void BlockComputation();
+		void BlockComputation(size_t maxadddiv);
 		
 		size_t* m_MultiplicatorBlockDimension;
 		size_t m_BlockSizeElts;

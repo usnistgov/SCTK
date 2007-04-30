@@ -51,7 +51,10 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 		m_MaxSize = m_MaxSize * m_TabDimensionDeep[i];
 	}
 	
-	BlockComputation();
+	BlockComputation(0);
+	
+	if(m_BaseLengthIn < 0.2*m_BlockSizeKB*1024)
+		BlockComputation(1);
 	
 	m_BaseLengthOut = m_BaseLengthIn + m_BaseLengthIn / 16 + 64 + 3;
 	
@@ -335,7 +338,7 @@ void CompressedLevenshteinMatrix::SetCostFor(size_t* coordinates, int cost)
 		GarbageCollection();
 }
 
-void CompressedLevenshteinMatrix::BlockComputation()
+void CompressedLevenshteinMatrix::BlockComputation(size_t maxadddiv)
 {
 	// Declaration Vars
 	size_t* Cursor = new size_t[m_NbrDimensions];
@@ -343,6 +346,7 @@ void CompressedLevenshteinMatrix::BlockComputation()
 	size_t* tmpDivider = new size_t[m_NbrDimensions];
 	size_t* tmpBlockDimensions = new size_t[m_NbrDimensions];
 	size_t blocksize = m_BlockSizeKB*256;
+	bool isIncreasable = false;
 	
 	// Computation
 	
@@ -353,9 +357,9 @@ void CompressedLevenshteinMatrix::BlockComputation()
 			PrimeDiv[i].push_back(1);
 
 		for(size_t j=2; j<=m_TabDimensionDeep[i]; ++j)
-			if(m_TabDimensionDeep[i] % j == 0)
+			if( (m_TabDimensionDeep[i] % j == 0) || ( (m_TabDimensionDeep[i]+maxadddiv) % j == 0) )
 				PrimeDiv[i].push_back(j);
-		
+			
 		Cursor[i] = 0;
 	}
 	// End Initialization
@@ -378,6 +382,10 @@ void CompressedLevenshteinMatrix::BlockComputation()
 			{
 				tmpDivider[i] = PrimeDiv[i][Cursor[i]];
 				tmpBlockDimensions[i] = m_TabDimensionDeep[i]/tmpDivider[i];
+				
+				if(m_TabDimensionDeep[i] % tmpDivider[i] != 0)
+					++(tmpBlockDimensions[i]);
+					
 				size *= tmpBlockDimensions[i];
 			}
 			
@@ -432,5 +440,7 @@ void CompressedLevenshteinMatrix::BlockComputation()
 
 	delete [] PrimeDiv;
 	delete [] tmpBlockDimensions;
-	delete [] tmpDivider;	
+	delete [] tmpDivider;
+	
+	//return isIncreasable;
 }

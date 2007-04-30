@@ -49,11 +49,14 @@ use strict;
 #    - Turned on Pruning for ASCLITE Runs.  
 # Version 0.17 March 13, 2007
 #    - Renamed -M SLM to -K SLM...  (no one ever uses it!)
-#    - Added the dificulty tag for 
+#    - Added the difficulty tag for asclite
+# Version 0.18 April 30, 2007
+#    - Added the forced compression for asclite (JA)
+#    - Added the block size for asclite (JA)
 # 
 
-my $Version = "0.17"; 
-my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o numSpkr ] [ -m GB_Max_Memory[:GB_Max_Difficulty] ] [ -f FORMAT ] [ - a ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
+my $Version = "0.18"; 
+my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o numSpkr ] [ -m GB_Max_Memory[:GB_Max_Difficulty] ] [ -f FORMAT ] [ -a -C -B blocksize ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
 "Version: $Version\n".
 "Desc: Score a Hub-4E/NE or Hub-5E/NE evaluation using the established\n".
 "      guidelines.  There are a set of language dependent options that this\n".
@@ -96,6 +99,10 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
 "                 ->  'GB_Max_Difficulty' Set the limit of LCM difficulty (expressed in GB of memory).\n".
 "      -a\n".
 "                 ->  Use asclite for the alignment.\n".
+"      -C\n".
+"                 ->  Force compression for asclite.\n".
+"      -B blocksize\n".
+"                 ->  Block size for asclite. (default: 256 kB)\n".
 "      -f [ ctm | rttm ]\n".
 "                 ->  Specify the hyps fileformat.\n".
 "      -F [ stm | rttm ]\n".
@@ -152,6 +159,9 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
     my $mdevalOpts = "-nafcs -c 0.25 -o";
 
     my $produceAlignmentGraphs = 0;
+    
+    my $ASCLITE_FORCE_COMPRESSION = "";
+    my $asclite_blocksize = 256;
 #######         End of Globals         #########
 ################################################
 
@@ -197,7 +207,7 @@ sub ProcessCommandLine
 
 	use Getopt::Std;
 	#&Getopts('l:h:r:vg:L:n:e:RM:w:');
-	getopts('GaHTdvRl:h:r:g:L:n:e:K:w:p:o:m:f:F:u:M:');
+	getopts('GaCHTdvRl:h:r:g:L:n:e:K:w:p:o:m:f:F:u:M:B:');
 
 	if (defined($main::opt_l)) {	$Lang = $main::opt_l; $Lang =~ tr/A-Z/a-z/; }
 	if (defined($main::opt_h)) {	$Hub = $main::opt_h; $Hub =~ tr/A-Z/a-z/; }
@@ -211,6 +221,8 @@ sub ProcessCommandLine
 	if (defined($main::opt_o)) {	$OVRLAPSPK = $main::opt_o; }
 	if (defined($main::opt_w)) {	$WWL = $main::opt_w; }
 	if (defined($main::opt_a)) {	$bUseAsclite = 1; $main::opt_a = 1; }
+	if (defined($main::opt_C)) {	$ASCLITE_FORCE_COMPRESSION = "-force-memory-compression"; $main::opt_C = 1; }
+	if (defined($main::opt_B)) {	$asclite_blocksize = $main::opt_B; }
 	if (defined($main::opt_m)) {
 	    if ($main::opt_m =~ /^(\d+|\d*\.\d+|\d+\.):(\d+|\d*\.\d+|\d+\.)$/){
 		$MemoryLimit = $1;
@@ -631,7 +643,7 @@ sub RunScoring
         my $OptionMemoryLimit = "-memory-limit $MemoryLimit";
         $OptionMemoryLimit .= " -difficulty-limit $DifficultyLimit" if($DifficultyLimit >= 0);
                 
-        $command = "$ASCLITE -f 6 $spkrOpt $overlapscoring -adaptive-cost -time-prune 100 -word-time-align 100 -memory-compression 256 $OptionMemoryLimit -r $reff $reffileformat -h $hyp_oname $hypfileformat $hyp_iname -F -D -o sgml sum rsum 2> $hyp_oname.aligninfo.csv";
+        $command = "$ASCLITE -f 6 $spkrOpt $overlapscoring -adaptive-cost -time-prune 100 -word-time-align 100 $ASCLITE_FORCE_COMPRESSION -memory-compression $asclite_blocksize $OptionMemoryLimit -r $reff $reffileformat -h $hyp_oname $hypfileformat $hyp_iname -F -D -o sgml sum rsum 2> $hyp_oname.aligninfo.csv";
 	print "   Exec: $command\n" if ($Vb);
 	$rtn = system($command);
 	die("Error: ASCLITE execution failed\n      Command: $command") if ($rtn != 0);
