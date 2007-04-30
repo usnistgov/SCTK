@@ -247,3 +247,8 @@ SCTK Version 2.2.3 - Release April 18th, 2007
   [/] Changed from ucl library to lzo library for compression
   [+] Safer memory deallocation in the LCM
   [+] Minimum command line option to drop the small alignments
+
+SCTK Version 2.2.4 - Release April 30th, 2007
+  [+] Added block size and force compression in hubscr.pl
+  [+] Added block size limit to 1GB
+  [+] Added block computation less aggressive to allow bigger block size
