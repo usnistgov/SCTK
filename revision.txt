@@ -252,3 +252,4 @@ SCTK Version 2.2.4 - Release April 30th, 2007
   [+] Added block size and force compression in hubscr.pl
   [+] Added block size limit to 1GB
   [+] Added block computation less aggressive to allow bigger block size
+  [*] Fixed linking issue for RTTM and STM files in cause of empty segment

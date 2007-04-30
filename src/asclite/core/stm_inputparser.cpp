@@ -165,10 +165,7 @@ SpeechSet* STMInputParser::loadFile(string name)
 			speech->AddSegment(seg);
 		}
 	}
-    
-	LOG_INFO(logger, "loading of file " + name + " done");
-	
-	
+    	
 	map<string, Speech*>::iterator  ssp = res.begin();
 	map<string, Speech*>::iterator essp = res.end();
 	
@@ -179,35 +176,25 @@ SpeechSet* STMInputParser::loadFile(string name)
 		size_t nbrseg = _speech->NbOfSegments();
 		
 		if(nbrseg > 1)
-		{
-			Segment* prevSeg;
-			Segment* nextSeg;
-		
-			for(size_t ii=1; ii<nbrseg; ++ii)
+		{			
+			Segment* prevSeg = NULL;
+			Segment* currSeg = NULL;
+			
+			for(size_t ii=0; ii<nbrseg; ++ii)
 			{
-				Segment* seg1 = _speech->GetSegment(ii - 1);
-				Segment* seg2 = _speech->GetSegment(ii);
+				Segment* segalpha = _speech->GetSegment(ii);
 				
-				if(seg1->GetNumberOfLastToken() != 0)
-				{
-					prevSeg = seg1;
-				}
-				else
-				{
-					prevSeg = NULL;
-				}
+				if( (segalpha->GetNumberOfFirstToken() != 0) && (segalpha->GetNumberOfLastToken() != 0) )
+					currSeg = segalpha;
 				
-				if(seg2->GetNumberOfFirstToken() != 0)
-				{
-					nextSeg = seg2;
-				}
-				else
-				{
-					nextSeg = NULL;
-				}
+				if(prevSeg && currSeg)
+					Attach(prevSeg, currSeg);
 				
-				if(prevSeg && nextSeg)
-					Attach(prevSeg, nextSeg);
+				if(currSeg)
+				{
+					prevSeg = currSeg;
+					currSeg = NULL;
+				}
 			}
 		}
 		
@@ -215,6 +202,7 @@ SpeechSet* STMInputParser::loadFile(string name)
 	}
 	
 	file.close();
+	LOG_INFO(logger, "loading of file " + name + " done");
 	
 	map<string, Speech*>::iterator i = res.begin();
 	map<string, Speech*>::iterator ei = res.end();

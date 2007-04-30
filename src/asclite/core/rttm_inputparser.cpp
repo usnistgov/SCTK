@@ -379,6 +379,7 @@ SpeechSet* RTTMInputParser::loadFileSpeaker(string name)
 		
 		if(nbrseg > 1)
 		{
+			/*
 			Segment* prevSeg;
 			Segment* nextSeg;
 		
@@ -407,6 +408,26 @@ SpeechSet* RTTMInputParser::loadFileSpeaker(string name)
 				
 				if(prevSeg && nextSeg)
 					Attach(prevSeg, nextSeg);
+			}
+			*/
+			Segment* prevSeg = NULL;
+			Segment* currSeg = NULL;
+			
+			for(size_t ii=0; ii<nbrseg; ++ii)
+			{
+				Segment* segalpha = _speech->GetSegment(ii);
+				
+				if( (segalpha->GetNumberOfFirstToken() != 0) && (segalpha->GetNumberOfLastToken() != 0) )
+					currSeg = segalpha;
+				
+				if(prevSeg && currSeg)
+					Attach(prevSeg, currSeg);
+				
+				if(currSeg)
+				{
+					prevSeg = currSeg;
+					currSeg = NULL;
+				}
 			}
 		}
 		
