@@ -1,5 +1,5 @@
 File:  README
-Date:  April 30, 2007
+Date:  May 1, 2007
 SCTK Version: 2.2.4
 
 asclite memory usage update.

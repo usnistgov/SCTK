@@ -316,7 +316,7 @@ sub GetSeparationLines
 		my $spkName = $spkrID;
 		$spkName =~ s/^ref://;
 		$spkName =~ s/^hyp://;
-		$output .= sprintf("jg.drawStringRect(\"%s\",%.0f, %.0f, 100, \"left\");\n", $spkName, 0, $self->{SPKRYS}{$spkrID} - 8 + ($self->{SPKRHEIGHT}{$spkrID}-30)/2);
+		$output .= sprintf("jg.drawStringRect(\"%s\",%.0f, %.0f, scale*%.0f, \"left\");\n", $spkName, 0, $self->{SPKRYS}{$spkrID} - 8 + ($self->{SPKRHEIGHT}{$spkrID}-30)/2, $maxscalewidth);
 	}
 	
 	$output .= sprintf("jg.setColor(\"yellow\");\n");
@@ -373,12 +373,12 @@ sub isInSpeakers
 	
 	foreach my $segrefid(sort keys %{ $self->{REF} })
 	{
-		return 1 if($self->{REF}{$segrefid}->{SPKRID} eq $spkr);
+		return 1 if($self->{REF}{$segrefid}->{SPKRID} =~ /^$spkr$/i);
 	}
 		
 	foreach my $segsysid(sort keys %{ $self->{SYS} })
 	{
-		return 1 if($self->{SYS}{$segsysid}->{SPKRID} eq $spkr);
+		return 1 if($self->{SYS}{$segsysid}->{SPKRID} =~ /^$spkr$/i);
 	}
 	
 	return 0;

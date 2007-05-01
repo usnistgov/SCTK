@@ -27,7 +27,7 @@ use Token;
 
 Getopt::Long::Configure(qw( auto_abbrev no_ignore_case ));
 
-my $VERSION = "0.4";
+my $VERSION = "0.5";
 my $AlignFile = "";
 my $MapFile = "";
 my $Outputdir = "";
@@ -414,6 +414,7 @@ sub PrintMapping
 {
 	my($SG) = @_;
 	my $out = "";
+	my @listmapping;
 		
 	if($MapFile ne "")
 	{
@@ -439,12 +440,19 @@ sub PrintMapping
 					$tmp1 =~ s/^hyp://;
 					$tmp2 =~ s/^ref://;
 					$tmp2 =~ s/^hyp://;
-					$out .= "$tmp1 <=> $tmp2<br>\n";
+					push(@listmapping, "$tmp1 <=> $tmp2<br>\n");
 				}
 			}
 		}
 			
 		close MAPFILE;
+		
+		my @listsorted = sort(@listmapping);
+		
+		foreach my $mapp (@listsorted)
+		{
+			$out .= "$mapp\n";
+		}
 	}
 		
 	return $out;

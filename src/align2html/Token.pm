@@ -141,7 +141,7 @@ sub GetDraw
 		my $bullet = "images/white_dk.gif";
 		$bullet = "images/white_lt.gif" if($self->{REALTIME} == 0);
 		
-		$output .= sprintf("jg.setColor(\"gray\");\n");
+		$output .= sprintf("jg.setColor(\"DimGray\");\n");
 		$output .= sprintf("jg.setStroke(%.0f);\n", $self->{WIDTHLINE});
 		$output .= sprintf("jg.drawLine(%.0f*scale, %.0f, %.0f*scale, %.0f);\n", $self->{XSTARTPOS} - $minx, $self->{YPOS}, $self->{XENDPOS} - $minx, $self->{YPOS});
 		$output .= sprintf("jg.setFont(\"arial\",\"11px\",Font.PLAIN);\n");

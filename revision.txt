@@ -248,8 +248,9 @@ SCTK Version 2.2.3 - Release April 18th, 2007
   [+] Safer memory deallocation in the LCM
   [+] Minimum command line option to drop the small alignments
 
-SCTK Version 2.2.4 - Release April 30th, 2007
+SCTK Version 2.2.4 - Release May 1st, 2007
   [+] Added block size and force compression in hubscr.pl
   [+] Added block size limit to 1GB
   [+] Added block computation less aggressive to allow bigger block size
   [*] Fixed linking issue for RTTM and STM files in cause of empty segment
+  [*] Fixed display issue with align2html
