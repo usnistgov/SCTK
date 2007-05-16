@@ -1,0 +1,22 @@
+File: TODO
+
+
+- fix utf_filt tests
+- fix mdeval tests
+- fix empty inputs
+- Validators for: STM, RTTM, CTM
+  - syntactic
+  - semantic
+  - Note: STM and RTTM validators exist
+- use UEMs in asclite
+  - empty channel (ihm)
+  - prefilter
+  - inter segment gaps
+- additive cost based on word aligment distances
+- time-based alignments
+- rover implementation and experiments
+- trancsript filtering (GLM)
+- alignment visualization program
+- cumulative overlap table in HTML reports
+- update docs
+- add SASTT cookbook to docs
