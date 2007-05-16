@@ -1,5 +1,7 @@
 File: TODO
 
+High Priority
+
 
 - fix utf_filt tests
 - fix mdeval tests
@@ -8,15 +10,21 @@ File: TODO
   - syntactic
   - semantic
   - Note: STM and RTTM validators exist
+- cumulative overlap table in HTML reports
+- update docs
+
+Medium Priority
+
 - use UEMs in asclite
   - empty channel (ihm)
   - prefilter
   - inter segment gaps
-- additive cost based on word aligment distances
 - time-based alignments
+- alignment visualization program
+- add SASTT cookbook to docs
+
+Low Priority
+
+- additive cost based on word aligment distances
 - rover implementation and experiments
 - trancsript filtering (GLM)
-- alignment visualization program
-- cumulative overlap table in HTML reports
-- update docs
-- add SASTT cookbook to docs
