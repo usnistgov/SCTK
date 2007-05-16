@@ -90,10 +90,19 @@ SpeechSet* TRNInputParser::loadFile(string name)
 	map<string, Speech*>::iterator i = spkr_list.begin();
 	map<string, Speech*>::iterator ei = spkr_list.end();
     
+	bool emptyFile = true;
+	
 	while (i != ei)
 	{
 		vec->AddSpeech(i->second);
+		emptyFile = false;
 		++i;
+	}
+	
+	if(emptyFile)
+	{
+		LOG_FATAL(logger, "TRN file '" + name + "' contains no data!");
+		exit(1);
 	}
     
 	return vec;

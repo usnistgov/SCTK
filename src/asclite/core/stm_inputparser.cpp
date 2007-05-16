@@ -207,10 +207,19 @@ SpeechSet* STMInputParser::loadFile(string name)
 	map<string, Speech*>::iterator i = res.begin();
 	map<string, Speech*>::iterator ei = res.end();
     
+	bool emptyFile = true;
+	
 	while (i != ei)
 	{
 		vec->AddSpeech(i->second);
+		emptyFile = false;
 		++i;
+	}
+	
+	if(emptyFile)
+	{
+		LOG_FATAL(logger, "STM file '" + name + "' contains no data!");
+		exit(1);
 	}
     
 	return vec;

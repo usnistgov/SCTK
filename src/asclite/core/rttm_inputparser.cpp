@@ -43,7 +43,7 @@ SpeechSet* RTTMInputParser::loadFileLexeme(string name)
     long int elemNum = -1;
     
 	file.open(name.c_str(), ifstream::in);
-    
+    	
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(logger, "Error opening RTTM file " + name);
@@ -158,15 +158,24 @@ SpeechSet* RTTMInputParser::loadFileLexeme(string name)
     }
     
     file.close();
-    LOG_INFO(logger, "loading of file " + name + " done");
+    LOG_INFO(logger, "loading of file '" + name + "' done");
     
     map<string, Speech*>::iterator i = res.begin();
 	map<string, Speech*>::iterator ei = res.end();
     
+	bool emptyFile = true;
+	
 	while (i != ei)
 	{
 		vec->AddSpeech(i->second);
+		emptyFile = false;
 		++i;
+	}
+	
+	if(emptyFile)
+	{
+		LOG_FATAL(logger, "RTTM file '" + name + "' contains no data!");
+		exit(1);
 	}
     
 	return vec;

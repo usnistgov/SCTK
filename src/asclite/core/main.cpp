@@ -674,19 +674,22 @@ int main(int argc, char **argv)
 	}
 	
 	arg_ok = arg_ok && arg_bref && !vecHyps.empty();
-    
-    if( !( ( (vecHyps.begin()->fileformat == "trn") && (reffile.fileformat == "trn") ) ||
-           ( (vecHyps.begin()->fileformat == "ctm") && (reffile.fileformat == "stm") ) ||
-           ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "stm") ) ||
-		   ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "rttm") ) ) )
-	{
-		cout << "Hyp must be a ctm and Ref a stm or" << endl;
-        cout << "Hyp must be a rttm and Ref a stm or" << endl;
-		cout << "Hyp must be a rttm and Ref a rttm or" << endl;
-		cout << "Hyp and Ref must be trn's." << endl;
-		arg_ok = false;
-	}
 	
+	if(!vecHyps.empty() && arg_bref)
+	{
+		if( !( ( (vecHyps.begin()->fileformat == "trn") && (reffile.fileformat == "trn") ) ||
+			   ( (vecHyps.begin()->fileformat == "ctm") && (reffile.fileformat == "stm") ) ||
+			   ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "stm") ) ||
+			   ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "rttm") ) ) )
+		{
+			cout << "Hyp must be a ctm  and Ref a stm  or" << endl;
+			cout << "Hyp must be a rttm and Ref a stm  or" << endl;
+			cout << "Hyp must be a rttm and Ref a rttm or" << endl;
+			cout << "Hyp and Ref must be trn's." << endl;
+			arg_ok = false;
+		}
+	}
+		
 	if(!arg_ok)
 	{
 		cout << "type 'asclite' to display the help." << endl;

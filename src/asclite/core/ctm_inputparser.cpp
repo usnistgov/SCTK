@@ -276,7 +276,14 @@ SpeechSet* CTMInputParser::loadFile(string name)
     
 	LOG_INFO(logger, "loading of file " + name + " done");
 	file.close();
+	
+	if(speech->NbOfSegments() == 0)
+	{
+		LOG_FATAL(logger, "CTM file '" + name + "' contains no data!");
+		exit(1);
+	}
+	
 	res->AddSpeech(speech);
-    
+	    
 	return res;
 }
