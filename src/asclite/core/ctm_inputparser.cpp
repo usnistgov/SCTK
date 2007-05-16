@@ -274,7 +274,7 @@ SpeechSet* CTMInputParser::loadFile(string name)
 		++line_nb;
 	}
     
-	LOG_INFO(logger, "loading of file " + name + " done");
+	LOG_INFO(logger, "loading of file '" + name + "' done");
 	file.close();
 	
 	if(speech->NbOfSegments() == 0)

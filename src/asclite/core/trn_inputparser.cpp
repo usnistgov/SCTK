@@ -84,7 +84,7 @@ SpeechSet* TRNInputParser::loadFile(string name)
 		}
 	}
     
-	LOG_INFO(logger, "loading of file " + name + " done");
+	LOG_INFO(logger, "loading of file '" + name + "' done");
 	file.close();
 	
 	map<string, Speech*>::iterator i = spkr_list.begin();

@@ -202,7 +202,7 @@ SpeechSet* STMInputParser::loadFile(string name)
 	}
 	
 	file.close();
-	LOG_INFO(logger, "loading of file " + name + " done");
+	LOG_INFO(logger, "loading of file '" + name + "' done");
 	
 	map<string, Speech*>::iterator i = res.begin();
 	map<string, Speech*>::iterator ei = res.end();

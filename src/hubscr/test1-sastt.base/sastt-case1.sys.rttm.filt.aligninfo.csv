@@ -3,9 +3,9 @@
 [  INFO   ] Loading Input files
 [  INFO   ] loading of file sastt-case1.sys.rttm.filt.mdeval.spkrmap done
 [  INFO   ] Load 1 reference of type rttm
-[  INFO   ] loading of file sastt-case1.ref.rttm.filt done
+[  INFO   ] loading of file 'sastt-case1.ref.rttm.filt' done
 [  INFO   ] Load 1 hypothesis of type rttm
-[  INFO   ] loading of file sastt-case1.sys.rttm.filt done
+[  INFO   ] loading of file 'sastt-case1.sys.rttm.filt' done
 [  INFO   ] Adding Intersegment Gaps to refs
 [  INFO   ] Prepare to process source(VT_20051027-1400) channel(1)
 [  INFO   ] Filter Input data
