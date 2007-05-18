@@ -10,7 +10,26 @@ High Priority:
     [ ] semantic
     Note: STM and RTTM validators exist
 [x] cumulative overlap table in HTML reports
-[ ] update docs
+[-] update docs
+    [ ] acomp
+    [x] align2html
+    [ ] asclite
+    [ ] chfilt
+    [ ] csrfilt
+    [ ] def_art
+    [ ] hamzaNorm
+    [ ] hubscr
+    [ ] md-eval
+    [ ] mergectm2rttm
+    [ ] rfilter1
+    [ ] rttmSmooth
+    [ ] rttmSort
+    [ ] sclite
+    [ ] spkr2sad
+    [ ] stm2rttm
+    [ ] tanweenFilt
+    [ ] test_suite
+    [ ] utf_filt
 
 Medium Priority:
 [ ] use UEMs in asclite
