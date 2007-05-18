@@ -27,7 +27,7 @@ use Token;
 
 Getopt::Long::Configure(qw( auto_abbrev no_ignore_case ));
 
-my $VERSION = "0.5";
+my $VERSION = "0.6";
 my $AlignFile = "";
 my $MapFile = "";
 my $Outputdir = "";
@@ -68,6 +68,7 @@ my %SegGroups;
 my %Alignments;
 my %FileChannelSG;
 my %Overlap;
+my %CumulOverlap;
 
 sub addSGLine
 {
@@ -865,6 +866,7 @@ foreach my $spkover (sort {$a <=> $b} keys %Overlap)
 	if($spkover == 0)
 	{
 		$display_nins = sprintf("(%d)", $Overlap{$spkover}{NUMHYPTOKENS});
+		
 		$Total_nins += $Overlap{$spkover}{NUMHYPTOKENS};
 		$Total_nerr += $Total_nins;
 	}
@@ -878,6 +880,7 @@ foreach my $spkover (sort {$a <=> $b} keys %Overlap)
 		$display_ndel = sprintf("%.1f%% (%d)", $Overlap{$spkover}{PDEL}, $Overlap{$spkover}{NDEL});
 		$display_nspkerr = sprintf("%.1f%% (%d)", $Overlap{$spkover}{PSPKRERR}, $Overlap{$spkover}{NSPKRERR});
 		$display_nerr = sprintf("%.1f%% (%d)", $Overlap{$spkover}{PERR}, $Overlap{$spkover}{NERR});
+		
 		$Total_nref += $Overlap{$spkover}{NREF};
 		$Total_ncorr += $Overlap{$spkover}{NCORR};
 		$Total_nsub += $Overlap{$spkover}{NSUB};
@@ -901,6 +904,19 @@ foreach my $spkover (sort {$a <=> $b} keys %Overlap)
 	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nspkerr</td>\n";
 	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nerr</td>\n";
 	print FILEINDEX "</tr>\n";
+	
+	# data for Cumuloverlap table
+	$CumulOverlap{$spkover}{NLISTSG} = $Total_regs;
+	$CumulOverlap{$spkover}{TOTTIME} = $Total_tottime;
+	$CumulOverlap{$spkover}{NLISTSGALIGNED} = $Total_regsalign;
+	$CumulOverlap{$spkover}{TOTTIMEALIGNED} = $Total_tottimealign;
+	$CumulOverlap{$spkover}{NREF} = $Total_nref;
+	$CumulOverlap{$spkover}{NCORR} = $Total_ncorr;
+	$CumulOverlap{$spkover}{NSUB} = $Total_nsub;
+	$CumulOverlap{$spkover}{NINS} = $Total_nins;
+	$CumulOverlap{$spkover}{NDEL} = $Total_ndel;
+	$CumulOverlap{$spkover}{NSPKRERR} = $Total_nspkerr;
+	$CumulOverlap{$spkover}{NERR} = $Total_nerr;
 }
 
 my $display_Total_regs = $Total_regs;
@@ -933,6 +949,76 @@ print FILEINDEX "</tr>\n";
 print FILEINDEX "</tbody>\n";
 print FILEINDEX "</table>\n";
 
+print FILEINDEX "<br>\n";
+
+print FILEINDEX "<table style=\"text-align: left;\" border=\"1\" cellpadding=\"1\" cellspacing=\"0\">\n";
+print FILEINDEX "<tbody>\n";
+print FILEINDEX "<tr>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Ref Speaker<br>Cumulative<br>Overlap</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Regions</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Total<br>Time</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Regions<br>Aligned</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Total Time<br>Aligned</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Ref Aligned<br>Words</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Corr</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Sub</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Ins</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Del</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>SpErr</b></td>\n";
+print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Err</b></td>\n";
+print FILEINDEX "</tr>\n";
+
+foreach my $cumulspkover (sort {$a <=> $b} keys %CumulOverlap)
+{
+	my $display_regs = $CumulOverlap{$cumulspkover}{NLISTSG};
+	my $display_tottime = sprintf("%.3f", $CumulOverlap{$cumulspkover}{TOTTIME});
+	my $display_regsalign = $CumulOverlap{$cumulspkover}{NLISTSGALIGNED};
+	my $display_tottimealign = sprintf("%.3f", $CumulOverlap{$cumulspkover}{TOTTIMEALIGNED});
+	my $display_nref = "-";
+	my $display_ncorr = "-";
+	my $display_nsub = "-";
+	my $display_nins = "-";
+	my $display_ndel = "-";
+	my $display_nspkerr = "-";
+	my $display_nerr = "-";
+	
+	if($cumulspkover == 0)
+	{
+		$display_nins = sprintf("(%d)", $CumulOverlap{$cumulspkover}{NINS});
+	}
+	
+	if($CumulOverlap{$cumulspkover}{NREF} != 0)
+	{
+		$display_nref = $CumulOverlap{$cumulspkover}{NREF};
+		$display_ncorr = sprintf("%.1f%% (%d)", $CumulOverlap{$cumulspkover}{NCORR}     *100/$CumulOverlap{$cumulspkover}{NREF}, $CumulOverlap{$cumulspkover}{NCORR});
+		$display_nsub = sprintf("%.1f%% (%d)", $CumulOverlap{$cumulspkover}{NSUB}       *100/$CumulOverlap{$cumulspkover}{NREF}, $CumulOverlap{$cumulspkover}{NSUB});
+		$display_nins = sprintf("%.1f%% (%d)", $CumulOverlap{$cumulspkover}{NINS}       *100/$CumulOverlap{$cumulspkover}{NREF}, $CumulOverlap{$cumulspkover}{NINS});
+		$display_ndel = sprintf("%.1f%% (%d)", $CumulOverlap{$cumulspkover}{NDEL}       *100/$CumulOverlap{$cumulspkover}{NREF}, $CumulOverlap{$cumulspkover}{NDEL});
+		$display_nspkerr = sprintf("%.1f%% (%d)", $CumulOverlap{$cumulspkover}{NSPKRERR}*100/$CumulOverlap{$cumulspkover}{NREF}, $CumulOverlap{$cumulspkover}{NSPKRERR});
+		$display_nerr = sprintf("%.1f%% (%d)", $CumulOverlap{$cumulspkover}{NERR}       *100/$CumulOverlap{$cumulspkover}{NREF}, $CumulOverlap{$cumulspkover}{NERR});
+	}
+
+	print FILEINDEX "<tr>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>$cumulspkover<b></td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_regs</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_tottime</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_regsalign</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_tottimealign</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nref</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_ncorr</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nsub</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nins</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_ndel</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nspkerr</td>\n";
+	print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nerr</td>\n";
+	print FILEINDEX "</tr>\n";
+}
+
+
+print FILEINDEX "</tbody>\n";
+print FILEINDEX "</table>\n";
+
+
 print FILEINDEX "</center>\n";
 print FILEINDEX "</body>\n";
 print FILEINDEX "</html>\n";
@@ -944,6 +1030,7 @@ foreach my $file(sort keys %FileChannelSG)
 	foreach my $channel(sort keys %{ $FileChannelSG{$file} })
 	{
 		my %overallmeeting;
+		my %cumuloverallmeeting;
 		my $cleanfile = $file;
 		$cleanfile =~ s/\//\_/g;		
 		my $filename = "$cleanfile" . "_" . "$channel" . ".html";
@@ -1204,6 +1291,19 @@ foreach my $file(sort keys %FileChannelSG)
 			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nspkerr</td>\n";
 			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nerr</td>\n";
 			print FILEINDEX "</tr>\n";
+			
+			# data for Cumuloverlap table
+			$cumuloverallmeeting{$spkover}{NLISTSG} = $Total_regs;
+			$cumuloverallmeeting{$spkover}{TOTTIME} = $Total_tottime;
+			$cumuloverallmeeting{$spkover}{NLISTSGALIGNED} = $Total_regsalign;
+			$cumuloverallmeeting{$spkover}{TOTTIMEALIGNED} = $Total_tottimealign;
+			$cumuloverallmeeting{$spkover}{NREF} = $Total_nref;
+			$cumuloverallmeeting{$spkover}{NCORR} = $Total_ncorr;
+			$cumuloverallmeeting{$spkover}{NSUB} = $Total_nsub;
+			$cumuloverallmeeting{$spkover}{NINS} = $Total_nins;
+			$cumuloverallmeeting{$spkover}{NDEL} = $Total_ndel;
+			$cumuloverallmeeting{$spkover}{NSPKRERR} = $Total_nspkerr;
+			$cumuloverallmeeting{$spkover}{NERR} = $Total_nerr;
 		}
 		
 		my $display_Total_regs = $Total_regs;
@@ -1235,6 +1335,76 @@ foreach my $file(sort keys %FileChannelSG)
 		
 		print FILEINDEX "</tbody>\n";
 		print FILEINDEX "</table>\n";
+		
+		print FILEINDEX "<br>\n";
+
+		print FILEINDEX "<table style=\"text-align: left;\" border=\"1\" cellpadding=\"1\" cellspacing=\"0\">\n";
+		print FILEINDEX "<tbody>\n";
+		print FILEINDEX "<tr>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Ref Speaker<br>Cumulative<br>Overlap</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Regions</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Total<br>Time</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Regions<br>Aligned</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Total Time<br>Aligned</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>\#Ref Aligned<br>Words</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Corr</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Sub</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Ins</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Del</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>SpErr</b></td>\n";
+		print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>Err</b></td>\n";
+		print FILEINDEX "</tr>\n";
+		
+		foreach my $cumulspkover (sort {$a <=> $b} keys %cumuloverallmeeting)
+		{
+			my $display_regs = $cumuloverallmeeting{$cumulspkover}{NLISTSG};
+			my $display_tottime = sprintf("%.3f", $cumuloverallmeeting{$cumulspkover}{TOTTIME});
+			my $display_regsalign = $cumuloverallmeeting{$cumulspkover}{NLISTSGALIGNED};
+			my $display_tottimealign = sprintf("%.3f", $cumuloverallmeeting{$cumulspkover}{TOTTIMEALIGNED});
+			my $display_nref = "-";
+			my $display_ncorr = "-";
+			my $display_nsub = "-";
+			my $display_nins = "-";
+			my $display_ndel = "-";
+			my $display_nspkerr = "-";
+			my $display_nerr = "-";
+			
+			if($cumulspkover == 0)
+			{
+				$display_nins = sprintf("(%d)", $CumulOverlap{$cumulspkover}{NINS});
+			}
+			
+			if($cumuloverallmeeting{$cumulspkover}{NREF} != 0)
+			{
+				$display_nref = $cumuloverallmeeting{$cumulspkover}{NREF};
+				$display_ncorr = sprintf("%.1f%% (%d)", $cumuloverallmeeting{$cumulspkover}{NCORR}     *100/$cumuloverallmeeting{$cumulspkover}{NREF}, $cumuloverallmeeting{$cumulspkover}{NCORR});
+				$display_nsub = sprintf("%.1f%% (%d)", $cumuloverallmeeting{$cumulspkover}{NSUB}       *100/$cumuloverallmeeting{$cumulspkover}{NREF}, $cumuloverallmeeting{$cumulspkover}{NSUB});
+				$display_nins = sprintf("%.1f%% (%d)", $cumuloverallmeeting{$cumulspkover}{NINS}       *100/$cumuloverallmeeting{$cumulspkover}{NREF}, $cumuloverallmeeting{$cumulspkover}{NINS});
+				$display_ndel = sprintf("%.1f%% (%d)", $cumuloverallmeeting{$cumulspkover}{NDEL}       *100/$cumuloverallmeeting{$cumulspkover}{NREF}, $cumuloverallmeeting{$cumulspkover}{NDEL});
+				$display_nspkerr = sprintf("%.1f%% (%d)", $cumuloverallmeeting{$cumulspkover}{NSPKRERR}*100/$cumuloverallmeeting{$cumulspkover}{NREF}, $cumuloverallmeeting{$cumulspkover}{NSPKRERR});
+				$display_nerr = sprintf("%.1f%% (%d)", $cumuloverallmeeting{$cumulspkover}{NERR}       *100/$cumuloverallmeeting{$cumulspkover}{NREF}, $cumuloverallmeeting{$cumulspkover}{NERR});
+			}
+		
+			print FILEINDEX "<tr>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\"><b>$cumulspkover<b></td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_regs</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_tottime</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_regsalign</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_tottimealign</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nref</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_ncorr</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nsub</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nins</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_ndel</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nspkerr</td>\n";
+			print FILEINDEX "<td style=\"vertical-align: center; text-align: center;\">$display_nerr</td>\n";
+			print FILEINDEX "</tr>\n";
+		}
+		
+		
+		print FILEINDEX "</tbody>\n";
+		print FILEINDEX "</table>\n";
+
 
 		print FILEINDEX "<center>\n";
 		print FILEINDEX "</body>\n";

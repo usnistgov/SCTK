@@ -9,7 +9,7 @@ High Priority:
     [ ] syntactic
     [ ] semantic
     Note: STM and RTTM validators exist
-[ ] cumulative overlap table in HTML reports
+[x] cumulative overlap table in HTML reports
 [ ] update docs
 
 Medium Priority:
