@@ -5,7 +5,7 @@ High Priority:
 [ ] fix utf_filt tests
 [ ] fix mdeval tests
 [x] fix empty inputs
-[ ] Validators for: STM, RTTM, CTM
+[ ] validators for: STM, RTTM, CTM
     [ ] syntactic
     [ ] semantic
     Note: STM and RTTM validators exist
@@ -20,7 +20,7 @@ High Priority:
     [ ] hamzaNorm
     [ ] hubscr
     [ ] md-eval
-    [ ] mergectm2rttm
+    [x] mergectm2rttm
     [ ] rfilter1
     [ ] rttmSmooth
     [ ] rttmSort

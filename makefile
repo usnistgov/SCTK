@@ -17,6 +17,11 @@ all clean install config:
 	(mkdir -p bin)
 	(cd src; $(MAKE) $@)
 
+.PHONY : doc
+
+doc:
+	(cd doc; $(MAKE) all)
+
 distclean:
 	(rm -f bin/*)
 	(cd src; $(MAKE) $@)
