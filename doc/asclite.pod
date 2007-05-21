@@ -1,0 +1,181 @@
+=head1 NAME
+
+asclite - Multi-dimensional alignment program.
+
+=head1 SYNOPSIS
+
+	asclite <Input Options> [<Alignment Options>] [<Output Options>] [Scoring Report Options>]
+
+=head1 DESCRIPTION
+
+Asclite is multi-dimensional extension of the Dynamic Programming solution to Levenshtein Edit Distance calculations capable of evaluating STT and SASTT systems during periods of overlapping, simultaneous speech. It handles different input formats: RTTM, CTM, STM, and TRN and generates several data and statistical formats: SGML, SUM, RSUM, and Alignment Information. STDOUT is used to generate reports and STDERR is used for logging purposes. The alignment information is considered as a log information.
+
+=head1 USAGE
+
+Examples:
+
+	asclite -r example.rttm rttm -h example2.rttm rttm Example -adaptive-cost -f 6 -o sgml
+	asclite -r example.rttm rttm -h example2.rttm rttm Example -f 0 -o sum stdout
+
+=head1 OPTIONS
+
+=over
+
+=item B<Input Options:>
+
+=over
+
+=item B<-r <reffilename> [ rttm | stm | trn ]>
+
+Defines the reference file and its format.
+The default format is 'trn'.
+
+=item B<-h <hypfilename> [ ctm | rttm | trn ] [ <title> ]>
+
+Defines the hypothesis file, its format, and the 'title' used for reports. The default title is the filename.
+This option may be used more than once.
+The default format is 'trn'.
+
+=item B<-i <ids>>
+
+Set the utterance id type (for trn mode only)
+
+=back
+
+=item B<Alignment Options>
+
+=over
+
+=item B<-s>
+
+Do case-sensitive alignments.
+
+=item B<-F>
+
+Score fragments as correct.
+
+=item B<-D [ ref | hyp | both ]>
+
+Score optional tokens as correct based on the flag's value:
+hyp: a hypothesis word is optional and the work is deleted,
+ref: a reference word is optional and the word is inserted,
+both: both 'ref' and 'hyp' are in effect.
+The default value is 'both'.
+
+=item B<-time-prune <time_threshold>>
+
+Activates the time pruning optimization with allowed error of <time_threshold> millisecond(s).
+
+=item B<-word-time-align <time_threshold>>
+
+Activates the time optimization for word alignment with allowed error of <time_threshold> millisecond(s).
+
+=item B<-spkr-align <mdm_spkr_align_file_csv>>
+
+Activates the speaker alignment optimization regarding the <mdm_spkr_align_file_csv> csv file.
+
+=item B<-adaptive-cost>
+
+Activates the adaptive cost based on the time.
+
+=item B<-overlap-limit <max_nb_of_overlaping speaker>>
+
+Change the maximum number of overlaping speaker (default: 1).
+
+=item B<-memory-compression <block_KB>>
+
+Set the memory compression with compressed <block_KB> KB block (default: off / recommanded: 64).
+
+=item B<-force-memory-compression>
+
+Force the memory compression.
+
+=item B<-memory-limit <max_GB>>
+
+Set the maximum memory allocation in GB for the LCM (default: 2.0).
+If <max_GB> is smaller then 2 GB then every segmentation above <max_GB> will not be aligned.
+If <max_GB> is bigger 2 GB and memory compression has been activated then every segmentation above <max_GB> will not be aligned and every segmentation between 2 GB and <max_GB> will be aligned.
+If <max_GB> is bigger 2 GB and memory compression has not been activated every segmentation above 2 GB will not be aligned.
+
+=item B<-difficulty-limit <max_GB>>
+
+Set the maximum difficulty limit in GB for the LCM (disabled).
+Every segmentation above this limit will not be aligned.
+
+=item B<-min-difficulty-limit <max_GB>>
+
+Set the min difficulty limit in GB for the LCM (disabled).
+Every segmentation below this limit will not be aligned.
+
+=back
+
+=item B<Output Options:>
+
+=over
+
+=item B<-O <output_dir>>
+
+Writes all output files into output_dir.
+The default directory is the hypfile's.
+
+=item B<-f <level>>
+
+Defines feedback mode.
+The default value is 4.
+Silent: 0.
+Alignment: 6.
+Alignment only: 7.
+
+=item B<-l <width>>
+
+Defines the line width used for reports.
+
+=back
+
+=item B<Scoring Report Options:>
+
+=over
+
+=item B<-o [ sum | rsum | sgml ] [ sdtout ]>
+
+Defines the output reports.
+The default value is 'sum stdout'.
+
+=back
+
+=item B<Other options:>
+
+=over
+
+=item B<-h>, B<--help>
+
+Display the help.
+
+=head1 BUGS
+
+No known bugs.
+
+=head1 NOTES
+
+=head1 AUTHORS
+
+=item Jerome Ajot <jerome.ajot@nist.gov>
+
+=item Jon Fiscus <jon.fiscus@nist.gov>
+
+=item Nicolas Radde <retired>
+
+=item Chris Laprun <retired>
+
+=head1 COPYRIGHT
+
+NIST Public Domain
+
+=head1 DISCLAIMER 
+
+This software was developed at the National Institute of Standards and Technology by employees of the Federal Government in the course of their official duties.  Pursuant to Title 17 Section 105 of the United States Code this software is not subject to copyright protection within the United States and is in the public domain. This software is an experimental system. NIST assumes no responsibility whatsoever for its use by any party.
+
+THIS SOFTWARE IS PROVIDED "AS IS." With regard to this software, NIST MAKES NO EXPRESS OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+
+=cut
+

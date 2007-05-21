@@ -7,6 +7,7 @@ NROFF = nroff
 POD2HTML = pod2html
 
 PODS =  align2html \
+		asclite \
 		mergectm2rttm
 
 all:
