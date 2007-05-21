@@ -22,13 +22,14 @@ High Priority:
     [ ] md-eval
     [x] mergectm2rttm
     [ ] rfilter1
+    [ ] rover
     [ ] rttmSmooth
     [ ] rttmSort
+    [ ] sc_stats
     [ ] sclite
     [ ] spkr2sad
     [ ] stm2rttm
     [ ] tanweenFilt
-    [ ] test_suite
     [ ] utf_filt
 
 Medium Priority:

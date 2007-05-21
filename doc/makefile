@@ -28,6 +28,6 @@ html:
 
 clean:
 	for p in $(PODS); do \
-		rm -f $$p.1 $$p.html; \
+		rm -f $$p.1 $$p.html pod2htm?.tmp; \
 	done 2> /dev/null
 
