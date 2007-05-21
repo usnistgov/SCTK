@@ -85,6 +85,7 @@ class Graph
 		bool m_bWordOptimization;
 		bool m_bSpeakerOptimization;
 		bool m_bAdaptiveCostOptimization;
+		bool m_bWordAlignCostOptimization;
 		
 		/** optimization gap */
 		int m_PruneOptimizationThreshold;
@@ -144,6 +145,8 @@ class Graph
 		int GetCostTransition(Token* pToken1, Token* pToken2);
 		
 		int GetCostAdaptive(Token* pToken1, Token* pToken2);
+		
+		int GetCostWordAlign(Token* pToken1, Token* pToken2);
 		
 		/** Calculate the cost for the coordinate */
         int CalculateCost(size_t* curcoord);

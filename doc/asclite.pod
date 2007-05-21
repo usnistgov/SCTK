@@ -78,6 +78,10 @@ Activates the speaker alignment optimization regarding the <mdm_spkr_align_file_
 
 Activates the adaptive cost based on the time.
 
+=item B<-wordalign-cost>
+
+Activates the word align cost based on the edit distance.
+
 =item B<-overlap-limit <max_nb_of_overlaping speaker>>
 
 Change the maximum number of overlaping speaker (default: 1).

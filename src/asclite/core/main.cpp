@@ -18,8 +18,8 @@
 #include "recording.h"
 #include "properties.h"
 
-#define ASC_VERSION "1.7"
-#define ASC_NAME "Sure"
+#define ASC_VERSION "1.8"
+#define ASC_NAME "Aeryn"
 
 struct inputfilename
 {
@@ -57,6 +57,8 @@ void PrintHelp()
     cout << "                  Activates the speaker alignment optimization regarding the <mdm_spkr_align_file_csv> csv file." << endl;
 	cout << "    -adaptive-cost" << endl;
     cout << "                  Activates the adaptive cost based on the time." << endl;
+	cout << "    -wordalign-cost" << endl;
+    cout << "                  Activates the word align cost based on the edit distance." << endl;
     cout << "    -overlap-limit <max_nb_of_overlaping speaker>" << endl;
     cout << "                  Change the maximum number of overlaping speaker (default: 1)." << endl;
 	cout << "    -memory-compression <block_KB>" << endl;
@@ -125,6 +127,7 @@ int main(int argc, char **argv)
 	string arg_optionaltoken = "none";
 	bool arg_bproperty = false;
 	bool arg_badaptivecost = false;
+	bool arg_bwordaligncost = false;
 	string arg_outputdir = "";
 	int arg_feedback = 4;
 	int arg_width = 27;
@@ -513,6 +516,12 @@ int main(int argc, char **argv)
 			arg_badaptivecost = true;
 		}
 		else
+		// Word Align cost
+		if(strcmp(argv[arg_index], "-wordalign-cost") == 0)
+		{
+			arg_bwordaligncost = true;
+		}
+		else
 		// Force Memory Compression
 		if(strcmp(argv[arg_index], "-force-memory-compression") == 0)
 		{
@@ -714,6 +723,7 @@ int main(int argc, char **argv)
 		Properties::SetProperty("align.forcememorycompression", arg_bforcememorycompression ? "true" : "false");
 		Properties::SetProperty("align.memorycompressionblock", arg_memorycompression);
 		Properties::SetProperty("align.adaptivecost", arg_badaptivecost ? "true" : "false");
+		Properties::SetProperty("align.wordaligncost", arg_bwordaligncost ? "true" : "false");
 		Properties::SetProperty("recording.maxspeakeroverlaping", arg_maxnboverlapingspkr);
         Properties::SetProperty("recording.maxnbofgb", arg_maxgb);
 		

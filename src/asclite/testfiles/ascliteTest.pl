@@ -58,10 +58,10 @@ if ($suite =~ /^(mdm04ByFile|all|notpassed)$/)
     
 if ($suite =~ /^(mdm04|all|notpassed)$/)
 {
-    RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-F -D -overlap-limit 1", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1");
-    RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-F -D -overlap-limit 1", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1 -force-memory-compression");
-    RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-F -D -overlap-limit 2", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2");
-    RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-F -D -overlap-limit 2", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2 -force-memory-compression");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-F -D -overlap-limit 1",                           "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-F -D -overlap-limit 1 -force-memory-compression", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-F -D -overlap-limit 2",                           "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2");
+    RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-F -D -overlap-limit 2 -force-memory-compression", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2");
 }
 
 if ($suite =~ /^(sastt|all|notpassed)$/)

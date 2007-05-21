@@ -694,7 +694,9 @@ int Graph::GetCostTransition(Token* pToken1, Token* pToken2)
 	
 	if(! pToken1->IsEquivalentTo(pToken2) )
 	{
-		return m_CostTransition + AdaptiveCost;
+		int WordAlignCost = GetCostWordAlign(pToken1, pToken2);
+				
+		return m_CostTransition + AdaptiveCost + WordAlignCost;
 	}
 	else
 	{
@@ -1284,12 +1286,21 @@ int Graph::GetCostAdaptive(Token* pToken1, Token* pToken2)
 	return( (int)( m_CostAdaptive*gap/m_MaxDurationSegmentGroup ) );
 }
 
+int Graph::GetCostWordAlign(Token* pToken1, Token* pToken2)
+{
+	if(!m_bWordAlignCostOptimization)
+		return 0;
+		
+	return(pToken1->EditDistance(pToken2));
+}
+
 void Graph::SetGraphOptimization()
 {
 	m_bPruneOptimization = (string("true").compare(Properties::GetProperty("align.timepruneoptimization")) == 0);
 	m_bWordOptimization = (string("true").compare(Properties::GetProperty("align.timewordoptimization")) == 0);
 	m_bSpeakerOptimization = (string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0);
 	m_bAdaptiveCostOptimization = (string("true").compare(Properties::GetProperty("align.adaptivecost")) == 0);
+	m_bWordAlignCostOptimization = (string("true").compare(Properties::GetProperty("align.wordaligncost")) == 0);
 	
 	if(m_bPruneOptimization)
 		m_PruneOptimizationThreshold = atoi(Properties::GetProperty("align.timepruneoptimizationthreshold").c_str());

@@ -308,6 +308,62 @@ bool Token::Equals(Token* token)
 	return GetSourceText() == token->GetSourceText()/* && prec == token->prec && next == token->next*/;
 }
 
+int Token::EditDistance(Token* token) 
+{
+	int k,i,j,n,m,cost,distance;
+	string s, t;
+	
+	if (segment->PerformCaseSensitiveAlignment()) //case sensitive
+    {
+        s = GetText();
+        t = token->GetText();
+    }
+    else
+    {
+        s = GetTextInLowerCase();
+        t = token->GetTextInLowerCase();
+    }
+
+	n=s.size(); 
+	m=t.size();
+	
+	if(n!=0 && m!=0)
+	{
+		int* d = new int[(m+1)*(n+1)];
+		++m;
+		++n;
+		
+		for(k=0; k<n; ++k)
+			d[k]=k;
+			
+		for(k=0; k<m; ++k)
+			d[k*n]=k;
+
+		for(i=1; i<n; ++i)
+			for(j=1; j<m; ++j)
+			{
+				//Step 5
+				if(s[i-1] == t[j-1])
+					cost=0;
+				else
+					cost=1;
+				
+				//Step 6
+				d[j*n+i] = min(min((d[(j-1)*n+i]+1),(d[j*n+i-1]+1)),(d[(j-1)*n+i-1]+cost));
+			}
+			
+		distance=d[n*m-1];
+		
+		delete [] d;
+		
+		return distance;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 string Token::ToString() 
 {
     string temp = "";

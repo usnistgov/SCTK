@@ -13,7 +13,7 @@ High Priority:
 [-] update docs
     [ ] acomp
     [x] align2html
-    [x] asclite
+    [x] ascli¡te
     [ ] chfilt
     [ ] csrfilt
     [ ] def_art
@@ -42,6 +42,6 @@ Medium Priority:
 [ ] add SASTT cookbook to docs
 
 Low Priority:
-[ ] additive cost based on word aligment distances
+[x] additive cost based on word aligment distances
 [ ] rover implementation and experiments
 [ ] trancsript filtering (GLM)

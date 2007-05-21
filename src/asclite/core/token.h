@@ -98,6 +98,8 @@ class Token : public TimedObject
 		 */
 		bool Equals(Token* token);
 		
+		int EditDistance(Token* token);
+		
 		/** Returns a string representation of this Token. */
 		string ToString();
 		
