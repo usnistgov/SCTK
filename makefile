@@ -35,7 +35,7 @@ dist:
 	@ cvs -d gaston:/home/sware/cvs co -d `cat .fname` sctk
 	@ echo "Building the TAR file"
 	@ echo `cat .fname`"-"`date +%Y%m%d-%H%M`.tar.bz2 > .distname
-	@ tar jcf `cat .distname` --exclude CVS  --exclude .svn `cat .fname` 
+	@ tar jcf `cat .distname` --exclude CVS  --exclude .svn --exclude TODO `cat .fname` 
 	@ (cd `cat .fname`; make config all check)
 	@ rm -rf `cat .fname` .fname .distname
 
