@@ -37,7 +37,7 @@ SpeakerMatch::~SpeakerMatch()
 }
 
 /** Load the file */
-void SpeakerMatch::Load(string filename)
+void SpeakerMatch::LoadFile(string filename)
 {
 	string line;
 	ifstream file;

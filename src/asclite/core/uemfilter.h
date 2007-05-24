@@ -17,7 +17,7 @@
 #define UEMFILTER_H
 
 #include "stdinc.h"
-#include "filter.h"
+#include "checker.h"
 #include "logger.h"
 
 class UEMElement
@@ -41,7 +41,7 @@ class UEMElement
         static Logger* m_pLogger;
 };
 
-class UEMFilter : public Filter
+class UEMFilter : public Checker
 {
 	public:
 		// class constructor
@@ -54,12 +54,12 @@ class UEMFilter : public Filter
 		UEMElement* FindElement(string file, string channel);
 		
 		bool isEmpty() { return m_VectUEMElements.empty(); }
-		void LoadUEMFile(string filename);
+		void LoadFile(string filename);
 		
 		/**
 		 * Launch the check process on the specified speech.
 		 */
-		virtual unsigned long int Process(Speech* speech);
+		unsigned long int Process(Speech* speech);
 	
 	private:
 		vector<UEMElement*> m_VectUEMElements;
@@ -69,4 +69,4 @@ class UEMFilter : public Filter
         static Logger* m_pLogger;
 };
 
-#endif // SPKRAUTOOVERLAP_H
+#endif

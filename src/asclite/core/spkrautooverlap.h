@@ -16,7 +16,7 @@
 #ifndef SPKRAUTOOVERLAP_H
 #define SPKRAUTOOVERLAP_H
 
-#include "checker.h" // inheriting class's header file
+#include "checker.h"
 #include "logger.h"
 
 /**
@@ -31,11 +31,11 @@ class SpkrAutoOverlap : public Checker
 		~SpkrAutoOverlap() {}
 		/**
 		 * Launch the check process on the specified speech.
-		 */
-		virtual unsigned long int Process(Speech* speech);
+		 */		 
+		unsigned long int Process(Speech* speech);
 	
 	private:
         static Logger* logger;
 };
 
-#endif // SPKRAUTOOVERLAP_H
+#endif

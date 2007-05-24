@@ -33,6 +33,8 @@ class Filter
 		 * Launch the filter on the speech specified
 		 */
 		virtual unsigned long int Process(Speech* speech)=0;
+		
+		void LoadFile(string filename) { }
 };
 
 #endif // FILTER_H

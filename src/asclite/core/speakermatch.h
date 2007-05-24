@@ -23,10 +23,6 @@
 #include "stdinc.h"
 #include "logger.h"
 
-
-/** 
- * Logging methods
- */
 class SpeakerMatch
 {
     public:
@@ -37,7 +33,7 @@ class SpeakerMatch
         ~SpeakerMatch();
 		
 		/** Load the file */
-		void Load(string filename);
+		void LoadFile(string filename);
 		
 		/** Initialize a couple, sys-ref */
 		void SetSysRef(string source, string channel, string sys, string ref);

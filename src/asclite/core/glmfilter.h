@@ -16,7 +16,7 @@
 #ifndef GLMFILTER_H
 #define GLMFILTER_H
 
-#include "checker.h" // inheriting class's header file
+#include "checker.h"
 #include "logger.h"
 
 /**
@@ -29,6 +29,9 @@ class GLMFilter : public Checker
 		GLMFilter() {}
 		// class destructor
 		~GLMFilter() {}
+		
+		void LoadFile(string filename);
+		
 		/**
 		 * Launch the check process on the specified speech.
 		 */
@@ -38,4 +41,4 @@ class GLMFilter : public Checker
         static Logger* logger;
 };
 
-#endif // SPKRAUTOOVERLAP_H
+#endif

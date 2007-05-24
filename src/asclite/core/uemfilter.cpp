@@ -43,8 +43,15 @@ UEMElement* UEMFilter::FindElement(string file, string channel)
 {
 	for(size_t i=0; i<m_VectUEMElements.size(); ++i)
 		if(m_VectUEMElements[i])
+		{
+			/*
 			if( (m_VectUEMElements[i]->GetFile() == file) && (m_VectUEMElements[i]->GetChannel() == channel) )
 				return m_VectUEMElements[i];
+			*/
+			
+			if( (file.find(m_VectUEMElements[i]->GetFile(), 0) != 0) && (channel.compare(m_VectUEMElements[i]->GetChannel()) == 0) )
+				return m_VectUEMElements[i];
+		}
 
 	return NULL;
 }
@@ -78,7 +85,7 @@ int UEMFilter::ParseString(string chaine)
 	}
 }
 
-void UEMFilter::LoadUEMFile(string filename)
+void UEMFilter::LoadFile(string filename)
 {
 	ifstream file;
 	string line;
@@ -139,5 +146,5 @@ void UEMFilter::LoadUEMFile(string filename)
 
 unsigned long int UEMFilter::Process(Speech* speech)
 {
-	return 0;
+	return (unsigned long int) 0;
 }

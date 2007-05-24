@@ -73,3 +73,7 @@ unsigned long int GLMFilter::Process(Speech* speech)
 	return 0;
 #endif
 }
+
+void GLMFilter::LoadFile(string filename)
+{
+}

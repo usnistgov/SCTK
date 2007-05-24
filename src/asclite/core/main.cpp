@@ -40,6 +40,15 @@ void PrintHelp()
 	cout << "                  This option may be used more than once." << endl;
 	cout << "                  The default format is 'trn'." << endl;
 	cout << "    -i <ids>      Set the utterance id type (for trn mode only)" << endl;
+	cout << "Filter Options:" << endl;
+	cout << "    -spkrautooverlap [ ref | hyp | both ]" << endl;
+	cout << "                  Check if the speakers are self-overlaping or not." << endl;
+	cout << "    -uem <glmfilename> [ ref | hyp | both ]" << endl;
+	cout << "                  Apply the UEM rules." << endl;
+	cout << "                  The default value is 'both'." << endl;
+	cout << "    -glm <glmfilename> [ ref | hyp | both ]" << endl;
+	cout << "                  Apply the GLM rules." << endl;
+	cout << "                  The default value is 'both'." << endl;
 	cout << "Alignment Options:" << endl;
 	cout << "    -s            Do case-sensitive alignments." << endl;
 	cout << "    -F            Score fragments as correct." << endl;
@@ -141,6 +150,13 @@ int main(int argc, char **argv)
     string arg_glmfilename = "";
     string arg_glmoption = "";
     bool arg_bglm = false;
+    
+    string arg_uemfilename = "";
+    string arg_uemoption = "";
+    bool arg_buem = false;
+    
+    string arg_spkrautooverlapoption = "";
+    bool arg_bspkrautooverlap = false;
 	
 	vector<string> arg_vecouput;
 	vector<string> arg_filters;
@@ -258,7 +274,7 @@ int main(int argc, char **argv)
 		}
 		else
         // glm
-        if(strcmp(argv[arg_index], "-g") == 0)
+        if(strcmp(argv[arg_index], "-glm") == 0)
 		{
 			if(arg_index < argc-1)
 			{
@@ -273,6 +289,8 @@ int main(int argc, char **argv)
 						arg_glmoption = string("ref");
 					else if(strcmp(argv[arg_index], "hyp") == 0)
 						arg_glmoption = string("hyp");
+					else if(strcmp(argv[arg_index], "both") == 0)
+						arg_glmoption = string("both");
 					else if(argv[arg_index][0] != '-')
 					{
 						arg_index--;
@@ -294,6 +312,77 @@ int main(int argc, char **argv)
 				cout << "GLM filename missing!" << endl;
 				arg_ok = false;
 			}
+		}
+		else
+        // uem
+        if(strcmp(argv[arg_index], "-uem") == 0)
+		{
+			if(arg_index < argc-1)
+			{
+				arg_index++;
+				arg_uemfilename = string(argv[arg_index]);
+				
+				if(arg_index < argc-1)
+				{
+					arg_index++;
+					
+					if(strcmp(argv[arg_index], "ref") == 0)
+						arg_uemoption = string("ref");
+					else if(strcmp(argv[arg_index], "hyp") == 0)
+						arg_uemoption = string("hyp");
+					else if(strcmp(argv[arg_index], "both") == 0)
+						arg_uemoption = string("both");
+					else if(argv[arg_index][0] != '-')
+					{
+						arg_index--;
+						arg_uemoption = string("both");
+					}
+					else
+					{
+						arg_index--;
+						arg_uemoption = string("both");
+					}
+				}
+				else
+					arg_uemoption = string("both");
+				
+				arg_buem = true;
+			}
+			else
+			{
+				cout << "UEM filename missing!" << endl;
+				arg_ok = false;
+			}
+		}
+		else
+		// Speaker Auto-overlap
+        if(strcmp(argv[arg_index], "-spkrautooverlap") == 0)
+		{
+			if(arg_index < argc-1)
+			{
+				arg_index++;
+				
+				if(strcmp(argv[arg_index], "ref") == 0)
+					arg_spkrautooverlapoption = string("ref");
+				else if(strcmp(argv[arg_index], "hyp") == 0)
+					arg_spkrautooverlapoption = string("hyp");
+				else if(strcmp(argv[arg_index], "both") == 0)
+					arg_spkrautooverlapoption = string("both");
+				else if(argv[arg_index][0] != '-')
+				{
+					arg_index--;
+					arg_spkrautooverlapoption = string("both");
+				}
+				else
+				{
+					arg_index--;
+					arg_spkrautooverlapoption = string("both");
+				}
+			}
+			else
+				arg_spkrautooverlapoption = string("both");
+			
+			arg_bspkrautooverlap = true;
 		}
 		else
 		// Utterance
@@ -744,16 +833,37 @@ int main(int argc, char **argv)
 		Properties::SetProperty("align.type", "lev");
 		Properties::SetProperty("score.type", "stt");
         
+        // Speaker Auto Overlap
+        if(arg_bspkrautooverlap)
+        {
+        	Properties::SetProperty("filter.spkrautooverlap", "true");
+            Properties::SetProperty("filter.spkrautooverlap.option", arg_spkrautooverlapoption);
+			arg_filters.push_back("filter.spkrautooverlap");
+		}
+        
+        // UEM
+        // Alway to UEM to create the Inter Segment Gaps
+		arg_filters.push_back("filter.uem");
+        
+        if(arg_buem)
+        {
+            Properties::SetProperty("filter.uem", "true");
+            Properties::SetProperty("filter.uem.option", arg_glmoption);
+            Properties::SetProperty("filter.uem.arg_uemfilename", arg_glmfilename);
+        }
+        else
+            Properties::SetProperty("filter.uem", "false");
+        
+        //GLM
         if(arg_bglm)
         {
             Properties::SetProperty("filter.glm", "true");
             Properties::SetProperty("filter.glm.option", arg_glmoption);
             Properties::SetProperty("filter.glm.arg_glmfilename", arg_glmfilename);
+            arg_filters.push_back("filter.glm");
         }
         else
-        {
             Properties::SetProperty("filter.glm", "false");
-        }
 		
 		map<string, string>::iterator i = arg_properties.begin();
 		map<string, string>::iterator ei = arg_properties.end();
@@ -763,9 +873,6 @@ int main(int argc, char **argv)
             Properties::SetProperty((*i).first, (*i).second);
             ++i;
         }
-		
-		arg_filters.push_back("validate.spkr_auto_overlap");
-		arg_filters.push_back("validate.glm_filter");
         
         ullint max_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int));
         
@@ -788,7 +895,7 @@ int main(int argc, char **argv)
             hyps_titles.push_back(vecHyps[i].title);
         }
 		
-		recording->Load(reffile.filename, reffile.fileformat, hyps_files, hyps_titles, vecHyps[0].fileformat, arg_glmfilename, arg_speakeroptimizationfilename);
+		recording->Load(reffile.filename, reffile.fileformat, hyps_files, hyps_titles, vecHyps[0].fileformat, arg_glmfilename, arg_uemfilename, arg_speakeroptimizationfilename);
 		
 		LOG_INFO(logger, "Filter Input data");
 		recording->Filter(arg_filters);

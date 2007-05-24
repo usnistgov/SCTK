@@ -50,8 +50,9 @@ Recording::Recording()
 	scorer["stt"] = new STTScorer();
   
 	//init the Filters
-	filters["validate.spkr_auto_overlap"] = new SpkrAutoOverlap();
-	filters["validate.glm_filter"] = new GLMFilter();
+	filters["filter.spkrautooverlap"] = new SpkrAutoOverlap();
+	filters["filter.glm"] = new GLMFilter();
+	filters["filter.uem"] = new UEMFilter();
   
 	//init the Alignment result
 	alignments = new Alignment();
@@ -192,10 +193,16 @@ Recording::~Recording()
 * Load the reference&Hypothesis files into the system.
  * use the right loader based on the type.
  */
-void Recording::Load(string _references, string _refType, vector<string> _hypothesis, vector<string> _hypothesis_titles, string _hypType, string glmFile, string speakeralignfile)
+void Recording::Load(string _references, string _refType, vector<string> _hypothesis, vector<string> _hypothesis_titles, string _hypType, string glmFile, string uemFile, string speakeralignfile)
 {
 	if(string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0)
-		m_pSpeakerMatch->Load(speakeralignfile);
+		m_pSpeakerMatch->LoadFile(speakeralignfile);
+		
+	if(string("true").compare(Properties::GetProperty("filter.glm")) == 0)
+		filters["filter.glm"]->LoadFile(glmFile);
+		
+	if(string("true").compare(Properties::GetProperty("filter.uem")) == 0)
+		filters["filter.uem"]->LoadFile(uemFile);
 
     //init the segmentor
     segmentor = segmentors[_hypType+"|"+_refType];
@@ -309,7 +316,7 @@ void Recording::AddInterSegmentGapsToRefs()
 	
 	while(hi != hei)
 	{
-		SpeechSet* spkset = hi->second;;
+		SpeechSet* spkset = hi->second;
 		
 		for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
 		{
@@ -403,16 +410,41 @@ void Recording::Filter(vector<string> _filters)
   
     for (size_t i=0 ; i < _filters.size() ; ++i)
     {
-        LOG_INFO(logger, "Filtering ==> "+_filters[i]);
+    	LOG_INFO(logger, "Filtering ==> "+_filters[i]);
     
-        for (size_t j=0 ; j < references->GetNumberOfSpeech() ; ++j)
-            nbErr += filters[_filters[i]]->Process(references->GetSpeech(j));
+    	string refhypboth = Properties::GetProperty(_filters[i] + ".option");
+    
+    	if( (string(refhypboth).compare("ref") == 0) || (string(refhypboth).compare("both") == 0) )
+    	{
+    		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " references");
+    		
+    		for (size_t j=0 ; j < references->GetNumberOfSpeech() ; ++j)
+            	nbErr += filters[_filters[i]]->Process(references->GetSpeech(j));
+        }
+           	
+        if( (string(refhypboth).compare("hyp") == 0) || (string(refhypboth).compare("both") == 0) )
+        {
+        	LOG_INFO(logger, "Filtering ==> " + _filters[i] + " hypotheses");
+        	
+        	map<string, SpeechSet* >::iterator hi  = hypothesis.begin();
+			map<string, SpeechSet* >::iterator hei = hypothesis.end();
+			
+			while(hi != hei)
+			{
+				SpeechSet* spkset = hi->second;
+				
+				for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
+					nbErr += filters[_filters[i]]->Process(spkset->GetSpeech(spseti));
+				
+				++hi;
+			}
+        }
     }
   
     if (nbErr != 0)
     {
         char buffer[BUFFER_SIZE];
-        sprintf(buffer, "%li Errors in the input files, programs exiting", nbErr);
+        sprintf(buffer, "%li Error(s) in the input files", nbErr);
         LOG_FATAL(logger, buffer);
         exit(0);
     }

@@ -103,7 +103,7 @@ void LevenshteinTest::TestBasicBenchmark()
 		if(i == 12)
 		{
 			SpeakerMatch* pSpeakerMatch = new SpeakerMatch;
-			pSpeakerMatch->Load(Properties::GetProperty("dataDirectory") + "/test12.mdalign.csv");
+			pSpeakerMatch->LoadFile(Properties::GetProperty("dataDirectory") + "/test12.mdalign.csv");
 			laligner->SetSegments(bench->GetTest(i), pSpeakerMatch, false);
 		}
 		else
