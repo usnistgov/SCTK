@@ -17,12 +17,12 @@
  * This object represent the alignements for a test set.
  */
 
-#include "uem.h"
+#include "uemfilter.h"
 
-Logger* UemElement::m_pLogger = Logger::getLogger();
-Logger* Uem::m_pLogger = Logger::getLogger();
+Logger* UEMElement::m_pLogger = Logger::getLogger();
+Logger* UEMFilter::m_pLogger = Logger::getLogger();
 
-UemElement::UemElement(string _file, string _channel, int _startTime, int _endTime)
+UEMElement::UEMElement(string _file, string _channel, int _startTime, int _endTime)
 {
 	m_File = _file;
 	m_Channel = _channel;
@@ -30,26 +30,26 @@ UemElement::UemElement(string _file, string _channel, int _startTime, int _endTi
 	m_EndTime = _endTime;
 }
 
-Uem::~Uem()
+UEMFilter::~UEMFilter()
 {
-	for(size_t i=0; i<m_VectUemElements.size(); ++i)
-		if(m_VectUemElements[i])
-			delete m_VectUemElements[i];
+	for(size_t i=0; i<m_VectUEMElements.size(); ++i)
+		if(m_VectUEMElements[i])
+			delete m_VectUEMElements[i];
 	
-	m_VectUemElements.clear();
+	m_VectUEMElements.clear();
 }
 
-UemElement* Uem::FindElement(string file, string channel)
+UEMElement* UEMFilter::FindElement(string file, string channel)
 {
-	for(size_t i=0; i<m_VectUemElements.size(); ++i)
-		if(m_VectUemElements[i])
-			if( (m_VectUemElements[i]->GetFile() == file) && (m_VectUemElements[i]->GetChannel() == channel) )
-				return m_VectUemElements[i];
+	for(size_t i=0; i<m_VectUEMElements.size(); ++i)
+		if(m_VectUEMElements[i])
+			if( (m_VectUEMElements[i]->GetFile() == file) && (m_VectUEMElements[i]->GetChannel() == channel) )
+				return m_VectUEMElements[i];
 
 	return NULL;
 }
 
-int Uem::ParseString(string chaine)
+int UEMFilter::ParseString(string chaine)
 {
 	if(strchr(chaine.c_str(),'.') == NULL)
 	{
@@ -78,7 +78,7 @@ int Uem::ParseString(string chaine)
 	}
 }
 
-void Uem::LoadUemFile(string filename)
+void UEMFilter::LoadUEMFile(string filename)
 {
 	ifstream file;
 	string line;
@@ -123,8 +123,8 @@ void Uem::LoadUemFile(string filename)
 				
 				if(start_ms < end_ms)
 				{
-					UemElement* pUemElement = new UemElement(string(l_file), string(l_channel), start_ms, end_ms);
-					AddUemElement(pUemElement);
+					UEMElement* pUEMElement = new UEMElement(string(l_file), string(l_channel), start_ms, end_ms);
+					AddUEMElement(pUEMElement);
 				}
 			}
 		}
@@ -135,4 +135,9 @@ void Uem::LoadUemFile(string filename)
     
 	if(isEmpty())
 		LOG_INFO(m_pLogger, "UEM file '" + filename + "' contains no data!");
+}
+
+unsigned long int UEMFilter::Process(Speech* speech)
+{
+	return 0;
 }

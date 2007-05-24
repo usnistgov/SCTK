@@ -12,22 +12,20 @@
  * OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY,
  * OR FITNESS FOR A PARTICULAR PURPOSE.
  */
-
-#ifndef UEM_H
-#define UEM_H
+ 
+#ifndef UEMFILTER_H
+#define UEMFILTER_H
 
 #include "stdinc.h"
+#include "filter.h"
 #include "logger.h"
 
-/**
- * 
- */
-class UemElement
+class UEMElement
 {		
     public:
-        UemElement() { }
-		UemElement(string _file, string _channel, int _startTime, int _endTime);
-        ~UemElement() { }
+        UEMElement() {}
+		UEMElement(string _file, string _channel, int _startTime, int _endTime);
+        ~UEMElement() {}
 		
 		string GetFile() { return m_File; }
 		string GetChannel() { return m_Channel; }
@@ -40,34 +38,35 @@ class UemElement
 		int    m_StartTime;
 		int    m_EndTime;
 		
-		/**
-         * the logger
-         */
         static Logger* m_pLogger;
 };
 
-class Uem
+class UEMFilter : public Filter
 {
 	public:
-		Uem() { }
-		~Uem();
+		// class constructor
+		UEMFilter() {}
+		// class destructor
+		~UEMFilter();
 		
-		void        AddUemElement(UemElement* _pUemElement) { m_VectUemElements.push_back(_pUemElement); }
-		size_t      GetNumberElement() { m_VectUemElements.size(); }
-		UemElement* FindElement(string file, string channel);
+		void        AddUEMElement(UEMElement* _pUEMElement) { m_VectUEMElements.push_back(_pUEMElement); }
+		size_t      GetNumberElement() { m_VectUEMElements.size(); }
+		UEMElement* FindElement(string file, string channel);
 		
-		bool isEmpty() { return m_VectUemElements.empty(); }
-		void LoadUemFile(string filename);
+		bool isEmpty() { return m_VectUEMElements.empty(); }
+		void LoadUEMFile(string filename);
 		
+		/**
+		 * Launch the check process on the specified speech.
+		 */
+		virtual unsigned long int Process(Speech* speech);
+	
 	private:
-		vector<UemElement*> m_VectUemElements;
+		vector<UEMElement*> m_VectUEMElements;
 		
 		int ParseString(string chaine);
 		
-		/**
-         * the logger
-         */
         static Logger* m_pLogger;
 };
 
-#endif
+#endif // SPKRAUTOOVERLAP_H
