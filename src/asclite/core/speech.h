@@ -18,6 +18,7 @@
 
 #include "stdinc.h"
 #include "segment.h"
+#include "logger.h"
 
 class SpeechSet;
 
@@ -37,6 +38,10 @@ class Speech
 		 * Retrieve the segment indexed by index.
 		 */
 		Segment* GetSegment(size_t index) { return m_segments[index]; }
+		/**
+		 * Remove the segment from the list and link the previous tokens to the nexts.
+		 */
+		void RemoveSegment(Segment* currentSegment);
 		/**
 		 * Add this segment at the end of the segment list.
 		 */
@@ -76,6 +81,8 @@ class Speech
 		 * The parent Set that contain the speech
 		 */
 		SpeechSet* parentSet;
+		
+		static Logger* m_pLogger;
 };
 
 #endif // SPEECH_H

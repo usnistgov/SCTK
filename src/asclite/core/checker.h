@@ -31,7 +31,7 @@ class Checker : public Filter
 		/**
 		 * Launch the check process on the specified speech.
 		 */
-		virtual unsigned long int Process(Speech* speech)=0;
+		virtual unsigned long int ProcessSingleSpeech(Speech* speech)=0;
 };
 
 #endif // CHECKER_H

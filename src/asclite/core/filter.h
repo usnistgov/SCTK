@@ -18,6 +18,7 @@
 
 #include "stdinc.h"
 #include "speech.h"
+#include "speechset.h"
 
 /**
  * Abstract interface to a Filter.
@@ -32,7 +33,11 @@ class Filter
 		/**
 		 * Launch the filter on the speech specified
 		 */
-		virtual unsigned long int Process(Speech* speech)=0;
+		virtual unsigned long int ProcessSingleSpeech(Speech* speech)=0;
+		
+		bool isProcessSingleSpeech() { return true; }
+				
+		unsigned long int ProcessSpeechSet(SpeechSet* pSpeechSet) { }
 		
 		void LoadFile(string filename) { }
 };

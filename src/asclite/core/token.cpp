@@ -141,19 +141,40 @@ void Token::LinkTokens(Token *next)
 	AddNextToken(next);
 }
 
-void Token::UnlinkNextToken(Token *next)
+void Token::UnlinkNextToken(Token* nextToken)
 {
-	vector<Token *>::iterator tokNext = this->next.begin();
-	while (tokNext != this->next.end() && (*tokNext) != next)
-		tokNext++;
+	vector<Token*>::iterator tokNext = next.begin();
+	
+	while (tokNext != next.end() && (*tokNext) != nextToken)
+		++tokNext;
 
-	if (tokNext == this->next.end()){
+	if (tokNext == next.end())
+	{
 		char buffer[BUFFER_SIZE];
-		sprintf(buffer, "Can't unlink next token %s from %s",next->ToString().c_str(), this->ToString().c_str());
+		sprintf(buffer, "Can't unlink next token %s from %s", nextToken->ToString().c_str(), ToString().c_str());
 		LOG_FATAL(logger, buffer);
 		exit(1);
 	}
-	this->next.erase(tokNext);
+	
+	next.erase(tokNext);
+}
+
+void Token::UnlinkPrevToken(Token* prevToken)
+{
+	vector<Token*>::iterator tokPrec = prec.begin();
+	
+	while (tokPrec != prec.end() && (*tokPrec) != prevToken)
+		++tokPrec;
+
+	if (tokPrec == prec.end())
+	{
+		char buffer[BUFFER_SIZE];
+		sprintf(buffer, "Can't unlink previous token %s from %s", prevToken->ToString().c_str(), ToString().c_str());
+		LOG_FATAL(logger, buffer);
+		exit(1);
+	}
+	
+	prec.erase(tokPrec);
 }
 
 void Token::UnlinkTokens(Token *next)

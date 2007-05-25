@@ -31,11 +31,11 @@ class GLMFilter : public Checker
 		~GLMFilter() {}
 		
 		void LoadFile(string filename);
-		
+				
 		/**
 		 * Launch the check process on the specified speech.
 		 */
-		virtual unsigned long int Process(Speech* speech);
+		virtual unsigned long int ProcessSingleSpeech(Speech* speech);
 	
 	private:
         static Logger* logger;

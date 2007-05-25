@@ -29,10 +29,11 @@ class SpkrAutoOverlap : public Checker
 		SpkrAutoOverlap() {}
 		// class destructor
 		~SpkrAutoOverlap() {}
+				
 		/**
 		 * Launch the check process on the specified speech.
-		 */		 
-		unsigned long int Process(Speech* speech);
+		 */
+		unsigned long int ProcessSingleSpeech(Speech* speech);
 	
 	private:
         static Logger* logger;

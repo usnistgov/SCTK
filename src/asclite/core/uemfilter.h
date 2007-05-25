@@ -18,6 +18,7 @@
 
 #include "stdinc.h"
 #include "checker.h"
+#include "ctmstmrttm_segmentor.h"
 #include "logger.h"
 
 class UEMElement
@@ -45,7 +46,7 @@ class UEMFilter : public Checker
 {
 	public:
 		// class constructor
-		UEMFilter() {}
+		UEMFilter() { m_bUseFile = false; }
 		// class destructor
 		~UEMFilter();
 		
@@ -55,14 +56,15 @@ class UEMFilter : public Checker
 		
 		bool isEmpty() { return m_VectUEMElements.empty(); }
 		void LoadFile(string filename);
+		bool HasInterSegmentGaps(Speech* speech);
+		bool isProcessSingleSpeech() { return m_bUseFile; }
 		
-		/**
-		 * Launch the check process on the specified speech.
-		 */
-		unsigned long int Process(Speech* speech);
+		unsigned long int ProcessSingleSpeech(Speech* speech);
+		unsigned long int ProcessSpeechSet(SpeechSet* pSpeechSet);
 	
 	private:
 		vector<UEMElement*> m_VectUEMElements;
+		bool m_bUseFile;
 		
 		int ParseString(string chaine);
 		

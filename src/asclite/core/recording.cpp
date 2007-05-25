@@ -418,8 +418,15 @@ void Recording::Filter(vector<string> _filters)
     	{
     		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " references");
     		
-    		for (size_t j=0 ; j < references->GetNumberOfSpeech() ; ++j)
-            	nbErr += filters[_filters[i]]->Process(references->GetSpeech(j));
+    		if(filters[_filters[i]]->isProcessSingleSpeech())
+    		{
+				for (size_t j=0 ; j < references->GetNumberOfSpeech() ; ++j)
+					nbErr += filters[_filters[i]]->ProcessSingleSpeech(references->GetSpeech(j));
+            }
+            else
+            {
+            	nbErr += filters[_filters[i]]->ProcessSpeechSet(references);
+            }
         }
            	
         if( (string(refhypboth).compare("hyp") == 0) || (string(refhypboth).compare("both") == 0) )
@@ -433,9 +440,16 @@ void Recording::Filter(vector<string> _filters)
 			{
 				SpeechSet* spkset = hi->second;
 				
-				for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
-					nbErr += filters[_filters[i]]->Process(spkset->GetSpeech(spseti));
-				
+				if(filters[_filters[i]]->isProcessSingleSpeech())
+    			{
+					for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
+						nbErr += filters[_filters[i]]->ProcessSingleSpeech(spkset->GetSpeech(spseti));
+				}
+				else
+				{
+					nbErr += filters[_filters[i]]->ProcessSpeechSet(spkset);
+				}
+
 				++hi;
 			}
         }

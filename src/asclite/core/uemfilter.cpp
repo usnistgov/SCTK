@@ -12,10 +12,6 @@
  * OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY,
  * OR FITNESS FOR A PARTICULAR PURPOSE.
  */
- 
-/**
- * This object represent the alignements for a test set.
- */
 
 #include "uemfilter.h"
 
@@ -133,6 +129,12 @@ void UEMFilter::LoadFile(string filename)
 					UEMElement* pUEMElement = new UEMElement(string(l_file), string(l_channel), start_ms, end_ms);
 					AddUEMElement(pUEMElement);
 				}
+				else
+				{
+					char buffer[BUFFER_SIZE];
+					sprintf(buffer, "The time is not proper at the line %li in file %s: begin time %s and endtime %s", lineNum, filename.c_str(), l_start, l_end);
+					LOG_ERR(m_pLogger, buffer);
+				}
 			}
 		}
 	}
@@ -141,10 +143,98 @@ void UEMFilter::LoadFile(string filename)
 	file.close();
     
 	if(isEmpty())
-		LOG_INFO(m_pLogger, "UEM file '" + filename + "' contains no data!");
+	{
+		LOG_FATAL(m_pLogger, "UEM file '" + filename + "' contains no data!");
+		exit(1);
+	}
+	
+	m_bUseFile = true;
 }
 
-unsigned long int UEMFilter::Process(Speech* speech)
+bool UEMFilter::HasInterSegmentGaps(Speech* speech)
 {
-	return (unsigned long int) 0;
+	for(size_t i=0; i<speech->NbOfSegments(); ++i)
+	{
+		if(speech->GetSegment(i)->GetSpeakerId().compare(string("inter_segment_gap")) == 0)
+			return true;
+	}
+	
+	return false;
 }
+
+unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
+{
+	if(HasInterSegmentGaps(speech))
+	{
+		LOG_INFO(m_pLogger, "UEMFilter: Inter Segment Gap detected on the input - Abording filtering");
+		return 0;
+	}
+	
+	ulint nbrerr = 0;
+	list<Segment*> listSegmentsToRemove;
+	
+	// Step 1: checking if the input is proper and listing segments to remove
+	if(speech->GetParentSpeechSet()->IsRef())
+	{
+		// It's a Ref so check the bad ones
+		for(size_t segindex=0; segindex<speech->NbOfSegments(); ++segindex)
+		{
+			Segment* pSegment = speech->GetSegment(segindex);
+		
+			string segFile = pSegment->GetSource();
+			string segChannel = pSegment->GetChannel();
+			
+			UEMElement* pUEMElement = FindElement(segFile, segChannel);
+			
+			if(pUEMElement == NULL)
+			{
+				listSegmentsToRemove.push_back(pSegment);
+			}
+			else
+			{
+				int segStartTime = pSegment->GetStartTime();
+				int segEndTime = pSegment->GetEndTime();
+				int uemStartTime = pUEMElement->GetStartTime();
+				int uemEndTime = pUEMElement->GetEndTime();
+				
+				if( (uemEndTime < segStartTime) ||
+					(segEndTime < uemStartTime) )
+				{
+					listSegmentsToRemove.push_back(pSegment);
+				}
+				else
+				{
+					++nbrerr;
+					LOG_ERR(m_pLogger, "UEMFilter: " + segFile + "/" + segChannel + " has un improper time regarding the uem");
+				}
+			}
+		}
+	}
+	else
+	{
+		// It's a Hyp so just remove them regarding the mid point
+	}
+	
+	// Step 2: removing the unwanted segments
+	list<Segment*>::iterator  i = listSegmentsToRemove.begin();
+	list<Segment*>::iterator ei = listSegmentsToRemove.end();
+	
+	while(i != ei)
+	{
+		speech->RemoveSegment(*i);
+		++i;
+	}
+	
+	listSegmentsToRemove.clear();
+	
+	// Step 3: adding the ISG
+	
+	
+	return nbrerr;
+}
+
+unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* pSpeechSet)
+{
+	return 0;
+}
+

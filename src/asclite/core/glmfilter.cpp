@@ -24,7 +24,7 @@ Logger* GLMFilter::logger = Logger::getLogger();
 /**
  * Launch the check process on the specified speech.
  */
-unsigned long int GLMFilter::Process(Speech* speech)
+unsigned long int GLMFilter::ProcessSingleSpeech(Speech* speech)
 {
 
 #ifdef STUB

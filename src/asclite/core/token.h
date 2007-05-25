@@ -49,7 +49,7 @@ class Token : public TimedObject
 		void AddNextToken(Token* token) { next.push_back(token); } //add a "next" token indexed
 		Token* GetPrecToken(size_t i) { return prec[i]; } //retrieve the next token indexed
 		void AddPrecToken(Token* token) { prec.push_back(token); } //add a "prec" token indexed     
-
+		
 		static Token* CreateWithDuration(int _startTime, int _duration, Segment* parent);
 		static Token* CreateWithDuration(int _startTime, int _duration, Segment* parent, string _text);
 		static Token* CreateWithEndTime(int _startTime, int _endTime, Segment* parent);
@@ -63,6 +63,7 @@ class Token : public TimedObject
 
 		/** Breaks the next token link between tokens **/
 		void UnlinkNextToken(Token *nextToken);
+		void UnlinkPrevToken(Token *prevToken);
 		
 		/**
 		 * Return the number of next Tokens.

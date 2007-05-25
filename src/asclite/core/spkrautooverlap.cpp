@@ -24,7 +24,7 @@ Logger* SpkrAutoOverlap::logger = Logger::getLogger();
 /**
  * Launch the check process on the specified speech.
  */
-unsigned long int SpkrAutoOverlap::Process(Speech* speech)
+unsigned long int SpkrAutoOverlap::ProcessSingleSpeech(Speech* speech)
 {
     Segment* segPrec = NULL;
     Segment* segCurr = NULL;

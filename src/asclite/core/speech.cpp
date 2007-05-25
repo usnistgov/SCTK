@@ -20,6 +20,8 @@
 #include "speech.h" // class's header file
 #include "speechset.h"
 
+Logger* Speech::m_pLogger = Logger::getLogger();
+
 // class constructor
 Speech::Speech() {}
 
@@ -133,4 +135,81 @@ string Speech::ToString()
     }	
 	oss << "</Speech>";
 	return oss.str();
+}
+
+void Speech::RemoveSegment(Segment* currentSegment)
+{	
+	list<Token*> listPreviousTokenofFirstToken;
+	list<Token*> listNextTokenofLastToken;
+	
+	// Remove links from the previous tokens of the first tokens of the segment
+	for(size_t f=0; f<currentSegment->GetNumberOfFirstToken(); ++f)
+	{
+		Token* firstToken = currentSegment->GetFirstToken(f);
+		
+		if(firstToken)
+		{
+			for(size_t p=0; p<firstToken->GetNbOfPrecTokens(); ++p)
+			{
+				Token* previousTokenofFirstToken = firstToken->GetPrecToken(p);
+				listPreviousTokenofFirstToken.push_back(previousTokenofFirstToken);
+				previousTokenofFirstToken->UnlinkNextToken(firstToken);
+			}
+		}
+	}
+	
+	// Remove links from the next tokens of the last tokens of the segment
+	for(size_t l=0; l<currentSegment->GetNumberOfLastToken(); ++l)
+	{
+		Token* lastToken = currentSegment->GetLastToken(l);
+		
+		if(lastToken)
+		{
+			for(size_t n=0; n<lastToken->GetNbOfPrecTokens(); ++n)
+			{
+				Token* nextTokenofLastToken = lastToken->GetNextToken(n);
+				listNextTokenofLastToken.push_back(nextTokenofLastToken);
+				nextTokenofLastToken->UnlinkPrevToken(lastToken);
+			}
+		}
+	}
+	
+	// Re-attach the tokens
+	list<Token*>::iterator prev  = listPreviousTokenofFirstToken.begin();
+	list<Token*>::iterator eprev = listPreviousTokenofFirstToken.end();
+	list<Token*>::iterator next  = listNextTokenofLastToken.begin();
+	list<Token*>::iterator enext = listNextTokenofLastToken.end();
+	
+	while(prev != eprev)
+	{
+		while(next != enext)
+		{
+			(*prev)->AddNextToken(*next);
+			(*next)->AddPrecToken(*prev);
+			
+			++next;
+		}
+		
+		++prev;
+	}
+    
+    listPreviousTokenofFirstToken.clear();
+    listNextTokenofLastToken.clear();
+    
+    // Remove Segment from vector
+    vector<Segment*>::iterator SegIter = m_segments.begin();
+    	
+	while (SegIter != m_segments.end() && (*SegIter) != currentSegment)
+		++SegIter;
+
+	if (SegIter == m_segments.end())
+    {
+		LOG_FATAL(m_pLogger, "Speech::RemoveSegment(), the segment is not at the right spot!!");
+		exit(1);
+	}
+	
+	m_segments.erase(SegIter);
+    
+    // destroy! the segment now
+    delete currentSegment;
 }
