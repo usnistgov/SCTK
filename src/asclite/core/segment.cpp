@@ -257,10 +257,8 @@ void Segment::ToTopologicalOrderedStruct(Token* start, vector<Token*>* doneNode)
 bool Segment::isFirstToken(Token* token)
 {
 	for(size_t i = 0 ; i < f_token->GetNbOfNextTokens() ; ++i)
-    {
         if (f_token->GetNextToken(i) == token)
             return true;
-    }
     
     return false;
 }
@@ -271,10 +269,8 @@ bool Segment::isFirstToken(Token* token)
 bool Segment::isLastToken(Token* token)
 {
 	for(size_t i = 0 ; i < l_token->GetNbOfNextTokens() ; ++i)
-    {
         if (l_token->GetNextToken(i) == token)
             return true;
-    }
   
     return false;
 }
@@ -312,16 +308,16 @@ void Segment:: ReplaceTokenWith(Token *token, vector<Token*> startTokens, vector
 	vector<Token *>prevTokens;
 	for (size_t p=0; p<token->GetNbOfPrecTokens(); p++)
 		prevTokens.push_back(token->GetPrecToken(p));
+
 	// Do the link
 	for (size_t s = 0; s<startTokens.size(); s++)
 		for (size_t p=0; p<prevTokens.size(); p++)
-			prevTokens[p]->LinkTokens(startTokens[s]);					
+			prevTokens[p]->LinkTokens(startTokens[s]);		
+			
 	// Link in the Starts
-	if (isFirstToken(token)){
-		for (size_t s = 0; s<startTokens.size(); s++){
+	if (isFirstToken(token))
+		for (size_t s = 0; s<startTokens.size(); s++)
 			AddFirstToken(startTokens[s]);
-		}
-	} 
 	
 	// Store a list of next tokens to avoid continual adding of tokens!!!
 	vector<Token *>nextTokens;
@@ -334,11 +330,9 @@ void Segment:: ReplaceTokenWith(Token *token, vector<Token*> startTokens, vector
 			endTokens[e]->LinkTokens(nextTokens[n]);					
 	
 	// Link in the End
-	if (isLastToken(token)){
-		for (size_t e = 0; e<endTokens.size(); e++){
+	if (isLastToken(token))
+		for (size_t e = 0; e<endTokens.size(); e++)
 			AddLastToken(endTokens[e]);
-		}
-	}
 		
 	// Unlink the token --- With the assumption that something has replaced IT 
 	if (isFirstToken(token))
@@ -353,4 +347,32 @@ void Segment:: ReplaceTokenWith(Token *token, vector<Token*> startTokens, vector
 	// cleanup
 	prevTokens.clear();
 	nextTokens.clear();
+}
+
+int Segment::GetMinTokensTime()
+{
+	int minTime = -1;
+	vector<Token*> vectok = ToTopologicalOrderedStruct();
+				
+	for(size_t veci=0; veci<vectok.size(); ++veci)
+		if( (minTime == -1) || (vectok[veci]->GetStartTime() < minTime) )
+			minTime = vectok[veci]->GetStartTime();
+		
+	vectok.clear();
+	
+	return minTime;
+}
+
+int Segment::GetMaxTokensTime()
+{
+	int maxTime = -1;
+	vector<Token*> vectok = ToTopologicalOrderedStruct();
+				
+	for(size_t veci=0; veci<vectok.size(); ++veci)
+		if( (maxTime == -1) || (vectok[veci]->GetEndTime() > maxTime) )
+			maxTime = vectok[veci]->GetStartTime();
+		
+	vectok.clear();
+	
+	return maxTime;
 }

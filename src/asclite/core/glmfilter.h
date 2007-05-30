@@ -31,11 +31,13 @@ class GLMFilter : public Checker
 		~GLMFilter() {}
 		
 		void LoadFile(string filename);
-				
+		
+		bool isProcessSingleAllSpeechSet() { return false; }
 		/**
 		 * Launch the check process on the specified speech.
 		 */
-		virtual unsigned long int ProcessSingleSpeech(Speech* speech);
+		unsigned long int ProcessSingleSpeech(Speech* speech);
+		unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp) { return 0; }
 	
 	private:
         static Logger* logger;

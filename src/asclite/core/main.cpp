@@ -43,7 +43,7 @@ void PrintHelp()
 	cout << "Filter Options:" << endl;
 	cout << "    -spkrautooverlap [ ref | hyp | both ]" << endl;
 	cout << "                  Check if the speakers are self-overlaping or not." << endl;
-	cout << "    -uem <glmfilename> [ ref | hyp | both ]" << endl;
+	cout << "    -uem <uemfilename> [ ref | hyp | both ]" << endl;
 	cout << "                  Apply the UEM rules." << endl;
 	cout << "                  The default value is 'both'." << endl;
 	cout << "    -glm <glmfilename> [ ref | hyp | both ]" << endl;

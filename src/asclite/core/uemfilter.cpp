@@ -35,21 +35,14 @@ UEMFilter::~UEMFilter()
 	m_VectUEMElements.clear();
 }
 
-UEMElement* UEMFilter::FindElement(string file, string channel)
+void UEMFilter::FindElement(string file, string channel, list<UEMElement*>* pList)
 {
+	pList->clear();
+
 	for(size_t i=0; i<m_VectUEMElements.size(); ++i)
 		if(m_VectUEMElements[i])
-		{
-			/*
-			if( (m_VectUEMElements[i]->GetFile() == file) && (m_VectUEMElements[i]->GetChannel() == channel) )
-				return m_VectUEMElements[i];
-			*/
-			
 			if( (file.find(m_VectUEMElements[i]->GetFile(), 0) != 0) && (channel.compare(m_VectUEMElements[i]->GetChannel()) == 0) )
-				return m_VectUEMElements[i];
-		}
-
-	return NULL;
+				pList->push_back(m_VectUEMElements[i]);
 }
 
 int UEMFilter::ParseString(string chaine)
@@ -151,25 +144,8 @@ void UEMFilter::LoadFile(string filename)
 	m_bUseFile = true;
 }
 
-bool UEMFilter::HasInterSegmentGaps(Speech* speech)
-{
-	for(size_t i=0; i<speech->NbOfSegments(); ++i)
-	{
-		if(speech->GetSegment(i)->GetSpeakerId().compare(string("inter_segment_gap")) == 0)
-			return true;
-	}
-	
-	return false;
-}
-
 unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 {
-	if(HasInterSegmentGaps(speech))
-	{
-		LOG_INFO(m_pLogger, "UEMFilter: Inter Segment Gap detected on the input - Abording filtering");
-		return 0;
-	}
-	
 	ulint nbrerr = 0;
 	list<Segment*> listSegmentsToRemove;
 	
@@ -183,36 +159,100 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 		
 			string segFile = pSegment->GetSource();
 			string segChannel = pSegment->GetChannel();
+			int segStartTime = pSegment->GetStartTime();
+			int segEndTime = pSegment->GetEndTime();
 			
-			UEMElement* pUEMElement = FindElement(segFile, segChannel);
+			list<UEMElement*>* pListUEMElement = new list<UEMElement*>;
+			FindElement(segFile, segChannel, pListUEMElement);
 			
-			if(pUEMElement == NULL)
+			if(pListUEMElement->empty())
 			{
 				listSegmentsToRemove.push_back(pSegment);
 			}
 			else
 			{
-				int segStartTime = pSegment->GetStartTime();
-				int segEndTime = pSegment->GetEndTime();
-				int uemStartTime = pUEMElement->GetStartTime();
-				int uemEndTime = pUEMElement->GetEndTime();
+				list<UEMElement*>::iterator  i = pListUEMElement->begin();
+				list<UEMElement*>::iterator ei = pListUEMElement->end();
+				bool keep = false;
 				
-				if( (uemEndTime < segStartTime) ||
-					(segEndTime < uemStartTime) )
+				while( (i != ei) || (!keep) )
+				{
+					UEMElement* pUEMElement = *i;
+					int uemStartTime = pUEMElement->GetStartTime();
+					int uemEndTime = pUEMElement->GetEndTime();
+					keep = ( (uemStartTime <= segStartTime) && (segEndTime <= uemEndTime) );
+					
+					if(!keep)
+					{
+						if( (segStartTime < uemStartTime) && (uemEndTime < segEndTime) ||
+							(uemStartTime < segStartTime) && (uemEndTime < segEndTime) ||
+							(segStartTime < uemStartTime) && (segEndTime < uemEndTime) )
+						{
+							++nbrerr;
+							LOG_ERR(m_pLogger, "UEMFilter - " + segFile + "/" + segChannel + " has an unproper time regarding the UEM file.");
+						}
+					}
+					
+					++i;
+				}
+				
+				if(!keep)
 				{
 					listSegmentsToRemove.push_back(pSegment);
 				}
-				else
+			}
+			
+			pListUEMElement->clear();
+			delete pListUEMElement;
+		}
+	}
+	else if(speech->GetParentSpeechSet()->IsHyp())
+	{
+		// It's a Hyp so just remove them regarding the mid point of every token.
+		for(size_t segindex=0; segindex<speech->NbOfSegments(); ++segindex)
+		{
+			Segment* pSegment = speech->GetSegment(segindex);
+			int segMidPoint = (pSegment->GetStartTime() + pSegment->GetEndTime())/2;
+			string segFile = pSegment->GetSource();
+			string segChannel = pSegment->GetChannel();
+			
+			list<UEMElement*>* pListUEMElement = new list<UEMElement*>;
+			FindElement(segFile, segChannel, pListUEMElement);
+			
+			if(pListUEMElement->empty())
+			{
+				listSegmentsToRemove.push_back(pSegment);
+			}
+			else
+			{
+				list<UEMElement*>::iterator  i = pListUEMElement->begin();
+				list<UEMElement*>::iterator ei = pListUEMElement->end();
+				bool keep = false;
+				
+				while( (i != ei) || (!keep) )
 				{
-					++nbrerr;
-					LOG_ERR(m_pLogger, "UEMFilter: " + segFile + "/" + segChannel + " has un improper time regarding the uem");
+					UEMElement* pUEMElement = *i;
+					int uemStartTime = pUEMElement->GetStartTime();
+					int uemEndTime = pUEMElement->GetEndTime();
+					keep = ( (uemStartTime <= segMidPoint) && (segMidPoint <= uemEndTime) );					
+					++i;
+				}
+				
+				if(!keep)
+				{
+					listSegmentsToRemove.push_back(pSegment);
 				}
 			}
+			
+			pListUEMElement->clear();
+			delete pListUEMElement;
 		}
 	}
 	else
 	{
-		// It's a Hyp so just remove them regarding the mid point
+		LOG_FATAL(m_pLogger, "UEMFilter::ProcessSingleSpeech() - Neither Ref nor Hyp - do nothing!");
+		// Not defined so... for the moment do nothing
+		exit(0);
 	}
 	
 	// Step 2: removing the unwanted segments
@@ -227,14 +267,192 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 	
 	listSegmentsToRemove.clear();
 	
-	// Step 3: adding the ISG
-	
-	
 	return nbrerr;
 }
 
-unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* pSpeechSet)
+unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string, SpeechSet*> &hypothesis)
 {
-	return 0;
+	/* Generation of the ISGs */
+	if(references->HasInterSegmentGap())
+	{
+		LOG_INFO(m_pLogger, "UEMFilter: Inter Segment Gap detected on the input - Abording addition of ISGs");
+		return 0;
+	}
+	
+	LOG_INFO(m_pLogger, "UEMFilter:  Adding Inter Segment Gaps to refeferences");
+	
+	ulint nbrerr = 0;
+	CTMSTMRTTMSegmentor* pCTMSTMRTTMSegmentor = new CTMSTMRTTMSegmentor();
+	SpeechSet* tmppSpeechSet = new SpeechSet();
+	Speech* ISGspeech = new Speech(references);
+	string file = "";
+	string channel = "";
+	
+	pCTMSTMRTTMSegmentor->Reset(references, tmppSpeechSet);
+	
+	list<int> listTime;
+	
+	int minRef = -1;
+	int maxRef = -1;
+	long int ElmNum = 0;
+	long int LinNum = 0;
+	
+	while (pCTMSTMRTTMSegmentor->HasNext())
+	{
+		SegmentsGroup* pSG = pCTMSTMRTTMSegmentor->Next();
+		int minSG = -1;
+		int maxSG = -1;
+		
+		size_t numRefs = pSG->GetNumberOfReferences();
+		
+		for(size_t i=0; i<numRefs; ++i)
+		{
+			vector<Segment*> vecSeg = pSG->GetReference(i);
+			
+			for(size_t j=0; j<vecSeg.size(); ++j)
+			{
+				if( (minSG == -1) || (vecSeg[j]->GetStartTime() < minSG) )
+					minSG = vecSeg[j]->GetStartTime();
+					
+				if( (maxSG == -1) || (vecSeg[j]->GetEndTime() > maxSG) )
+					maxSG = vecSeg[j]->GetEndTime();
+					
+				file = vecSeg[j]->GetSource();
+				channel = vecSeg[j]->GetChannel();
+				
+				if(vecSeg[j]->GetSourceLineNum() > LinNum)
+					LinNum = vecSeg[j]->GetSourceLineNum();
+					
+				if(vecSeg[j]->GetSourceElementNum() > ElmNum)
+					ElmNum = vecSeg[j]->GetSourceElementNum();
+			}
+		}
+		
+		listTime.push_back(minSG);
+		listTime.push_back(maxSG);
+		
+		if( (minRef == -1) || (minSG < minRef) )
+			minRef = minSG;
+			
+		if( (maxRef == -1) || (maxSG > maxRef) )
+			maxRef = maxSG;
+		
+		if(pSG)
+			delete pSG;
+	}
+	
+	if(m_bUseFile)
+	{
+		list<UEMElement*>* pListUEMElement = new list<UEMElement*>;
+		FindElement(file, channel, pListUEMElement);
+		
+		list<UEMElement*>::iterator  i = pListUEMElement->begin();
+		list<UEMElement*>::iterator ei = pListUEMElement->end();
+		
+		while(i != ei)
+		{
+			UEMElement* pUEMElement = *i;
+			listTime.push_back(pUEMElement->GetStartTime());
+			listTime.push_back(pUEMElement->GetEndTime());					
+			++i;
+		}
+		
+		pListUEMElement->clear();
+		delete pListUEMElement;
+	}
+	else
+	{	
+		map<string, SpeechSet* >::iterator hi  = hypothesis.begin();
+		map<string, SpeechSet* >::iterator hei = hypothesis.end();
+		
+		int minHyp = minRef;
+		int maxHyp = maxRef;
+		
+		while(hi != hei)
+		{
+			SpeechSet* spkset = hi->second;
+			
+			for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
+			{
+				Speech* speh = spkset->GetSpeech(spseti);
+				
+				for(size_t spj=0; spj<speh->NbOfSegments(); ++spj)
+				{
+					vector<Token*> vectok = speh->GetSegment(spj)->ToTopologicalOrderedStruct();
+					
+					for(size_t veci=0; veci<vectok.size(); ++veci)
+					{
+						if(vectok[veci]->GetStartTime() < minHyp)
+							minHyp = vectok[veci]->GetStartTime();
+							
+						if(vectok[veci]->GetEndTime() > maxHyp)
+							maxHyp = vectok[veci]->GetEndTime();
+					}
+						
+					vectok.clear();
+				}
+			}
+			
+			++hi;
+		}
+		
+		listTime.push_back(maxHyp);
+		listTime.push_front(minHyp);
+	}
+	
+	listTime.sort();
+	
+	list<int>::iterator  l = listTime.begin();
+	list<int>::iterator el = listTime.end();
+	
+	while(l != el)
+	{
+		int begintime = (*l);Á
+		
+		++l;
+		
+		if(l == el)
+		{
+			LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - Invalid list of time");
+			exit(-1);
+		}
+		
+		int endtime = (*l);
+		
+		if(begintime != endtime)
+		{
+			Segment* Inter_Segment_Gap = Segment::CreateWithEndTime(begintime, endtime, ISGspeech);
+			
+			++ElmNum;
+			++LinNum;
+			Inter_Segment_Gap->SetSource(file);
+			Inter_Segment_Gap->SetChannel(channel);
+			Inter_Segment_Gap->SetSpeakerId(string("inter_segment_gap"));
+			Inter_Segment_Gap->SetSourceLineNum(ElmNum);
+			Inter_Segment_Gap->SetSourceElementNum(LinNum);
+			
+			size_t nbSeg = ISGspeech->NbOfSegments();
+			
+			ostringstream osstr;
+			osstr << "(Inter_Segment_Gap-";
+			osstr << setw(3) << nouppercase << setfill('0') << nbSeg << ")";
+			Inter_Segment_Gap->SetId(osstr.str());
+						
+			ISGspeech->AddSegment(Inter_Segment_Gap);
+		}
+		
+		++l;
+	}
+		
+	references->AddSpeech(ISGspeech);
+		
+	listTime.clear();
+	
+	if(pCTMSTMRTTMSegmentor)
+		delete pCTMSTMRTTMSegmentor;
+		
+	if(tmppSpeechSet)
+		delete tmppSpeechSet;
+	
+	return nbrerr;
 }
-

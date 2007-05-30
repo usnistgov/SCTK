@@ -149,7 +149,7 @@ class Recording
 		 * A list of all the hypothesis of the Recording.
 		 * More than one group of hypothesis can be done at once.
 		 */
-		map<string, SpeechSet* > hypothesis;
+		map<string, SpeechSet*> hypothesis;
 		/**
 		 * Alignment object
 		 */

@@ -33,13 +33,12 @@ class Filter
 		/**
 		 * Launch the filter on the speech specified
 		 */
-		virtual unsigned long int ProcessSingleSpeech(Speech* speech)=0;
 		
-		bool isProcessSingleSpeech() { return true; }
-				
-		unsigned long int ProcessSpeechSet(SpeechSet* pSpeechSet) { }
+		virtual bool isProcessSingleAllSpeechSet() = 0;
+		virtual unsigned long int ProcessSingleSpeech(Speech* speech) = 0;
+		virtual unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp) = 0;
 		
-		void LoadFile(string filename) { }
+		virtual void LoadFile(string filename) = 0;
 };
 
 #endif // FILTER_H

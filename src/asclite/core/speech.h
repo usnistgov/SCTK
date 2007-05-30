@@ -70,6 +70,9 @@ class Speech
 		SpeechSet* GetParentSpeechSet();
 		/** returns the Speech as a string */
 		string ToString();
+		
+		int GetMinTokensTime();
+		int GetMaxTokensTime();
 	private:
 		Speech();
 		/**

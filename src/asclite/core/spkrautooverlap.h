@@ -29,12 +29,17 @@ class SpkrAutoOverlap : public Checker
 		SpkrAutoOverlap() {}
 		// class destructor
 		~SpkrAutoOverlap() {}
-				
+		
+		bool isProcessSingleAllSpeechSet() { return false; }
+		
 		/**
 		 * Launch the check process on the specified speech.
 		 */
 		unsigned long int ProcessSingleSpeech(Speech* speech);
-	
+		unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp) { return 0; }
+		
+		void LoadFile(string filename) { }
+		
 	private:
         static Logger* logger;
 };

@@ -213,3 +213,33 @@ void Speech::RemoveSegment(Segment* currentSegment)
     // destroy! the segment now
     delete currentSegment;
 }
+
+int Speech::GetMinTokensTime()
+{
+	int MinTime = -1;
+	
+	for(size_t spj=0; spj<NbOfSegments(); ++spj)
+	{
+		int tmpmin = GetSegment(spj)->GetMinTokensTime();
+		
+		if ( (MinTime == -1) || (tmpmin < MinTime) )
+			MinTime = tmpmin;
+	}
+	
+	return MinTime;
+}
+
+int Speech::GetMaxTokensTime()
+{
+	int MaxTime = -1;
+	
+	for(size_t spj=0; spj<NbOfSegments(); ++spj)
+	{
+		int tmpmax = GetSegment(spj)->GetMaxTokensTime();
+		
+		if ( (MaxTime == -1) || (tmpmax > MaxTime) )
+			MaxTime = tmpmax;
+	}
+	
+	return MaxTime;
+}

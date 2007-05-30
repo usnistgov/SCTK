@@ -163,6 +163,9 @@ class Segment : public TimedObject
 		/** Replaces the token with the link list of tokes pointed to by the vectors containing pointers to the start and end tokens **/
 		void ReplaceTokenWith(Token *token, vector<Token*> startTokens, vector<Token*> endTokens);
 		
+		int GetMinTokensTime();
+		int GetMaxTokensTime();
+		
 	protected:	
         /** Checks that start time and duration are valid for this TimedObject. Extension point for subclasses. */
         virtual bool AreStartTimeAndDurationValid(int _startTime, int _duration) { return AreStartTimeAndEndTimeValid(_startTime, _startTime + _duration); }

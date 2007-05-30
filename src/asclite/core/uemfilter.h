@@ -50,17 +50,17 @@ class UEMFilter : public Checker
 		// class destructor
 		~UEMFilter();
 		
-		void        AddUEMElement(UEMElement* _pUEMElement) { m_VectUEMElements.push_back(_pUEMElement); }
-		size_t      GetNumberElement() { m_VectUEMElements.size(); }
-		UEMElement* FindElement(string file, string channel);
+		void    AddUEMElement(UEMElement* _pUEMElement) { m_VectUEMElements.push_back(_pUEMElement); }
+		size_t 	GetNumberElement() { m_VectUEMElements.size(); }
+		void 	FindElement(string file, string channel, list<UEMElement*>* pList);
 		
 		bool isEmpty() { return m_VectUEMElements.empty(); }
 		void LoadFile(string filename);
-		bool HasInterSegmentGaps(Speech* speech);
-		bool isProcessSingleSpeech() { return m_bUseFile; }
 		
 		unsigned long int ProcessSingleSpeech(Speech* speech);
-		unsigned long int ProcessSpeechSet(SpeechSet* pSpeechSet);
+		
+		bool isProcessSingleAllSpeechSet() { return true; }
+		unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp);
 	
 	private:
 		vector<UEMElement*> m_VectUEMElements;

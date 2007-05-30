@@ -64,6 +64,11 @@ class SpeechSet
 		
 		/** Retrieves the name of the file from which this SpeechSet originated. */
 		string GetSourceFileName() { return fileName; }
+		
+		bool HasInterSegmentGap();
+		
+		int GetMinTokensTime();
+		int GetMaxTokensTime();
 	private:
         /**
          * The internal speech collection

@@ -239,8 +239,10 @@ void Recording::Load(string _references, string _refType, vector<string> _hypoth
 		alignments->AddSystem(_hypothesis[i], title_temp);
     }
 	
+	/*
 	if(string("rttm") == _refType)
 		AddInterSegmentGapsToRefs();
+	*/
 }
 
 void Recording::AddInterSegmentGapsToRefs()
@@ -410,23 +412,16 @@ void Recording::Filter(vector<string> _filters)
   
     for (size_t i=0 ; i < _filters.size() ; ++i)
     {
-    	LOG_INFO(logger, "Filtering ==> "+_filters[i]);
+    	LOG_INFO(logger, "Filtering ==> " +_filters[i] + " - pass 1");
     
     	string refhypboth = Properties::GetProperty(_filters[i] + ".option");
     
     	if( (string(refhypboth).compare("ref") == 0) || (string(refhypboth).compare("both") == 0) )
     	{
     		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " references");
-    		
-    		if(filters[_filters[i]]->isProcessSingleSpeech())
-    		{
-				for (size_t j=0 ; j < references->GetNumberOfSpeech() ; ++j)
-					nbErr += filters[_filters[i]]->ProcessSingleSpeech(references->GetSpeech(j));
-            }
-            else
-            {
-            	nbErr += filters[_filters[i]]->ProcessSpeechSet(references);
-            }
+
+			for (size_t j=0 ; j < references->GetNumberOfSpeech() ; ++j)
+				nbErr += filters[_filters[i]]->ProcessSingleSpeech(references->GetSpeech(j));
         }
            	
         if( (string(refhypboth).compare("hyp") == 0) || (string(refhypboth).compare("both") == 0) )
@@ -440,19 +435,23 @@ void Recording::Filter(vector<string> _filters)
 			{
 				SpeechSet* spkset = hi->second;
 				
-				if(filters[_filters[i]]->isProcessSingleSpeech())
-    			{
-					for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
-						nbErr += filters[_filters[i]]->ProcessSingleSpeech(spkset->GetSpeech(spseti));
-				}
-				else
-				{
-					nbErr += filters[_filters[i]]->ProcessSpeechSet(spkset);
-				}
+				for(size_t j = 0; j < spkset->GetNumberOfSpeech(); ++j)
+					nbErr += filters[_filters[i]]->ProcessSingleSpeech(spkset->GetSpeech(j));
 
 				++hi;
 			}
         }
+    }
+    
+    for (size_t i=0 ; i < _filters.size() ; ++i)
+    {
+    	LOG_INFO(logger, "Filtering ==> " +_filters[i] + " - pass 2");
+    
+    	if(filters[_filters[i]]->isProcessSingleAllSpeechSet())
+    	{
+    		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " processing");
+    		nbErr += filters[_filters[i]]->ProcessSpeechSet(references, hypothesis);
+    	}
     }
   
     if (nbErr != 0)

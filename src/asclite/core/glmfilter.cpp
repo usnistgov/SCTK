@@ -26,7 +26,6 @@ Logger* GLMFilter::logger = Logger::getLogger();
  */
 unsigned long int GLMFilter::ProcessSingleSpeech(Speech* speech)
 {
-
 #ifdef STUB
     Segment* segPrec = NULL;
     Segment* segCurr = NULL;

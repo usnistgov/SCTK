@@ -109,3 +109,43 @@ void SpeechSet::SetOrigin(string status)
 	
     UpdatePropertiesIfNeeded(true);
 }
+
+bool SpeechSet::HasInterSegmentGap()
+{
+	for(size_t spseti = 0; spseti < GetNumberOfSpeech(); ++spseti)
+		for(size_t i=0; i<GetSpeech(spseti)->NbOfSegments(); ++i)
+			if(GetSpeech(spseti)->GetSegment(i)->GetSpeakerId().compare(string("inter_segment_gap")) == 0)
+				return true;
+					
+	return false;
+}
+
+int SpeechSet::GetMinTokensTime()
+{
+	int MinTime = -1;
+	
+	for(size_t spseti = 0; spseti < GetNumberOfSpeech(); ++spseti)
+	{
+		int tmpmin = GetSpeech(spseti)->GetMinTokensTime();
+		
+		if ( (MinTime == -1) || (tmpmin < MinTime) )
+			MinTime = tmpmin;
+	}
+	
+	return MinTime;
+}
+
+int SpeechSet::GetMaxTokensTime()
+{
+	int MaxTime = -1;
+	
+	for(size_t spseti = 0; spseti < GetNumberOfSpeech(); ++spseti)
+	{
+		int tmpmax = GetSpeech(spseti)->GetMaxTokensTime();
+		
+		if ( (MaxTime == -1) || (tmpmax > MaxTime) )
+			MaxTime = tmpmax;
+	}
+	
+	return MaxTime;
+}
