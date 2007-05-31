@@ -244,7 +244,7 @@ void Recording::Load(string _references, string _refType, vector<string> _hypoth
 		AddInterSegmentGapsToRefs();
 	*/
 }
-
+/*
 void Recording::AddInterSegmentGapsToRefs()
 {
 	LOG_INFO(logger, "Adding Intersegment Gaps to refs");
@@ -402,7 +402,7 @@ void Recording::AddInterSegmentGapsToRefs()
 	if(tmppSpeechSet)
 		delete tmppSpeechSet;
 }
-
+*/
 /**
 * Filter the references and hypothesis with the availables filters.
  */
@@ -447,7 +447,7 @@ void Recording::Filter(vector<string> _filters)
     {
     	LOG_INFO(logger, "Filtering ==> " +_filters[i] + " - pass 2");
     
-    	if(filters[_filters[i]]->isProcessSingleAllSpeechSet())
+    	if(filters[_filters[i]]->isProcessAllSpeechSet())
     	{
     		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " processing");
     		nbErr += filters[_filters[i]]->ProcessSpeechSet(references, hypothesis);

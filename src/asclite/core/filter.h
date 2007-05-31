@@ -30,11 +30,8 @@ class Filter
 		Filter();
 		// class destructor
 		virtual ~Filter();
-		/**
-		 * Launch the filter on the speech specified
-		 */
 		
-		virtual bool isProcessSingleAllSpeechSet() = 0;
+		virtual bool isProcessAllSpeechSet() = 0;
 		virtual unsigned long int ProcessSingleSpeech(Speech* speech) = 0;
 		virtual unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp) = 0;
 		

@@ -30,11 +30,8 @@ class SpkrAutoOverlap : public Checker
 		// class destructor
 		~SpkrAutoOverlap() {}
 		
-		bool isProcessSingleAllSpeechSet() { return false; }
+		bool isProcessAllSpeechSet() { return false; }
 		
-		/**
-		 * Launch the check process on the specified speech.
-		 */
 		unsigned long int ProcessSingleSpeech(Speech* speech);
 		unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp) { return 0; }
 		

@@ -46,6 +46,7 @@ void PrintHelp()
 	cout << "    -uem <uemfilename> [ ref | hyp | both ]" << endl;
 	cout << "                  Apply the UEM rules." << endl;
 	cout << "                  The default value is 'both'." << endl;
+	cout << "    -noisg        Do not creates the Inter Segment Gaps" << endl;
 	cout << "    -glm <glmfilename> [ ref | hyp | both ]" << endl;
 	cout << "                  Apply the GLM rules." << endl;
 	cout << "                  The default value is 'both'." << endl;
@@ -154,6 +155,8 @@ int main(int argc, char **argv)
     string arg_uemfilename = "";
     string arg_uemoption = "";
     bool arg_buem = false;
+    
+    bool arg_buseISG = true;
     
     string arg_spkrautooverlapoption = "";
     bool arg_bspkrautooverlap = false;
@@ -383,6 +386,12 @@ int main(int argc, char **argv)
 				arg_spkrautooverlapoption = string("both");
 			
 			arg_bspkrautooverlap = true;
+		}
+		else
+		// noisg
+		if(strcmp(argv[arg_index], "-noisg") == 0)
+		{
+			arg_buseISG = false;
 		}
 		else
 		// Utterance
@@ -833,6 +842,8 @@ int main(int argc, char **argv)
 		Properties::SetProperty("align.type", "lev");
 		Properties::SetProperty("score.type", "stt");
         
+        Properties::SetProperty("filter.uem.isg", arg_buseISG ? "true" : "false");
+        
         // Speaker Auto Overlap
         if(arg_bspkrautooverlap)
         {
@@ -842,8 +853,8 @@ int main(int argc, char **argv)
 		}
         
         // UEM
-        // Alway to UEM to create the Inter Segment Gaps
-		arg_filters.push_back("filter.uem");
+        if(arg_buem || arg_buseISG)
+			arg_filters.push_back("filter.uem");
         
         if(arg_buem)
         {

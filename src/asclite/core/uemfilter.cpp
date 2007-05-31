@@ -285,8 +285,6 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 	CTMSTMRTTMSegmentor* pCTMSTMRTTMSegmentor = new CTMSTMRTTMSegmentor();
 	SpeechSet* tmppSpeechSet = new SpeechSet();
 	Speech* ISGspeech = new Speech(references);
-	string file = "";
-	string channel = "";
 	
 	pCTMSTMRTTMSegmentor->Reset(references, tmppSpeechSet);
 	
@@ -302,6 +300,8 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 		SegmentsGroup* pSG = pCTMSTMRTTMSegmentor->Next();
 		int minSG = -1;
 		int maxSG = -1;
+		string file = "";
+		string channel = "";
 		
 		size_t numRefs = pSG->GetNumberOfReferences();
 		
@@ -331,6 +331,8 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 		listTime.push_back(minSG);
 		listTime.push_back(maxSG);
 		
+		cout << "SG: " << file << " " << channel << " " << minSG << " " << maxSG << endl;
+		
 		if( (minRef == -1) || (minSG < minRef) )
 			minRef = minSG;
 			
@@ -340,6 +342,8 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 		if(pSG)
 			delete pSG;
 	}
+	
+	//cout << file << " " << channel << " " << minRef << " " << maxRef << endl;
 	
 	if(m_bUseFile)
 	{
@@ -396,8 +400,8 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 			++hi;
 		}
 		
-		listTime.push_back(maxHyp);
 		listTime.push_front(minHyp);
+		listTime.push_back(maxHyp);
 	}
 	
 	listTime.sort();
@@ -407,7 +411,7 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 	
 	while(l != el)
 	{
-		int begintime = (*l);Á
+		int begintime = (*l);
 		
 		++l;
 		
@@ -455,4 +459,9 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 		delete tmppSpeechSet;
 	
 	return nbrerr;
+}
+
+bool UEMFilter::isProcessAllSpeechSet()
+{ 
+	return (string("true").compare(Properties::GetProperty("filter.uem.isg")) == 0);
 }

@@ -83,7 +83,7 @@ class Recording
          */
         void GenerateReport(vector<string> reportType);
 		
-		void AddInterSegmentGapsToRefs();
+		//void AddInterSegmentGapsToRefs();
         
 	private:
         /**

@@ -19,6 +19,7 @@
 #include "stdinc.h"
 #include "checker.h"
 #include "ctmstmrttm_segmentor.h"
+#include "properties.h"
 #include "logger.h"
 
 class UEMElement
@@ -59,7 +60,7 @@ class UEMFilter : public Checker
 		
 		unsigned long int ProcessSingleSpeech(Speech* speech);
 		
-		bool isProcessSingleAllSpeechSet() { return true; }
+		bool isProcessAllSpeechSet();
 		unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp);
 	
 	private:
