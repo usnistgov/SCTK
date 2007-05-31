@@ -853,18 +853,25 @@ int main(int argc, char **argv)
 		}
         
         // UEM
-        if(arg_buem || arg_buseISG)
-			arg_filters.push_back("filter.uem");
-        
-        if(arg_buem)
+        if(reffile.fileformat == "trn")
         {
-            Properties::SetProperty("filter.uem", "true");
-            Properties::SetProperty("filter.uem.option", arg_glmoption);
-            Properties::SetProperty("filter.uem.arg_uemfilename", arg_glmfilename);
+        	LOG_INFO(logger, "TRN file forces UEM and ISG to none!");
+        	Properties::SetProperty("filter.uem.isg", "false");
         }
         else
-            Properties::SetProperty("filter.uem", "false");
-        
+        {
+			if(arg_buem || arg_buseISG)
+				arg_filters.push_back("filter.uem");
+			
+			if(arg_buem)
+			{
+				Properties::SetProperty("filter.uem", "true");
+				Properties::SetProperty("filter.uem.option", arg_glmoption);
+				Properties::SetProperty("filter.uem.arg_uemfilename", arg_glmfilename);
+			}
+			else
+				Properties::SetProperty("filter.uem", "false");
+        }
         //GLM
         if(arg_bglm)
         {

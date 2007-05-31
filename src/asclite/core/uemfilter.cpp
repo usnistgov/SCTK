@@ -279,7 +279,7 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 		return 0;
 	}
 	
-	LOG_INFO(m_pLogger, "UEMFilter:  Adding Inter Segment Gaps to refeferences");
+	LOG_INFO(m_pLogger, "UEMFilter:  Adding Inter Segment Gaps to references");
 	
 	ulint nbrerr = 0;
 	CTMSTMRTTMSegmentor* pCTMSTMRTTMSegmentor = new CTMSTMRTTMSegmentor();
@@ -288,10 +288,13 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 	
 	pCTMSTMRTTMSegmentor->Reset(references, tmppSpeechSet);
 	
-	list<int> listTime;
+	map<string, map<string, list<int> > > mapListTime;
+	map<string, map<string, int > > mapMinRefTime;
+	map<string, map<string, int > > mapMaxRefTime;
+	map<string, map<string, int > > mapMinHypTime;
+	map<string, map<string, int > > mapMaxHypTime;
+	map<string, map<string, list<int> > > mapListSGborder;
 	
-	int minRef = -1;
-	int maxRef = -1;
 	long int ElmNum = 0;
 	long int LinNum = 0;
 	
@@ -328,49 +331,70 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 			}
 		}
 		
-		listTime.push_back(minSG);
-		listTime.push_back(maxSG);
+		mapListTime[file][channel].push_back(minSG);
+		mapListTime[file][channel].push_back(maxSG);
+		mapListSGborder[file][channel].push_back(minSG);
+		//mapListSGborder[file][channel].push_back(maxSG);
 		
-		cout << "SG: " << file << " " << channel << " " << minSG << " " << maxSG << endl;
+		char bufferSG[BUFFER_SIZE];
+		sprintf(bufferSG, "UEMFilter::ProcessSpeechSet() - SG %ld time for '%s/%s' with times: %d %d", pSG->GetsID(), file.c_str(), channel.c_str(), minSG, maxSG);
+		LOG_DEBUG(m_pLogger, bufferSG);
 		
-		if( (minRef == -1) || (minSG < minRef) )
-			minRef = minSG;
-			
-		if( (maxRef == -1) || (maxSG > maxRef) )
-			maxRef = maxSG;
+		// Min and max used only when the UEM are defined
+		if( mapMinRefTime.find(file) == mapMinRefTime.end())
+		{
+			// no file defined
+			mapMinRefTime[file][channel] = minSG;
+			mapMaxRefTime[file][channel] = maxSG;
+		}
+		else if( mapMinRefTime[file].find(channel) == mapMinRefTime[file].end() )
+		{
+			// file defined by no chennel defined
+			mapMinRefTime[file][channel] = minSG;
+			mapMaxRefTime[file][channel] = maxSG;
+		}
+		else
+		{
+			// file and channel defined
+			if(minSG < mapMinRefTime[file][channel])
+				mapMinRefTime[file][channel] = minSG;
+				
+			if(maxSG > mapMaxRefTime[file][channel])
+				mapMaxRefTime[file][channel] = maxSG;
+		}
+		
+		mapMinHypTime[file][channel] = mapMinRefTime[file][channel];
+		mapMaxHypTime[file][channel] = mapMaxRefTime[file][channel];
+		
+		char bufferISG[BUFFER_SIZE];
+		sprintf(bufferISG, "UEMFilter::ProcessSpeechSet() - Border SG time for '%s/%s' with times: %d %d", file.c_str(), channel.c_str(), mapMinRefTime[file][channel], mapMaxRefTime[file][channel]);
+		LOG_DEBUG(m_pLogger, bufferISG);
 		
 		if(pSG)
 			delete pSG;
 	}
-	
-	//cout << file << " " << channel << " " << minRef << " " << maxRef << endl;
-	
+		
 	if(m_bUseFile)
+	// UEM file defined
 	{
-		list<UEMElement*>* pListUEMElement = new list<UEMElement*>;
-		FindElement(file, channel, pListUEMElement);
-		
-		list<UEMElement*>::iterator  i = pListUEMElement->begin();
-		list<UEMElement*>::iterator ei = pListUEMElement->end();
-		
-		while(i != ei)
+		for(size_t i=0; i<m_VectUEMElements.size(); ++i)
 		{
-			UEMElement* pUEMElement = *i;
-			listTime.push_back(pUEMElement->GetStartTime());
-			listTime.push_back(pUEMElement->GetEndTime());					
-			++i;
+			string file = m_VectUEMElements[i]->GetFile();
+			string channel = m_VectUEMElements[i]->GetChannel();
+			
+			if( mapListTime.find(file) != mapListTime.end() )
+				if( mapListTime[file].find(channel) != mapListTime[file].end() )
+				{
+					mapListTime[file][channel].push_back(m_VectUEMElements[i]->GetStartTime());
+					mapListTime[file][channel].push_back(m_VectUEMElements[i]->GetEndTime());
+				}
 		}
-		
-		pListUEMElement->clear();
-		delete pListUEMElement;
 	}
 	else
+	// no UEM file, will use the hyps
 	{	
 		map<string, SpeechSet* >::iterator hi  = hypothesis.begin();
 		map<string, SpeechSet* >::iterator hei = hypothesis.end();
-		
-		int minHyp = minRef;
-		int maxHyp = maxRef;
 		
 		while(hi != hei)
 		{
@@ -382,15 +406,42 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 				
 				for(size_t spj=0; spj<speh->NbOfSegments(); ++spj)
 				{
+					string file = speh->GetSegment(spj)->GetSource();
+					string channel = speh->GetSegment(spj)->GetChannel();
+					
+					/* checks */
+					if( mapMinHypTime.find(file) == mapMinHypTime.end() )
+					{
+						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMinHypTime file '"+file+"' not defined");
+						exit(0);
+					}
+					else if( mapMinHypTime[file].find(channel) == mapMinHypTime[file].end() )
+					{
+						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMinHypTime '"+file+"' channel '"+channel+"' not defined");
+						exit(0);
+					}
+					
+					if( mapMaxHypTime.find(file) == mapMaxHypTime.end() )
+					{
+						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMaxHypTime file '"+file+"' not defined");
+						exit(0);
+					}
+					else if( mapMaxHypTime[file].find(channel) == mapMaxHypTime[file].end() )
+					{
+						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMaxHypTime '"+file+"' channel'"+channel+"' not defined");
+						exit(0);
+					}
+					/* end checks */
+					
 					vector<Token*> vectok = speh->GetSegment(spj)->ToTopologicalOrderedStruct();
 					
 					for(size_t veci=0; veci<vectok.size(); ++veci)
 					{
-						if(vectok[veci]->GetStartTime() < minHyp)
-							minHyp = vectok[veci]->GetStartTime();
+						if(vectok[veci]->GetStartTime() < mapMinHypTime[file][channel])
+							mapMinHypTime[file][channel] = vectok[veci]->GetStartTime();
 							
-						if(vectok[veci]->GetEndTime() > maxHyp)
-							maxHyp = vectok[veci]->GetEndTime();
+						if(vectok[veci]->GetEndTime() > mapMaxHypTime[file][channel])
+							mapMaxHypTime[file][channel] = vectok[veci]->GetEndTime();
 					}
 						
 					vectok.clear();
@@ -400,57 +451,120 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 			++hi;
 		}
 		
-		listTime.push_front(minHyp);
-		listTime.push_back(maxHyp);
+		hi  = hypothesis.begin();
+		
+		while(hi != hei)
+		{
+			SpeechSet* spkset = hi->second;
+			
+			for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
+			{
+				Speech* speh = spkset->GetSpeech(spseti);
+				
+				for(size_t spj=0; spj<speh->NbOfSegments(); ++spj)
+				{
+					string file = speh->GetSegment(spj)->GetSource();
+					string channel = speh->GetSegment(spj)->GetChannel();
+					
+					mapListTime[file][channel].push_front(mapMinHypTime[file][channel]);
+					mapListTime[file][channel].push_back(mapMaxHypTime[file][channel]);
+				}
+			}
+			
+			++hi;
+		}
 	}
 	
-	listTime.sort();
+	// Sorting the times regarding file and channel
+	map<string, map<string, list<int> > >::iterator mmi = mapListTime.begin();
+	map<string, map<string, list<int> > >::iterator mme = mapListTime.end();
 	
-	list<int>::iterator  l = listTime.begin();
-	list<int>::iterator el = listTime.end();
-	
-	while(l != el)
+	while(mmi != mme)
 	{
-		int begintime = (*l);
+		string file = mmi->first;
+	
+		map<string, list<int> >::iterator mi = mmi->second.begin();
+		map<string, list<int> >::iterator me = mmi->second.end();
 		
-		++l;
-		
-		if(l == el)
+		while(mi != me)
 		{
-			LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - Invalid list of time");
-			exit(-1);
-		}
-		
-		int endtime = (*l);
-		
-		if(begintime != endtime)
-		{
-			Segment* Inter_Segment_Gap = Segment::CreateWithEndTime(begintime, endtime, ISGspeech);
+			string channel = mi->first;
+			mi->second.sort();
 			
-			++ElmNum;
-			++LinNum;
-			Inter_Segment_Gap->SetSource(file);
-			Inter_Segment_Gap->SetChannel(channel);
-			Inter_Segment_Gap->SetSpeakerId(string("inter_segment_gap"));
-			Inter_Segment_Gap->SetSourceLineNum(ElmNum);
-			Inter_Segment_Gap->SetSourceElementNum(LinNum);
+			list<int>::iterator  l = mi->second.begin();
+			list<int>::iterator el = mi->second.end();
 			
-			size_t nbSeg = ISGspeech->NbOfSegments();
-			
-			ostringstream osstr;
-			osstr << "(Inter_Segment_Gap-";
-			osstr << setw(3) << nouppercase << setfill('0') << nbSeg << ")";
-			Inter_Segment_Gap->SetId(osstr.str());
+			while(l != el)
+			{
+				int begintime = (*l);
+				
+				++l;
+				
+				if(find(mapListSGborder[file][channel].begin(), mapListSGborder[file][channel].end(), begintime) == mapListSGborder[file][channel].end())
+				{
+					// the time is not a begining of Segment group, so it's a time from Hyp or UEM
+					// ISG can be created
+					if(l == el)
+					{
+						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - Invalid list of time");
+						exit(-1);
+					}
+					
+					int endtime = (*l);
+					
+					if(begintime != endtime)
+					{
+						Segment* Inter_Segment_Gap = Segment::CreateWithEndTime(begintime, endtime, ISGspeech);
 						
-			ISGspeech->AddSegment(Inter_Segment_Gap);
+						++ElmNum;
+						++LinNum;
+						Inter_Segment_Gap->SetSource(file);
+						Inter_Segment_Gap->SetChannel(channel);
+						Inter_Segment_Gap->SetSpeakerId(string("inter_segment_gap"));
+						Inter_Segment_Gap->SetSourceLineNum(ElmNum);
+						Inter_Segment_Gap->SetSourceElementNum(LinNum);
+						
+						size_t nbSeg = ISGspeech->NbOfSegments();
+						
+						ostringstream osstr;
+						osstr << "(Inter_Segment_Gap-";
+						osstr << setw(3) << nouppercase << setfill('0') << nbSeg << ")";
+						Inter_Segment_Gap->SetId(osstr.str());
+									
+						ISGspeech->AddSegment(Inter_Segment_Gap);
+						
+						char bufferISG[BUFFER_SIZE];
+						sprintf(bufferISG, "UEMFilter::ProcessSpeechSet() - Adding ISG for '%s/%s' with times: %d %d", file.c_str(), channel.c_str(), begintime, endtime);
+						LOG_DEBUG(m_pLogger, bufferISG);
+					}
+				}
+
+				++l;
+			}
+
+			mi->second.clear();
+			++mi;
 		}
+	
+		mmi->second.clear();
 		
-		++l;
+		mapMinRefTime[file].clear();
+		mapMaxRefTime[file].clear();
+		mapMinHypTime[file].clear();
+		mapMaxHypTime[file].clear();
+		mapListSGborder[file].clear();
+		
+		++mmi;
 	}
-		
+	
+	mapMinRefTime.clear();
+	mapMaxRefTime.clear();
+	mapMinHypTime.clear();
+	mapMaxHypTime.clear();
+	mapListSGborder.clear();
+	mapListTime.clear();
+	
 	references->AddSpeech(ISGspeech);
-		
-	listTime.clear();
 	
 	if(pCTMSTMRTTMSegmentor)
 		delete pCTMSTMRTTMSegmentor;
