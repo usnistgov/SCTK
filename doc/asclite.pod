@@ -42,7 +42,31 @@ Set the utterance id type (for trn mode only)
 
 =back
 
-=item B<Alignment Options>
+=item B<Filter Options:>
+
+=over
+
+=item B<-spkrautooverlap [ ref | hyp | both ]>
+
+Check if the speakers are self-overlaping or not.
+
+=item B<-uem <uemfilename> [ ref | hyp | both ]>
+
+Apply the UEM rules.
+The default value is 'both'.
+
+=item B<-noisg>
+
+Do not creates the Inter Segment Gaps.
+
+=item B<-glm <glmfilename> [ ref | hyp | both ]>
+
+Apply the GLM rules.
+The default value is 'both'.
+
+=back
+
+=item B<Alignment Options:>
 
 =over
 

@@ -46,7 +46,7 @@ void PrintHelp()
 	cout << "    -uem <uemfilename> [ ref | hyp | both ]" << endl;
 	cout << "                  Apply the UEM rules." << endl;
 	cout << "                  The default value is 'both'." << endl;
-	cout << "    -noisg        Do not creates the Inter Segment Gaps" << endl;
+	cout << "    -noisg        Do not creates the Inter Segment Gaps." << endl;
 	cout << "    -glm <glmfilename> [ ref | hyp | both ]" << endl;
 	cout << "                  Apply the GLM rules." << endl;
 	cout << "                  The default value is 'both'." << endl;

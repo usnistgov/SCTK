@@ -500,16 +500,16 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 				
 				++l;
 				
+				if(l == el)
+				{
+					LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - Invalid list of time");
+					exit(-1);
+				}
+				
 				if(find(mapListSGborder[file][channel].begin(), mapListSGborder[file][channel].end(), begintime) == mapListSGborder[file][channel].end())
 				{
 					// the time is not a begining of Segment group, so it's a time from Hyp or UEM
 					// ISG can be created
-					if(l == el)
-					{
-						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - Invalid list of time");
-						exit(-1);
-					}
-					
 					int endtime = (*l);
 					
 					if(begintime != endtime)
