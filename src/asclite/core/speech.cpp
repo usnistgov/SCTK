@@ -141,7 +141,7 @@ void Speech::RemoveSegment(Segment* currentSegment)
 {	
 	list<Token*> listPreviousTokenofFirstToken;
 	list<Token*> listNextTokenofLastToken;
-	
+		
 	// Remove links from the previous tokens of the first tokens of the segment
 	for(size_t f=0; f<currentSegment->GetNumberOfFirstToken(); ++f)
 	{
@@ -165,7 +165,7 @@ void Speech::RemoveSegment(Segment* currentSegment)
 		
 		if(lastToken)
 		{
-			for(size_t n=0; n<lastToken->GetNbOfPrecTokens(); ++n)
+			for(size_t n=0; n<lastToken->GetNbOfNextTokens(); ++n)
 			{
 				Token* nextTokenofLastToken = lastToken->GetNextToken(n);
 				listNextTokenofLastToken.push_back(nextTokenofLastToken);
@@ -173,7 +173,7 @@ void Speech::RemoveSegment(Segment* currentSegment)
 			}
 		}
 	}
-	
+		
 	// Re-attach the tokens
 	list<Token*>::iterator prev  = listPreviousTokenofFirstToken.begin();
 	list<Token*>::iterator eprev = listPreviousTokenofFirstToken.end();
@@ -195,7 +195,7 @@ void Speech::RemoveSegment(Segment* currentSegment)
     
     listPreviousTokenofFirstToken.clear();
     listNextTokenofLastToken.clear();
-    
+  	  	  
     // Remove Segment from vector
     vector<Segment*>::iterator SegIter = m_segments.begin();
     	

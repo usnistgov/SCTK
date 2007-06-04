@@ -415,7 +415,7 @@ void Recording::Filter(vector<string> _filters)
     	LOG_INFO(logger, "Filtering ==> " +_filters[i] + " - pass 1");
     
     	string refhypboth = Properties::GetProperty(_filters[i] + ".option");
-    
+    	    
     	if( (string(refhypboth).compare("ref") == 0) || (string(refhypboth).compare("both") == 0) )
     	{
     		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " references");

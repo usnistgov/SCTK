@@ -866,8 +866,8 @@ int main(int argc, char **argv)
 			if(arg_buem)
 			{
 				Properties::SetProperty("filter.uem", "true");
-				Properties::SetProperty("filter.uem.option", arg_glmoption);
-				Properties::SetProperty("filter.uem.arg_uemfilename", arg_glmfilename);
+				Properties::SetProperty("filter.uem.option", arg_uemoption);
+				Properties::SetProperty("filter.uem.arg_uemfilename", arg_uemfilename);
 			}
 			else
 				Properties::SetProperty("filter.uem", "false");

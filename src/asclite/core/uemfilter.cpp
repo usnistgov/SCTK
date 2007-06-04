@@ -41,7 +41,7 @@ void UEMFilter::FindElement(string file, string channel, list<UEMElement*>* pLis
 
 	for(size_t i=0; i<m_VectUEMElements.size(); ++i)
 		if(m_VectUEMElements[i])
-			if( (file.find(m_VectUEMElements[i]->GetFile(), 0) != 0) && (channel.compare(m_VectUEMElements[i]->GetChannel()) == 0) )
+			if( (file.find(m_VectUEMElements[i]->GetFile(), 0) == 0) && (channel.compare(m_VectUEMElements[i]->GetChannel()) == 0) )
 				pList->push_back(m_VectUEMElements[i]);
 }
 
@@ -175,29 +175,53 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 				list<UEMElement*>::iterator ei = pListUEMElement->end();
 				bool keep = false;
 				
-				while( (i != ei) || (!keep) )
+				while(i != ei)
 				{
 					UEMElement* pUEMElement = *i;
 					int uemStartTime = pUEMElement->GetStartTime();
 					int uemEndTime = pUEMElement->GetEndTime();
-					keep = ( (uemStartTime <= segStartTime) && (segEndTime <= uemEndTime) );
 					
+					keep = ( (uemStartTime <= segStartTime) && (segEndTime <= uemEndTime) );
+					// [     {      }     ]
+					// us    ss     se    ue
+										
 					if(!keep)
 					{
-						if( (segStartTime < uemStartTime) && (uemEndTime < segEndTime) ||
-							(uemStartTime < segStartTime) && (uemEndTime < segEndTime) ||
-							(segStartTime < uemStartTime) && (segEndTime < uemEndTime) )
+						// 1
+						// {     [      }     ]
+						// ss    us     se    ue
+					
+						// 2
+						// {     [      ]     }
+						// ss    us     ue    se
+						
+						// 3
+						// [     {      ]     }
+						// us    ss     ue    se
+						
+						if( /*1*/( (segStartTime < uemStartTime) && (uemStartTime < segEndTime) && (segEndTime < uemEndTime) ) ||
+							/*2*/( (segStartTime < uemStartTime) && (uemStartTime < uemEndTime) && (uemEndTime < segEndTime) ) ||
+							/*3*/( (uemStartTime < segStartTime) && (segStartTime < uemEndTime) && (uemEndTime < segEndTime) ) )
 						{
 							++nbrerr;
-							LOG_ERR(m_pLogger, "UEMFilter - " + segFile + "/" + segChannel + " has an unproper time regarding the UEM file.");
+							char bufferUEM1[BUFFER_SIZE];
+							sprintf(bufferUEM1, "UEMFilter - Segment in '%s/%s' has an unproper time [%d, %d] regarding the UEM file with times: (%s/%s) [%d, %d]", segFile.c_str(), segChannel.c_str(), segStartTime, segEndTime,  pUEMElement->GetFile().c_str(), pUEMElement->GetChannel().c_str(), uemStartTime, uemEndTime);
+							LOG_DEBUG(m_pLogger, bufferUEM1);
 						}
+						
+						++i;
 					}
-					
-					++i;
+					else
+					{
+						i = ei;
+					}
 				}
 				
 				if(!keep)
 				{
+					char bufferUEM2[BUFFER_SIZE];
+					sprintf(bufferUEM2, "UEMFilter - Removing segment in '%s/%s' with times [%d, %d] regarding the UEM file rules", segFile.c_str(), segChannel.c_str(), segStartTime, segEndTime);
+					LOG_DEBUG(m_pLogger, bufferUEM2);
 					listSegmentsToRemove.push_back(pSegment);
 				}
 			}
@@ -229,17 +253,24 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 				list<UEMElement*>::iterator ei = pListUEMElement->end();
 				bool keep = false;
 				
-				while( (i != ei) || (!keep) )
+				while(i != ei)
 				{
 					UEMElement* pUEMElement = *i;
 					int uemStartTime = pUEMElement->GetStartTime();
 					int uemEndTime = pUEMElement->GetEndTime();
-					keep = ( (uemStartTime <= segMidPoint) && (segMidPoint <= uemEndTime) );					
-					++i;
+					keep = ( (uemStartTime <= segMidPoint) && (segMidPoint <= uemEndTime) );
+					
+					if(!keep)
+						++i;
+					else			
+						i = ei;
 				}
 				
 				if(!keep)
 				{
+					char bufferUEM3[BUFFER_SIZE];
+					sprintf(bufferUEM3, "UEMFilter - Removing segment in '%s/%s' with times [%d, %d] (mid: %d) regarding the UEM file rules", segFile.c_str(), segChannel.c_str(), pSegment->GetStartTime(), pSegment->GetEndTime(), segMidPoint);
+					LOG_DEBUG(m_pLogger, bufferUEM3);
 					listSegmentsToRemove.push_back(pSegment);
 				}
 			}

@@ -64,6 +64,16 @@ if ($suite =~ /^(mdm04|all|notpassed)$/)
     RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-noisg -F -D -overlap-limit 2 -force-memory-compression", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2");
 }
 
+if ($suite =~ /^(uem|isg|all|notpassed)$/)
+{
+    RunAscliteTest("isg-0"     , "-F -D",                    "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-0");
+    RunAscliteTest("isg-1"     , "-F -D -uem isg1.uem ref" , "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-1");
+    RunAscliteTest("isg-2"     , "-F -D -uem isg2.uem ref" , "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-2");
+    RunAscliteTest("isg-3"     , "-F -D -uem isg3.uem ref" , "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-3");
+    RunAscliteTest("isg-4-ref" , "-F -D -uem isg4.uem ref" , "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-4-ref");
+    RunAscliteTest("isg-4-both", "-F -D -uem isg4.uem both", "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-4-both");
+}
+
 if ($suite =~ /^(sastt|all|notpassed)$/)
 {
     RunAscliteTest("sastt-1", "-F -D -spkr-align sastt.map.csv", "-r sastt.ref.rttm rttm", "-h sastt.sys.rttm rttm sastt-1");

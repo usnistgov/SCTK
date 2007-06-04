@@ -28,3 +28,4 @@ check: all checkFast
 	(cd testfiles; perl ascliteTest.pl)
 	(cd testfiles; perl ascliteTest.pl -s mdm04)
 	(cd testfiles; perl ascliteTest.pl -s sastt)
+	(cd testfiles; perl ascliteTest.pl -s uem)
