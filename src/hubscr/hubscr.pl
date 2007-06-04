@@ -53,9 +53,11 @@ use strict;
 # Version 0.18 April 30, 2007
 #    - Added the forced compression for asclite (JA)
 #    - Added the block size for asclite (JA)
+# Version 0.19 June 4, 2007
+#    - Added check of speaker auto-overlap in asclite options (JA)
 # 
 
-my $Version = "0.18"; 
+my $Version = "0.19"; 
 my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o numSpkr ] [ -m GB_Max_Memory[:GB_Max_Difficulty] ] [ -f FORMAT ] [ -a -C -B blocksize ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
 "Version: $Version\n".
 "Desc: Score a Hub-4E/NE or Hub-5E/NE evaluation using the established\n".
@@ -643,7 +645,7 @@ sub RunScoring
         my $OptionMemoryLimit = "-memory-limit $MemoryLimit";
         $OptionMemoryLimit .= " -difficulty-limit $DifficultyLimit" if($DifficultyLimit >= 0);
                 
-        $command = "$ASCLITE -f 6 $spkrOpt $overlapscoring -adaptive-cost -time-prune 100 -word-time-align 100 $ASCLITE_FORCE_COMPRESSION -memory-compression $asclite_blocksize $OptionMemoryLimit -r $reff $reffileformat -h $hyp_oname $hypfileformat $hyp_iname -F -D -o sgml sum rsum 2> $hyp_oname.aligninfo.csv";
+        $command = "$ASCLITE -f 6 $spkrOpt $overlapscoring -adaptive-cost -time-prune 100 -word-time-align 100 $ASCLITE_FORCE_COMPRESSION -memory-compression $asclite_blocksize $OptionMemoryLimit -r $reff $reffileformat -h $hyp_oname $hypfileformat $hyp_iname -F -D -spkrautooverlap ref -o sgml sum rsum 2> $hyp_oname.aligninfo.csv";
 	print "   Exec: $command\n" if ($Vb);
 	$rtn = system($command);
 	die("Error: ASCLITE execution failed\n      Command: $command") if ($rtn != 0);

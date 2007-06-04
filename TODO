@@ -13,7 +13,7 @@ High Priority:
 [-] update docs
     [ ] acomp
     [x] align2html
-    [x] ascli¡te
+    [x] asclite
     [ ] chfilt
     [ ] csrfilt
     [ ] def_art
@@ -33,10 +33,10 @@ High Priority:
     [ ] utf_filt
 
 Medium Priority:
-[ ] use UEMs in asclite
-    - empty channel (ihm)
-    - prefilter
-    - inter segment gaps
+[-] use UEMs in asclite
+    [ ] empty channel (ihm)
+    [x] prefilter
+    [x] inter segment gaps
 [ ] time-based alignments
 [ ] alignment visualization program
 [ ] add SASTT cookbook to docs
