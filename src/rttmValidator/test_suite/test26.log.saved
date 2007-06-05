@@ -1,0 +1,4 @@
+../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:20
+command line:  ../src/RTTMValidator-v04.pl (version v04) -i test26.rttm
+ERROR: EDIT (3.820, 4.21) doesn't have any IP at 4.21; see line 17
+Validation aborted

@@ -1,0 +1,4 @@
+../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:18
+command line:  ../src/RTTMValidator-v04.pl (version v04) -i test15.rttm
+ERROR: Speaker 1 has LEXEMEs ending at 1.06 and starting at 0.870; LEXEMEs overlap; see line 9
+Validation aborted
