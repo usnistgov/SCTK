@@ -33,6 +33,12 @@
 #
 #   v09: NON-LEX and NON-SPEECH subtypes had a case sensitive match but
 #        should have been case insensitive.
+#  
+#   v10: use NONLEX and NONSPEECH instead.
+#        Added -f to skip file name to file field check
+#        Added info to error reports for invalid elements
+#        Extended the LEXEME text matches to extended ASCII
+#
 ########################################################
 
 use strict;
@@ -41,7 +47,7 @@ use Data::Dumper;
 
 my $debug = 0;
 
-my $VERSION = "v09";
+my $VERSION = "v10";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -51,13 +57,16 @@ my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "  -u            : disable check that ensures all LEXEMEs belong to some SU object\n".
     "  -s            : disable check that ensures all LEXEMEs belong to some SPEAKER object\n".
     "  -e            : disable check that ensure there is an IP for each EDIT and each FILLER object\n".
-    "  -h            : print this help message\n".
+    "  -f            : disable check that ensures the file columc matches the filename\n".
+  "  -h            : print this help message\n".
     "Input:\n".
     "  -i <RTTM file>: an RTTM file\n\n";
 
 my $NUM_FIELDS = 9; # count from 1
 
 my $ROUNDING_THRESHOLD = 0.000999999;
+
+my $checkFileName = 1;   ### Check the filename against the file column
 
 my %SORT_ORDER = ("NOSCORE"         =>  0,
 		  "NO_RT_METADATA"  =>  1,
@@ -69,8 +78,8 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
 		  "IP"              =>  7,
 		  "EDIT"            =>  8,
 		  "FILLER"          =>  9,
-		  "NON-SPEECH"      => 10,
-		  "NON-LEX"         => 11,
+		  "NONSPEECH"      => 10,
+		  "NONLEX"         => 11,
 		  "LEXEME"          => 12,
 		  "SPKR-INFO"       => 13);
 
@@ -82,14 +91,15 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     my ($date, $time) = date_time_stamp();
     my $commandline = join(" ", @ARGV);
 
-    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h);
-    getopts('i:usevh');
+    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h $opt_f);
+    getopts('i:usevhf');
     die ("$USAGE") if ($opt_h) || (! $opt_i);
 
     my @mde_types = ();
     push (@mde_types, "SU") if ! $opt_u;
     push (@mde_types, "SPEAKER") if ! $opt_s;
     push (@mde_types, "EDIT") if ! $opt_e;
+    $checkFileName = ! $opt_f if $opt_f;
 
     print "$0 (version $VERSION) run on $date at $time\n";
     print "command line:  ", $0, " (version ", $VERSION, ") ", $commandline, "\n";
@@ -204,8 +214,8 @@ sub check_syntax_errors {
 
 			    # make sure the type field is a valid RTTM type
 			    #
-			    if ($obj->{TYPE} !~ /^(SEGMENT|NOSCORE|NO_RT_METADATA|LEXEME|NON-LEX|NON-SPEECH|FILLER|EDIT|SU|IP|CB|A\/P|SPEAKER|SPKR-INFO)$/i) {
-				print "ERROR: Invalid RTTM type; see field (0) in $obj->{LOC}\n";
+			    if ($obj->{TYPE} !~ /^(SEGMENT|NOSCORE|NO_RT_METADATA|LEXEME|NONLEX|NONSPEECH|FILLER|EDIT|SU|IP|CB|A\/P|SPEAKER|SPKR-INFO)$/i) {
+				print "ERROR: Invalid RTTM type '$obj->{TYPE}'; see field (0) in $obj->{LOC}\n";
 				$pass = 0;
 			    }
 			    
@@ -213,8 +223,8 @@ sub check_syntax_errors {
 			    # This won't work if people concat all the files into one.
 			    # Make it a warning instead
 			    #
-			    if ($obj->{SRC} !~ /^$file$/i) {
-				print "WARNING: Source field doesn't match the input file's base filename; see field (2) in $obj->{LOC}\n";
+			    if ($checkFileName && $obj->{SRC} !~ /^$file$/i) {
+				print "WARNING: Source field '$obj->{SRC}' doesn't match the input file's base filename '$file'; see field (2) in $obj->{LOC}\n";
 			    }
 			    
 			    # make sure the channel ID has a value of 1 or 2 but 1 for BN data
@@ -302,20 +312,20 @@ sub check_syntax_errors {
 				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
-				if ($obj->{STYPE} =~ /alpha/i && $obj->{ORTHO} !~ /^([A-Z]\.|[A-Z]\.\'*s|<NA>)$/i) {
-				    print "ERROR: Invalid orthography for alpha $obj->{TYPE}; see field (6) in $obj->{LOC}\n";
+				if ($obj->{STYPE} =~ /alpha/i && $obj->{ORTHO} !~ /^([A-Z]\.|[A-Z]\.\'*s|[\x80-\xff]{2}\.|<NA>)$/i) {
+				    print "ERROR: Invalid orthography for alpha $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
 				    $pass = 0;
 			        } 
-                                if ($obj->{ORTHO} !~ /^([\[\]A-Z\.\-\']+|<NA>)$/i) {
-		                    print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) in $obj->{LOC}\n";
+                                if ($obj->{ORTHO} !~ /^([\[\]A-Z\.\-\'\x80-\xff]+|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
+		                    print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
 				}
-			    } elsif ($obj->{TYPE} =~ /NON-LEX/i) {
+			    } elsif ($obj->{TYPE} =~ /NONLEX/i) {
 				#### fix lipsmack!!!!
 				if ($obj->{STYPE} !~ /^(laugh|breath|lipsmack|cough|sneeze|other)$/i) {
 				    print "ERROR: Invalid $obj->{TYPE} subtype $obj->{STYPE}; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
-			    } elsif ($obj->{TYPE} =~ /NON-SPEECH/i) {
+			    } elsif ($obj->{TYPE} =~ /NONSPEECH/i) {
 				if ($obj->{STYPE} !~ /^(noise|music|other)$/i) {
 				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
@@ -367,7 +377,7 @@ sub check_syntax_errors {
 			    # make sure that the speaker id field for certain types match the speaker id
 			    # given in the SPKR-INFO object
 			    #
-			    if ($type !~ /(SPKR-INFO|NOSCORE|NON-SPEECH)/i && ! find_speaker($obj->{SPKR}, $data)) {
+			    if ($type !~ /(SPKR-INFO|NOSCORE|NONSPEECH)/i && ! find_speaker($obj->{SPKR}, $data)) {
 				print "ERROR: Speaker $obj->{SPKR} doesn't match any of the speaker IDs in SPKR-INFO objects; see $obj->{LOC}\n";
 				$pass = 0;
 			    }
@@ -527,7 +537,7 @@ sub check_partial_word_coverage {
 
 sub check_noscore_overlap {
     # check if a metadata object of type
-    # SU, EDIT, FILLER, SPEAKER, LEXEME, NON-LEX, NON-SPEECH
+    # SU, EDIT, FILLER, SPEAKER, LEXEME, NONLEX, NONSPEECH
     # partially overlap with noscore regions
     #
     my ($data) = @_;
@@ -539,7 +549,7 @@ sub check_noscore_overlap {
 	    next if (! defined ($data->{$src}{$chnl}{"<NA>"}{NOSCORE}));
 	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
 		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
-		    if ($type =~ /(SU|EDIT|FILLER|SPEAKER|LEXEME|NON-LEX|NON-SPEECH)/i) {
+		    if ($type =~ /(SU|EDIT|FILLER|SPEAKER|LEXEME|NONLEX|NONSPEECH)/i) {
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			    if (find_partial_coverage($data->{$src}{$chnl}{"<NA>"}{NOSCORE}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
 				print "ERROR: Speaker $spkr has $type partially overlapping with NOSCORE tag at $obj->{TBEG}; see $obj->{LOC}\n";
