@@ -20,6 +20,9 @@
 #   v04: Checked to make sure no MDE annotation partially overlap
 #        NOSCORE tags (complete overlap is ok).
 #
+#   v05: Corrected the file name check for the source field.  It bombed if 
+#        there was another '.' in the filename.
+#
 ########################################################
 
 use strict;
@@ -27,7 +30,7 @@ use Getopt::Std;
 
 my $debug = 0;
 
-my $VERSION = "v04";
+my $VERSION = "v05";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -164,7 +167,7 @@ sub check_syntax_errors {
 
     my $pass = 1;
 
-    $file =~ s/\..*$//;
+    $file =~ s/\.[^\.]*$//;
     $file =~ s/.*\///;
 
     foreach my $src (keys %{$data}) {
@@ -193,7 +196,7 @@ sub check_syntax_errors {
 				print "ERROR: Invalid RTTM type; see field (0) in $obj->{LOC}\n";
 				$pass = 0;
 			    }
-
+			    
 			    # make sure the source field matches the base filename.
 			    # This won't work if people concat all the files into one.
 			    # Make it a warning instead
