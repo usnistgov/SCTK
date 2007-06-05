@@ -23,6 +23,8 @@
 #   v05: Corrected the file name check for the source field.  It bombed if 
 #        there was another '.' in the filename.
 #
+#   v06: FILLER subtype 'discourse_response' is now a valid subtype
+#
 ########################################################
 
 use strict;
@@ -30,7 +32,7 @@ use Getopt::Std;
 
 my $debug = 0;
 
-my $VERSION = "v05";
+my $VERSION = "v06";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -309,7 +311,7 @@ sub check_syntax_errors {
 				    $pass = 0;
 				}
 			    } elsif ($obj->{TYPE} =~ /FILLER/i) {
-				if ($obj->{STYPE} !~ /^(filled_pause|discourse_marker|explicit_editing_term|other)$/i) {
+				if ($obj->{STYPE} !~ /^(filled_pause|discourse_marker|explicit_editing_term|discourse_response|other)$/i) {
 				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
