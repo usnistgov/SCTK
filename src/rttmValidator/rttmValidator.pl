@@ -25,6 +25,8 @@
 #
 #   v06: FILLER subtype 'discourse_response' is now a valid subtype
 #
+#   v07: LEXEME orthography can be "<NA>" for any stype
+#
 ########################################################
 
 use strict;
@@ -32,7 +34,7 @@ use Getopt::Std;
 
 my $debug = 0;
 
-my $VERSION = "v06";
+my $VERSION = "v07";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -292,11 +294,11 @@ sub check_syntax_errors {
 				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
-				if ($obj->{STYPE} =~ /alpha/i && $obj->{ORTHO} !~ /^([A-Z]\.|[A-Z]\.\'*s)$/i) {
+				if ($obj->{STYPE} =~ /alpha/i && $obj->{ORTHO} !~ /^([A-Z]\.|[A-Z]\.\'*s|<NA>)$/i) {
 				    print "ERROR: Invalid orthography for alpha $obj->{TYPE}; see field (6) in $obj->{LOC}\n";
 				    $pass = 0;
 			        } 
-                                if ($obj->{ORTHO} !~ /^[\[\]a-zA-Z\.\-\']+$/) {
+                                if ($obj->{ORTHO} !~ /^([\[\]A-Z\.\-\']+|<NA>)$/i) {
 		                    print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) in $obj->{LOC}\n";
 				}
 			    } elsif ($obj->{TYPE} =~ /NON-LEX/i) {
