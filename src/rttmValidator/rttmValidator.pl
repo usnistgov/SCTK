@@ -13,6 +13,10 @@
 #        Added check to make sure that there is a valid IP for 
 #        each EDIT and FILLER
 #
+#   v03: JGF: Reversed JGF's ill-advised decision to change the
+#        stype of A/P to 'other'.  The A/P subtype is now "<NA>" since 
+#        there is no valid A/P subtype and therefore there is NO alternative.
+#
 ########################################################
 
 use strict;
@@ -20,7 +24,7 @@ use Getopt::Std;
 
 my $debug = 0;
 
-my $VERSION = "v02";
+my $VERSION = "v03";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -272,7 +276,7 @@ sub check_syntax_errors {
 				    $pass = 0;
 				}
 			    } elsif ($obj->{TYPE} =~ /A\/P/i) {
-				if ($obj->{STYPE} !~ /other/i) {
+				if ($obj->{STYPE} !~ /^<NA>$/i) {
 				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
