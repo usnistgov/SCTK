@@ -39,6 +39,8 @@
 #        Added info to error reports for invalid elements
 #        Extended the LEXEME text matches to extended ASCII
 #
+#   v11: Changed NONLEX and NONSPEECH back to the hyphenated form
+#
 ########################################################
 
 use strict;
@@ -47,7 +49,7 @@ use Data::Dumper;
 
 my $debug = 0;
 
-my $VERSION = "v10";
+my $VERSION = "v11";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -78,8 +80,8 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
 		  "IP"              =>  7,
 		  "EDIT"            =>  8,
 		  "FILLER"          =>  9,
-		  "NONSPEECH"      => 10,
-		  "NONLEX"         => 11,
+		  "NON-SPEECH"      => 10,
+		  "NON-LEX"         => 11,
 		  "LEXEME"          => 12,
 		  "SPKR-INFO"       => 13);
 
@@ -214,7 +216,7 @@ sub check_syntax_errors {
 
 			    # make sure the type field is a valid RTTM type
 			    #
-			    if ($obj->{TYPE} !~ /^(SEGMENT|NOSCORE|NO_RT_METADATA|LEXEME|NONLEX|NONSPEECH|FILLER|EDIT|SU|IP|CB|A\/P|SPEAKER|SPKR-INFO)$/i) {
+			    if ($obj->{TYPE} !~ /^(SEGMENT|NOSCORE|NO_RT_METADATA|LEXEME|NON-LEX|NON-SPEECH|FILLER|EDIT|SU|IP|CB|A\/P|SPEAKER|SPKR-INFO)$/i) {
 				print "ERROR: Invalid RTTM type '$obj->{TYPE}'; see field (0) in $obj->{LOC}\n";
 				$pass = 0;
 			    }
@@ -319,13 +321,13 @@ sub check_syntax_errors {
                                 if ($obj->{ORTHO} !~ /^([\[\]A-Z\.\-\'\x80-\xff]+|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
 		                    print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
 				}
-			    } elsif ($obj->{TYPE} =~ /NONLEX/i) {
+			    } elsif ($obj->{TYPE} =~ /NON-LEX/i) {
 				#### fix lipsmack!!!!
 				if ($obj->{STYPE} !~ /^(laugh|breath|lipsmack|cough|sneeze|other)$/i) {
 				    print "ERROR: Invalid $obj->{TYPE} subtype $obj->{STYPE}; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
-			    } elsif ($obj->{TYPE} =~ /NONSPEECH/i) {
+			    } elsif ($obj->{TYPE} =~ /NON-SPEECH/i) {
 				if ($obj->{STYPE} !~ /^(noise|music|other)$/i) {
 				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
@@ -549,7 +551,7 @@ sub check_noscore_overlap {
 	    next if (! defined ($data->{$src}{$chnl}{"<NA>"}{NOSCORE}));
 	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
 		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
-		    if ($type =~ /(SU|EDIT|FILLER|SPEAKER|LEXEME|NONLEX|NONSPEECH)/i) {
+		    if ($type =~ /(SU|EDIT|FILLER|SPEAKER|LEXEME|NON-LEX|NON-SPEECH)/i) {
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			    if (find_partial_coverage($data->{$src}{$chnl}{"<NA>"}{NOSCORE}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
 				print "ERROR: Speaker $spkr has $type partially overlapping with NOSCORE tag at $obj->{TBEG}; see $obj->{LOC}\n";
