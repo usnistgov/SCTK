@@ -14,8 +14,11 @@
 #        each EDIT and FILLER
 #
 #   v03: JGF: Reversed JGF's ill-advised decision to change the
-#        stype of A/P to 'other'.  The A/P subtype is now "<NA>" since 
-#        there is no valid A/P subtype and therefore there is NO alternative.
+#        stype of A/P to 'other'.  The sytpe is now "<NA>" since 
+#        there is no valid stypo and therefore there is NO alternative.
+#
+#   v04: Checked to make sure no MDE annotation partially overlap
+#        NOSCORE tags (complete overlap is ok).
 #
 ########################################################
 
@@ -24,7 +27,7 @@ use Getopt::Std;
 
 my $debug = 0;
 
-my $VERSION = "v03";
+my $VERSION = "v04";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -190,15 +193,14 @@ sub check_syntax_errors {
 				print "ERROR: Invalid RTTM type; see field (0) in $obj->{LOC}\n";
 				$pass = 0;
 			    }
-			    
+
 			    # make sure the source field matches the base filename.
 			    # This won't work if people concat all the files into one.
-			    # Comment out this check out
+			    # Make it a warning instead
 			    #
-#			    if ($obj->{SRC} !~ /^$file$/i) {
-#				print "ERROR: Source field doesn't match the input file's base filename; see field (2) in $obj->{LOC}\n";
-#				$pass = 0;
-#			    }
+			    if ($obj->{SRC} !~ /^$file$/i) {
+				print "WARNING: Source field doesn't match the input file's base filename; see field (2) in $obj->{LOC}\n";
+			    }
 			    
 			    # make sure the channel ID has a value of 1 or 2 but 1 for BN data
 			    #
@@ -360,6 +362,9 @@ sub check_syntax_errors {
 	    }
 	}
     }
+    if (! $pass) {
+	print "Validation aborted\n";
+    }
     return $pass;
 }
 
@@ -385,7 +390,8 @@ sub check_logic_errors {
 
     if (check_metadata_overlap($data) &&
 	check_metadata_content($data) &&
-	check_partial_word_coverage($data)) {
+	check_partial_word_coverage($data) &&
+	check_noscore_overlap($data)) {
 	foreach my $type (@$mde_types) {
 	    if ($type =~ /(SU|SPEAKER)/i) {
 		if (! ensure_word_covered_by_metadata_of_type($data, $type)) {
@@ -416,19 +422,26 @@ sub check_metadata_overlap {
 	foreach my $chnl (keys %{$data->{$src}}) {
 	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
 		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
-		    if ($type !~ /(SPKR-INFO|IP|CB)/i) {
+		    if ($type !~ /SPKR-INFO/i) {
 			my $prev_etime = 0;
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			    if (($prev_etime - $obj->{TBEG}) > $ROUNDING_THRESHOLD) {
 				print "ERROR: Speaker $spkr has ${type}s ending at $prev_etime and starting at $obj->{TBEG}; ${type}s overlap; see $obj->{LOC}\n";
 				$pass = 0;
 			    }
-			    $prev_etime = $obj->{TBEG} + $obj->{TDUR};
+			    if ($type =~ /(CB|IP)/i) {
+				$prev_etime = $obj->{TBEG};
+			    } else {
+				$prev_etime = $obj->{TBEG} + $obj->{TDUR};
+			    }
 			}
 		    }
 		}
 	    }
 	}
+    }
+    if (! $pass) {
+	print "Validation aborted\n";
     }
     return $pass;
 }
@@ -457,11 +470,15 @@ sub check_metadata_content {
 	    }
 	}
     }
+    if (! $pass) {
+	print "Validation aborted\n";
+    }
     return $pass;
 }
 
 sub check_partial_word_coverage {
-    # check if a given word partially overlaps with any metadata object
+    # check if a given word partially overlaps with
+    # any metadata object of type SU, EDIT, or FILLER
     #
     my ($data) = @_;
     
@@ -476,7 +493,7 @@ sub check_partial_word_coverage {
 			    foreach my $mde_type (keys %{$data->{$src}{$chnl}{$spkr}}) {
 				if ($mde_type =~ /(SU|EDIT|FILLER)/i) {
 				    if (find_partial_coverage($data->{$src}{$chnl}{$spkr}{$mde_type}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
-					print "ERROR: word at $obj->{TBEG} is partially covered by $mde_type object; see $obj->{LOC}\n";
+					print "ERROR: Word at $obj->{TBEG} is partially covered by $mde_type object; see $obj->{LOC}\n";
 					$pass = 0;
 				    }
 				}
@@ -486,6 +503,41 @@ sub check_partial_word_coverage {
 		}
 	    }
 	}
+    }
+    if (! $pass) {
+	print "Validation aborted\n";
+    }
+    return $pass;
+}
+
+sub check_noscore_overlap {
+    # check if a metadata object of type
+    # SU, EDIT, FILLER, SPEAKER, LEXEME, NON-LEX, NON-SPEECH
+    # partially overlap with noscore regions
+    #
+    my ($data) = @_;
+
+    my $pass = 1;
+
+    foreach my $src (keys %{$data}) {
+	foreach my $chnl (keys %{$data->{$src}}) {
+	    next if (! defined ($data->{$src}{$chnl}{"<NA>"}{NOSCORE}));
+	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
+		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+		    if ($type =~ /(SU|EDIT|FILLER|SPEAKER|LEXEME|NON-LEX|NON-SPEECH)/i) {
+			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
+			    if (find_partial_coverage($data->{$src}{$chnl}{"<NA>"}{NOSCORE}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
+				print "ERROR: Speaker $spkr has $type partially overlapping with NOSCORE tag at $obj->{TBEG}; see $obj->{LOC}\n";
+				$pass = 0;
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+    if (! $pass) {
+	print "Validation aborted\n";
     }
     return $pass;
 }
@@ -504,7 +556,7 @@ sub ensure_word_covered_by_metadata_of_type {
 		    if ($type =~ /LEXEME/i) {
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			    if (! find_type($data->{$src}{$chnl}{$spkr}{$mde_type}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
-				print "ERROR: word at $obj->{TBEG} doesn't belong to any $mde_type object; see $obj->{LOC}\n";
+				print "ERROR: Word at $obj->{TBEG} doesn't belong to any $mde_type object; see $obj->{LOC}\n";
 				$pass = 0;
 			    }
 			}
@@ -512,6 +564,9 @@ sub ensure_word_covered_by_metadata_of_type {
 		}
 	    }
 	}
+    }
+    if (! $pass) {
+	print "Validation aborted\n";
     }
     return $pass;
 }
@@ -614,12 +669,15 @@ sub ensure_ip_existed_for_metadata_of_type {
 	    }
 	}
     }
+    if (! $pass) {
+	print "Validation aborted\n";
+    }
     return $pass;
 }
 
 sub find_partial_coverage {
-    # determine if a given word (indicated by its start and end times)
-    # partially overlap with any metadata object of the given type
+    # determine if a given object (indicated by its start and end times)
+    # partially overlap with any object of the given type
     #
     my ($data, $start, $end) = @_;
 
