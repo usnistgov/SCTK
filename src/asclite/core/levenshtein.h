@@ -1,6 +1,6 @@
 /*
  * ASCLITE
- * Author: Ajot Jerome, Jon Fiscus, Radde Nicolas, Laprun Chris
+ * Author: Jerome Ajot, Jon Fiscus, Nicolas Radde, Chris Laprun
  *
  * This software was developed at the National Institute of Standards and Technology by 
  * employees of the Federal Government in the course of their official duties. Pursuant

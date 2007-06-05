@@ -8,6 +8,7 @@ SCTK Version pre-2.2.5 - Release xxx
   [/] Changed the speaker auto-overlap behavior from internal to command-
       line options for asclite
   [/] Inter Segment Gaps by default for every file type in asclite
+  [/] Update headers disclaimer and file format
 
 SCTK Version 2.2.4 - Release May 1, 2007
   [+] Added block size and force compression in hubscr.pl
