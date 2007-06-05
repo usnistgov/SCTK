@@ -1,4 +1,2 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:17
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test10.rttm
-ERROR: Invalid orthography for alpha LEXEME; see field (6) in line 12
+ERROR: Invalid orthography for alpha LEXEME; see field (6) 'UNIVERSAL' in line 12
 Validation aborted

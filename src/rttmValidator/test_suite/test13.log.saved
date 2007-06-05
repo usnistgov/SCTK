@@ -1,5 +1,3 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:17
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test13.rttm
 ERROR: Invalid LEXEME subtype; see field (7) in line 11
 ERROR: Invalid A/P subtype; see field (7) in line 17
 Validation aborted

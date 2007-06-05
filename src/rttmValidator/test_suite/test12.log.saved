@@ -1,5 +1,3 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:17
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test12.rttm
 ERROR: Expected confidence value to be a number or <NA>; see field (9) in line 8
 ERROR: Expected confidence value to be [0,1]; see field (9) in line 11
 ERROR: Expected confidence value to be [0,1]; see field (9) in line 13

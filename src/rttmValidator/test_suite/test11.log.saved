@@ -1,3 +1,1 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:17
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test11.rttm
-WARNING: Invalid orthography for LEXEME; see field (6) in line 10
+WARNING: Invalid orthography for LEXEME; see field (6) '15' in line 10

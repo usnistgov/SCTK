@@ -1,4 +1,2 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:19
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test20.rttm
 ERROR: Word at 0.570 is partially covered by SU object; see line 7
 Validation aborted

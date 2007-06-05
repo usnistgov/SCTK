@@ -1,4 +1,2 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:18
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test14.rttm
 ERROR: Speaker joe doesn't match any of the speaker IDs in SPKR-INFO objects; see line 7
 Validation aborted

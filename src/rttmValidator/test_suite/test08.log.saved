@@ -1,4 +1,2 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:16
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test08.rttm
 ERROR: Value for the orthography field for SU should be <NA>; see field (6) in line 16
 Validation aborted

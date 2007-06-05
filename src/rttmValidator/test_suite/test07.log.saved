@@ -1,5 +1,3 @@
-../src/RTTMValidator-v04.pl (version v04) run on 2004 Apr 22 at 16:49:16
-command line:  ../src/RTTMValidator-v04.pl (version v04) -i test07.rttm
 ERROR: SPKR-INFO should not have any duration; see field (5) in line 5
 ERROR: Expected duration to be a number; see field (5) in line 9
 ERROR: Expected start time to be a number; see field (4) in line 11

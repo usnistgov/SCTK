@@ -1,47 +1,19 @@
 #!/usr/bin/perl -w
+
+# RTTMVALIDATOR
+# Author: Jerome Ajot
 #
-########################################################
-# History:
-#   v00: Initial version - validate a given RTTM file
+# This software was developed at the National Institute of Standards and Technology by 
+# employees of the Federal Government in the course of their official duties. Pursuant
+# to title 17 Section 105 of the United States Code this software is not subject to
+# copyright protection and is in the public domain. RTTMVALIDATOR is an experimental system.
+# NIST assumes no responsibility whatsoever for its use by other parties, and makes no
+# guarantees, expressed or implied, about its quality, reliability, or any other
+# characteristic. We would appreciate acknowledgement if the software is used.
 #
-#   v01: Changed syntax check to make sure that A/P subtype
-#        is now 'other', not '<NA>'
-#        Fixed bug in regex to recognize alpha tokens
-#
-#   v02: Changed syntax check to flag illegal value in the
-#        orthography field from error to warning
-#        Added check to make sure that there is a valid IP for 
-#        each EDIT and FILLER
-#
-#   v03: JGF: Reversed JGF's ill-advised decision to change the
-#        stype of A/P to 'other'.  The sytpe is now "<NA>" since 
-#        there is no valid stypo and therefore there is NO alternative.
-#
-#   v04: Checked to make sure no MDE annotation partially overlap
-#        NOSCORE tags (complete overlap is ok).
-#
-#   v05: Corrected the file name check for the source field.  It bombed if 
-#        there was another '.' in the filename.
-#
-#   v06: FILLER subtype 'discourse_response' is now a valid subtype
-#
-#   v07: LEXEME orthography can be "<NA>" for any stype
-#
-#   v08: Tried to fix bug in checking matching IP for each EDIT and FILLER.
-#        Not totally correct yet; will go back to it later.  Right now
-#        use option -e to disable IP check
-#
-#   v09: NON-LEX and NON-SPEECH subtypes had a case sensitive match but
-#        should have been case insensitive.
-#  
-#   v10: use NONLEX and NONSPEECH instead.
-#        Added -f to skip file name to file field check
-#        Added info to error reports for invalid elements
-#        Extended the LEXEME text matches to extended ASCII
-#
-#   v11: Changed NONLEX and NONSPEECH back to the hyphenated form
-#
-########################################################
+# THIS SOFTWARE IS PROVIDED "AS IS."  With regard to this software, NIST MAKES NO EXPRESS
+# OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY,
+# OR FITNESS FOR A PARTICULAR PURPOSE.
 
 use strict;
 use Getopt::Std;
@@ -60,7 +32,7 @@ my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "  -s            : disable check that ensures all LEXEMEs belong to some SPEAKER object\n".
     "  -e            : disable check that ensure there is an IP for each EDIT and each FILLER object\n".
     "  -f            : disable check that ensures the file columc matches the filename\n".
-  "  -h            : print this help message\n".
+	"  -h            : print this help message\n".
     "Input:\n".
     "  -i <RTTM file>: an RTTM file\n\n";
 
@@ -93,8 +65,8 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     my ($date, $time) = date_time_stamp();
     my $commandline = join(" ", @ARGV);
 
-    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h $opt_f);
-    getopts('i:usevhf');
+    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h $opt_f $opt_t);
+    getopts('i:usevhft');
     die ("$USAGE") if ($opt_h) || (! $opt_i);
 
     my @mde_types = ();
@@ -103,9 +75,12 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     push (@mde_types, "EDIT") if ! $opt_e;
     $checkFileName = ! $opt_f if $opt_f;
 
-    print "$0 (version $VERSION) run on $date at $time\n";
-    print "command line:  ", $0, " (version ", $VERSION, ") ", $commandline, "\n";
-
+	if (! $opt_t)
+    {
+    	print "$0 (version $VERSION) run on $date at $time\n";
+   		print "command line:  ", $0, " (version ", $VERSION, ") ", $commandline, "\n";
+	}
+	
     my (%rttm_data, $data_domain);
     get_rttm_data(\%rttm_data, \$data_domain, $opt_i);
 
@@ -715,7 +690,7 @@ sub ensure_ip_existed_for_edit_and_filler {
 sub find_object {
     my ($time, $type, $data1) = @_;
 #    print "find object ------------\n";
-    print "  $time $type\n";
+#    print "  $time $type\n";
     for (my $i=0; $i < @$data1; $i++) {
 #	print "      ${$data1}[$i]->[0]\n";
 	if (abs(${$data1}[$i]->[0] - $time) < $ROUNDING_THRESHOLD &&

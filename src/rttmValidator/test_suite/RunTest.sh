@@ -27,10 +27,10 @@ for file in test*.rttm ; do
     tmp="$base.log.tmp"
     
     if [ ! -f "$log" ] ; then
-		$rttm -i $file > $log
+		$rttm -t -i $file > $log
     fi
 
-    $rttm -i $file > $tmp
+    $rttm -t -i $file > $tmp
     diff_status=`diff -I 'RTTMValidator' $log $tmp | wc -l`
 
     if [ $diff_status -ne 0 ] ; then
@@ -39,8 +39,7 @@ for file in test*.rttm ; do
 		if [ $verbose = true ] ; then
 			diff -I 'RTTMValidator' $log $tmp | sed 's/^/   /'
 		fi
-    else
-#		echo "   Output log is identical to saved log"
+	else
 		rm $tmp
     fi
 done
