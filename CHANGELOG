@@ -1,4 +1,4 @@
-SCTK Version pre-2.2.5 - Release xxx
+SCTK Version pre-2.3 - Release xxx
   [*] Fixed asclite when no input given
   [+] Added UEM inplementation directly to asclite
   [+] -wordalign-cost options for asclite adding some cost variance
