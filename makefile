@@ -28,7 +28,7 @@ distclean:
 
 dist:
 	@ echo "Make the distribution"
-	@ echo "sctk-"`grep Version: readme.txt | head -1 | perl -pe 's/.*Version:\s+//; s/\s+\$$//; s/\s+/_/g'` > .fname	
+	@ echo "sctk-"`grep Version: README | head -1 | perl -pe 's/.*Version:\s+//; s/\s+\$$//; s/\s+/_/g'` > .fname	
 	@ echo "Building a release version" `cat .fname`
 	@ echo "Verifying and up-to-date CVS copy"
 	@ cvs -d gaston:/home/sware/cvs up 
@@ -40,8 +40,8 @@ dist:
 	@ rm -rf `cat .fname` .fname .distname
 
 cvs-tag-current-distribution:
-	@ echo "Tagging the current CVS for distribution '"`grep Version: readme.txt | head -1 | perl -pe 's/.*Version:\s+/release-/; s/\s+\$$//; s/\s+/_/g; s/\./-/g'`"'"
-	@ cvs -d gaston:/home/sware/cvs tag `grep Version: readme.txt | head -1 | perl -pe 's/.*Version:\s+/release-/; s/\s+\$$//; s/\s+/_/g; s/\./-/g'`
+	@ echo "Tagging the current CVS for distribution '"`grep Version: README | head -1 | perl -pe 's/.*Version:\s+/release-/; s/\s+\$$//; s/\s+/_/g; s/\./-/g'`"'"
+	@ cvs -d gaston:/home/sware/cvs tag `grep Version: README | head -1 | perl -pe 's/.*Version:\s+/release-/; s/\s+\$$//; s/\s+/_/g; s/\./-/g'`
 
 check:
 	@ uname -a

@@ -8,6 +8,7 @@ type the commands:
 	% make all
 	% make check
 	% make install
+	% make doc
 
 The 'make config' command executes the script 'config.sh' in the
 src/sclite directory and initialized the makefiles in the rest of the
