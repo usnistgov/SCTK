@@ -30,6 +30,9 @@
 #   v08: Tried to fix bug in checking matching IP for each EDIT and FILLER.
 #        Not totally correct yet; will go back to it later.  Right now
 #        use option -e to disable IP check
+#
+#   v09: NON-LEX and NON-SPEECH subtypes had a case sensitive match but
+#        should have been case insensitive.
 ########################################################
 
 use strict;
@@ -38,7 +41,7 @@ use Data::Dumper;
 
 my $debug = 0;
 
-my $VERSION = "v08";
+my $VERSION = "v09";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -308,12 +311,12 @@ sub check_syntax_errors {
 				}
 			    } elsif ($obj->{TYPE} =~ /NON-LEX/i) {
 				#### fix lipsmack!!!!
-				if ($obj->{STYPE} !~ /^(laugh|breath|lipsmack|cough|sneeze|other)$/) {
-				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
+				if ($obj->{STYPE} !~ /^(laugh|breath|lipsmack|cough|sneeze|other)$/i) {
+				    print "ERROR: Invalid $obj->{TYPE} subtype $obj->{STYPE}; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
 			    } elsif ($obj->{TYPE} =~ /NON-SPEECH/i) {
-				if ($obj->{STYPE} !~ /^(noise|music|other)$/) {
+				if ($obj->{STYPE} !~ /^(noise|music|other)$/i) {
 				    print "ERROR: Invalid $obj->{TYPE} subtype; see field (7) in $obj->{LOC}\n";
 				    $pass = 0;
 				}
