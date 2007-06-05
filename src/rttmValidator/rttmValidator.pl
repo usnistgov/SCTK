@@ -27,14 +27,18 @@
 #
 #   v07: LEXEME orthography can be "<NA>" for any stype
 #
+#   v08: Tried to fix bug in checking matching IP for each EDIT and FILLER.
+#        Not totally correct yet; will go back to it later.  Right now
+#        use option -e to disable IP check
 ########################################################
 
 use strict;
 use Getopt::Std;
+use Data::Dumper;
 
 my $debug = 0;
 
-my $VERSION = "v07";
+my $VERSION = "v08";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -94,6 +98,7 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     #
     my $count;
     if ($debug) {
+#	print Dumper(%rttm_data);
 	foreach my $src (keys %rttm_data) {
 	    foreach my $chnl (keys %{$rttm_data{$src}}) {
 		foreach my $spkr (keys %{$rttm_data{$src}{$chnl}}) {
@@ -406,7 +411,7 @@ sub check_logic_errors {
 		}
 	    }
 	    if ($type =~ /(EDIT|FILLER)/i) {
-		if (! ensure_ip_existed_for_metadata_of_type($data, $type)) {
+		if (! ensure_ip_existed_for_edit_and_filler($data)) {
 		    return 0;
 		}
 	    }
@@ -578,96 +583,106 @@ sub ensure_word_covered_by_metadata_of_type {
     return $pass;
 }
 
-sub ensure_ip_existed_for_metadata_of_type {
+sub ensure_ip_existed_for_edit_and_filler {
     # make sure that for each EDIT or FILLER there is
-    # an IP that follows or precedes it
+    # a valid IP that follows or precedes it
     #
-    my ($data, $mde_type) = @_;
+    my ($data) = @_;
 
     my $pass = 1;
-    my @partial_data = ();
-    if ($mde_type !~ /(EDIT|FILLER)/i) {
-	$pass = 0;
-    }
 
     foreach my $src (keys %{$data}) {
 	foreach my $chnl (keys %{$data->{$src}}) {
 	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		@partial_data = ();
-		# for a given speaker, collapse all the types into one array
-		#
-		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
-		    if ($type !~ /SPKR-INFO/) {
-			push (@partial_data, @{$data->{$src}{$chnl}{$spkr}{$type}});
-		    }
-		}
-		@partial_data = sort sort_data (@partial_data);
-		my $su;
-		my $prev_edit;
-		my $obj_tend;
-		foreach my $obj (@partial_data) {
-		    if ($obj->{TDUR} !~ /<NA>/i) {
-			$obj_tend = $obj->{TBEG} + $obj->{TDUR};
-		    } else {
-			$obj_tend = $obj->{TBEG};
-		    }
-		    print "$obj->{TYPE} $obj->{TBEG} $obj_tend $obj->{STYPE}\n" if $debug; 
-		    if ($obj->{TYPE} =~ /SU/i) {
-			print "  START OF SU: $obj->{TYPE} ($obj->{TBEG} $obj_tend) $obj->{STYPE}\n" if $debug;
-			$su = $obj;
-		    } 
-		    if ($obj->{TYPE} =~ /EDIT/i) {
-			my $ip = find_ip($data->{$src}{$chnl}{$spkr}{IP},
-					 $su->{TBEG},
-					 $su->{TBEG} + $su->{TDUR},
-					 $obj->{TBEG} + $obj->{TDUR});
-			if ($ip) {
-			    if ($ip->{STYPE} =~ /^edit$/i) {
-				print "  GOT IP ($ip->{TBEG}) for EDIT ($obj->{TBEG}, $obj_tend)\n" if $debug;
-			    } elsif ($ip->{STYPE} =~ /edit&filler/i) {
-				print "  GOT IP ($ip->{TBEG}) for EDIT ($obj->{TBEG}, $obj_tend)\n" if $debug;
-				$prev_edit = $obj;
-			    } else {
-				print "ERROR: EDIT ($obj->{TBEG}, $obj_tend) has an IP at $obj_tend with a bad subtype\n";
-				$pass = 0;
-			    }
-			} else {
-			    print "ERROR: EDIT ($obj->{TBEG}, $obj_tend) doesn't have any IP at $obj_tend; see $obj->{LOC}\n";
-			    $pass = 0;
+		if (exists($data->{$src}{$chnl}{$spkr}{SU})) {
+		    my @sus = @{$data->{$src}{$chnl}{$spkr}{SU}};
+		    for (my $i = 0; $i < @sus; $i++) {
+#			print "SU $sus[$i]->{TBEG}\n";
+			my @edits = ();
+			my @fillers = ();
+			my @ips = ();
+			if (exists($data->{$src}{$chnl}{$spkr}{EDIT})) {
+			    @edits = extract_mde_of_type($sus[$i]->{TBEG},
+							 $sus[$i]->{TBEG} + $sus[$i]->{TDUR},
+							 $i,
+							 "EDIT",
+							 $data->{$src}{$chnl}{$spkr}{EDIT},
+							 \@sus);
 			}
-		    } elsif ($obj->{TYPE} =~ /FILLER/i) {
-			my $ip = find_ip($data->{$src}{$chnl}{$spkr}{IP},
-					 $su->{TBEG},
-					 $su->{TBEG} + $su->{TDUR},
-					 $obj->{TBEG});
-			if ($ip) {
-			    if ($ip->{STYPE} =~ /^filler$/i) {
-				print "  GOT IP ($ip->{TBEG}) for FILLER ($obj->{TBEG}, $obj_tend)\n" if $debug;
-			    } elsif ($ip->{STYPE} =~ /edit&filler/i) {
-				if ($prev_edit && abs($ip->{TBEG} - ($prev_edit->{TBEG} + $prev_edit->{TDUR})) < $ROUNDING_THRESHOLD) {
-				    print "  GOT IP ($ip->{TBEG}) for FILLER ($obj->{TBEG}, $obj_tend)\n" if $debug;
-				} else {
-				    print "ERROR: FILLER ($obj->{TBEG}, $obj_tend) has an IP at $obj->{TBEG} with a bad subtype\n";
-				    $pass = 0;
+			if (exists($data->{$src}{$chnl}{$spkr}{FILLER})) {
+			    @fillers = extract_mde_of_type($sus[$i]->{TBEG},
+							   $sus[$i]->{TBEG} + $sus[$i]->{TDUR},
+							   $i,
+							   "FILLER",
+							   $data->{$src}{$chnl}{$spkr}{FILLER},
+							   \@sus);
+			}
+			if (exists($data->{$src}{$chnl}{$spkr}{IP})) {
+			    @ips = extract_mde_of_type($sus[$i]->{TBEG},
+						       $sus[$i]->{TBEG} + $sus[$i]->{TDUR},
+						       $i,
+						       "IP",
+						       $data->{$src}{$chnl}{$spkr}{IP},
+						       \@sus);
+			}
+#			print "edits\n";
+#			print Dumper(@edits);
+#			print "fillers\n";
+#			print Dumper(@fillers);
+#			print "ips\n";
+#			print Dumper(@ips);
+			
+			foreach my $obj (@edits) {
+			    my ($status, $ip_stype, $ip_pos) = find_object($obj->[0], $obj->[1], \@ips);
+			    if ($status == 1) {
+#				print "$status, edit_type=$obj->[1] ip_stype=$ip_stype $ip_pos\n";
+				if ($ip_stype =~ /^EDIT$/i) {
+#				    print "case 1\n";
+				    $obj->[4] = 1;
+				    $ips[$ip_pos]->[4] = 1;
+				} elsif ($ip_stype =~ /^EDIT&FILLER$/i) {
+				    foreach my $obj2 (@fillers) {
+					my ($status2, $filler_type, $filler_pos) = find_object($obj->[0], "FILLER", \@fillers);
+					if ($status2 == 1) {
+#					    print "$status2, filler_type=FILLER filler_type=$filler_type $filler_pos\n";
+#					    print "case 2\n";
+					    $obj->[4] = 1;
+					    $ips[$ip_pos]->[4] = 1;
+                                            $fillers[$filler_pos]->[4] = 1;
+					}
+				    }
 				}
-			    } else {
-				print "ERROR: FILLER ($obj->{TBEG}, $obj_tend) has an IP at $obj->{TBEG} with a bad subtype\n";
+			    }
+			}
+			
+			foreach my $obj (@fillers) {
+			    my ($status, $ip_stype, $ip_pos) = find_object($obj->[0], $obj->[1], \@ips);
+			    if ($status == 1) {
+#				print "$status, filler type=$obj->[1] ip stype=$ip_stype, $ip_pos\n";
+#				print "case 3\n";
+
+				if ($ip_stype =~ /^FILLER$/i) {
+				    $obj->[4] = 1;
+				    $ips[$ip_pos]->[4] = 1;
+				}
+			    }
+			}
+
+			foreach my $obj (@edits) {
+			    if ($obj->[4] == 0) {
+				print "ERROR: EDIT at $obj->[2] doesn't have a matching IP; see $obj->[3]\n";
 				$pass = 0;
 			    }
-			} else {
-			    if ($prev_edit) {
-				$ip = find_ip($data->{$src}{$chnl}{$spkr}{IP},
-					      $su->{TBEG},
-					      $su->{TBEG} + $su->{TDUR},
-					      $prev_edit->{TBEG} + $prev_edit->{TDUR});
-				if ($ip) {
-				    print "  GOT IP ($ip->{TBEG}) for FILLER ($obj->{TBEG}, $obj_tend)\n" if $debug;
-				} else {
-				    print "ERROR: FILLER ($obj->{TBEG}, $obj_tend) doesn't have any IP at $obj->{TBEG}; see $obj->{LOC}\n";
-				    $pass = 0;
-				}
-			    } else {
-				print "ERROR: FILLER ($obj->{TBEG}, $obj_tend) doesn't have any IP at $obj->{TBEG}; see $obj->{LOC}\n";
+			}
+			foreach my $obj (@fillers) {
+			    if ($obj->[4] == 0) {
+				print "ERROR: FILLER at $obj->[2] doesn't have a matching IP; see $obj->[3]\n";
+				$pass = 0;
+			    }
+			}
+			foreach my $obj (@ips) {
+			    if ($obj->[4] == 0) {
+				print "ERROR: IP at $obj->[2] doesn't have a matching EDIT and/or FILLER; see line $obj->[3]\n";
 				$pass = 0;
 			    }
 			}
@@ -680,6 +695,21 @@ sub ensure_ip_existed_for_metadata_of_type {
 	print "Validation aborted\n";
     }
     return $pass;
+}
+
+sub find_object {
+    my ($time, $type, $data1) = @_;
+#    print "find object ------------\n";
+    print "  $time $type\n";
+    for (my $i=0; $i < @$data1; $i++) {
+#	print "      ${$data1}[$i]->[0]\n";
+	if (abs(${$data1}[$i]->[0] - $time) < $ROUNDING_THRESHOLD &&
+	    ${$data1}[$i]->[4] != 1) {
+#            print "      found\n";
+	    return (1, ${$data1}[$i]->[1], $i);
+	}
+    }
+    return (0, undef, undef);
 }
 
 sub find_partial_coverage {
@@ -790,6 +820,44 @@ sub find_speaker {
     return 0;
 }
 
+sub extract_mde_of_type {
+    # for a given SU (indicated by its begin and end times)
+    # return all the MDE objects of the given type in that SU
+    #
+    my ($su_tbeg, $su_tend, $su_pos, $mde_type, $data, $sus) = @_;
+    my @ip_time = ();
+    if ($mde_type =~ /EDIT/i) {
+	foreach my $obj (@$data) {
+	    if ( (greater_than($obj->{TBEG}, $su_tbeg) || equal_to ($obj->{TBEG}, $su_tbeg)) &&
+		 (less_than($obj->{TBEG} + $obj->{TDUR}, $su_tend) || equal_to ($obj->{TBEG} + $obj->{TDUR}, $su_tend)) ) {
+		push (@ip_time, [ $obj->{TBEG} + $obj->{TDUR}, uc($obj->{TYPE}), $obj->{TBEG}, $obj->{LOC}, 0 ]);
+	    }
+	}
+    } elsif ($mde_type =~ /FILLER/i) {
+	foreach my $obj (@$data) {
+	    if ( (greater_than($obj->{TBEG}, $su_tbeg) || equal_to ($obj->{TBEG}, $su_tbeg)) &&
+		 (less_than($obj->{TBEG} + $obj->{TDUR}, $su_tend) || equal_to ($obj->{TBEG} + $obj->{TDUR}, $su_tend)) ) {
+		push (@ip_time, [ $obj->{TBEG}, uc($obj->{TYPE}), $obj->{TBEG}, $obj->{LOC}, 0 ]);
+	    }
+	}
+    } elsif ($mde_type =~ /IP/i) {
+	foreach my $obj (@$data) {
+	    if ( (greater_than($obj->{TBEG}, $su_tbeg) && less_than($obj->{TBEG}, $su_tend) ) ||
+		 equal_to($obj->{TBEG}, $su_tbeg) ) {
+		push (@ip_time, [ $obj->{TBEG}, uc($obj->{STYPE}), $obj->{TBEG}, $obj->{LOC}, 0 ]);
+	    } elsif ( equal_to($obj->{TBEG}, $su_tend) ) {
+		if ($su_pos + 1 <= scalar($sus)) {
+		    if ( equal_to($su_tend, $sus->[$su_pos + 1]->{TBEG}) &&
+			 $obj->{STYPE} !~ /filler/i ) {
+			push (@ip_time, [ $obj->{TBEG}, uc($obj->{STYPE}), $obj->{TBEG}, $obj->{LOC}, 0 ]);
+		    }
+		}
+	    }
+	}
+    }
+    return @ip_time;
+}
+
 sub sort_data {
    return ($a->{TBEG} < $b->{TBEG} - $ROUNDING_THRESHOLD ? -1 :
 	   ($a->{TBEG} > $b->{TBEG} + $ROUNDING_THRESHOLD ?  1 :
@@ -797,6 +865,8 @@ sub sort_data {
 }
 
 sub less_than {
+    # if a < b return 1
+    #
     my ($a, $b) = @_;
     if ($a + $ROUNDING_THRESHOLD < $b) {
 	return 1;
@@ -805,6 +875,8 @@ sub less_than {
 }
 
 sub greater_than {
+    # if a > b return 1
+    #
     my ($a, $b) = @_;
     if ($a > $b + $ROUNDING_THRESHOLD) {
 	return 1;
@@ -813,6 +885,8 @@ sub greater_than {
 }
 
 sub equal_to {
+    # if a == b return 1
+    #
     my ($a, $b) = @_;
     if ( abs($a - $b) < $ROUNDING_THRESHOLD) {
 	return 1;
