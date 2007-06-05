@@ -2,13 +2,15 @@ SCTK Version pre-2.3 - Release xxx
   [*] Fixed asclite when no input given
   [+] Added UEM inplementation directly to asclite
   [+] -wordalign-cost options for asclite adding some cost variance
-      depending in the word syntaxic distance
+      depending in the word syntactic distance
   [+] Added cumulative table to HTML reports
   [+] Added man and HTML docs for tools
   [/] Changed the speaker auto-overlap behavior from internal to command-
       line options for asclite
   [/] Inter Segment Gaps by default for every file type in asclite
   [/] Update headers disclaimer and file format
+  [+] Added rttmValidator
+  [+] Added stmValidator
 
 SCTK Version 2.2.4 - Release May 1, 2007
   [+] Added block size and force compression in hubscr.pl

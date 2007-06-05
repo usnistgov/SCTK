@@ -5,10 +5,9 @@ High Priority:
 [ ] fix utf_filt tests
 [ ] fix mdeval tests
 [x] fix empty inputs
-[ ] validators for: STM, RTTM, CTM
-    [ ] syntactic
-    [ ] semantic
-    Note: STM and RTTM validators exist
+[-] STM Validators (need tests)
+[-] RTTM Validators (need definition of IP)
+[ ] CTM Validators
 [x] cumulative overlap table in HTML reports
 [-] update docs
     [ ] acomp
