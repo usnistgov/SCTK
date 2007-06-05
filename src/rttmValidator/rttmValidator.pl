@@ -4,26 +4,29 @@
 # History:
 #   v00: Initial version - validate a given RTTM file
 #
+#   v01: Changed check to make sure that A/P subtype is now 'other',
+#        not <NA>
+#        Fixed bug in regex to recognize alpha tokens
+#
 ########################################################
 
 use strict;
 use Getopt::Std;
 
-my $VERSION = "v00";
+my $VERSION = "v01";
 
-my $USAGE = "\n\n$0 [-dvh] -i <RTTM file>\n\n".
+my $USAGE = "\n\n$0 [-ush] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
     "Options:\n".
     "  -u            : disable check that ensures all LEXEMEs belong to some SU object\n".
     "  -s            : disable check that ensures all LEXEMEs belong to some SPEAKER object\n".
-    "  -v            : make it verbose\n".
     "  -h            : print a help message\n".
     "Input:\n".
     "  -i <RTTM file>: an RTTM file\n\n";
 
 my $NUM_FIELDS = 9; # count from 1
 
-my $ROUNDING_THRESHOLD = 0.001;
+my $ROUNDING_THRESHOLD = 0.000001;
 
 ########################################################
 # Main
@@ -33,16 +36,16 @@ my $ROUNDING_THRESHOLD = 0.001;
     my ($date, $time) = date_time_stamp();
     my $commandline = join(" ", @ARGV);
 
-    use vars qw ($opt_i $opt_u $opt_s $opt_v $opt_h);
-    getopts('i:usvh');
+    use vars qw ($opt_i $opt_u $opt_s $opt_h);
+    getopts('i:ush');
     die ("$USAGE") if ($opt_h) || (! $opt_i);
 
     my @mde_types = ();
     push (@mde_types, "SU") if ! $opt_u;
     push (@mde_types, "SPEAKER") if ! $opt_s;
 
-    print "$0 (version $VERSION) run on $date at $time\n" if $opt_v;
-    print "command line:  ", $0, " (version ", $VERSION, ") ", $commandline, "\n" if $opt_v;
+    print "$0 (version $VERSION) run on $date at $time\n";
+    print "command line:  ", $0, " (version ", $VERSION, ") ", $commandline, "\n";
 
     my (%rttm_data, $data_domain);
     get_rttm_data(\%rttm_data, \$data_domain, $opt_i);
@@ -241,8 +244,13 @@ sub check_syntax_errors {
 				    print "ERROR: Invalid $token->{TYPE} subtype; see field (7) in $token->{LOC}\n";
 				    $pass = 0;
 				}
-			    } elsif ($token->{TYPE} =~ /(NOSCORE|NO_RT_METADATA|A\/P|SPEAKER)/i) {
+			    } elsif ($token->{TYPE} =~ /(NOSCORE|NO_RT_METADATA|SPEAKER)/i) {
 				if ($token->{STYPE} !~ /^<NA>$/i) {
+				    print "ERROR: Invalid $token->{TYPE} subtype; see field (7) in $token->{LOC}\n";
+				    $pass = 0;
+				}
+			    } elsif ($token->{TYPE} =~ /A\/P/i) {
+				if ($token->{STYPE} !~ /other/i) {
 				    print "ERROR: Invalid $token->{TYPE} subtype; see field (7) in $token->{LOC}\n";
 				    $pass = 0;
 				}
@@ -251,7 +259,8 @@ sub check_syntax_errors {
 				    print "ERROR: Invalid $token->{TYPE} subtype; see field (7) in $token->{LOC}\n";
 				    $pass = 0;
 				}
-				if ($token->{STYPE} =~ /alpha/i && $token->{ORTHO} !~ /^([A-Z]\.|[A-Z]\.\'s)$/i) {
+				if ($token->{STYPE} =~ /alpha/i &&
+				    $token->{ORTHO} !~ /^([A-Z]\.|[A-Z]\.\'*s)$/i) {
 				    print "ERROR: Invalid orthography for alpha $token->{TYPE}; see field (6) in $token->{LOC}\n";
 				    $pass = 0;
 			        } 
@@ -457,24 +466,22 @@ sub check_partial_word_coverage {
 
 sub ensure_word_covered_by_metadata_of_type {
     # make sure that all words belong to some metadata object of the given type.
-    # Right now the given type is always SU
     #
     my ($data, $mde_type) = @_;
 
     my ($src, $chnl, $spkr, $type, $token, $pass);
     $pass = 1;
 
-    if ($mde_type) {
-	foreach $src (keys %{$data}) {
-	    foreach $chnl (keys %{$data->{$src}}) {
-		foreach $spkr (keys %{$data->{$src}{$chnl}}) {
-		    foreach $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
-			if ($type =~ /LEXEME/i) {
-			    foreach $token (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
-				if (! find_type($data->{$src}{$chnl}{$spkr}{$mde_type}, $token->{TBEG}, $token->{TBEG} + $token->{TDUR})) {
-				    print "ERROR: word at $token->{TBEG} doesn't belong to any $mde_type object; see $token->{LOC}\n";
-				    $pass = 0;
-				}
+    foreach $src (keys %{$data}) {
+	foreach $chnl (keys %{$data->{$src}}) {
+	    foreach $spkr (keys %{$data->{$src}{$chnl}}) {
+		foreach $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+		    if ($type =~ /LEXEME/i) {
+			foreach $token (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
+			    if (! $data->{$src}{$chnl}{$spkr}{$mde_type} ||
+				! find_type($data->{$src}{$chnl}{$spkr}{$mde_type}, $token->{TBEG}, $token->{TBEG} + $token->{TDUR})) {
+				print "ERROR: word at $token->{TBEG} doesn't belong to any $mde_type object; see $token->{LOC}\n";
+				$pass = 0;
 			    }
 			}
 		    }
@@ -530,11 +537,11 @@ sub find_type {
     # determine if a given word (indicated by its start and end times)
     # belongs to any metadata object of the given type
     #
-    my ($data, $start, $end) = @_;
+    my ($data, $token_start, $token_end) = @_;
 
-    my $token;
-    foreach $token (@{$data}) {
-	if ($start >= $token->{TBEG} && $end <= $token->{TBEG} + $token->{TDUR}) {
+    foreach my $mde_obj (@{$data}) {
+	if ($token_start + $ROUNDING_THRESHOLD >= $mde_obj->{TBEG} &&
+	    $token_end - $ROUNDING_THRESHOLD <= $mde_obj->{TBEG} + $mde_obj->{TDUR}) {
 	    return 1;
 	}
     }
@@ -545,11 +552,11 @@ sub find_word {
     # determine if a given metadata object (indicated by its start and end times)
     # contains any word
     #
-    my ($data, $start, $end) = @_;
+    my ($data, $mde_obj_start, $mde_obj_end) = @_;
 
-    my $token;
-    foreach $token (@{$data}) {
-	if ($token->{TBEG} >= $start && $token->{TBEG} + $token->{TDUR} <= $end) {
+    foreach my $token (@{$data}) {
+	if ($token->{TBEG} + $ROUNDING_THRESHOLD >= $mde_obj_start &&
+	    $token->{TBEG} + $token->{TDUR} - $ROUNDING_THRESHOLD <= $mde_obj_end) {
 	    return 1;
 	}
     }
