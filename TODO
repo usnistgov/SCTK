@@ -6,8 +6,8 @@ High Priority:
 [ ] fix mdeval tests
 [x] fix empty inputs
 [-] STM Validators (need tests)
-[-] RTTM Validators (need definition of IP)
-[ ] CTM Validators
+[-] RTTM Validators (need tests)
+[x] CTM Validators
 [x] cumulative overlap table in HTML reports
 [-] update docs
     [ ] acomp
@@ -15,6 +15,7 @@ High Priority:
     [x] asclite
     [ ] chfilt
     [ ] csrfilt
+    [x] ctmValidator
     [ ] def_art
     [ ] hamzaNorm
     [ ] hubscr
@@ -24,16 +25,18 @@ High Priority:
     [ ] rover
     [ ] rttmSmooth
     [ ] rttmSort
+    [ ] rttmValidator
     [ ] sc_stats
     [ ] sclite
     [ ] spkr2sad
     [ ] stm2rttm
+    [ ] stmValidator
     [ ] tanweenFilt
     [ ] utf_filt
 
 Medium Priority:
-[-] use UEMs in asclite
-    [ ] empty channel (ihm)
+[x] use UEMs in asclite
+    [x] empty channel (ihm)
     [x] prefilter
     [x] inter segment gaps
 [ ] time-based alignments

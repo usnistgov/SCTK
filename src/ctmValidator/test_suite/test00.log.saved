@@ -1,0 +1,12 @@
+ERROR: [line 2] ctm record must have 8 fields and no whitespace at the beginning
+ERROR: [line 4] ctm record must have 8 fields and no whitespace at the beginning
+ERROR: [line 9] source 'path/AIT_20061020B_A' must have alphanumeric, hyphens (-) and underscore (_) characters only
+ERROR: [line 11] source 'AIT_20061020B_A.sph' must have alphanumeric, hyphens (-) and underscore (_) characters only
+ERROR: [line 13] begin 'begtime' time must floating point value
+ERROR: [line 15] duration 'durtime' time must floating point value
+ERROR: [line 18] token '%K22Bh}' must have alphabetic, hyphens (-) and apostrophes (') characters only
+ERROR: [line 28] confidence 'oNe' time must floating point value
+ERROR: [line 30] type 'null' is not a known type
+ERROR: [line 32] type 'super-lex' is not a known type
+ERROR: [line 35] speaker 'Jon's_officemate' must have alphanumeric, hyphens (-) and underscore (_) characters only
+FATAL: Validation failed due to the 11 previous error(s)

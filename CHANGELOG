@@ -11,6 +11,7 @@ SCTK Version pre-2.3 - Release xxx
   [/] Update headers disclaimer and file format
   [+] Added rttmValidator
   [+] Added stmValidator
+  [+] Added ctmValidator
 
 SCTK Version 2.2.4 - Release May 1, 2007
   [+] Added block size and force compression in hubscr.pl

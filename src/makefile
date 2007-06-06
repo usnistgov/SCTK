@@ -29,6 +29,7 @@ all clean distclean install:
 	(cd stm2rttm; $(MAKE) $@)
 	(cd stmValidator; $(MAKE) $@)
 	(cd rttmValidator; $(MAKE) $@)
+	(cd ctmValidator; $(MAKE) $@)
 
 config:
 	(cd asclite; $(MAKE) $@)
@@ -48,9 +49,10 @@ config:
 	(cd mergectm2rttm; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 	(cd align2html; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 	(cd md-eval; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
-	(cd stm2rttm; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
-	(cd stmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
-	(cd rttmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd stm2rttm; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
+	(cd stmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
+	(cd rttmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
+	(cd ctmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
 
 checkFast:
 	(cd asclite; $(MAKE) check)
@@ -69,6 +71,7 @@ checkFast:
 	(cd md-eval; $(MAKE) check)
 	(cd stmValidator; $(MAKE) check)
 	(cd rttmValidator; $(MAKE) check)
+	(cd ctmValidator; $(MAKE) check)
 
 check: all checkFast
 	(cd sclite; $(MAKE) $@)

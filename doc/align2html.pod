@@ -15,8 +15,8 @@ Using the -m option will add the information of the mapped speaker in every Segm
 
 Examples:
 
-	align2html-main.pl -a align.csv -o output_directory
-	align2html-main.pl -a align.csv -o output_directory -m map_file
+	align2html.pl -a align.csv -o output_directory
+	align2html.pl -a align.csv -o output_directory -m map_file
 
 =head1 OPTIONS
 

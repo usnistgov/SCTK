@@ -7,8 +7,9 @@ NROFF = nroff
 POD2HTML = pod2html
 
 PODS =  align2html \
-		asclite \
-		mergectm2rttm
+	asclite \
+	ctmValidator \
+	mergectm2rttm
 
 all:
 	for p in $(PODS); do \
