@@ -27,6 +27,8 @@ all clean distclean install:
 	(cd align2html; $(MAKE) $@)
 	(cd md-eval; $(MAKE) $@)
 	(cd stm2rttm; $(MAKE) $@)
+	(cd stmValidator; $(MAKE) $@)
+	(cd rttmValidator; $(MAKE) $@)
 
 config:
 	(cd asclite; $(MAKE) $@)
@@ -47,6 +49,8 @@ config:
 	(cd align2html; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 	(cd md-eval; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 	(cd stm2rttm; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd stmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
+	(cd rttmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)	
 
 checkFast:
 	(cd asclite; $(MAKE) check)
@@ -63,6 +67,8 @@ checkFast:
 	(cd mergectm2rttm; $(MAKE) check)
 	(cd align2html; $(MAKE) check)
 	(cd md-eval; $(MAKE) check)
+	(cd stmValidator; $(MAKE) check)
+	(cd rttmValidator; $(MAKE) check)
 
 check: all checkFast
 	(cd sclite; $(MAKE) $@)
