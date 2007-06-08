@@ -39,11 +39,13 @@ Medium Priority:
     [x] empty channel (ihm)
     [x] prefilter
     [x] inter segment gaps
-[ ] time-based alignments
+[-] time-based alignments (Need Generic algo and tests)
 [ ] alignment visualization program
 [ ] add SASTT cookbook to docs
 
 Low Priority:
 [x] additive cost based on word aligment distances
 [ ] rover implementation and experiments
+
+'Maybe-not' Priority:
 [ ] trancsript filtering (GLM)

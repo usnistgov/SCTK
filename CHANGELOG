@@ -12,6 +12,7 @@ SCTK Version pre-2.3 - Release xxx
   [+] Added rttmValidator
   [+] Added stmValidator
   [+] Added ctmValidator
+  [+] Added Time base cost model trigger with '-time-base-cost' in asclite
 
 SCTK Version 2.2.4 - Release May 1, 2007
   [+] Added block size and force compression in hubscr.pl

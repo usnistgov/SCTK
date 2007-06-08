@@ -86,6 +86,10 @@ ref: a reference word is optional and the word is inserted,
 both: both 'ref' and 'hyp' are in effect.
 The default value is 'both'.
 
+=item B<-time-base-cost>
+
+Used the time base cost model for the alignment (Note that only ctm and rttm format are supported for this mode).
+
 =item B<-time-prune <time_threshold>>
 
 Activates the time pruning optimization with allowed error of <time_threshold> millisecond(s).

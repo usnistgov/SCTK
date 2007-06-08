@@ -109,6 +109,9 @@ class Graph
 		 * Database for the optimization speaker alignment 
 		 */
 		SpeakerMatch* m_pSpeakerMatch;
+		
+		int m_typeCostModel; // 1: regular levenshtein
+							 // 2: time based
         
     // Methods
 	public:
@@ -144,7 +147,8 @@ class Graph
 		int GetCostInsertion(bool optionally) { return optionally ? m_CostOptionally : m_CostInsertion; }
 		/** returns cost of transition */
 		int GetCostTransition() { return m_CostTransition; }
-		int GetCostTransition(Token* pToken1, Token* pToken2);
+		int GetCostTransitionWordBased(Token* pToken1, Token* pToken2);
+		int GetCostTransitionTimeBased(Token* pToken1, Token* pToken2);
 		
 		int GetCostAdaptive(Token* pToken1, Token* pToken2);
 		
@@ -188,6 +192,12 @@ class Graph
 		int GetTransitionCostHypRef(size_t* coordcurr, size_t* coordprev);
 		/** returns the cost between 2 coordinates generic way to compute */
 		int GetTransitionCostGeneric(size_t* coordcurr, size_t* coordprev);
+		
+		int GetTransitionCostHypRefWordBased(size_t* coordcurr, size_t* coordprev);
+		int GetTransitionCostGenericWordBased(size_t* coordcurr, size_t* coordprev);
+		int GetTransitionCostHypRefTimeBased(size_t* coordcurr, size_t* coordprev);
+		int GetTransitionCostGenericTimeBased(size_t* coordcurr, size_t* coordprev);
+		
 		
 		/** Returns the best previous coordinate */
 		size_t* GetBestCoordinateAndCost(size_t* coordcurr);

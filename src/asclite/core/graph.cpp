@@ -24,8 +24,15 @@
 Logger* Graph::logger = Logger::getLogger();
 
 /** Constructor with the list of segments and the position of the first ref */
-Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optRef, bool _optHyp, bool _bCompressedArray) : m_CostTransition(_costTrans), m_CostInsertion(_costIns), m_CostOptionally(_costOpt), m_CostCorrectNonSpeaker(_costCorrectNonSpeaker), m_CostAdaptive(_costAdaptive), m_useOptForRef(_optRef), m_useOptForHyp(_optHyp)
+Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optRef, bool _optHyp, bool _bCompressedArray)
 {
+	m_CostTransition = _costTrans;
+	m_CostInsertion = _costIns;
+	m_CostOptionally = _costOpt;
+	m_CostCorrectNonSpeaker = _costCorrectNonSpeaker;
+	m_CostAdaptive = _costAdaptive;
+	m_useOptForRef = _optRef;
+	m_useOptForHyp = _optHyp;
 	m_bCompressedArray = _bCompressedArray;
 	m_pSpeakerMatch = _pSpeakerMatch;
 	Token* curToken;
@@ -631,7 +638,7 @@ void Graph::PreviousCoordinatesGeneric(GraphCoordinateList& listPrev, size_t* co
 }
 
 /** returns the cost between 2 coordinates for Hyp-Ref constraints */
-int Graph::GetTransitionCostHypRef(size_t* coordcurr, size_t* coordprev)
+int Graph::GetTransitionCostHypRefWordBased(size_t* coordcurr, size_t* coordprev)
 {
 	size_t tok1Index = 0;
 	size_t i = 0;
@@ -665,11 +672,11 @@ int Graph::GetTransitionCostHypRef(size_t* coordcurr, size_t* coordprev)
 	// Insertion or Deletion
 	{
     //Set the token as optionnaly only if it's activated for the specific ref-hyp case
-		if(pToken1 && ((tok1Index < m_IndexRef && m_useOptForHyp) || (tok1Index >= m_IndexRef && m_useOptForRef)))
+		if(/*pToken1 && */((tok1Index < m_IndexRef && m_useOptForHyp) || (tok1Index >= m_IndexRef && m_useOptForRef)))
 		{
             //if (pToken1->IsOptional())
             //  LOG_DEBUG(logger, "got an optionnaly");
-		  deletable = pToken1->IsOptional();
+			deletable = pToken1->IsOptional();
         }
 		
 		//return( GetCostInsertion(deletable)*( GetDimension()-1 ) ); // MD without restriction
@@ -677,6 +684,8 @@ int Graph::GetTransitionCostHypRef(size_t* coordcurr, size_t* coordprev)
 	}
 	else
 	{
+		/*
+		// Failsafes but it shouldn't happened 
 		// MD with restriction
 		if( ( (!pToken1) && (pToken2) ) || ( (pToken1) && (!pToken2) ) )
 			return GetCostTransition();
@@ -684,13 +693,14 @@ int Graph::GetTransitionCostHypRef(size_t* coordcurr, size_t* coordprev)
 			return 0;
 		else
 			//return(GetCostTransition()*( !(pToken1->IsEquivalentTo(pToken2)) ));
-			return(GetCostTransition(pToken1, pToken2));
+		*/
+		return(GetCostTransitionWordBased(pToken1, pToken2));
 		
 	}
 }
 
 /** returns cost of transition */
-int Graph::GetCostTransition(Token* pToken1, Token* pToken2)
+int Graph::GetCostTransitionWordBased(Token* pToken1, Token* pToken2)
 {
 	int AdaptiveCost = GetCostAdaptive(pToken1, pToken2);
 	
@@ -737,7 +747,7 @@ int Graph::GetCostTransition(Token* pToken1, Token* pToken2)
 }
 
 /** returns the cost between 2 coordinates generic way to compute */
-int Graph::GetTransitionCostGeneric(size_t* coordcurr, size_t* coordprev)
+int Graph::GetTransitionCostGenericWordBased(size_t* coordcurr, size_t* coordprev)
 {
 	size_t nbrchange = 0;
 	size_t nbrdiff = 0;
@@ -1303,6 +1313,7 @@ void Graph::SetGraphOptimization()
 	m_bSpeakerOptimization = (string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0);
 	m_bAdaptiveCostOptimization = (string("true").compare(Properties::GetProperty("align.adaptivecost")) == 0);
 	m_bWordAlignCostOptimization = (string("true").compare(Properties::GetProperty("align.wordaligncost")) == 0);
+	m_typeCostModel = atoi(Properties::GetProperty("align.typecost").c_str());
 	
 	if(m_bPruneOptimization)
 		m_PruneOptimizationThreshold = atoi(Properties::GetProperty("align.timepruneoptimizationthreshold").c_str());
@@ -1310,3 +1321,97 @@ void Graph::SetGraphOptimization()
 	if(m_bWordOptimization)
 		m_WordOptimizationThreshold = atoi(Properties::GetProperty("align.timewordoptimizationthreshold").c_str());
 }
+
+int Graph::GetTransitionCostHypRef(size_t* coordcurr, size_t* coordprev)
+{
+	if(m_typeCostModel == 2)
+		return GetTransitionCostHypRefTimeBased(coordcurr, coordprev);
+	else
+		return GetTransitionCostHypRefWordBased(coordcurr, coordprev);
+}
+
+int Graph::GetTransitionCostGeneric(size_t* coordcurr, size_t* coordprev)
+{
+	if(m_typeCostModel == 2)
+		return GetTransitionCostGenericTimeBased(coordcurr, coordprev);
+	else
+		return GetTransitionCostGenericWordBased(coordcurr, coordprev);
+}
+
+int Graph::GetTransitionCostHypRefTimeBased(size_t* coordcurr, size_t* coordprev)
+{
+	size_t tok1Index = 0;
+	size_t i = 0;
+	Token* pToken1 = NULL;
+	Token* pToken2 = NULL;
+	bool bT1 = false;
+	bool bT2 = false;
+	bool deletable = false;
+	
+	while( (i != GetDimension()) && !bT2)
+	{
+		if(coordcurr[i] != coordprev[i])
+		{
+			if(!bT1)
+			{
+				pToken1 = m_TabVecHypRef[i][coordcurr[i]];
+				tok1Index = i;
+				bT1 = true;
+			}
+			else
+			{
+				pToken2 = m_TabVecHypRef[i][coordcurr[i]];
+				bT2 = true;
+			}
+		}
+		
+		++i;
+	};
+	
+	if(!bT2)
+	// Insertion or Deletion
+	{
+    //Set the token as optionnaly only if it's activated for the specific ref-hyp case
+		if( (tok1Index < m_IndexRef && m_useOptForHyp) || (tok1Index >= m_IndexRef && m_useOptForRef) )
+			deletable = pToken1->IsOptional();
+		
+		return( GetCostInsertion(deletable)*(pToken1->GetDuration()) ); // MD with restriction
+	}
+	else
+		return( GetCostTransitionTimeBased(pToken1, pToken2) );
+}
+
+int Graph::GetCostTransitionTimeBased(Token* pToken1, Token* pToken2)
+{
+	int transcost = m_CostTransition*( abs(pToken1->GetStartTime() - pToken2->GetStartTime()) + abs(pToken1->GetEndTime() - pToken2->GetEndTime()) );
+
+	if(m_bSpeakerOptimization)
+	{
+		string file1 = pToken1->GetParentSegment()->GetSource();
+		string channel1 = pToken1->GetParentSegment()->GetChannel();
+		string speaker1 = pToken1->GetParentSegment()->GetSpeakerId();
+		transform(speaker1.begin(), speaker1.end(), speaker1.begin(), (int(*)(int)) toupper);
+		
+		string file2 = pToken2->GetParentSegment()->GetSource();
+		string channel2 = pToken2->GetParentSegment()->GetChannel();
+		string speaker2 = pToken2->GetParentSegment()->GetSpeakerId();
+		transform(speaker2.begin(), speaker2.end(), speaker2.begin(), (int(*)(int)) toupper);
+		
+		if( (file1 != file2) || (channel1 != channel2) )
+		{
+			LOG_FATAL(logger, "Error file and channel mismatch " + file1 + " " + channel1 + " " + file2 + " " + channel2); 
+			exit(0);
+		}
+					
+		if(m_pSpeakerMatch->GetRef(file1, channel1, speaker1) != speaker2)
+			transcost += m_CostCorrectNonSpeaker;
+	}
+	
+	return transcost;
+}
+
+int Graph::GetTransitionCostGenericTimeBased(size_t* coordcurr, size_t* coordprev)
+{
+	//Not Yet Implemented;
+	return 0;
+}		

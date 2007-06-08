@@ -61,6 +61,8 @@ void PrintHelp()
 	cout << "                  ref: a reference word is optional and the word is inserted," << endl;
 	cout << "                  both: both 'ref' and 'hyp' are in effect." << endl;
 	cout << "                  The default value is 'both'." << endl;
+	cout << "    -time-base-cost" << endl;
+	cout << "                  Used the time base cost model for the alignment." << endl;
 	cout << "    -time-prune <time_threshold>" << endl;
 	cout << "                  Activates the time pruning optimization with allowed error of <time_threshold> millisecond(s)." << endl;
 	cout << "    -word-time-align <time_threshold>" << endl;
@@ -162,6 +164,8 @@ int main(int argc, char **argv)
     
     string arg_spkrautooverlapoption = "";
     bool arg_bspkrautooverlap = false;
+    
+    bool arg_btimebasecost = false;
 	
 	vector<string> arg_vecouput;
 	vector<string> arg_filters;
@@ -616,6 +620,12 @@ int main(int argc, char **argv)
 			arg_badaptivecost = true;
 		}
 		else
+		// Time Base Cost
+		if(strcmp(argv[arg_index], "-time-base-cost") == 0)
+		{
+			arg_btimebasecost = true;
+		}
+		else
 		// Word Align cost
 		if(strcmp(argv[arg_index], "-wordalign-cost") == 0)
 		{
@@ -784,6 +794,12 @@ int main(int argc, char **argv)
 	
 	arg_ok = arg_ok && arg_bref && !vecHyps.empty();
 	
+	if( arg_btimebasecost && ( (vecHyps.begin()->fileformat == "trn") || (reffile.fileformat == "trn") || (reffile.fileformat == "stm") ) )
+	{
+		cout << "Time based alignment can only be done with input format allowing token time: (ctm and rttm)." << endl;
+		arg_ok = false;
+	}
+	
 	if(!vecHyps.empty() && arg_bref)
 	{
 		if( !( ( (vecHyps.begin()->fileformat == "trn") && (reffile.fileformat == "trn") ) ||
@@ -824,6 +840,13 @@ int main(int argc, char **argv)
 		Properties::SetProperty("align.memorycompressionblock", arg_memorycompression);
 		Properties::SetProperty("align.adaptivecost", arg_badaptivecost ? "true" : "false");
 		Properties::SetProperty("align.wordaligncost", arg_bwordaligncost ? "true" : "false");
+		Properties::SetProperty("align.wordaligncost", arg_bwordaligncost ? "true" : "false");
+		
+		if(arg_btimebasecost)
+			Properties::SetProperty("align.typecost", "2");
+		else
+			Properties::SetProperty("align.typecost", "1");
+		
 		Properties::SetProperty("recording.maxspeakeroverlaping", arg_maxnboverlapingspkr);
         Properties::SetProperty("recording.maxnbofgb", arg_maxgb);
 		
