@@ -118,7 +118,7 @@ class Graph
         /** Constructor */
 		Graph() {}
 		/** Constructor with the number of dimension */
-		Graph(SegmentsGroup* _segmentsGroup, SpeakerMatch* _pSpeakerMatch, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optIns, bool _optDel, bool _bCompressedArray);
+		Graph(SegmentsGroup* _segmentsGroup, SpeakerMatch* _pSpeakerMatch, int _typeCost, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optIns, bool _optDel, bool _bCompressedArray);
 		/** Destructor */
 		~Graph();
 		

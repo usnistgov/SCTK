@@ -74,6 +74,11 @@ if ($suite =~ /^(uem|isg|all|notpassed)$/)
     RunAscliteTest("isg-4-both", "-F -D -uem isg4.uem both", "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-4-both");
 }
 
+if ($suite =~ /^(timebasecost|isg|all|notpassed)$/)
+{
+    RunAscliteTest("timebasecost" , "-F -D -time-base-cost", "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm timebasecost");
+}
+
 if ($suite =~ /^(sastt|all|notpassed)$/)
 {
     RunAscliteTest("sastt-1", "-F -D -spkr-align sastt.map.csv", "-r sastt.ref.rttm rttm", "-h sastt.sys.rttm rttm sastt-1");

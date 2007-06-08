@@ -67,5 +67,10 @@ void Levenshtein::SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeak
         LOG_WARN(logger, "The <align.optionally> property has an unrecognized value: '"+opt_case+"'");
     }
 
-    graph = new Graph(segmentsGroup, pSpeakerMatch, 400, 300, 200, 100, 50, opt_ref, opt_hyp, useCompArray);
+	int typecost = atoi(Properties::GetProperty("align.typecost").c_str());
+	
+	if(typecost == 2)
+    	graph = new Graph(segmentsGroup, pSpeakerMatch, typecost, 100, 100, 100, 100, 50, opt_ref, opt_hyp, useCompArray);
+    else
+    	graph = new Graph(segmentsGroup, pSpeakerMatch, typecost, 400, 300, 200, 100, 50, opt_ref, opt_hyp, useCompArray);
 }

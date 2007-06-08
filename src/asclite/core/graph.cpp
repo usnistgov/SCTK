@@ -24,8 +24,9 @@
 Logger* Graph::logger = Logger::getLogger();
 
 /** Constructor with the list of segments and the position of the first ref */
-Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optRef, bool _optHyp, bool _bCompressedArray)
+Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCost, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optRef, bool _optHyp, bool _bCompressedArray)
 {
+	m_typeCostModel = 
 	m_CostTransition = _costTrans;
 	m_CostInsertion = _costIns;
 	m_CostOptionally = _costOpt;
@@ -1313,7 +1314,6 @@ void Graph::SetGraphOptimization()
 	m_bSpeakerOptimization = (string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0);
 	m_bAdaptiveCostOptimization = (string("true").compare(Properties::GetProperty("align.adaptivecost")) == 0);
 	m_bWordAlignCostOptimization = (string("true").compare(Properties::GetProperty("align.wordaligncost")) == 0);
-	m_typeCostModel = atoi(Properties::GetProperty("align.typecost").c_str());
 	
 	if(m_bPruneOptimization)
 		m_PruneOptimizationThreshold = atoi(Properties::GetProperty("align.timepruneoptimizationthreshold").c_str());
