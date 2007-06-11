@@ -59,11 +59,6 @@ The default value is 'both'.
 
 Do not creates the Inter Segment Gaps.
 
-=item B<-glm <glmfilename> [ ref | hyp | both ]>
-
-Apply the GLM rules.
-The default value is 'both'.
-
 =back
 
 =item B<Alignment Options:>

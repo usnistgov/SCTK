@@ -53,7 +53,7 @@ Recording::Recording()
   
 	//init the Filters
 	filters["filter.spkrautooverlap"] = new SpkrAutoOverlap();
-	filters["filter.glm"] = new GLMFilter();
+	//filters["filter.glm"] = new GLMFilter();
 	filters["filter.uem"] = new UEMFilter();
   
 	//init the Alignment result
@@ -195,13 +195,13 @@ Recording::~Recording()
 * Load the reference&Hypothesis files into the system.
  * use the right loader based on the type.
  */
-void Recording::Load(string _references, string _refType, vector<string> _hypothesis, vector<string> _hypothesis_titles, string _hypType, string glmFile, string uemFile, string speakeralignfile)
+void Recording::Load(string _references, string _refType, vector<string> _hypothesis, vector<string> _hypothesis_titles, string _hypType, /*string glmFile,*/ string uemFile, string speakeralignfile)
 {
 	if(string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0)
 		m_pSpeakerMatch->LoadFile(speakeralignfile);
 		
-	if(string("true").compare(Properties::GetProperty("filter.glm")) == 0)
-		filters["filter.glm"]->LoadFile(glmFile);
+//	if(string("true").compare(Properties::GetProperty("filter.glm")) == 0)
+//		filters["filter.glm"]->LoadFile(glmFile);
 		
 	if(string("true").compare(Properties::GetProperty("filter.uem")) == 0)
 		filters["filter.uem"]->LoadFile(uemFile);

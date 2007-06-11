@@ -3,6 +3,7 @@ SCTK Version pre-2.3 - Release xxx
   [+] Added UEM inplementation directly to asclite
   [+] -wordalign-cost options for asclite adding some cost variance
       depending in the word syntactic distance
+  [+] Added Time base cost model trigger with '-time-base-cost' in asclite
   [+] Added cumulative table to HTML reports
   [+] Added man and HTML docs for tools
   [/] Changed the speaker auto-overlap behavior from internal to command-
@@ -12,8 +13,7 @@ SCTK Version pre-2.3 - Release xxx
   [+] Added rttmValidator
   [+] Added stmValidator
   [+] Added ctmValidator
-  [+] Added Time base cost model trigger with '-time-base-cost' in asclite
-
+  
 SCTK Version 2.2.4 - Release May 1, 2007
   [+] Added block size and force compression in hubscr.pl
   [+] Added block size limit to 1GB
