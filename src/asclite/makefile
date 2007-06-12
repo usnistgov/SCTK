@@ -25,8 +25,4 @@ checkFast:
 check: all checkFast
 	(cd core; $(MAKE) $@)
 	(cd test; $(MAKE) $@)
-	(cd testfiles; perl ascliteTest.pl)
-	(cd testfiles; perl ascliteTest.pl -s mdm04)
-	(cd testfiles; perl ascliteTest.pl -s sastt)
-	(cd testfiles; perl ascliteTest.pl -s uem)
-	(cd testfiles; perl ascliteTest.pl -s timebasecost)
+	(cd testfiles; perl ascliteTest.pl -s all)

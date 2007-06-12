@@ -26,7 +26,7 @@ my $Usage = "Usage: ascliteTest.pl -s (all|sastt|std|mdm04|mdm04ByFile|cts04|mdm
 my $suite = "std";    ## OR all | mdm04 | bn04 | cts04 | mdmVariations
 my $bigMem = 0;
 my $result = GetOptions("s=s" => \$suite,
-			"m" => \$bigMem);
+						"m" => \$bigMem);
 die "Aborting:\n$Usage\n" if (!$result);
 
 
@@ -50,13 +50,8 @@ if ($suite =~ /^(std|all|passed)$/)
     RunAscliteTest("CT-overlap-i-x-x",         "", "-r overlap.stm stm",         "-h overlap.ctm ctm CT-overlap-i-x-x");
     RunAscliteTest("CT-overlap-i-x-x",         "", "-r overlap.stm stm",         "-h overlap.ctm ctm CT-overlap-i-x-x -force-memory-compression");
 }
-
-if ($suite =~ /^(mdm04ByFile|all|notpassed)$/)
-{
-    TestMDM_2004_byFile();
-}
     
-if ($suite =~ /^(mdm04|all|notpassed)$/)
+if ($suite =~ /^(mdm04|all|passed)$/)
 {
     RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-noisg -F -D -overlap-limit 1",                           "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1");
     RunAscliteTest("CT-mdm-full-i-F-D-ov1", "-noisg -F -D -overlap-limit 1 -force-memory-compression", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov1");
@@ -64,7 +59,7 @@ if ($suite =~ /^(mdm04|all|notpassed)$/)
     RunAscliteTest("CT-mdm-full-i-F-D-ov2", "-noisg -F -D -overlap-limit 2 -force-memory-compression", "-r rt04s.040420.mdm.overlap.stm.filt stm", "-h  rt04s.040810.mdm.overlap.ctm.filt ctm CT-mdm-full-i-F-D-ov2");
 }
 
-if ($suite =~ /^(uem|isg|all|notpassed)$/)
+if ($suite =~ /^(uem|isg|all|passed)$/)
 {
     RunAscliteTest("isg-0"     , "-F -D",                    "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-0");
     RunAscliteTest("isg-1"     , "-F -D -uem isg1.uem ref" , "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-1");
@@ -74,76 +69,14 @@ if ($suite =~ /^(uem|isg|all|notpassed)$/)
     RunAscliteTest("isg-4-both", "-F -D -uem isg4.uem both", "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm isg-4-both");
 }
 
-if ($suite =~ /^(timebasecost|isg|all|notpassed)$/)
+if ($suite =~ /^(timebasecost|isg|all|passed)$/)
 {
     RunAscliteTest("timebasecost" , "-F -D -time-base-cost", "-r isg.ref.rttm rttm", "-h isg.sys.rttm rttm timebasecost");
 }
 
-if ($suite =~ /^(sastt|all|notpassed)$/)
+if ($suite =~ /^(sastt|all|passed)$/)
 {
     RunAscliteTest("sastt-1", "-F -D -spkr-align sastt.map.csv", "-r sastt.ref.rttm rttm", "-h sastt.sys.rttm rttm sastt-1");
-}
-
-if ($suite =~ /^(bn04|all|notpassed)$/)
-{
-    RunCompatTest("CT-eng-bnews-i-F-D","   -F -D","-r eng-bnews.stm.filt stm","-h eng-bnews.ctm.filt ctm CT-eng-bnews-i-F-D");
-}
-
-if ($suite =~ /^(cts04|all|notpassed)$/)
-{
-    RunCompatTest("CT-eng-cts-i-F-D","     -F -D","-r eng-cts.stm.filt stm","-h eng-cts.ctm.filt ctm CT-eng-cts-i-F-D");
-}
-
-if ($suite =~ /^(mdmVariations|all|notpassed)$/)
-{
-	### Variations:
-	#Align: word | wordTime 0.0 | wordTime 1.0 | wordTime 5.0
-	#Prune: none | 0.5 | 1.0 | 5.0
-	#Overlap: 1 | 2 | 3
-	
-	my @word_options = ("", "-word-time-align 0", "-word-time-align 1000", "-word-time-align 5000");
-	my @prune_options = ("", "-time-prune 500", "-time-prune 1000", "-time-prune 5000");
-	my @overlap_options = ("", "-overlap-limit 1", "-overlap-limit 2", "-overlap-limit 3");
-	
-	my @word_name = ("", "w0", "w1", "w5");
-	my @prune_name = ("", "p05", "p10", "p50");
-	my @overlap_name = ("", "ov1", "ov2", "ov3");
-	
-	my $word_it;
-	my $prune_it;
-	my $overlap_it;
-	
-	my $base_options = "-F -D";
-	my $base_name = "CT-mdm_2mtg_300sec-i-F-D";
-	
-	for ($word_it=0; $word_it<4; $word_it++)
-	{
-		for ($prune_it=0; $prune_it<4; $prune_it++)
-		{
-			for ($overlap_it=0; $overlap_it<4; $overlap_it++)
-			{
-				my $current_options = "$base_options $word_options[$word_it] $prune_options[$prune_it] $overlap_options[$overlap_it]";
-				my $current_name = "$base_name";
-				
-				if($word_it > 0)
-				{
-					$current_name = "$current_name-$word_name[$word_it]";
-				}
-				
-				if($prune_it > 0)
-				{
-					$current_name = "$current_name-$prune_name[$prune_it]";
-				}
-				
-				if($overlap_it > 0)
-				{
-					$current_name = "$current_name-$overlap_name[$overlap_it]";
-				}
-				
-				RunAscliteTest(	"$current_name", "$current_options", "-r mdm_2mtg_300sec.stm.filt stm",	"-h mdm_2mtg_300sec.ctm.filt ctm $current_name");
-			}
-		}
-	}
 }
 
 die "Errors: Occured.  Exiting with non-zero code" if ($failure);
@@ -224,19 +157,5 @@ sub RunAscliteTest
                 system "rm -rf $ascliteTestOutDir/$testId.sgml.asclite";
             }	
         }
-    }
-}
-
-sub TestMDM_2004_byFile
-{
-    my $ref = "rt04s.040420.mdm.overlap.stm.filt";
-    my $hyp = "rt04s.040810.mdm.overlap.ctm.filt";
-    
-    foreach my $file(split(/\s+/, `grep -v \\; $ref | awk '{print \$1}' | sort -u`))
-    {
-        print "File $file\n";
-        system "grep '^$file' $ref > /tmp/bysrc.ref";
-        system "grep '^$file' $hyp > /tmp/bysrc.hyp";
-        RunAscliteTest("CT-mdm-full-i-F-D-ov1-$file", "-F -D -overlap-limit 1", "-r /tmp/bysrc.ref stm","-h /tmp/bysrc.hyp ctm CT-mdm-full-i-F-D-ov1-$file");
     }
 }
