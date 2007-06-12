@@ -39,7 +39,7 @@ Medium Priority:
     [x] empty channel (ihm)
     [x] prefilter
     [x] inter segment gaps
-[-] time-based alignments (Need Generic algo)
+[x] time-based alignments
 [ ] alignment visualization program
 [ ] add SASTT cookbook to docs
 

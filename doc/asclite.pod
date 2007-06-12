@@ -184,6 +184,64 @@ No known bugs.
 
 =head1 NOTES
 
+=head2 Cost Models
+
+There 2 different cost models used in ASCLITE: Word-base cost and Time-base cost.
+
+=head3 Word-base cost
+
+The default one is based on the words.
+It assigns costs regarding the action taken on the word (correct, insertion, deletion, substitution, etc.):
+Correct (the two word are aligned together but have not the same syntax) [cost of 0], Substitution (the two word are aligned together and have the same syntax) [cost of 400], Deletion (word that appears in the hypothesis but not in the system output) [cost of 300], Insertion (word that not appears in the hypothesis but in the system output).
+
+If there is no distinction between hypotheses and system outputs, it uses a 'generic' cost model.
+The 'generic' cost model is not working on pair of words but by set of words; the set of words representing the state of the alignment matrix. It calculates the number of 'insertions' and 'deletions' and the number of words that have the same syntax. It adds the costs of all the insertions and deletions, plus the cost of correct to the maximum number of words which have the same syntax and the cost of substitution to the rest, and this to the set of words.
+
+=head3 Time-base cost
+
+The second one is based on the times.
+It assigns costs regarding the times of the words. The cost if the sum of the differences between the begin times and end times of the words.
+
+For example:
+
+	B   E
+	|---| is the word in the timeline.
+	***** is the difference.
+	
+	       B        E
+	Word1: |-------|******   
+	Word2: *****|--------|
+	            B        E
+
+	Cost: 11 (number of *)
+	
+
+If there is no distinction between hypotheses and system outputs, it uses a 'generic' cost model.
+The 'generic' cost model, as for thw word-base model, is not working on pair of words but by set of words; the set of words representing the state of the alignment matrix.
+It uses the minimum and maximum times of all the words. Uses that times to calculates the costs by adding the differences between the minimum time versus the begin times, and the maximum time versus the end times.
+For the deletions, it just add to the cost the difference between the 2 maxima.
+
+For example:
+
+	B   E
+	|---| is the word in the timeline.
+	***** is the difference.
+	
+	       
+	Word1:     **|------------|*****   
+	Word2:     *****|--------|******
+	Word3:     **|---|**************
+	Word4:     |--------|***********
+	Deletion1: *********************
+	Word5:     ************|-------|
+       
+    Cost: 78 (number of *)
+   
+
+=head2 Publications
+
+[1] B<Multiple Dimension Levenshtein Edit Distance Calculations for Evaluating Automatic Speech Recognition Systems During Simultaneous Speech>, Jonathan Fiscus, Jerome Ajot, Nicolas Radde and Christophe Laprun, Proceedings of Language Resources and Evaluation (LREC), Genoa, Italy, May 2006.
+
 =head1 AUTHORS
 
 =item Jerome Ajot <jerome.ajot@nist.gov>
