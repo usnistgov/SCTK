@@ -70,7 +70,15 @@ void Levenshtein::SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeak
 	int typecost = atoi(Properties::GetProperty("align.typecost").c_str());
 	
 	if(typecost == 2)
-    	graph = new Graph(segmentsGroup, pSpeakerMatch, typecost, 100, 100, 100, 100, 50, opt_ref, opt_hyp, useCompArray);
+	{
+		LOG_DEBUG(logger, "Using Time base cost model");
+    	//graph = new Graph(segmentsGroup, pSpeakerMatch, typecost, 400, 300, 200, 100, 50, opt_ref, opt_hyp, useCompArray);
+    }
     else
-    	graph = new Graph(segmentsGroup, pSpeakerMatch, typecost, 400, 300, 200, 100, 50, opt_ref, opt_hyp, useCompArray);
+    {
+    	LOG_DEBUG(logger, "Using Word cost model");
+    	//graph = new Graph(segmentsGroup, pSpeakerMatch, typecost, 400, 300, 200, 100, 50, opt_ref, opt_hyp, useCompArray);
+    }
+
+    graph = new Graph(segmentsGroup, pSpeakerMatch, typecost, 400, 300, 200, 100, 50, opt_ref, opt_hyp, useCompArray);
 }

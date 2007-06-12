@@ -112,6 +112,9 @@ class Graph
 		
 		int m_typeCostModel; // 1: regular levenshtein
 							 // 2: time based
+							 
+							 
+		int m_TimeBasedSafeDivider;
         
     // Methods
 	public:

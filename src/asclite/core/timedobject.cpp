@@ -91,3 +91,21 @@ bool TimedObject::Equals(TimedObject* to)
         
 	return this->startTime == to->startTime && this->endTime == to->endTime;
 }
+
+int TimedObject::TimeSafeDivider()
+{
+	if(!IsTimeReal())
+		return 1;
+	
+	double loppindex = 0;
+	int value;
+	
+	do
+	{
+		++loppindex;
+		value = (int) pow(10, loppindex);
+	} 
+	while( (startTime % value == 0) && (endTime % value == 0) );
+		
+	return((int) pow(10, loppindex-1));
+}

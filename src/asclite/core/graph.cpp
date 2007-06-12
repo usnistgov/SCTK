@@ -26,7 +26,7 @@ Logger* Graph::logger = Logger::getLogger();
 /** Constructor with the list of segments and the position of the first ref */
 Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCost, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optRef, bool _optHyp, bool _bCompressedArray)
 {
-	m_typeCostModel = 
+	m_typeCostModel = _typeCost;
 	m_CostTransition = _costTrans;
 	m_CostInsertion = _costIns;
 	m_CostOptionally = _costOpt;
@@ -36,6 +36,13 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 	m_useOptForHyp = _optHyp;
 	m_bCompressedArray = _bCompressedArray;
 	m_pSpeakerMatch = _pSpeakerMatch;
+	
+	if(m_typeCostModel == 2)
+	{
+		// Calculate the safe divider
+		m_TimeBasedSafeDivider = min(min(min(m_CostTransition, m_CostInsertion), m_CostOptionally), m_CostCorrectNonSpeaker);
+	}
+	
 	Token* curToken;
 	size_t i, k, sizevector;
 	
@@ -52,7 +59,9 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 	m_TabMapTokenIndex = new map<Token*, size_t>[GetDimension()];
 	m_TabFirstTokens = new list<Token*>[GetDimension()];
 	m_TabLastTokens = new list<Token*>[GetDimension()];
-	    
+	   
+	int minTimeSafeDividerToken = -1;
+	
 	// Planning each Segment and look for the last and first token
 	for(i=0; i<GetDimension(); ++i)
 	{
@@ -79,38 +88,30 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 			
 			if(curToken != NULL)
 			{
-				//cerr << i << " " << k << " " << curToken->ToString() << endl;
+				if(m_typeCostModel == 2)
+				{
+					int TimeSafeDividerToken = curToken->TimeSafeDivider();
+				
+					if( (minTimeSafeDividerToken == -1) || (TimeSafeDividerToken < minTimeSafeDividerToken) )
+						minTimeSafeDividerToken = TimeSafeDividerToken;
+				}
 				
 				m_TabMapTokenIndex[i][curToken] = k;
-				
-				//cerr << " " << i << " " << k << " " << curToken->ToString() << endl;
-        
 				size_t prcs = 0;
 				
 				while( (prcs < (size_t)(temp_segs.size()-1)) && (temp_segs[prcs]->isEmpty()) )
-				{
 					++prcs;
-				}
 				
 				if(temp_segs[prcs]->isFirstToken(curToken))
-				{
                     m_TabFirstTokens[i].push_front(curToken);
-					//cerr << "Last Token: " << curToken->ToString() << endl;
-				}
 				
 				prcs = temp_segs.size()-1;
 				
 				while( (prcs > 0) && (temp_segs[prcs]->isEmpty()) )
-				{
 					--prcs;
-				}
 				
-				//if(temp_segs[temp_segs.size()-1]->isLastToken(curToken))
 				if(temp_segs[prcs]->isLastToken(curToken))
-				{
                     m_TabLastTokens[i].push_front(curToken);
-					//cerr << "First Token: " << curToken->ToString() << endl;
-				}
 			}
 		}
 	}
@@ -139,6 +140,14 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
         for(k=0; k<m_TabDimensionDeep[i]; ++k)
             m_TabCacheDimPreviousIndex[i][k] = NULL;
     }
+    
+    if(m_typeCostModel == 2)
+	{
+		m_TimeBasedSafeDivider *= minTimeSafeDividerToken;
+		char buffer [BUFFER_SIZE];
+        sprintf(buffer, "Use Safe divider (%d)!", m_TimeBasedSafeDivider);
+		LOG_DEBUG(logger, buffer);
+	}
 }
 
 /** Destructor */
@@ -751,11 +760,10 @@ int Graph::GetCostTransitionWordBased(Token* pToken1, Token* pToken2)
 int Graph::GetTransitionCostGenericWordBased(size_t* coordcurr, size_t* coordprev)
 {
 	size_t nbrchange = 0;
-	size_t nbrdiff = 0;
-	size_t nbroccur = 0;
-	list<Token*> listToken;
-	list<Token*>::iterator j, ej;
+	vector<Token*> vectToken;
+	vector<int> vectCounts;
 	bool found, deletable;
+	int index;
 	
 	deletable = false;
 	
@@ -764,42 +772,42 @@ int Graph::GetTransitionCostGenericWordBased(size_t* coordcurr, size_t* coordpre
 		if(coordcurr[i] != coordprev[i])
 		{
 			Token* aToken = m_TabVecHypRef[i][coordcurr[i]];
+			deletable = aToken->IsOptional();
 			
-			j = listToken.begin();
-			ej = listToken.end();
 			found = false;
 			
-			while( (j != ej) && (!found) )
+			for(size_t j=0; j<vectToken.size(); ++j)
 			{
-				if(aToken)
-					found = aToken->IsEquivalentTo(*j);
-				
-				++j;
+				if(aToken->IsEquivalentTo(vectToken[j]))
+				{
+					found = true;
+					index = j;
+				}
 			}
 			
 			if(!found)
 			{
-				++nbrdiff;
-				listToken.push_front(aToken);
+				vectToken.push_back(aToken);
+				vectCounts.push_back(1);
+			}
+			else
+			{
+				++(vectCounts[index]);
 			}
 			
 			++nbrchange;
 		}
 	}
 	
-	if(nbrchange == 1)
-		deletable = (*(listToken.begin()))->IsOptional();
+	vectToken.clear();
 	
-	listToken.clear();
+	size_t nbroccur = -1;
 	
-	if(nbrdiff == GetDimension())
-	{
-		nbroccur = 1;
-	}
-	else
-	{
-		nbroccur = GetDimension() - nbrdiff + 1;
-	}
+	for(size_t j=0; j<vectCounts.size(); ++j)
+		if(vectCounts[j] > nbroccur)
+			nbroccur = vectCounts[j];
+	
+	vectCounts.clear();
 	
 	return( GetCostInsertion(deletable)*( GetDimension() - nbrchange ) + GetCostTransition()*( nbrchange - nbroccur ) );
 }
@@ -1375,10 +1383,10 @@ int Graph::GetTransitionCostHypRefTimeBased(size_t* coordcurr, size_t* coordprev
 		if( (tok1Index < m_IndexRef && m_useOptForHyp) || (tok1Index >= m_IndexRef && m_useOptForRef) )
 			deletable = pToken1->IsOptional();
 		
-		return( GetCostInsertion(deletable)*(pToken1->GetDuration()) ); // MD with restriction
+		return( (GetCostInsertion(deletable)*(pToken1->GetDuration()))/m_TimeBasedSafeDivider ); // MD with restriction
 	}
 	else
-		return( GetCostTransitionTimeBased(pToken1, pToken2) );
+		return( (GetCostTransitionTimeBased(pToken1, pToken2))/m_TimeBasedSafeDivider );
 }
 
 int Graph::GetCostTransitionTimeBased(Token* pToken1, Token* pToken2)
@@ -1412,6 +1420,37 @@ int Graph::GetCostTransitionTimeBased(Token* pToken1, Token* pToken2)
 
 int Graph::GetTransitionCostGenericTimeBased(size_t* coordcurr, size_t* coordprev)
 {
-	//Not Yet Implemented;
-	return 0;
+	bool deletable = false;
+	int mintime = -1;
+	int maxtime = -1;
+	int deletioncost = 0;
+	int transitioncost = 0;
+	
+	for(size_t i=0; i<GetDimension(); ++i)
+	{
+		if(coordcurr[i] != coordprev[i])
+		{
+			Token* aToken = m_TabVecHypRef[i][coordcurr[i]];
+			deletable = aToken->IsOptional();
+			
+			if( (mintime == -1) || (aToken->GetStartTime() < mintime) )
+				mintime = aToken->GetStartTime();
+			
+			if( (maxtime == -1) || (aToken->GetEndTime() > maxtime) )
+				maxtime = aToken->GetEndTime();
+		}
+	}
+
+	for(size_t i=0; i<GetDimension(); ++i)
+	{
+		if(coordcurr[i] != coordprev[i])
+		{
+			Token* aToken = m_TabVecHypRef[i][coordcurr[i]];
+			transitioncost = maxtime - aToken->GetEndTime() + aToken->GetStartTime() - mintime;
+		}
+		else
+			deletioncost += maxtime - mintime;
+	}
+	
+	return( (GetCostInsertion(deletable)*deletioncost + GetCostTransition()*transitioncost)/m_TimeBasedSafeDivider );
 }		

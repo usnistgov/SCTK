@@ -48,6 +48,8 @@ class TimedObject
         bool Equals(TimedObject* to);
 		
 		ulint GetsID() { return s_id; }
+		
+		int TimeSafeDivider();
         
     protected:
         /** Initializes this TimedObject based on a start time and duration. */
