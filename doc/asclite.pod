@@ -235,7 +235,7 @@ For example:
 	Deletion1: *********************
 	Word5:     ************|-------|
        
-    Cost: 78 (number of *)
+	Cost: 78 (number of *)
    
 
 =head2 Publications
