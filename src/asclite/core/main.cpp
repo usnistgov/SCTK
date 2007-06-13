@@ -283,7 +283,7 @@ int main(int argc, char **argv)
 		}
 		else
         // glm
-//        if(strcmp(argv[arg_index], "-glm") == 0)
+//		if(strcmp(argv[arg_index], "-glm") == 0)
 //		{
 //			if(arg_index < argc-1)
 //			{

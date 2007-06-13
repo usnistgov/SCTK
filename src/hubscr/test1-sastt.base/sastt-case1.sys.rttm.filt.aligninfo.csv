@@ -22,6 +22,7 @@
 [  INFO   ] Processing system sastt-case1.sys.rttm
 [  INFO   ] Prepare to process source(VT_20051027-1400) channel(1)
 [  DEBUG  ] Align SG 56 [REF:2(5,4) HYP:2(4,5)] 4 dimensions, Difficulty: 900 (3.52 kB) ---> bt=100.000 et=107.500
+[  DEBUG  ] Using Word cost model
 [  DEBUG  ] Lenvenshtein Matrix Compression: OFF
 [  DEBUG  ] ArrayLevenshteinMatrix: 900 cells
 [  DEBUG  ] Allocation done!
