@@ -19,7 +19,9 @@
  * The result produce by the Graph after a Levenshtein alignment
  */
 
-#include "graphalignedsegment.h" // class's header file
+#include "graphalignedsegment.h"
+
+Logger* GraphAlignedSegment::m_pLogger = Logger::getLogger();
 
 /** class constructor */
 GraphAlignedSegment::GraphAlignedSegment(size_t _HypRefIndex) : m_HypRefIndex(_HypRefIndex)
@@ -181,13 +183,45 @@ string GraphAlignedSegment::ToString()
 	osstr << "`-----";
 	
 	for(i=0; i<nbrGAT; ++i)
-	{
 		osstr << ToStringAddnChar("-", maxsize[i]+3);
-	}
 	
 	osstr << "'" << endl;
 	
 	return osstr.str();
+}
+
+void GraphAlignedSegment::LoggingAlignment(ulint seggrpid)
+{
+	char buffer[BUFFER_SIZE];
+	sprintf(buffer, "%li", seggrpid);
+	string seggrpsid = string(buffer);
+
+	for(size_t i=0; i < GetNbOfGraphAlignedToken(); ++i)
+	{
+		GraphAlignedToken* gat = GetGraphAlignedToken(i);
+		
+		string alignoutput = "";
+		string File = "";
+		string Channel = "";
+		
+		for(size_t j=0; j<gat->GetDimension(); ++j)
+		{
+			Token* gat_token = gat->GetToken(j);
+			
+			if(gat_token != NULL)
+			{
+				File = gat_token->GetParentSegment()->GetSource();
+				Channel = gat_token->GetParentSegment()->GetChannel();
+				alignoutput += "," + gat_token->GetCSVInformation();
+			}
+			else
+			{
+				alignoutput += ",,,,,,,,,,,";
+			}
+		}
+				
+		LOG_ALIGN(m_pLogger, "YES," + seggrpsid + "," + File + "," + Channel + "," + alignoutput);
+	}
 }
 
 Token* GraphAlignedSegment::GetNonNullReference(size_t gatIndex)
@@ -198,14 +232,12 @@ Token* GraphAlignedSegment::GetNonNullReference(size_t gatIndex)
 	{
 		Token* outToken;
 		
-		for(uint i=m_HypRefIndex; i<aGAT->GetDimension(); ++i)
+		for(size_t i=m_HypRefIndex; i<aGAT->GetDimension(); ++i)
         {
 			outToken = aGAT->GetToken(i);
 			
             if(outToken != NULL)
-            {
 				return outToken;
-			}
 		}
 	}
 	
@@ -225,9 +257,7 @@ Token* GraphAlignedSegment::GetNonNullHypothesis(size_t gatIndex)
 			outToken = aGAT->GetToken(i);
             
 			if(outToken != NULL)
-            {
 				return outToken;
-			}
 		}
 	}
 	
@@ -237,9 +267,7 @@ Token* GraphAlignedSegment::GetNonNullHypothesis(size_t gatIndex)
 Token* GraphAlignedSegment::GetPreviousNonNullReference(size_t gatIndex)
 {
 	if (gatIndex == 0)
-    {
 		return NULL;
-	}
     
 	Token* result = NULL;
     
@@ -248,9 +276,7 @@ Token* GraphAlignedSegment::GetPreviousNonNullReference(size_t gatIndex)
 		result = GetNonNullReference(i);
         
 		if (result != NULL)
-        {
 			return result;
-		}
 	}
     
 	return result;
@@ -261,9 +287,7 @@ Token* GraphAlignedSegment::GetNextNonNullReference(size_t gatIndex)
 	size_t size = GetNbOfGraphAlignedToken();
     
 	if (gatIndex >= size)
-    {
 		return NULL;
-	}
     
 	Token* result = NULL;
     
@@ -272,9 +296,7 @@ Token* GraphAlignedSegment::GetNextNonNullReference(size_t gatIndex)
 		result = GetNonNullReference(i);
         
 		if (result != NULL)
-        {
 			return result;
-		}
 	}
     
 	return result;
@@ -291,10 +313,8 @@ bool GraphAlignedSegment::operator ==(const GraphAlignedSegment & gas) const
         return false;
 
     for (size_t i=0 ; i < size ; ++i)
-    {
         if (*m_vGraphAlignedTokens[i] != *(gas.m_vGraphAlignedTokens[i]))
             return false;
-    }
     
     return true;
 }

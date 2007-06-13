@@ -101,7 +101,7 @@ class SegmentsGroup
 		string ToString();
 		
 		/** Log display Alignment */
-		void LoggingAlignment(string type);
+		void LoggingAlignment(bool bgeneric, string type);
 		
 		ulint GetsID() { return s_id; }
 		

@@ -38,7 +38,6 @@
 #include "ctmstmrttm_segmentor.h"
 #include "trntrn_segmentor.h"
 #include "spkrautooverlap.h"
-//#include "glmfilter.h"
 #include "uemfilter.h"
 #include "speakermatch.h"
 #include "logger.h"
@@ -67,7 +66,8 @@ class Recording
          * Load the reference&Hypothesis files into the system.
          * use the right loader based on the type.
          */
-        void Load(string refFile, string refType, vector<string> hypFile, vector<string> _hypothesis_titles, string hypType, /*string glmFile,*/ string uemFile, string speakeralignfile);
+        void Load(string refFile, string refType, vector<string> hypFile, vector<string> _hypothesis_titles, string hypType, string uemFile, string speakeralignfile);
+        void Load(string genFile, string genType, string uemFile, string speakeralignfile);
         /**
          * Filter the references and hypothesis with the availables filters.
          */
@@ -75,7 +75,9 @@ class Recording
         /**
          * Align the ref to the hyp with the select align algo
          */
-        void Align();
+        void Align() { m_bGenericAlignment ? AlignGeneric() : AlignHypRef(); };
+        void AlignHypRef();
+        void AlignGeneric();
         /**
          * Score the Alignement with the selected scoring system
          */
@@ -156,6 +158,8 @@ class Recording
 		 * Alignment object
 		 */
 		Alignment* alignments;
+		
+		bool m_bGenericAlignment;
 };
 
 #endif // RECORDING_H

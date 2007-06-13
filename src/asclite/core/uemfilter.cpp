@@ -367,7 +367,6 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 		mapListTime[file][channel].push_back(minSG);
 		mapListTime[file][channel].push_back(maxSG);
 		mapListSGborder[file][channel].push_back(minSG);
-		//mapListSGborder[file][channel].push_back(maxSG);
 		
 		char bufferSG[BUFFER_SIZE];
 		sprintf(bufferSG, "UEMFilter::ProcessSpeechSet() - SG %ld time for '%s/%s' with times: %d %d", pSG->GetsID(), file.c_str(), channel.c_str(), minSG, maxSG);

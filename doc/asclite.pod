@@ -40,6 +40,14 @@ The default format is 'trn'.
 
 Set the utterance id type (for trn mode only)
 
+=item B<-g <filename> [ rttm | stm | ctm ]>
+
+Defines the data file and its format.
+This options trigger the generic cost model computing the results disregarding the notion
+of hyp and ref, the results will be a multiple-alignment.
+This uses the generic cost model.
+The default format is 'rttm'.
+
 =back
 
 =item B<Filter Options:>

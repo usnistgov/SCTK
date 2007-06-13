@@ -266,7 +266,7 @@ string SegmentsGroup::ToString()
 }
 
 /** Log display Alignment */
-void SegmentsGroup::LoggingAlignment(string type)
+void SegmentsGroup::LoggingAlignment(bool bgeneric, string type)
 {
 	char buffer1[BUFFER_SIZE];
 	sprintf(buffer1, "%li", s_id);
@@ -283,7 +283,12 @@ void SegmentsGroup::LoggingAlignment(string type)
 			{
 				vector<Token*>::iterator  k=listTkn.begin();
 				vector<Token*>::iterator ek=listTkn.end();
+				
 				string csvHyp = ",,,,,,,,,,";
+				
+				if(bgeneric)
+					csvHyp = "";
+					
 				string csvRef = ",,,,,,,,,,";
 				
 				while(k != ek)
@@ -298,6 +303,10 @@ void SegmentsGroup::LoggingAlignment(string type)
 			else
 			{
 				string csvHyp = ",,,,,,,,,,";
+				
+				if(bgeneric)
+					csvHyp = "";
+					
 				string csvRef = ",,,,,,,,,,";
 				
 				string segbt = "";

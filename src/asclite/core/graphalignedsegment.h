@@ -21,7 +21,9 @@
 #include "stdinc.h"
 
 #include "graphalignedtoken.h"
+#include "segment.h"
 #include "token.h"
+#include "logger.h"
 
 /**
  * The result produce by the Graph after a Levenshtein alignment
@@ -33,6 +35,8 @@ class GraphAlignedSegment
 		vector<GraphAlignedToken*> m_vGraphAlignedTokens;
 		/** Hyp-Ref Index */
 		size_t m_HypRefIndex;
+		
+		static Logger* m_pLogger;
 	public:
 		/** class constructor */
 		GraphAlignedSegment(size_t _HypRefIndex);
@@ -71,6 +75,8 @@ class GraphAlignedSegment
 		 * does not exist)
 		 */
 		Token* GetNextNonNullReference(size_t gatIndex);
+		
+		void LoggingAlignment(ulint seggrpid);
 		
 		/**
 		 * Redefine the == operator to go throw all the object for the comparison

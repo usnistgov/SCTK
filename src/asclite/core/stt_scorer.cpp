@@ -19,7 +19,7 @@
  * STT implementation of the scoring.
  */
 
-#include "stt_scorer.h" // class's header file
+#include "stt_scorer.h"
 #include "alignedspeechiterator.h"
 #include "alignedsegmentiterator.h"
 #include "alignedspeech.h"

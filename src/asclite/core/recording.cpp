@@ -44,6 +44,9 @@ Recording::Recording()
 	segmentors["ctm|stm"] = new CTMSTMRTTMSegmentor();
 	segmentors["rttm|stm"] = new CTMSTMRTTMSegmentor();
 	segmentors["rttm|rttm"] = new CTMSTMRTTMSegmentor();
+	segmentors["ctm"] = new CTMSTMRTTMSegmentor();
+	segmentors["stm"] = new CTMSTMRTTMSegmentor();
+	segmentors["rttm"] = new CTMSTMRTTMSegmentor();
 	
 	//init the Aligner
 	aligner["lev"] = new Levenshtein();
@@ -195,13 +198,12 @@ Recording::~Recording()
 * Load the reference&Hypothesis files into the system.
  * use the right loader based on the type.
  */
-void Recording::Load(string _references, string _refType, vector<string> _hypothesis, vector<string> _hypothesis_titles, string _hypType, /*string glmFile,*/ string uemFile, string speakeralignfile)
+void Recording::Load(string _references, string _refType, vector<string> _hypothesis, vector<string> _hypothesis_titles, string _hypType, string uemFile, string speakeralignfile)
 {
+	m_bGenericAlignment = false;
+	
 	if(string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0)
 		m_pSpeakerMatch->LoadFile(speakeralignfile);
-		
-//	if(string("true").compare(Properties::GetProperty("filter.glm")) == 0)
-//		filters["filter.glm"]->LoadFile(glmFile);
 		
 	if(string("true").compare(Properties::GetProperty("filter.uem")) == 0)
 		filters["filter.uem"]->LoadFile(uemFile);
@@ -214,10 +216,7 @@ void Recording::Load(string _references, string _refType, vector<string> _hypoth
 	references = inputParsers[_refType]->loadFile(_references);
     references->SetOrigin("ref");
 	
-	//if(string("rttm") == _refType)
-	//	AddInterSegmentGapsToRefs();
-	
-    //load hypothesis
+	//load hypothesis
     char buffer[BUFFER_SIZE];
     sprintf(buffer, "Load %i hypothesis of type %s", (int)_hypothesis.size(), _hypType.c_str());
  	LOG_INFO(logger, buffer);
@@ -240,171 +239,27 @@ void Recording::Load(string _references, string _refType, vector<string> _hypoth
 		hypothesis[title_temp] = hyps_loaded;
 		alignments->AddSystem(_hypothesis[i], title_temp);
     }
-	
-	/*
-	if(string("rttm") == _refType)
-		AddInterSegmentGapsToRefs();
-	*/
 }
-/*
-void Recording::AddInterSegmentGapsToRefs()
+
+void Recording::Load(string _genFile, string _genType, string _uemFile, string _speakeralignfile)
 {
-	LOG_INFO(logger, "Adding Intersegment Gaps to refs");
+	m_bGenericAlignment = true;
 	
-	CTMSTMRTTMSegmentor* pCTMSTMRTTMSegmentor = new CTMSTMRTTMSegmentor();
-	
-	SpeechSet* tmppSpeechSet = new SpeechSet();
-	Speech* ISGspeech = new Speech(references);
-	
-	string file = "";
-	string channel = "";
-	
-	pCTMSTMRTTMSegmentor->Reset(references, tmppSpeechSet);
-	
-	list<int> listTime;
-	
-	int minRef = INT_MAX2;
-	int maxRef = 0;
-	long int ElmNum = 0;
-	long int LinNum = 0;
-	
-	while (pCTMSTMRTTMSegmentor->HasNext())
-	{
-		SegmentsGroup* pSG = pCTMSTMRTTMSegmentor->Next();
-		int minSG = INT_MAX2;
-		int maxSG = 0;
+	if(string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0)
+		m_pSpeakerMatch->LoadFile(_speakeralignfile);
 		
-		size_t numRefs = pSG->GetNumberOfReferences();
-		
-		for(size_t i=0; i<numRefs; ++i)
-		{
-			vector<Segment*> vecSeg = pSG->GetReference(i);
-			
-			for(size_t j=0; j<vecSeg.size(); ++j)
-			{
-				if(vecSeg[j]->GetStartTime() < minSG)
-					minSG = vecSeg[j]->GetStartTime();
-					
-				if(vecSeg[j]->GetEndTime() > maxSG)
-					maxSG = vecSeg[j]->GetEndTime();
-					
-				file = vecSeg[j]->GetSource();
-				channel = vecSeg[j]->GetChannel();
-				
-				if(vecSeg[j]->GetSourceLineNum() > LinNum)
-					LinNum = vecSeg[j]->GetSourceLineNum();
-					
-				if(vecSeg[j]->GetSourceElementNum() > ElmNum)
-					ElmNum = vecSeg[j]->GetSourceElementNum();
-			}
-		}
-		
-		listTime.push_back(minSG);
-		listTime.push_back(maxSG);
-		
-		if(minSG < minRef)
-			minRef = minSG;
-			
-		if(maxSG > maxRef)
-			maxRef = maxSG;
-		
-		if(pSG)
-			delete pSG;
-	}
-	
-	map<string, SpeechSet* >::iterator hi  = hypothesis.begin();
-	map<string, SpeechSet* >::iterator hei = hypothesis.end();
-	
-	int minHyp = minRef;
-	int maxHyp = maxRef;
-	
-	while(hi != hei)
-	{
-		SpeechSet* spkset = hi->second;
-		
-		for(size_t spseti = 0; spseti < spkset->GetNumberOfSpeech(); ++spseti)
-		{
-			Speech* speh = spkset->GetSpeech(spseti);
-			
-			for(size_t spj=0; spj<speh->NbOfSegments(); ++spj)
-			{
-				vector<Token*> vectok = speh->GetSegment(spj)->ToTopologicalOrderedStruct();
-				
-				for(size_t veci=0; veci<vectok.size(); ++veci)
-				{
-					if(vectok[veci]->GetStartTime() < minHyp)
-						minHyp = vectok[veci]->GetStartTime();
-						
-					if(vectok[veci]->GetEndTime() > maxHyp)
-						maxHyp = vectok[veci]->GetEndTime();
-				}
-					
-				vectok.clear();
-			}
-		}
-		
-		++hi;
-	}
-	
-	listTime.push_back(maxHyp);
-	listTime.push_front(minHyp);
-	
-	//listTime.push_back(INT_MAX2);
-	//listTime.push_front(0);
-	listTime.sort();
-	
-	//list<int>::iterator bl = listTime.begin();
-	list<int>::iterator  l = listTime.begin();
-	list<int>::iterator el = listTime.end();
-	
-	while(l != el)
-	{
-		int begintime = (*l);
-		++l;
-		
-		if(l == el)
-		{
-			LOG_FATAL(logger, "Invalid list of time");
-			exit(-1);
-		}
-		
-		int endtime = (*l);
-		
-		if(begintime != endtime)
-		{
-			Segment* Inter_Segment_Gap = Segment::CreateWithEndTime(begintime, endtime, ISGspeech);
-			
-			++ElmNum;
-			++LinNum;
-			Inter_Segment_Gap->SetSource(file);
-			Inter_Segment_Gap->SetChannel(channel);
-			Inter_Segment_Gap->SetSpeakerId(string("inter_segment_gap"));
-			Inter_Segment_Gap->SetSourceLineNum(ElmNum);
-			Inter_Segment_Gap->SetSourceElementNum(LinNum);
-			
-			size_t nbSeg = ISGspeech->NbOfSegments();
-			
-			ostringstream osstr;
-			osstr << "(Inter_Segment_Gap-";
-			osstr << setw(3) << nouppercase << setfill('0') << nbSeg << ")";
-			Inter_Segment_Gap->SetId(osstr.str());
-						
-			ISGspeech->AddSegment(Inter_Segment_Gap);
-		}
-		++l;
-	}
-		
-	references->AddSpeech(ISGspeech);
-		
-	listTime.clear();
-	
-	if(pCTMSTMRTTMSegmentor)
-		delete pCTMSTMRTTMSegmentor;
-		
-	if(tmppSpeechSet)
-		delete tmppSpeechSet;
+	if(string("true").compare(Properties::GetProperty("filter.uem")) == 0)
+		filters["filter.uem"]->LoadFile(_uemFile);
+
+	//init the segmentor
+    segmentor = segmentors[_genType];
+    
+    // Load Generic file
+	LOG_INFO(logger, "Load generic file of type "+_genType);
+	references = inputParsers[_genType]->loadFile(_genFile);
+    references->SetOrigin("ref");
 }
-*/
+
 /**
 * Filter the references and hypothesis with the availables filters.
  */
@@ -426,7 +281,7 @@ void Recording::Filter(vector<string> _filters)
 				nbErr += filters[_filters[i]]->ProcessSingleSpeech(references->GetSpeech(j));
         }
            	
-        if( (string(refhypboth).compare("hyp") == 0) || (string(refhypboth).compare("both") == 0) )
+        if( !m_bGenericAlignment && ( (string(refhypboth).compare("hyp") == 0) || (string(refhypboth).compare("both") == 0) ) )
         {
         	LOG_INFO(logger, "Filtering ==> " + _filters[i] + " hypotheses");
         	
@@ -449,7 +304,7 @@ void Recording::Filter(vector<string> _filters)
     {
     	LOG_INFO(logger, "Filtering ==> " +_filters[i] + " - pass 2");
     
-    	if(filters[_filters[i]]->isProcessAllSpeechSet())
+    	if(!m_bGenericAlignment && filters[_filters[i]]->isProcessAllSpeechSet())
     	{
     		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " processing");
     		nbErr += filters[_filters[i]]->ProcessSpeechSet(references, hypothesis);
@@ -466,12 +321,186 @@ void Recording::Filter(vector<string> _filters)
 }
 
 /**
-* Align the ref to the hyp with the select align algo
+* Align the ref/gen with the select align algo
  */
-void Recording::Align()
+void Recording::AlignGeneric()
 {
 	uint max_spkrOverlaping = atoi(Properties::GetProperty("recording.maxspeakeroverlaping").c_str());
-    //uint max_hypothesisOverlaping = atoi(Properties::GetProperty("recording.maxoverlapinghypothesis").c_str());
+    ullint max_nb_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int));
+	ullint max_nb_2gb = (ullint) ceil(2.0*1024*1024*1024/sizeof(int));
+	bool bForceMemoryCompression = (string("true").compare(Properties::GetProperty("align.forcememorycompression")) == 0);
+	bool bDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.difficultygb")) == 0);
+	bool bMinDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.mindifficultygb")) == 0);
+	
+    SpeechSet* tmppSpeechSet = new SpeechSet();
+	
+	if(logger->isAlignLogON())
+		LOG_ALIGN(logger, "Aligned,SegGrpID,File,Channel,Eval[,RefSegID,RefSegBT,RefSegET,RefSpkrID,RefTknID,RefTknBT,RefTknET,RefTknTxt,RefTknConf,RefTknPrev,RefTknNext]*");
+		
+	LOG_INFO(logger, "Processing system");
+	SegmentsGroup* segmentsGroup;
+	segmentor->Reset(references, tmppSpeechSet);
+			
+	while (segmentor->HasNext())
+	{
+		segmentsGroup = segmentor->Next();
+		ullint cellnumber = segmentsGroup->GetDifficultyNumber();
+
+		double KBused = (((double) (cellnumber))/1024.0) * ((double)(sizeof(int)));
+		double MBused = KBused/1024.0;
+		double GBused = MBused/1024.0;
+		double TBused = GBused/1024.0;
+
+		char buffer_size[BUFFER_SIZE];
+
+		if(TBused > 1.0)
+			sprintf(buffer_size, "%.2f TB", TBused);
+		else if(GBused > 1.0)
+			sprintf(buffer_size, "%.2f GB", GBused);
+		else if(MBused > 1.0)
+			sprintf(buffer_size, "%.2f MB", MBused);
+		else
+			sprintf(buffer_size, "%.2f kB", KBused);
+  
+		char buffer[BUFFER_SIZE];
+
+		sprintf(buffer, "Align SG %lu [%s] %lu dimensions, Difficulty: %llu (%s) ---> bt=%.3f et=%.3f", 
+						(ulint) segmentsGroup->GetsID(), 
+						segmentsGroup->GetDifficultyString().c_str(),
+						(ulint) (segmentsGroup->GetNumberOfReferences()),
+						cellnumber,
+						buffer_size,
+						segmentsGroup->GetMinTime()/1000.0,
+						segmentsGroup->GetMaxTime()/1000.0);
+   
+		LOG_DEBUG(logger, buffer);
+  
+		bool ignoreSegs = false;
+		bool buseCompArray = false;
+		
+		if(!ignoreSegs && (segmentsGroup->isIgnoreInScoring()) )
+		{
+			ignoreSegs = true;
+			sprintf(buffer, "Skip this group of segments (%lu): Ignore this time segments in scoring set into the references", (ulint) segmentsGroup->GetsID());
+			LOG_WARN(logger, buffer);
+		}
+		
+		if(!ignoreSegs &&  (segmentsGroup->GetNumberOfReferences() > max_spkrOverlaping) )
+		{
+			ignoreSegs = true;        
+			sprintf(buffer, "Skip this group of segments (%lu): nb of reference speaker (%lu) overlaping to high (limit: %lu)", (ulint) segmentsGroup->GetsID(), 
+																																(ulint) segmentsGroup->GetNumberOfReferences(), 
+																																(ulint) max_spkrOverlaping);
+			LOG_WARN(logger, buffer);
+		}
+		
+		if(!ignoreSegs && (bDifficultyLimit) )
+		{
+			ullint difficulty_nb_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.nbrdifficultygb").c_str())/sizeof(int));
+			
+			if(cellnumber > difficulty_nb_gb)
+			{
+				ignoreSegs = true;
+				sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large (%llu [%s]) regarding the difficulty limit (%llu [%.2f GB])", 
+								(ulint) segmentsGroup->GetsID(),
+								cellnumber,
+								buffer_size,
+								difficulty_nb_gb,
+								atof(Properties::GetProperty("recording.nbrdifficultygb").c_str()));
+				LOG_WARN(logger, buffer);
+			}
+		}
+		
+		if(!ignoreSegs && (bMinDifficultyLimit) )
+		{
+			ullint mindifficulty_nb_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.minnbrdifficultygb").c_str())/sizeof(int));
+							
+			if(cellnumber < mindifficulty_nb_gb)
+			{
+				ignoreSegs = true;
+				sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too small (%llu [%s]) regarding the min difficulty limit (%llu [%.2f GB])", 
+								(ulint) segmentsGroup->GetsID(),
+								cellnumber,
+								buffer_size,
+								mindifficulty_nb_gb,
+								atof(Properties::GetProperty("recording.minnbrdifficultygb").c_str()));
+				LOG_WARN(logger, buffer);
+			}
+		}
+		
+		if(!ignoreSegs && ( (cellnumber > max_nb_gb) || (cellnumber > max_nb_2gb) ) )
+		{
+			bool m_bUseCompression = (string("true").compare(Properties::GetProperty("align.memorycompression")) == 0) || bForceMemoryCompression;
+			
+			if(!m_bUseCompression)
+			{
+				ignoreSegs = true;
+				sprintf(buffer, "Skip this group of segments (%lu): the graph size will be too large (%llu [%s]) regarding the memory limit (%llu [%.2f GB]) and no compression have been set", 
+								(ulint) segmentsGroup->GetsID(),
+								cellnumber,
+								buffer_size,
+								(cellnumber > max_nb_gb) ? max_nb_gb : max_nb_2gb,
+								(cellnumber > max_nb_gb) ? atof(Properties::GetProperty("recording.maxnbofgb").c_str()) : 2.0);
+				
+				LOG_WARN(logger, buffer);
+			}
+			else
+			{
+				buseCompArray = true;
+				sprintf(buffer, "Using Levenshtein Matrix Compression Algorithm for group of segments (%lu)", (ulint) segmentsGroup->GetsID());
+				LOG_INFO(logger, buffer);
+			}
+		}
+		
+		if(!ignoreSegs && (bForceMemoryCompression) )
+		{
+			buseCompArray = true;
+			sprintf(buffer, "Forcing Levenshtein Matrix Compression Algorihm for group of segments (%lu)", (ulint) segmentsGroup->GetsID());
+			LOG_INFO(logger, buffer);
+		}
+		
+		if(segmentsGroup)
+		{
+			if(logger->isAlignLogON())
+				segmentsGroup->LoggingAlignment(m_bGenericAlignment, string("SG"));
+		}
+		
+		//Special case where the SegmentGroup contain a segment time to ignore
+		if (!ignoreSegs)
+		{
+			Aligner* aligner_instance = aligner["lev"];
+			aligner_instance->SetSegments(segmentsGroup, m_pSpeakerMatch, buseCompArray);
+			aligner_instance->Align();
+			GraphAlignedSegment* gas = aligner_instance->GetResults();
+			
+			//cerr << gas->ToString() << endl;
+
+			sprintf(buffer, "%li GAS cost: (%d)", gas->GetNbOfGraphAlignedToken(), ((Levenshtein*)aligner_instance)->GetCost());
+			LOG_DEBUG(logger, buffer);
+			
+			if(logger->isAlignLogON())
+				gas->LoggingAlignment(segmentsGroup->GetsID());
+			
+			//alignments->AddGraphAlignedSegment(gas, "", segmentsGroup);
+							
+			delete gas;
+		}
+		else //segmentsGroup ignored
+		{
+			if(logger->isAlignLogON())
+				segmentsGroup->LoggingAlignment(m_bGenericAlignment, string("NO"));
+		}
+		
+		if(segmentsGroup)
+			delete segmentsGroup;
+	}
+	
+	delete tmppSpeechSet;
+}
+
+void Recording::AlignHypRef()
+{
+	uint max_spkrOverlaping = atoi(Properties::GetProperty("recording.maxspeakeroverlaping").c_str());
     ullint max_nb_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int));
 	ullint max_nb_2gb = (ullint) ceil(2.0*1024*1024*1024/sizeof(int));
 	bool bForceMemoryCompression = (string("true").compare(Properties::GetProperty("align.forcememorycompression")) == 0);
@@ -663,13 +692,13 @@ void Recording::Align()
 			else //segmentsGroup ignored
 			{
 				if(logger->isAlignLogON() && !emptyHypvsISG)
-					segmentsGroup->LoggingAlignment(string("NO"));
+					segmentsGroup->LoggingAlignment(m_bGenericAlignment, string("NO"));
 			}
 			
 			if(segmentsGroup)
 			{
 				if(logger->isAlignLogON() && !emptyHypvsISG)
-					segmentsGroup->LoggingAlignment(string("SG"));
+					segmentsGroup->LoggingAlignment(m_bGenericAlignment, string("SG"));
 				
 				delete segmentsGroup;
 			}
@@ -684,8 +713,11 @@ void Recording::Align()
  */
 void Recording::Score()
 {
-	Scorer* scorer_instance = scorer["stt"];
-    scorer_instance->Score(alignments, m_pSpeakerMatch);
+	if(!m_bGenericAlignment)
+	{
+		Scorer* scorer_instance = scorer["stt"];
+    	scorer_instance->Score(alignments, m_pSpeakerMatch);
+    }
 }
 
 /**
