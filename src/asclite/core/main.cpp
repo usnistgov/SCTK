@@ -42,11 +42,6 @@ void PrintHelp()
 	cout << "                  This option may be used more than once." << endl;
 	cout << "                  The default format is 'trn'." << endl;
 	cout << "    -i <ids>      Set the utterance id type (for trn mode only)" << endl;
-	cout << "    -g <filename> [ rttm | stm | ctm ]" << endl;
-	cout << "                  Defines the data file and its format." << endl;
-	cout << "                  This options trigger the generic cost model computing the results disregarding the notion" << endl;
-	cout << "                  of hyp and ref, the results will be a multiple-alignment." << endl;
-	cout << "                  The default format is 'rttm'." << endl;
 	cout << "Filter Options:" << endl;
 	cout << "    -spkrautooverlap [ ref | hyp | both ]" << endl;
 	cout << "                  Check if the speakers are self-overlaping or not." << endl;
@@ -95,6 +90,9 @@ void PrintHelp()
 	cout << "    -min-difficulty-limit <max_GB>" << endl;
     cout << "                  Set the min difficulty limit in GB for the LCM (disabled)." << endl;
 	cout << "                  Every segmentation below this limit will not be aligned." << endl;
+	cout << "    -generic-cost This options trigger the generic cost model computing the results disregarding the notion" << endl;
+	cout << "                  of hyp and ref, the results will be a multiple-alignment." << endl;
+	cout << "                  The reference file is the only input." << endl;
 	cout << "Output Options:" << endl;
 	cout << "    -O <output_dir>" << endl;
 	cout << "                  Writes all output files into output_dir." << endl;
@@ -163,9 +161,7 @@ int main(int argc, char **argv)
     bool arg_bspkrautooverlap = false;
     
     bool arg_btimebasecost = false;
-    
-    inputfilename arg_genericfile;
-    bool arg_bgenericfile = false;
+    bool arg_bgenericcost = false;
 	
 	vector<string> arg_vecouput;
 	vector<string> arg_filters;
@@ -227,7 +223,7 @@ int main(int argc, char **argv)
 				if(!vecHyps.empty())
 					if(vecHyps.begin()->fileformat != hypfile.fileformat)
 					{
-						cout << "[  ERROR  ] Hypothesises must have the same file format!" << endl;
+						cerr << "[  ERROR  ] Hypothesises must have the same file format!" << endl;
 						arg_ok = false;
 					}
 					
@@ -235,7 +231,7 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				cout << "[  ERROR  ] Hypothesis filename missing!" << endl;
+				cerr << "[  ERROR  ] Hypothesis filename missing!" << endl;
 				arg_ok = false;
 			}
 		}
@@ -277,49 +273,7 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				cout << "[  ERROR  ] Reference filename missing!" << endl;
-				arg_ok = false;
-			}
-		}
-		else
-		// Generic
-		if(strcmp(argv[arg_index], "-g") == 0)
-		{
-			if(arg_index < argc-1)
-			{
-				arg_index++;
-				arg_genericfile.filename = string(argv[arg_index]);
-				
-				if(arg_index < argc-1)
-				{
-					arg_index++;
-					
-					if(strcmp(argv[arg_index], "stm") == 0)
-						arg_genericfile.fileformat = string("stm");
-					else if(strcmp(argv[arg_index], "rttm") == 0)
-						arg_genericfile.fileformat = string("rttm");
-					else if(strcmp(argv[arg_index], "ctm") == 0)
-						arg_genericfile.fileformat = string("ctm");
-					else if(argv[arg_index][0] != '-')
-					{
-						arg_index--;
-						arg_genericfile.fileformat = string("rttm");
-					}
-					else
-					{
-						arg_index--;
-						arg_genericfile.fileformat = string("rttm");
-					}
-				}
-				else
-					arg_genericfile.fileformat = string("rttm");
-				
-				arg_genericfile.title = string("");
-				arg_bgenericfile = true;
-			}
-			else
-			{
-				cout << "[  ERROR  ] Generic filename missing!" << endl;
+				cerr << "[  ERROR  ] Reference filename missing!" << endl;
 				arg_ok = false;
 			}
 		}
@@ -360,7 +314,7 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				cout << "[  ERROR  ] UEM filename missing!" << endl;
+				cerr << "[  ERROR  ] UEM filename missing!" << endl;
 				arg_ok = false;
 			}
 		}
@@ -417,7 +371,7 @@ int main(int argc, char **argv)
 			if(!arg_butterance)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Utterance missing!" << endl;
+				cerr << "[  ERROR  ] Utterance missing!" << endl;
 			}
 		}
 		else
@@ -437,7 +391,7 @@ int main(int argc, char **argv)
 			if(!arg_btimepruneoptimization)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Optimization prune threshold missing!" << endl;
+				cerr << "[  ERROR  ] Optimization prune threshold missing!" << endl;
 			}
 		}
 		else
@@ -457,7 +411,7 @@ int main(int argc, char **argv)
 			if(!arg_btimewordoptimization)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Optimization word threshold missing!" << endl;
+				cerr << "[  ERROR  ] Optimization word threshold missing!" << endl;
 			}
 		}
 		else
@@ -477,7 +431,7 @@ int main(int argc, char **argv)
 			if(!arg_bspeakeroptimization)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Speaker Optimization file missing!" << endl;
+				cerr << "[  ERROR  ] Speaker Optimization file missing!" << endl;
 			}
 		}
 		else
@@ -497,7 +451,7 @@ int main(int argc, char **argv)
 			if(!arg_bmaxgb)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Max GB missing!" << endl;
+				cerr << "[  ERROR  ] Max GB missing!" << endl;
 			}
 		}
 		else
@@ -517,7 +471,7 @@ int main(int argc, char **argv)
 			if(!arg_bdifficultygb)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Difficulty GB missing!" << endl;
+				cerr << "[  ERROR  ] Difficulty GB missing!" << endl;
 			}
 		}
 		else
@@ -537,7 +491,7 @@ int main(int argc, char **argv)
 			if(!arg_bmindifficultygb)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Min Difficulty GB missing!" << endl;
+				cerr << "[  ERROR  ] Min Difficulty GB missing!" << endl;
 			}
 		}
 		else
@@ -557,7 +511,7 @@ int main(int argc, char **argv)
 			if(!arg_bmemorycompression)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] block KB missing!" << endl;
+				cerr << "[  ERROR  ] block KB missing!" << endl;
 			}
 		}
 		else
@@ -577,11 +531,11 @@ int main(int argc, char **argv)
 			if(!arg_bmaxnboverlapingspkr)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Max number of overlaping speaker missing!" << endl;
+				cerr << "[  ERROR  ] Max number of overlaping speaker missing!" << endl;
 			}
 		}
 		else
-		// Time optimization
+		// Set Property
 		if(strcmp(argv[arg_index], "--set-property") == 0)
 		{
 			if(arg_index < argc-1)
@@ -590,22 +544,23 @@ int main(int argc, char **argv)
 				{
 					arg_index++;
 					string p_name = string(argv[arg_index]);
+					
 					if(arg_index < argc-1)
-			    {
-				    if(argv[arg_index+1][0] != '-')
-				    {
-              arg_index++;
-              arg_bproperty = true;
-					    arg_properties[p_name] = string(argv[arg_index]);
-            }
-          }
+					{
+						if(argv[arg_index+1][0] != '-')
+						{
+              				arg_index++;
+							arg_bproperty = true;
+					    	arg_properties[p_name] = string(argv[arg_index]);
+						}
+					}
 				}
 			}
 			
 			if(!arg_bproperty)
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Property need to be set with 2 args, name => value" << endl;
+				cerr << "[  ERROR  ] Property need to be set with 2 args, name => value" << endl;
 			}
 		}
 		else
@@ -619,6 +574,12 @@ int main(int argc, char **argv)
 		if(strcmp(argv[arg_index], "-adaptive-cost") == 0)
 		{
 			arg_badaptivecost = true;
+		}
+		else
+		// Generic cost
+		if(strcmp(argv[arg_index], "-generic-cost") == 0)
+		{
+			arg_bgenericcost = true;
 		}
 		else
 		// Time Base Cost
@@ -685,7 +646,7 @@ int main(int argc, char **argv)
 			else
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Ouput dir missing!" << endl;
+				cerr << "[  ERROR  ] Ouput dir missing!" << endl;
 			}
 		}
 		else
@@ -703,7 +664,7 @@ int main(int argc, char **argv)
 			else
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Feedback value missing!" << endl;
+				cerr << "[  ERROR  ] Feedback value missing!" << endl;
 			}
 		}
 		else
@@ -721,7 +682,7 @@ int main(int argc, char **argv)
 			else
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Width value missing!" << endl;
+				cerr << "[  ERROR  ] Width value missing!" << endl;
 			}
 		}
 		else
@@ -756,7 +717,7 @@ int main(int argc, char **argv)
 					{
 						arg_index--;
 						arg_ok = false;
-						cout << "[  ERROR  ] Parameter incorrect!" << endl;
+						cerr << "[  ERROR  ] Parameter incorrect!" << endl;
 					}
 				}
 				
@@ -766,33 +727,24 @@ int main(int argc, char **argv)
 			if(arg_vecouput.empty())
 			{
 				arg_ok = false;
-				cout << "[  ERROR  ] Report missing!" << endl;
+				cerr << "[  ERROR  ] Report missing!" << endl;
 			}
 		}
 		else
 		{
 			arg_ok = false;
-			cout << "[  ERROR  ] Parameter unknown: " << argv[arg_index] << endl;
+			cerr << "[  ERROR  ] Parameter unknown: " << argv[arg_index] << endl;
 		}
 		
 		arg_index++;
 	}
 	
-	// Check inputs
-	if( arg_bgenericfile && (arg_bref || !vecHyps.empty()) )
-	{
-		cout << "[  ERROR  ] Generic file input is the only input." << endl;
-		cout << "[  ERROR  ] Either use Hype-Ref (-r, -h) or Generic (-g)" << endl;
-		cout << "[  ERROR  ] But not both set together." << endl;
-		arg_ok = false;
-	}
-	
-	if(!arg_bgenericfile)
+	if(!arg_bgenericcost)
 	{
 		// Hyp-Ref
 		if(!arg_bref || vecHyps.empty())
 		{
-			cout << "[  ERROR  ] A least one hypothesis and one reference are needed!" << endl;
+			cerr << "[  ERROR  ] A least one hypothesis and one reference are needed!" << endl;
 			arg_ok = false;
 		}
 		
@@ -800,7 +752,7 @@ int main(int argc, char **argv)
 		
 		if( arg_btimebasecost && ( (vecHyps.begin()->fileformat == "trn") || (reffile.fileformat == "trn") || (reffile.fileformat == "stm") ) )
 		{
-			cout << "[  ERROR  ] Time based alignment can only be done with input format allowing token time: (ctm and rttm)." << endl;
+			cerr << "[  ERROR  ] Time based alignment can only be done with input format allowing token time: (ctm and rttm)." << endl;
 			arg_ok = false;
 		}
 		
@@ -811,10 +763,10 @@ int main(int argc, char **argv)
 				   ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "stm") ) ||
 				   ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "rttm") ) ) )
 			{
-				cout << "[  ERROR  ] Hyp must be a ctm  and Ref a stm  or" << endl;
-				cout << "[  ERROR  ] Hyp must be a rttm and Ref a stm  or" << endl;
-				cout << "[  ERROR  ] Hyp must be a rttm and Ref a rttm or" << endl;
-				cout << "[  ERROR  ] Hyp and Ref must be trn's." << endl;
+				cerr << "[  ERROR  ] Hyp must be a ctm  and Ref a stm  or" << endl;
+				cerr << "[  ERROR  ] Hyp must be a rttm and Ref a stm  or" << endl;
+				cerr << "[  ERROR  ] Hyp must be a rttm and Ref a rttm or" << endl;
+				cerr << "[  ERROR  ] Hyp and Ref must be trn's." << endl;
 				arg_ok = false;
 			}
 		}
@@ -826,35 +778,39 @@ int main(int argc, char **argv)
 		}
 	}
 	else
-	{
+	{	
 		// Generic
+		if(!arg_bref)
+		{
+			cerr << "[  ERROR  ] A reference is needed!" << endl;
+			arg_ok = false;
+		}
+		
+		if(!vecHyps.empty())
+		{
+			vecHyps.clear();
+			cerr << "[  INFO   ] The generic process requires only reference file, the hypotheses will be ignored." << endl;
+		}
+		
 		if( arg_btimebasecost && (reffile.fileformat == "stm") )
 		{
-			cout << "[  ERROR  ] Time based alignment can only be done with input format allowing token time: (ctm and rttm)." << endl;
+			cerr << "[  ERROR  ] Time based alignment can only be done with input format allowing token time: (ctm and rttm)." << endl;
 			arg_ok = false;
 		}
 		
 		if(!arg_vecouput.empty())
 		{
 			arg_vecouput.clear();
-			cout << "[  INFO   ] The generic process is not using any output other than the alignment output." << endl;
+			cerr << "[  INFO   ] The generic process is using standard output for graphical alignment and the log for csv-style alignment." << endl;
 			
-			if(arg_feedback == 0)
-			{
-				arg_feedback = 7;
-				cout << "[  INFO   ] The ouput options have been dropped and the log level have been increased to 7 (Alignment information only)." << endl;
-			} 
-			else if(arg_feedback < 6)
-			{
-				arg_feedback = 6;
-				cout << "[  INFO   ] The ouput options have been dropped and the log level have been increased to 6 (All logs information)." << endl;
-			}
+			if(arg_feedback <= 5)
+				cerr << "[  INFO   ] The log level will contain no csv-stype information." << endl;
 		}
 	}
 		
 	if(!arg_ok)
 	{
-		cout << "[  FATAL  ] type 'asclite' to display the help." << endl;
+		cerr << "[  FATAL  ] type 'asclite' to display the help." << endl;
 		exit(1);
 	}
 	else
@@ -876,7 +832,7 @@ int main(int argc, char **argv)
 		Properties::SetProperty("align.memorycompressionblock", arg_memorycompression);
 		Properties::SetProperty("align.adaptivecost", arg_badaptivecost ? "true" : "false");
 		Properties::SetProperty("align.wordaligncost", arg_bwordaligncost ? "true" : "false");
-		Properties::SetProperty("align.genericmethod", arg_bgenericfile ? "true" : "false");
+		Properties::SetProperty("align.genericmethod", arg_bgenericcost ? "true" : "false");
 		
 		if(arg_btimebasecost)
 			Properties::SetProperty("align.typecost", "2");
@@ -885,18 +841,16 @@ int main(int argc, char **argv)
 		
 		Properties::SetProperty("recording.maxspeakeroverlaping", arg_maxnboverlapingspkr);
         Properties::SetProperty("recording.maxnbofgb", arg_maxgb);
-		
 		Properties::SetProperty("recording.difficultygb", arg_bdifficultygb ? "true" : "false");
 		Properties::SetProperty("recording.nbrdifficultygb", arg_difficultygb);
-		
 		Properties::SetProperty("recording.mindifficultygb", arg_bmindifficultygb ? "true" : "false");
 		Properties::SetProperty("recording.minnbrdifficultygb", arg_mindifficultygb);
+		Properties::SetProperty("recording.maxoverlapinghypothesis", "1");
 		
-        if(vecHyps.begin()->fileformat == "rttm")
-            Properties::SetProperty("recording.maxoverlapinghypothesis", arg_maxnboverlapingspkr);
-        else
-            Properties::SetProperty("recording.maxoverlapinghypothesis", "1");
-            
+		if(!vecHyps.empty())
+			if(vecHyps.begin()->fileformat == "rttm")
+            	Properties::SetProperty("recording.maxoverlapinghypothesis", arg_maxnboverlapingspkr);
+
 		Properties::SetProperty("align.optionally", arg_optionaltoken);
 		Properties::SetProperty("general.feedback.level", ""+arg_feedback);
         Properties::SetProperty("report.outputdir", arg_outputdir);
@@ -964,10 +918,10 @@ int main(int argc, char **argv)
             hyps_titles.push_back(vecHyps[i].title);
         }
         
-		if(!arg_bgenericfile)
+		if(!arg_bgenericcost)
 			recording->Load(reffile.filename, reffile.fileformat, hyps_files, hyps_titles, vecHyps[0].fileformat, /*arg_glmfilename, */arg_uemfilename, arg_speakeroptimizationfilename);
 		else
-			recording->Load(arg_genericfile.filename, arg_genericfile.fileformat, arg_uemfilename, arg_speakeroptimizationfilename);
+			recording->Load(reffile.filename, reffile.fileformat, arg_uemfilename, arg_speakeroptimizationfilename);
 		
 		LOG_INFO(logger, "Filter Input data");
 		recording->Filter(arg_filters);

@@ -91,13 +91,12 @@ size_t ArrayLevenshteinMatrix::CoordinatesToSize(size_t* coordinates)
 	
 	for(size_t i=0; i<m_NbrDimensions; ++i)
 		outSize += m_MultiplicatorDimension[i]*coordinates[i];
-		
+			
 	if(outSize >= m_MaxSize)
 	{
 		char buffer[BUFFER_SIZE];		
 		sprintf(buffer, "Try to access data too far %lu (size matrix %lu)", (ulint) outSize, (ulint) m_MaxSize);
 		LOG_FATAL(m_pLogger, buffer);
-		
 		exit(0);
 	}
 	

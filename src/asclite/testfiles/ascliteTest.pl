@@ -79,6 +79,11 @@ if ($suite =~ /^(sastt|all|passed)$/)
     RunAscliteTest("sastt-1", "-F -D -spkr-align sastt.map.csv", "-r sastt.ref.rttm rttm", "-h sastt.sys.rttm rttm sastt-1");
 }
 
+if ($suite =~ /^(generic|all|passed)$/)
+{
+    RunAscliteTestLog("generic-1", "-F -D -generic-cost", "-r generic-1.stm stm", "");
+}
+
 die "Errors: Occured.  Exiting with non-zero code" if ($failure);
 exit 0;
 
@@ -155,6 +160,46 @@ sub RunAscliteTest
             {
                 print "      Successful Test.  Removing $testId.sgml.asclite\n";
                 system "rm -rf $ascliteTestOutDir/$testId.sgml.asclite";
+            }	
+        }
+    }
+}
+
+sub RunAscliteTestLog
+{
+    my ($testId, $opts, $refOpts, $hypOpts) = @_;
+    
+    if (! -f "$ascliteTestOutDir/$testId.log")
+    {
+        print "Building Authoritative SGML file: $opts, $refOpts, $hypOpts\n";
+        system "$ascliteCom $opts $refOpts $hypOpts -f 6 2> $ascliteTestOutDir/$testId.log > /dev/null";
+    } 
+    else
+    {
+        print "Comparing asclite to Authoritative SGML file: $opts, $refOpts, $hypOpts\n";
+        my $com = "$ascliteCom $opts $refOpts $hypOpts -f 6";
+        my $ret = system "$com 2> $ascliteTestOutDir/$testId.log.asclite > /dev/null";
+	
+        if ($ret != 0)
+        {
+            print "Error: Execution of '$com' returned code != 0\n";
+        }
+        else 
+        { 
+            my $diffCom = "diff $ascliteTestOutDir/$testId.log $ascliteTestOutDir/$testId.log.asclite";
+            open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
+            my @diff = <DIFF>;
+            close DIFF;
+            
+            if (@diff > 0)
+            {
+                print "Error: Test $testId has failed.  Diff output is :\n@diff\n" ;
+                $failure = 1;
+            }
+            else
+            {
+                print "      Successful Test.  Removing $testId.sgml.asclite\n";
+                system "rm -rf $ascliteTestOutDir/$testId.log.asclite";
             }	
         }
     }

@@ -378,6 +378,13 @@ void Recording::AlignGeneric()
 		bool ignoreSegs = false;
 		bool buseCompArray = false;
 		
+		if(segmentsGroup->GetNumberOfReferences() == 1)
+		{
+			ignoreSegs = true;
+			sprintf(buffer, "Skip this group of segments (%lu): Only one reference/dimension", (ulint) segmentsGroup->GetsID());
+			LOG_WARN(logger, buffer);
+		}
+		
 		if(!ignoreSegs && (segmentsGroup->isIgnoreInScoring()) )
 		{
 			ignoreSegs = true;
@@ -473,15 +480,13 @@ void Recording::AlignGeneric()
 			aligner_instance->Align();
 			GraphAlignedSegment* gas = aligner_instance->GetResults();
 			
-			//cerr << gas->ToString() << endl;
+			cout << gas->ToString() << endl;
 
 			sprintf(buffer, "%li GAS cost: (%d)", gas->GetNbOfGraphAlignedToken(), ((Levenshtein*)aligner_instance)->GetCost());
 			LOG_DEBUG(logger, buffer);
 			
 			if(logger->isAlignLogON())
 				gas->LoggingAlignment(segmentsGroup->GetsID());
-			
-			//alignments->AddGraphAlignedSegment(gas, "", segmentsGroup);
 							
 			delete gas;
 		}

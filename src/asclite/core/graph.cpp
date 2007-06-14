@@ -157,10 +157,8 @@ Graph::~Graph()
     for(size_t i=0; i<GetDimension(); ++i)
 	{
 		for(size_t j=0; j<m_TabDimensionDeep[i]; ++j)
-        {
             if(m_TabCacheDimPreviousIndex[i][j])
                 m_TabCacheDimPreviousIndex[i][j]->clear();
-        }
         
         delete [] m_TabCacheDimPreviousIndex[i];
 	}
@@ -192,7 +190,7 @@ void Graph::SetDimension(size_t dim)
 	else
 	{
         char buffer [BUFFER_SIZE];
-        sprintf(buffer, "Graph::SetDimension()\nInvalid dimension (%li)!", dim);
+        sprintf(buffer, "Graph::SetDimension() Invalid dimension (%li)!", dim);
 		LOG_FATAL(logger, buffer);
 		exit(0);
 	}
@@ -206,7 +204,7 @@ void Graph::SetDimensionDeep(size_t dim, size_t deep)
 	else
 	{
         char buffer [BUFFER_SIZE];
-        sprintf(buffer, "Graph::SetDimensionDeep()\nInvalid dimension (%li), max: %li\nExiting!", dim, m_Dimension);
+        sprintf(buffer, "Graph::SetDimensionDeep() Invalid dimension (%li), max: %li", dim, m_Dimension);
 		LOG_FATAL(logger, buffer);
 		exit(0);
 	}
@@ -360,10 +358,8 @@ void Graph::StartingCoordinates(GraphCoordinateList& listStart)
 bool Graph::isEndingCoordinate(size_t* coord)
 {
 	for(size_t k=0; k<GetDimension(); ++k)
-	{
 		if(coord[k] != 0)
 			return false;
-	}
 	
 	return true;
 }
@@ -388,9 +384,7 @@ void Graph::FillGraph()
 		coordinate = listStartingCoordinates.GetAt(i);
 				
 		if(!m_MapCost->IsCostCalculatedFor(coordinate))		
-		{
 			m_MapCost->SetCostFor(coordinate, CalculateCost(coordinate));
-		}
 		
 		listStartingCoordinates.NextPosition(i);
 	}
@@ -592,49 +586,69 @@ void Graph::PreviousCoordinatesGeneric(GraphCoordinateList& listPrev, size_t* co
 	
 	if(isEndingCoordinate(coord))
 		return;
-	
+		
 	size_t i, j;
 	list<size_t>* tabPreviousIndexes = new list<size_t>[GetDimension()];
 	list<size_t>::iterator* tabInteratorListBegin = new list<size_t>::iterator[GetDimension()];
 	list<size_t>::iterator* tabInteratorListEnd = new list<size_t>::iterator[GetDimension()];
 	list<size_t>::iterator* tabInteratorListCurrent = new list<size_t>::iterator[GetDimension()];
 	
-	for(i=0; i<GetDimension(); ++i)
-		PreviousIndexes(tabPreviousIndexes[i], i, coord[i]);
 	
+	for(i=0; i<GetDimension(); ++i)
+	{
+		PreviousIndexes(tabPreviousIndexes[i], i, coord[i]);
+		tabPreviousIndexes[i].push_front(coord[i]);
+		tabPreviousIndexes[i].unique();
+	}
+		
 	for(i=0; i<GetDimension(); ++i)
 	{
 		tabInteratorListBegin[i] = tabPreviousIndexes[i].begin();
 		tabInteratorListEnd[i] = tabPreviousIndexes[i].end();
-		
-		if(coord[i] != 0)
-			tabInteratorListCurrent[i] = tabPreviousIndexes[i].begin();
-		else
-			tabInteratorListCurrent[i] = tabPreviousIndexes[i].end();
+		tabInteratorListCurrent[i] = tabPreviousIndexes[i].begin();
 	}
-	
+		
 	while(tabInteratorListCurrent[GetDimension()-1] != tabInteratorListEnd[GetDimension()-1])
 	{
-		size_t* startcoord = new size_t[GetDimension()];
-		
-		for(i=0; i<GetDimension(); ++i)
-			startcoord[i] = *(tabInteratorListCurrent[i]);
-		
-		listPrev.AddFront(startcoord);
-		
 		j = 0;
+		bool loopout = false;
 		
-		while(j != GetDimension())
+		while(!loopout)
 		{
 			++(tabInteratorListCurrent[j]);
 			
-			if( (tabInteratorListCurrent[j] == tabInteratorListEnd[j]) && (j<GetDimension()-1) )
+			if(tabInteratorListCurrent[j] == tabInteratorListEnd[j])
 			{
 				tabInteratorListCurrent[j] == tabInteratorListBegin[j];
 				++j;
 			}
 			else
-				j = GetDimension();
+				loopout = true;
+				
+			if(j == GetDimension())
+				loopout = true;
+		}
+				
+		if(tabInteratorListCurrent[GetDimension()-1] != tabInteratorListEnd[GetDimension()-1])
+		{
+			size_t* startcoord = new size_t[GetDimension()];
+			bool addit = true;
+			
+			for(i=0; i<GetDimension(); ++i)
+			{
+				if(tabInteratorListCurrent[i] != tabInteratorListEnd[i])
+					startcoord[i] = *(tabInteratorListCurrent[i]);
+				else
+					addit = false;
+			}
+			
+			if(addit)
+			{
+				if(/*ValidateTransitionInsertionDeletion(coord, startcoord)*/true)
+					listPrev.AddFront(startcoord);
+			}
+			else
+				delete [] startcoord;
 		}
 	}
 	
@@ -681,31 +695,14 @@ int Graph::GetTransitionCostHypRefWordBased(size_t* coordcurr, size_t* coordprev
 	if(!bT2)
 	// Insertion or Deletion
 	{
-    //Set the token as optionnaly only if it's activated for the specific ref-hyp case
-		if(/*pToken1 && */((tok1Index < m_IndexRef && m_useOptForHyp) || (tok1Index >= m_IndexRef && m_useOptForRef)))
-		{
-            //if (pToken1->IsOptional())
-            //  LOG_DEBUG(logger, "got an optionnaly");
-			deletable = pToken1->IsOptional();
-        }
+		if( (tok1Index < m_IndexRef && m_useOptForHyp) || (tok1Index >= m_IndexRef && m_useOptForRef) )
+            deletable = pToken1->IsOptional();
 		
-		//return( GetCostInsertion(deletable)*( GetDimension()-1 ) ); // MD without restriction
 		return( GetCostInsertion(deletable) ); // MD with restriction
 	}
 	else
 	{
-		/*
-		// Failsafes but it shouldn't happened 
-		// MD with restriction
-		if( ( (!pToken1) && (pToken2) ) || ( (pToken1) && (!pToken2) ) )
-			return GetCostTransition();
-		else if( (!pToken1) && (!pToken2) )
-			return 0;
-		else
-			//return(GetCostTransition()*( !(pToken1->IsEquivalentTo(pToken2)) ));
-		*/
-		return(GetCostTransitionWordBased(pToken1, pToken2));
-		
+		return( GetCostTransitionWordBased(pToken1, pToken2) );
 	}
 }
 
@@ -1190,14 +1187,6 @@ bool Graph::ValidateTransitionInsertionDeletion(size_t* coordcurr, size_t* coord
 					if(gap > m_PruneOptimizationThreshold)
 						return false;
 				}
-				
-				/*
-				if(currentchgbegin < currentstaybegin)
-				{
-					if(fabs(currentchgbegin-currentstaybegin) > m_PruneOptimizationThreshold)
-						return false;
-				}
-				*/
 			}
 		}
 		
