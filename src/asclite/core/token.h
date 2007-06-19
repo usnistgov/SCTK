@@ -115,7 +115,6 @@ class Token : public TimedObject
 	protected:
 		// class constructor
 		Token();
-        //Token(Token* token);
 		
 	private:
 		/**

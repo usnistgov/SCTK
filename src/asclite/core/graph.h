@@ -66,10 +66,10 @@ class Graph
 	     */		
 		size_t m_IndexRef;
 		/**
-		 *  0: not using optimization for Hyp and Ref cost computation
-		 *  1: using optimization for Hyp and Ref cost computation
+		 *  true: not using optimization for Hyp and Ref cost computation
+		 *  false: using optimization for Hyp and Ref cost computation
 		 */
-		size_t m_HypRefStatus;
+		bool m_HypRefStatus;
         
 		/** map associating nodes (via their coordinates) to cost */
 		LevenshteinMatrix* m_MapCost;

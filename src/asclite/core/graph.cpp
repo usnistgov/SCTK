@@ -36,6 +36,7 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 	m_useOptForHyp = _optHyp;
 	m_bCompressedArray = _bCompressedArray;
 	m_pSpeakerMatch = _pSpeakerMatch;
+	m_HypRefStatus = (string("true").compare(Properties::GetProperty("align.genericmethod")) != 0);
 	
 	if(m_typeCostModel == 2)
 	{
@@ -47,12 +48,11 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 	size_t i, k, sizevector;
 	
 	SetDimension(_segments->GetNumberOfReferences()+_segments->GetNumberOfHypothesis());
-	SetIndexRef(_segments->GetNumberOfHypothesis());
 	
-	if(_segments->GetNumberOfHypothesis() == 0)
-		m_HypRefStatus = 0;
+	if(m_HypRefStatus)
+		SetIndexRef(_segments->GetNumberOfHypothesis());
 	else
-		m_HypRefStatus = 1;
+		SetIndexRef(0);
 	
 	m_TabDimensionDeep = new size_t[GetDimension()];
 	m_TabVecHypRef = new vector<Token*>[GetDimension()];
@@ -190,7 +190,7 @@ void Graph::SetDimension(size_t dim)
 	else
 	{
         char buffer [BUFFER_SIZE];
-        sprintf(buffer, "Graph::SetDimension() Invalid dimension (%li)!", dim);
+        sprintf(buffer, "Graph::SetDimension() - Invalid dimension (%li)!", dim);
 		LOG_FATAL(logger, buffer);
 		exit(0);
 	}
@@ -204,7 +204,7 @@ void Graph::SetDimensionDeep(size_t dim, size_t deep)
 	else
 	{
         char buffer [BUFFER_SIZE];
-        sprintf(buffer, "Graph::SetDimensionDeep() Invalid dimension (%li), max: %li", dim, m_Dimension);
+        sprintf(buffer, "Graph::SetDimensionDeep() - Invalid dimension (%li), max: %li", dim, m_Dimension);
 		LOG_FATAL(logger, buffer);
 		exit(0);
 	}
@@ -218,7 +218,7 @@ void Graph::SetIndexRef(size_t ind)
 	else
 	{
         char buffer [BUFFER_SIZE];
-        sprintf(buffer, "Graph::SetIndexRef()\nInvalid dimension (%li), max: %li\nExiting!", ind, m_Dimension);
+        sprintf(buffer, "Graph::SetIndexRef() - Invalid dimension (%li), max: %li", ind, m_Dimension);
 		LOG_FATAL(logger, buffer);
 		exit(0);
 	}

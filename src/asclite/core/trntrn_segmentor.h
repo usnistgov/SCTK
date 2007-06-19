@@ -30,22 +30,25 @@ class TRNTRNSegmentor : public Segmentor
 		// class constructor
 		TRNTRNSegmentor() {}
 		// class destructor
-		virtual ~TRNTRNSegmentor() { uteranceList.clear(); }
+		~TRNTRNSegmentor() { uteranceList.clear(); }
 		/**
 		 * Reset the segmentor with the references and hypothesis
 		 * If the references are the same as before only the iteration is initialised.
 		 */
-		virtual void Reset(SpeechSet* references, SpeechSet* hypothesis);
+		void Reset(SpeechSet* references, SpeechSet* hypothesis);
+		void ResetGeneric(map<string, SpeechSet*> &mapspeechSet) { }
+		
 		/**
 		 * Return true if the segmentor have more segments to process.
 		 * This method is not time consuming and can be call many time.
 		 */
-		virtual bool HasNext() { return (currentUterance != ""); }
+		bool HasNext() { return (currentUterance != ""); }
 		/**
 		 * Return the next group of segments to process.
 		 * This method is time consuming and will return a different result at each call.
 		 */
-		virtual SegmentsGroup* Next();
+		SegmentsGroup* Next();
+		SegmentsGroup* NextGeneric() { return NULL; }
 
   private:
     static Logger* logger;

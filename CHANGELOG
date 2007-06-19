@@ -4,7 +4,7 @@ SCTK Version pre-2.3 - Release xxx
   [+] -wordalign-cost options for asclite adding some cost variance
       depending in the word syntactic distance
   [+] Added Time base cost model trigger with '-time-base-cost' in asclite
-  [+] Generic full implementation in asclite
+  [+] Generic/Rover full implementation in asclite
   [+] Added cumulative table to HTML reports
   [+] Added man and HTML docs for tools
   [/] Changed the speaker auto-overlap behavior from internal to command-

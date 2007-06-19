@@ -458,7 +458,6 @@ void SGMLReportGenerator::GenerateTokenAlignment(TokenAlignment* tokenAlign, str
 				output << "true";
 			else
 				output << "false";
-						
 	}
 }
 

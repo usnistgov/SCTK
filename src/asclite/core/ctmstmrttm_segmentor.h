@@ -35,7 +35,7 @@ class CTMSTMRTTMSegmentor : public Segmentor
 		 * Reset the segmentor with the references and hypothesis
 		 * If the references are the same as before only the iteration is initialised.
 		 */
-		virtual void Reset(SpeechSet* references, SpeechSet* hypothesis);
+		void Reset(SpeechSet* references, SpeechSet* hypothesis);
 		/**
 		 * Return true if the segmentor have more segments to process.
 		 * This method is not time consuming and can be call many time.
@@ -45,7 +45,10 @@ class CTMSTMRTTMSegmentor : public Segmentor
 		 * Return the next group of segments to process.
 		 * This method is time consuming and will return a different result at each call.
 		 */
-		virtual SegmentsGroup* Next();
+		SegmentsGroup* Next();
+		
+		void ResetGeneric(map<string, SpeechSet*> &mapspeechSet);
+		SegmentsGroup* NextGeneric();
 	private:
         /**
          * The list of all the source file
@@ -59,10 +62,12 @@ class CTMSTMRTTMSegmentor : public Segmentor
          * Loop to return the last segment occurance into an overlaping loop.
          */
         Segment* GetLastOverlapingSegment(int startTime, SpeechSet* speechs);
+        Segment* GetLastOverlapingSegmentGeneric(int startTime);
         /**
          * Return the first segment that occur after the given time
          */
         Segment* GetFirstSegment(int startTime, SpeechSet* speechs);
+        Segment* GetFirstSegmentGeneric(int startTime);
         /**
          * The logger
          */

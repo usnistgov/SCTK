@@ -1,0 +1,8 @@
+<generic>
+  <gas file="VT_20051027-1400" channel="1">
+    <gat>
+      <word text="G" bt="101.900" et="103.500" speaker="SYS1" title="generic-1" file="generic-1.rttm" />
+      <word text="D" bt="102.800" et="104.000" speaker="SYS2" title="generic-1" file="generic-1.rttm" />
+    </gat>
+  </gas>
+</generic>

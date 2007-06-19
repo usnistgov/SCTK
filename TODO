@@ -45,7 +45,4 @@ Medium Priority:
 
 Low Priority:
 [x] additive cost based on word aligment distances
-[ ] rover implementation and experiments
-
-'Maybe-not' Priority:
-[ ] trancsript filtering (GLM)
+[x] rover implementation and experiments

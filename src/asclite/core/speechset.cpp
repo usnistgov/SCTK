@@ -29,8 +29,10 @@ SpeechSet::SpeechSet(string sourceFileName)
 {
 	ref = false;
 	hyp = false;
+	gen = false;
 	UpdatePropertiesIfNeeded(true);
 	fileName = sourceFileName;
+	titleName = sourceFileName;
 }
 
 void SpeechSet::UpdatePropertiesIfNeeded(bool force)
@@ -43,9 +45,7 @@ void SpeechSet::UpdatePropertiesIfNeeded(bool force)
 		optionally_deletable = (optionally == "both");
         
 		if(!optionally_deletable)
-        {
 			optionally_deletable = ( (IsRef()) ? optionally == "ref" : optionally == "hyp" );
-		}
 	}
 }
 
@@ -94,15 +94,23 @@ SpeechSet::~SpeechSet()
  */
 void SpeechSet::SetOrigin(string status)
 {
-    if (status == "ref")
+    if(status == "ref")
     {
         ref = true;
 		hyp = false;
+		gen = false;
     }
-    else if (status == "hyp")
+    else if(status == "hyp")
     {
         hyp = true;
 		ref= false;
+		gen = false;
+    }
+    else if(status == "gen")
+    {
+    	hyp = true;
+		ref= false;
+		gen = true;
     }
     else
     {

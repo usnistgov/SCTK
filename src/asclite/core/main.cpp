@@ -92,7 +92,7 @@ void PrintHelp()
 	cout << "                  Every segmentation below this limit will not be aligned." << endl;
 	cout << "    -generic-cost This options trigger the generic cost model computing the results disregarding the notion" << endl;
 	cout << "                  of hyp and ref, the results will be a multiple-alignment." << endl;
-	cout << "                  The reference file is the only input." << endl;
+	cout << "                  The hypotheses files are the only input." << endl;
 	cout << "Output Options:" << endl;
 	cout << "    -O <output_dir>" << endl;
 	cout << "                  Writes all output files into output_dir." << endl;
@@ -219,14 +219,7 @@ int main(int argc, char **argv)
 				
 				if(!titlefound)
 					hypfile.title = string("");
-				
-				if(!vecHyps.empty())
-					if(vecHyps.begin()->fileformat != hypfile.fileformat)
-					{
-						cerr << "[  ERROR  ] Hypothesises must have the same file format!" << endl;
-						arg_ok = false;
-					}
-					
+
 				vecHyps.push_back(hypfile);
 			}
 			else
@@ -758,10 +751,26 @@ int main(int argc, char **argv)
 		
 		if(!vecHyps.empty() && arg_bref)
 		{
-			if( !( ( (vecHyps.begin()->fileformat == "trn") && (reffile.fileformat == "trn") ) ||
-				   ( (vecHyps.begin()->fileformat == "ctm") && (reffile.fileformat == "stm") ) ||
-				   ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "stm") ) ||
-				   ( (vecHyps.begin()->fileformat == "rttm") && (reffile.fileformat == "rttm") ) ) )
+			vector<inputfilename>::iterator i = vecHyps.begin();
+			vector<inputfilename>::iterator ei = vecHyps.end();
+			
+			bool bformat = true;
+			
+			while(i != ei)
+			{
+				if( !( ( (i->fileformat == "trn") && (reffile.fileformat == "trn") )  ||
+					   ( (i->fileformat == "ctm") && (reffile.fileformat == "stm") )  ||
+					   ( (i->fileformat == "rttm") && (reffile.fileformat == "stm") ) ||
+					   ( (i->fileformat == "rttm") && (reffile.fileformat == "rttm") ) ) )
+				{
+					cerr << "[  ERROR  ] (H) " << i->fileformat << " vs. (R) " << reffile.fileformat << endl;
+					bformat = false;
+				}
+				
+				++i;
+			}
+			
+			if(!bformat)
 			{
 				cerr << "[  ERROR  ] Hyp must be a ctm  and Ref a stm  or" << endl;
 				cerr << "[  ERROR  ] Hyp must be a rttm and Ref a stm  or" << endl;
@@ -778,34 +787,52 @@ int main(int argc, char **argv)
 		}
 	}
 	else
-	{	
+	{
 		// Generic
-		if(!arg_bref)
+		if(vecHyps.empty())
 		{
-			cerr << "[  ERROR  ] A reference is needed!" << endl;
+			cerr << "[  ERROR  ] A least one hypothesis is needed!" << endl;
 			arg_ok = false;
 		}
 		
-		if(!vecHyps.empty())
+		if(arg_bref)
 		{
-			vecHyps.clear();
-			cerr << "[  INFO   ] The generic process requires only reference file, the hypotheses will be ignored." << endl;
+			arg_bref = false;
+			cerr << "[  INFO   ] The generic process requires only hypothesis files, the reference will be ignored." << endl;
 		}
 		
-		if( arg_btimebasecost && (reffile.fileformat == "stm") )
+		bool isStdout = ( arg_vecouput.end() != find(arg_vecouput.begin(), arg_vecouput.end(), "stdout") );
+
+		arg_vecouput.clear();
+		//arg_vecouput.push_back("sgml");
+		
+		if(arg_buseISG)
 		{
-			cerr << "[  ERROR  ] Time based alignment can only be done with input format allowing token time: (ctm and rttm)." << endl;
-			arg_ok = false;
+			arg_buseISG = false;
+			cerr << "[  INFO   ] ISG will be ignored." << endl;
 		}
 		
-		if(!arg_vecouput.empty())
-		{
-			arg_vecouput.clear();
-			cerr << "[  INFO   ] The generic process is using standard output for graphical alignment and the log for csv-style alignment." << endl;
+		if(isStdout)
+			arg_vecouput.push_back("stdout");
 			
-			if(arg_feedback <= 5)
-				cerr << "[  INFO   ] The log level will contain no csv-stype information." << endl;
+		if(arg_bspkrautooverlap)
+		{
+			if( (arg_spkrautooverlapoption == string("hyp")) || (arg_spkrautooverlapoption == string("both")) )
+				arg_spkrautooverlapoption == string("hyp");
+			else
+				arg_bspkrautooverlap = false;
 		}
+		
+		if(arg_buem)
+		{
+			if( (arg_uemoption == string("hyp")) || (arg_uemoption == string("both")) )
+				arg_uemoption == string("hyp");
+			else
+				arg_buem = false;
+		}
+		
+		if( (arg_optionaltoken == string("hyp")) || (arg_optionaltoken == string("both")) )
+				arg_optionaltoken == string("hyp");
 	}
 		
 	if(!arg_ok)
@@ -847,9 +874,8 @@ int main(int argc, char **argv)
 		Properties::SetProperty("recording.minnbrdifficultygb", arg_mindifficultygb);
 		Properties::SetProperty("recording.maxoverlapinghypothesis", "1");
 		
-		if(!vecHyps.empty())
-			if(vecHyps.begin()->fileformat == "rttm")
-            	Properties::SetProperty("recording.maxoverlapinghypothesis", arg_maxnboverlapingspkr);
+		if(vecHyps.begin()->fileformat == "rttm")
+            Properties::SetProperty("recording.maxoverlapinghypothesis", arg_maxnboverlapingspkr);
 
 		Properties::SetProperty("align.optionally", arg_optionaltoken);
 		Properties::SetProperty("general.feedback.level", ""+arg_feedback);
@@ -911,17 +937,19 @@ int main(int argc, char **argv)
 		
 		vector<string> hyps_files;
 		vector<string> hyps_titles;
+		vector<string> hyps_formats;
 		
 		for (size_t i=0 ; i < vecHyps.size() ; ++i)
 		{
             hyps_files.push_back(vecHyps[i].filename);
             hyps_titles.push_back(vecHyps[i].title);
+            hyps_formats.push_back(vecHyps[i].fileformat);
         }
         
 		if(!arg_bgenericcost)
-			recording->Load(reffile.filename, reffile.fileformat, hyps_files, hyps_titles, vecHyps[0].fileformat, /*arg_glmfilename, */arg_uemfilename, arg_speakeroptimizationfilename);
+			recording->Load(reffile.filename, reffile.fileformat, hyps_files, hyps_titles, hyps_formats, arg_uemfilename, arg_speakeroptimizationfilename);
 		else
-			recording->Load(reffile.filename, reffile.fileformat, arg_uemfilename, arg_speakeroptimizationfilename);
+			recording->Load(hyps_files, hyps_titles, hyps_formats, arg_uemfilename, arg_speakeroptimizationfilename);
 		
 		LOG_INFO(logger, "Filter Input data");
 		recording->Filter(arg_filters);
@@ -940,6 +968,7 @@ int main(int argc, char **argv)
 		
 		hyps_files.clear();
 		hyps_titles.clear();
+		hyps_formats.clear();
 		
 		LOG_INFO(logger, "Job complete");
 	}

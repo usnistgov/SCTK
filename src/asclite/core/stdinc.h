@@ -37,13 +37,7 @@
 #include <limits.h>
 
 #include "minilzo.h"
-/*
-#ifdef __MACH__
-extern "C" {
-#include <mach/mach.h>
-}
-#endif
-*/
+
 using namespace std;
 
 typedef unsigned int uint;

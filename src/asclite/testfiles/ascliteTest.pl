@@ -23,7 +23,7 @@ my $failure = 0;
 use Getopt::Long;
 
 my $Usage = "Usage: ascliteTest.pl -s (all|sastt|std|mdm04|mdm04ByFile|cts04|mdmVariations|passed|notpassed) [ -m ]\n";
-my $suite = "std";    ## OR all | mdm04 | bn04 | cts04 | mdmVariations
+my $suite = "std";
 my $bigMem = 0;
 my $result = GetOptions("s=s" => \$suite,
 						"m" => \$bigMem);
@@ -81,7 +81,7 @@ if ($suite =~ /^(sastt|all|passed)$/)
 
 if ($suite =~ /^(generic|all|passed)$/)
 {
-    RunAscliteTestLog("generic-1", "-F -D -generic-cost", "-r generic-1.stm stm", "");
+    RunAscliteTest("generic-1", "-F -D -generic-cost -noisg", "", "-h generic-1.rttm rttm generic-1");
 }
 
 die "Errors: Occured.  Exiting with non-zero code" if ($failure);

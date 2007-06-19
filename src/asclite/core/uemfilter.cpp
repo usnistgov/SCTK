@@ -152,7 +152,7 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 	list<Segment*> listSegmentsToRemove;
 	
 	// Step 1: checking if the input is proper and listing segments to remove
-	if(speech->GetParentSpeechSet()->IsRef())
+	if( (speech->GetParentSpeechSet()->IsRef()) || (speech->GetParentSpeechSet()->IsGen()) )
 	{
 		// It's a Ref so check the bad ones
 		for(size_t segindex=0; segindex<speech->NbOfSegments(); ++segindex)

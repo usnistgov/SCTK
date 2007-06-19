@@ -38,15 +38,11 @@ Recording::Recording()
 	reportGenerators["rsum"] = new RAWSYSReportGenerator(1);
 	reportGenerators["sum"] = new RAWSYSReportGenerator(2);
 	reportGenerators["sgml"] = new SGMLReportGenerator();
+	pSGMLGenericReportGenerator = new SGMLGenericReportGenerator();
 	
 	//init the segmentor
-	segmentors["trn|trn"] = new TRNTRNSegmentor();
-	segmentors["ctm|stm"] = new CTMSTMRTTMSegmentor();
-	segmentors["rttm|stm"] = new CTMSTMRTTMSegmentor();
-	segmentors["rttm|rttm"] = new CTMSTMRTTMSegmentor();
-	segmentors["ctm"] = new CTMSTMRTTMSegmentor();
-	segmentors["stm"] = new CTMSTMRTTMSegmentor();
-	segmentors["rttm"] = new CTMSTMRTTMSegmentor();
+	segmentors["trn"] = new TRNTRNSegmentor();
+	segmentors["ctmstmrttm"] = new CTMSTMRTTMSegmentor();
 	
 	//init the Aligner
 	aligner["lev"] = new Levenshtein();
@@ -56,7 +52,6 @@ Recording::Recording()
   
 	//init the Filters
 	filters["filter.spkrautooverlap"] = new SpkrAutoOverlap();
-	//filters["filter.glm"] = new GLMFilter();
 	filters["filter.uem"] = new UEMFilter();
   
 	//init the Alignment result
@@ -105,6 +100,8 @@ Recording::~Recording()
 	}
 	
 	reportGenerators.clear();
+	
+	delete pSGMLGenericReportGenerator;
 	
 	map<string, Aligner*>::iterator ai, ae;
 	
@@ -198,7 +195,7 @@ Recording::~Recording()
 * Load the reference&Hypothesis files into the system.
  * use the right loader based on the type.
  */
-void Recording::Load(string _references, string _refType, vector<string> _hypothesis, vector<string> _hypothesis_titles, string _hypType, string uemFile, string speakeralignfile)
+void Recording::Load(string _references, string _refType, vector<string> _hypothesis_files, vector<string> _hypothesis_titles, vector<string> _hypothesis_types, string uemFile, string speakeralignfile)
 {
 	m_bGenericAlignment = false;
 	
@@ -209,7 +206,10 @@ void Recording::Load(string _references, string _refType, vector<string> _hypoth
 		filters["filter.uem"]->LoadFile(uemFile);
 
     //init the segmentor
-    segmentor = segmentors[_hypType+"|"+_refType];
+    if(_refType == string("trn"))
+    	segmentor = segmentors["trn"];
+    else
+    	segmentor = segmentors["ctmstmrttm"];    	
   
 	//load reference
 	LOG_INFO(logger, "Load 1 reference of type "+_refType);
@@ -218,30 +218,32 @@ void Recording::Load(string _references, string _refType, vector<string> _hypoth
 	
 	//load hypothesis
     char buffer[BUFFER_SIZE];
-    sprintf(buffer, "Load %i hypothesis of type %s", (int)_hypothesis.size(), _hypType.c_str());
+    sprintf(buffer, "Load %i hypothesis", (int)_hypothesis_files.size());
  	LOG_INFO(logger, buffer);
  	string title_temp;
     
-    for (size_t i=0 ; i < _hypothesis.size() ; ++i)
+    for (size_t i=0 ; i < _hypothesis_files.size() ; ++i)
 	{
-		if(string("rttm") == _hypType)
-			inputParsers[_hypType]->SetOneTokenPerSegment(true);
+		if(string("rttm") == _hypothesis_types[i])
+			inputParsers[_hypothesis_types[i]]->SetOneTokenPerSegment(true);
 		
-        SpeechSet* hyps_loaded = inputParsers[_hypType]->loadFile(_hypothesis[i]);
+        SpeechSet* hyps_loaded = inputParsers[_hypothesis_types[i]]->loadFile(_hypothesis_files[i]);
 		
         hyps_loaded->SetOrigin("hyp");
         
         if (_hypothesis_titles[i] == "")
-            title_temp = _hypothesis[i];
+            title_temp = _hypothesis_files[i];
         else
 			title_temp = _hypothesis_titles[i];
 		
+		hyps_loaded->SetTitle(title_temp);
+		
 		hypothesis[title_temp] = hyps_loaded;
-		alignments->AddSystem(_hypothesis[i], title_temp);
+		alignments->AddSystem(_hypothesis_files[i], title_temp);
     }
 }
 
-void Recording::Load(string _genFile, string _genType, string _uemFile, string _speakeralignfile)
+void Recording::Load(vector<string> _hypothesis_files, vector<string> _hypothesis_titles, vector<string> _hypothesis_types, string _uemFile, string _speakeralignfile)
 {
 	m_bGenericAlignment = true;
 	
@@ -252,12 +254,33 @@ void Recording::Load(string _genFile, string _genType, string _uemFile, string _
 		filters["filter.uem"]->LoadFile(_uemFile);
 
 	//init the segmentor
-    segmentor = segmentors[_genType];
+    segmentor = segmentors["ctmstmrttm"];
     
-    // Load Generic file
-	LOG_INFO(logger, "Load generic file of type "+_genType);
-	references = inputParsers[_genType]->loadFile(_genFile);
-    references->SetOrigin("ref");
+    //load hypothesis
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, "Load %i hypothesis", (int)_hypothesis_files.size());
+ 	LOG_INFO(logger, buffer);
+ 	string title_temp;
+    
+    for (size_t i=0 ; i < _hypothesis_files.size() ; ++i)
+	{
+		if(string("rttm") == _hypothesis_types[i])
+			inputParsers[_hypothesis_types[i]]->SetOneTokenPerSegment(true);
+		
+        SpeechSet* hyps_loaded = inputParsers[_hypothesis_types[i]]->loadFile(_hypothesis_files[i]);
+		
+        hyps_loaded->SetOrigin("gen");
+        
+        if (_hypothesis_titles[i] == "")
+            title_temp = _hypothesis_files[i];
+        else
+			title_temp = _hypothesis_titles[i];
+			
+		hyps_loaded->SetTitle(title_temp);
+		
+		hypothesis[title_temp] = hyps_loaded;
+		//alignments->AddSystem(_hypothesis_files[i], title_temp);
+    }
 }
 
 /**
@@ -281,7 +304,7 @@ void Recording::Filter(vector<string> _filters)
 				nbErr += filters[_filters[i]]->ProcessSingleSpeech(references->GetSpeech(j));
         }
            	
-        if( !m_bGenericAlignment && ( (string(refhypboth).compare("hyp") == 0) || (string(refhypboth).compare("both") == 0) ) )
+        if( (string(refhypboth).compare("hyp") == 0) || (string(refhypboth).compare("both") == 0) )
         {
         	LOG_INFO(logger, "Filtering ==> " + _filters[i] + " hypotheses");
         	
@@ -304,7 +327,7 @@ void Recording::Filter(vector<string> _filters)
     {
     	LOG_INFO(logger, "Filtering ==> " +_filters[i] + " - pass 2");
     
-    	if(!m_bGenericAlignment && filters[_filters[i]]->isProcessAllSpeechSet())
+    	if(filters[_filters[i]]->isProcessAllSpeechSet())
     	{
     		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " processing");
     		nbErr += filters[_filters[i]]->ProcessSpeechSet(references, hypothesis);
@@ -332,18 +355,16 @@ void Recording::AlignGeneric()
 	bool bDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.difficultygb")) == 0);
 	bool bMinDifficultyLimit = (string("true").compare(Properties::GetProperty("recording.mindifficultygb")) == 0);
 	
-    SpeechSet* tmppSpeechSet = new SpeechSet();
-	
-	if(logger->isAlignLogON())
+    if(logger->isAlignLogON())
 		LOG_ALIGN(logger, "Aligned,SegGrpID,File,Channel,Eval[,RefSegID,RefSegBT,RefSegET,RefSpkrID,RefTknID,RefTknBT,RefTknET,RefTknTxt,RefTknConf,RefTknPrev,RefTknNext]*");
 		
 	LOG_INFO(logger, "Processing system");
 	SegmentsGroup* segmentsGroup;
-	segmentor->Reset(references, tmppSpeechSet);
-			
+	segmentor->ResetGeneric(hypothesis);
+		
 	while (segmentor->HasNext())
 	{
-		segmentsGroup = segmentor->Next();
+		segmentsGroup = segmentor->NextGeneric();
 		ullint cellnumber = segmentsGroup->GetDifficultyNumber();
 
 		double KBused = (((double) (cellnumber))/1024.0) * ((double)(sizeof(int)));
@@ -367,7 +388,7 @@ void Recording::AlignGeneric()
 		sprintf(buffer, "Align SG %lu [%s] %lu dimensions, Difficulty: %llu (%s) ---> bt=%.3f et=%.3f", 
 						(ulint) segmentsGroup->GetsID(), 
 						segmentsGroup->GetDifficultyString().c_str(),
-						(ulint) (segmentsGroup->GetNumberOfReferences()),
+						(ulint) (segmentsGroup->GetNumberOfHypothesis()),
 						cellnumber,
 						buffer_size,
 						segmentsGroup->GetMinTime()/1000.0,
@@ -378,10 +399,10 @@ void Recording::AlignGeneric()
 		bool ignoreSegs = false;
 		bool buseCompArray = false;
 		
-		if(segmentsGroup->GetNumberOfReferences() == 1)
+		if(segmentsGroup->GetNumberOfHypothesis() <= 1)
 		{
 			ignoreSegs = true;
-			sprintf(buffer, "Skip this group of segments (%lu): Only one reference/dimension", (ulint) segmentsGroup->GetsID());
+			sprintf(buffer, "Skip this group of segments (%lu): Only one hypothesis/dimension", (ulint) segmentsGroup->GetsID());
 			LOG_WARN(logger, buffer);
 		}
 		
@@ -480,7 +501,8 @@ void Recording::AlignGeneric()
 			aligner_instance->Align();
 			GraphAlignedSegment* gas = aligner_instance->GetResults();
 			
-			cout << gas->ToString() << endl;
+			//cout << gas->ToString() << endl;
+			pSGMLGenericReportGenerator->AddGraphAlignSegment(gas);
 
 			sprintf(buffer, "%li GAS cost: (%d)", gas->GetNbOfGraphAlignedToken(), ((Levenshtein*)aligner_instance)->GetCost());
 			LOG_DEBUG(logger, buffer);
@@ -488,7 +510,7 @@ void Recording::AlignGeneric()
 			if(logger->isAlignLogON())
 				gas->LoggingAlignment(segmentsGroup->GetsID());
 							
-			delete gas;
+			//delete gas;
 		}
 		else //segmentsGroup ignored
 		{
@@ -499,8 +521,6 @@ void Recording::AlignGeneric()
 		if(segmentsGroup)
 			delete segmentsGroup;
 	}
-	
-	delete tmppSpeechSet;
 }
 
 void Recording::AlignHypRef()
@@ -736,8 +756,14 @@ void Recording::GenerateReport(vector<string> reportsType)
 		if(reportsType[i] == "stdout")
 			outputint = 0;
 	
-	for (size_t i=0 ; i < reportsType.size() ; ++i)
-		if(reportsType[i] != "stdout")
-            reportGenerators[reportsType[i]]->Generate(alignments, outputint);
+	if(!m_bGenericAlignment)
+	{	
+		for (size_t i=0 ; i < reportsType.size() ; ++i)
+			if(reportsType[i] != "stdout")
+				reportGenerators[reportsType[i]]->Generate(alignments, outputint);
+	}
+	else
+	{
+		pSGMLGenericReportGenerator->Generate(outputint);
+	}
 }
-

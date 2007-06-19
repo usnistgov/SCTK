@@ -53,6 +53,7 @@ class SpeechSet
 		 * Return true id the set contain only hypothesis
 		 */
 		bool IsHyp() { return hyp; }
+		bool IsGen() { return gen; }
 		/**
 		 * Set the hyp/ref status of this set
 		 */
@@ -71,6 +72,9 @@ class SpeechSet
 		
 		int GetMinTokensTime();
 		int GetMaxTokensTime();
+		
+		void SetTitle(string title) { titleName = title; }
+		string GetTitle() { return titleName; }
 	private:
         /**
          * The internal speech collection
@@ -84,6 +88,8 @@ class SpeechSet
          * Store if the set is a hypothesis set
          */
         bool hyp;
+        
+        bool gen;
         /**
          * Reference to the logger
          */
@@ -91,6 +97,7 @@ class SpeechSet
 		
 		/** The name of the file from which this SpeechSet originated. */
 		string fileName;
+		string titleName;
 		
 		/** Caches the value of the "align.case_sensitive" property. */
 		bool case_sensitive;

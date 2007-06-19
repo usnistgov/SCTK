@@ -41,6 +41,7 @@
 #include "uemfilter.h"
 #include "speakermatch.h"
 #include "logger.h"
+#include "sgml_generic_reportgenerator.h"
 
 /**
  * A recording contain all the data needed to score a testset.
@@ -66,8 +67,8 @@ class Recording
          * Load the reference&Hypothesis files into the system.
          * use the right loader based on the type.
          */
-        void Load(string refFile, string refType, vector<string> hypFile, vector<string> _hypothesis_titles, string hypType, string uemFile, string speakeralignfile);
-        void Load(string genFile, string genType, string uemFile, string speakeralignfile);
+        void Load(string refFile, string refType, vector<string> hypFiles, vector<string> HypTitles, vector<string> HypTypes, string uemFile, string speakeralignfile);
+        void Load(vector<string> hypFiles, vector<string> HypTitles, vector<string> HypTypes, string uemFile, string speakeralignfile);
         /**
          * Filter the references and hypothesis with the availables filters.
          */
@@ -99,7 +100,7 @@ class Recording
          * contain all the available report generator
          */
         map<string, ReportGenerator*> reportGenerators;
-		
+		SGMLGenericReportGenerator* pSGMLGenericReportGenerator;
         /**
          * contain all the available Aligner
          */
