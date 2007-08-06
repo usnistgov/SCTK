@@ -103,9 +103,9 @@ int TimedObject::TimeSafeDivider()
 	do
 	{
 		++loppindex;
-		value = (int) pow(10, loppindex);
+		value = (int) pow((double)10, loppindex);
 	} 
 	while( (startTime % value == 0) && (endTime % value == 0) );
 		
-	return((int) pow(10, loppindex-1));
+	return((int) pow((double)10, loppindex-1));
 }

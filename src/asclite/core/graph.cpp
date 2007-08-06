@@ -760,7 +760,7 @@ int Graph::GetTransitionCostGenericWordBased(size_t* coordcurr, size_t* coordpre
 	vector<Token*> vectToken;
 	vector<int> vectCounts;
 	bool found, deletable;
-	int index;
+	size_t index = 0;
 	
 	deletable = false;
 	
@@ -798,7 +798,7 @@ int Graph::GetTransitionCostGenericWordBased(size_t* coordcurr, size_t* coordpre
 	
 	vectToken.clear();
 	
-	size_t nbroccur = -1;
+	int nbroccur = 0;
 	
 	for(size_t j=0; j<vectCounts.size(); ++j)
 		if(vectCounts[j] > nbroccur)

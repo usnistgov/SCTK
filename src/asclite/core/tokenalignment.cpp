@@ -99,7 +99,6 @@ string TokenAlignment::ToString()
 	return result;
 }
 
-#pragma mark AlignmentEvaluation implementation
 TokenAlignment::AlignmentEvaluation::AlignmentEvaluation(Token* token, AlignmentResult result) 
 {
 	m_token = token;
@@ -120,7 +119,6 @@ bool TokenAlignment::AlignmentEvaluation::Equals(AlignmentEvaluation* other)
 	return m_token->Equals(other->m_token) && m_result.GetShortName() == other->m_result.GetShortName();
 }
 
-#pragma mark AlignmentResult implementation
 TokenAlignment::AlignmentResult::AlignmentResult(string shortName, string description)
 {
 	m_shortName = shortName;

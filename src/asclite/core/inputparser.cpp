@@ -50,11 +50,11 @@ int InputParser::ParseString(string chaine)
 				
 		if(len > 3)
 		{
-			af = (int)((double)(af)/pow(10, len-3));
+			af = (int)((double)(af)/pow((double)10, len-3));
 		}
 		else
 		{
-			af = (int)((double)(af)*pow(10, 3-len));
+			af = (int)((double)(af)*pow((double)10, 3-len));
 		}
 		
 		return( bf*1000+af);		

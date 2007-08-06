@@ -54,7 +54,7 @@ class UEMFilter : public Checker
 		~UEMFilter();
 		
 		void    AddUEMElement(UEMElement* _pUEMElement) { m_VectUEMElements.push_back(_pUEMElement); }
-		size_t 	GetNumberElement() { m_VectUEMElements.size(); }
+		size_t 	GetNumberElement() { return m_VectUEMElements.size(); }
 		void 	FindElement(string file, string channel, list<UEMElement*>* pList);
 		
 		bool isEmpty() { return m_VectUEMElements.empty(); }

@@ -351,7 +351,6 @@ void CompressedLevenshteinMatrix::BlockComputation(size_t levelopt)
 	size_t* tmpDivider = new size_t[m_NbrDimensions];
 	size_t* tmpBlockDimensions = new size_t[m_NbrDimensions];
 	size_t blocksize = m_BlockSizeKB*256;
-	bool isIncreasable = false;
 	
 	// Computation
 	
