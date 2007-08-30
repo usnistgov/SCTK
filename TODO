@@ -45,4 +45,12 @@ Medium Priority:
 
 Low Priority:
 [x] additive cost based on word aligment distances
-[x] rover implementation and experiments
+[ ] rover implementation and experiments
+    [ ] Alignment testing
+        [ ] align the 4 systems in /slp/raid2/ROVER2/AlignmentWord/data
+            [ ] word alignment
+            [ ] time mediated alignment
+        [ ] generate a similar alignment file to /slp/raid2/ROVER2/AlignmentWord/data/MF.putative.train
+        [ ] consult with Jon to verify output
+    [ ] Re-activate mfalign.
+        [ ] Run voting experiment comparing old alignment to new alignments
