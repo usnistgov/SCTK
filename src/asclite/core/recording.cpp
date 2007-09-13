@@ -279,7 +279,7 @@ void Recording::Load(vector<string> _hypothesis_files, vector<string> _hypothesi
 		hyps_loaded->SetTitle(title_temp);
 		
 		hypothesis[title_temp] = hyps_loaded;
-		//alignments->AddSystem(_hypothesis_files[i], title_temp);
+		pSGMLGenericReportGenerator->AddTitleAndFilename(_hypothesis_files[i], title_temp);
     }
 }
 
@@ -399,10 +399,10 @@ void Recording::AlignGeneric()
 		bool ignoreSegs = false;
 		bool buseCompArray = false;
 		
-		if(segmentsGroup->GetNumberOfHypothesis() <= 1)
+		if(segmentsGroup->GetNumberOfHypothesis() <= /*1*/ 0)
 		{
 			ignoreSegs = true;
-			sprintf(buffer, "Skip this group of segments (%lu): Only one hypothesis/dimension", (ulint) segmentsGroup->GetsID());
+			sprintf(buffer, "Skip this group of segments (%lu): no hypothesis/dimension", (ulint) segmentsGroup->GetsID());
 			LOG_WARN(logger, buffer);
 		}
 		

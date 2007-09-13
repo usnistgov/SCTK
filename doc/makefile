@@ -3,7 +3,6 @@
 MAKE=make
 
 POD2MAN = pod2man
-NROFF = nroff
 POD2HTML = pod2html
 
 PODS =  align2html \

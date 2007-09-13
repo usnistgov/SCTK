@@ -1,3 +1,4 @@
+
 /*
  * ASCLITE
  * Author: Jerome Ajot, Jon Fiscus, Nicolas Radde, Chris Laprun
@@ -25,9 +26,11 @@ SGMLGenericReportGenerator::~SGMLGenericReportGenerator()
 		delete m_vGAS[i];
 	
 	m_vGAS.clear();
+	m_vTitle.clear();
+	m_vFilename.clear();
 }
 
-/** Generate the SGML report */
+/** Generate the XML report */
 void SGMLGenericReportGenerator::Generate(int where)
 {
 	ofstream file;
@@ -37,38 +40,42 @@ void SGMLGenericReportGenerator::Generate(int where)
 		string filename;
 		
 		if(Properties::GetProperty("report.outputdir") == string(""))
-			filename = "generic-report.sgml";
+			filename = "generic-report.xml";
 		else
-			filename = Properties::GetProperty("report.outputdir") + "/generic-report.sgml";
+			filename = Properties::GetProperty("report.outputdir") + "/generic-report.xml";
 		
 		file.open(filename.c_str());
 	
 		if(! file.is_open())
 		{
-			LOG_ERR(m_pLogger, "Could not open file '" + filename + "' for SGML Generic report, the output will be redirected in the stdout to avoid any lost.");
+			LOG_ERR(m_pLogger, "Could not open file '" + filename + "' for XML Generic report, the output will be redirected in the stdout to avoid any lost.");
 			where = 1;
 		}
 		else
 		{
-			LOG_INFO(m_pLogger, "Generating SGML Generic report file '" + filename + "'.");
+			LOG_INFO(m_pLogger, "Generating XML Generic report file '" + filename + "'.");
 		}
 	}
 	else
 	{
-		LOG_INFO(m_pLogger, "Generating SGML Generic report in the stdout.");
+		LOG_INFO(m_pLogger, "Generating XML Generic report in the stdout.");
 	}
 	
 	ostream output(where == 1 ? file.rdbuf() : cout.rdbuf());
 	
-	output << "<generic>\n";
+	output << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	output << "<rover>\n";
+	
+	for(size_t i=0; i<GetNbOfSystems(); ++i)
+		output << "\t<input title=\"" << GetTitle(i) << "\" filename=\"" << GetFilename(i) << "\" />\n";
 	
 	for(size_t i=0; i<m_vGAS.size(); ++i)
 	{
-		string file = "";
-		string channel = "";
-		
 		for(size_t j=0; j<m_vGAS[i]->GetNbOfGraphAlignedToken(); ++j)
 		{
+			string file = "";
+			string channel = "";
+		
 			for(size_t k=0; k<m_vGAS[i]->GetGraphAlignedToken(j)->GetDimension(); ++k)
 			{
 				Token* toke = m_vGAS[i]->GetGraphAlignedToken(j)->GetToken(k);
@@ -79,33 +86,29 @@ void SGMLGenericReportGenerator::Generate(int where)
 					channel = toke->GetParentSegment()->GetChannel();
 				}
 			}
-		}
-	
-		output << "  <gas";
 		
-		if(file != "")
-			output << " file=\"" << file << "\"";
+			output << "\t<putative";
 		
-		if(channel != "")
-			output << " channel=\"" << channel << "\"";
-		
-		output << ">\n";
-		
-		for(size_t j=0; j<m_vGAS[i]->GetNbOfGraphAlignedToken(); ++j)
-		{
-			output << "    <gat>\n";
+			if(file != "")
+				output << " file=\"" << file << "\"";
 			
+			if(channel != "")
+				output << " channel=\"" << channel << "\"";
+			
+			output << ">\n";
+
 			GraphAlignedToken* gat = m_vGAS[i]->GetGraphAlignedToken(j);
 			
 			for(size_t k=0; k<gat->GetDimension(); ++k)
 			{
-				output << "      <word";
+				output << "\t\t<word";
 				
 				Token* tok = gat->GetToken(k);
+				string srctext = string("");
 				
 				if(tok != NULL)
 				{
-					output << " text=\"" << tok->GetSourceText() << "\"";
+					srctext = tok->GetSourceText();
 					
 					if(tok->GetStartTime() >= 0)
 					{
@@ -124,31 +127,28 @@ void SGMLGenericReportGenerator::Generate(int where)
 					if(tok->IsConfidenceSet())
 					{
 						char buffer [BUFFER_SIZE];
-						sprintf(buffer, "%.3f", tok->GetConfidence());
+						sprintf(buffer, "%.6f", tok->GetConfidence());
 						output << " conf=\"" << string(buffer) << "\"";
 					}
 					
 					if(tok->GetParentSegment()->GetSpeakerId() != "")
 						output << " speaker=\"" << tok->GetParentSegment()->GetSpeakerId() << "\"";
 					
-					output << " title=\"" << tok->GetParentSegment()->GetParentSpeech()->GetParentSpeechSet()->GetTitle() << "\"";
-					output << " file=\"" << tok->GetParentSegment()->GetParentSpeech()->GetParentSpeechSet()->GetSourceFileName() << "\"";
-				}
-				else
-				{
-					output << " text=\"@\"";
+					output << " input=\"" << tok->GetParentSegment()->GetParentSpeech()->GetParentSpeechSet()->GetTitle() << "\"";
 				}
 				
-				output << " />\n";
+				output << ">" << srctext << "</word>\n";
 			}
 			
-			output << "    </gat>\n";
+			if(gat->GetDimension() < GetNbOfSystems())
+				for(size_t k=0; k<(GetNbOfSystems()-gat->GetDimension()); ++k)
+					output << "\t\t<word></word>\n";
+					
+			output << "\t</putative>\n";
 		}
-		
-		output << "  </gas>\n";
 	}
 	
-	output << "</generic>\n";
+	output << "</rover>\n";
 	
 	if(where == 1)
 		file.close();

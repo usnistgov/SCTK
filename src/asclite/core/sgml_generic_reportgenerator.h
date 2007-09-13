@@ -31,6 +31,8 @@ class SGMLGenericReportGenerator
 {
 	private:
 		vector<GraphAlignedSegment*> m_vGAS;
+		vector<string> m_vTitle;
+		vector<string> m_vFilename;
 		static Logger* m_pLogger;
 	public:
 		/** class constructor */
@@ -40,7 +42,12 @@ class SGMLGenericReportGenerator
 		/** Generate the SGML report */
         void Generate(int where);
 
+		void AddTitleAndFilename(string _filename, string _title) { m_vFilename.push_back(_filename); m_vTitle.push_back(_title); }
 		void AddGraphAlignSegment(GraphAlignedSegment* gas) { m_vGAS.push_back(gas); }
+	
+		string GetTitle(size_t i) { return m_vTitle[i]; }
+		string GetFilename(size_t i) { return m_vFilename[i]; }
+		size_t GetNbOfSystems() { return m_vTitle.size(); }
 };
 
 #endif

@@ -185,7 +185,7 @@ Graph::~Graph()
 /** Set the dimension */
 void Graph::SetDimension(size_t dim)
 {
-	if(dim > 1)
+	if(dim >= 1)
 		m_Dimension = dim;
 	else
 	{

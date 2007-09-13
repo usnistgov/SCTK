@@ -120,7 +120,7 @@ SegmentsGroup* CTMSTMRTTMSegmentor::NextGeneric()
 {
 	SegmentsGroup* segGroup = new SegmentsGroup();
 
-    Segment* lastOverlapingSeg = GetLastOverlapingSegmentGeneric(currentSegmentRef->GetStartTime());
+    Segment* lastOverlapingSeg = GetLastOverlapingSegmentGeneric(/*currentSegmentRef->GetStartTime()*/);
     
     // Retrieve segments between current time and next blank
     for(size_t v=0; v<m_VectSpeechSet.size(); ++v)
@@ -165,7 +165,7 @@ SegmentsGroup* CTMSTMRTTMSegmentor::Next()
 	SegmentsGroup* segGroup = new SegmentsGroup();
 
     // Retrieve time of the next blank
-    Segment* lastOverlapingSeg = GetLastOverlapingSegment(currentSegmentRef->GetStartTime(), refs);
+    Segment* lastOverlapingSeg = GetLastOverlapingSegment(/*currentSegmentRef->GetStartTime(), */refs);
     //cout << "from:" << currentSegment->GetStartTime() << endl;
     //cout << "los seg("<< lastOverlapingSeg->GetStartTime() << "," << lastOverlapingSeg->GetEndTime() << ")" << endl;
     //cout << "Nbr of Speeches: " << refs->GetNumberOfSpeech() << endl;
@@ -224,7 +224,7 @@ SegmentsGroup* CTMSTMRTTMSegmentor::Next()
     return segGroup;
 }
 
-Segment* CTMSTMRTTMSegmentor::GetLastOverlapingSegment(int startTime, SpeechSet* speechs)
+Segment* CTMSTMRTTMSegmentor::GetLastOverlapingSegment(/*int startTime, */SpeechSet* speechs)
 {
     //find the next time when there is no segments
     Segment* last = currentSegmentRef;
@@ -254,7 +254,7 @@ Segment* CTMSTMRTTMSegmentor::GetLastOverlapingSegment(int startTime, SpeechSet*
     return last;
 }
 
-Segment* CTMSTMRTTMSegmentor::GetLastOverlapingSegmentGeneric(int startTime)
+Segment* CTMSTMRTTMSegmentor::GetLastOverlapingSegmentGeneric(/*int startTime*/)
 {
     //find the next time when there is no segments
     Segment* last = currentSegmentRef;

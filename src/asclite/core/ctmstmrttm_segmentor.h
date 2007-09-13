@@ -61,8 +61,8 @@ class CTMSTMRTTMSegmentor : public Segmentor
         /**
          * Loop to return the last segment occurance into an overlaping loop.
          */
-        Segment* GetLastOverlapingSegment(int startTime, SpeechSet* speechs);
-        Segment* GetLastOverlapingSegmentGeneric(int startTime);
+        Segment* GetLastOverlapingSegment(/*int startTime, */SpeechSet* speechs);
+        Segment* GetLastOverlapingSegmentGeneric(/*int startTime*/);
         /**
          * Return the first segment that occur after the given time
          */
