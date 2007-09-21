@@ -1,7 +1,7 @@
 #define MAIN
 #include "sctk.h"
 
-#define SCSTATS_VERSION "1.2"
+#define SCSTATS_VERSION "1.3"
 
 int load_pralign_file(FILE *fp, SCORES **scor, int *nscor, int maxn);
 
