@@ -1,5 +1,6 @@
-SCTK Version pre-2.3 - Release xxx
+SCTK Version 2.3-rc1 - Release September 21, 2007
   [*] Fixed asclite when no input given
+  [*] Fixed mapsswe segmentation code 
   [+] Added UEM inplementation directly to asclite
   [+] -wordalign-cost options for asclite adding some cost variance
       depending in the word syntactic distance
