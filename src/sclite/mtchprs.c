@@ -243,7 +243,7 @@ int do_mtch_pairs_on_sys(SCORES *scor[], int nscor, int sys1_ind, int sys2_ind, 
 					&seg_l,num_seg, max_seg, min_num_good);
                         sent_cnt++;
                         break;
-		    }
+		   }
 	    }
 	} else {
             fprintf(stderr,"Warning: Speaker %s is in system %s but not system %s\n",
@@ -347,8 +347,13 @@ void evaluate_SEG(char *sys1_str, char *sys2_str, SEG **seg_l, int *num_seg, int
 	free_2dimarr(table,2,int);
       }
     }
-
-
+    if (0) { int i;
+      fprintf(fp,"Segment size Report\n");
+      for (i=0;i<*num_seg;i++){
+	fprintf(fp, "   Segment:  #ref=%d    sys1Err=%d   sys2Err=%d errDiff=%d\n",
+		seg_ref(seg_l,i), seg_hyp1(seg_l,i), seg_hyp2(seg_l,i),abs(seg_hyp1(seg_l,i) - seg_hyp2(seg_l,i)));
+      }
+    }
 }
 
 
@@ -543,15 +548,16 @@ void test_comp_sents(PATH *snt1, PATH *snt2, SEG ***seg_l, int *num_seg, int *ma
 	if (ind2 < snt2->num)	    ind2++;
 	if (dbg) printf("end of loop: state: %c  ind1=%d ind2=%d\n\n",state,ind1,ind2);
     }
+    if (dbg) printf(    "outsid loop: state: %c  ind1=%d ind2=%d\n\n",state,ind1,ind2);
     /*  if the state is anything but 'b' then the end of the sentence ends */
     /*  the segment */
-    if (state != 'b'){
+    if (state != 'b' || (state == 'b' && snt2->num > ind2)){
 	if (dbg) {
 	    printf("    segment: snt1:%d-%d  snt2:%d-%d\n",
-		   eog1-(min_good-1),ind1-1,eog2-(min_good-1),ind2-1);
+		   eog1-(min_good-1),snt1->num-1,eog2-(min_good-1),snt2->num-1);
 	}
-        count_seg(snt1,snt2,eog1-(min_good-1), eog2-(min_good-1),ind1-1,
-		  ind2-1,seg_l,num_seg,max_seg,dbg);
+        count_seg(snt1,snt2,eog1-(min_good-1), eog2-(min_good-1),snt1->num-1,
+		  snt2->num-1,seg_l,num_seg,max_seg,dbg);
     }
 }
 
@@ -578,6 +584,10 @@ void count_seg(PATH *snt1, PATH *snt2, int beg1, int beg2, int end1, int end2, S
     seg_hyp1((*seg_l),*num_seg) = err1;
     seg_hyp2((*seg_l),*num_seg) = err2;
 
+    if (dbg)
+      printf("Count Segment: segment# %3d:  sys1=[beg=%d,end=%d,ref=%d,err=%d] sys2=[beg=%d,end=%d,ref=%d,err=%d]\n",
+	     *num_seg,beg1,end1,ref1,err1,beg2,end2,ref2,1,err2);
+
     if (err1 == 0 && err2 == 0){
       fprintf(scfp,"Warning: MAPSSWE segmentation produced a segment with"
 	      " errors\n         ignoring segment\n");
@@ -586,8 +596,8 @@ void count_seg(PATH *snt1, PATH *snt2, int beg1, int beg2, int end1, int end2, S
     /* print the sentence segments to stdout */
     if (dbg){
 	if (ref1 != ref2){
-	    printf("***** Reference Counts Not Equal\n");
-	    printf("Segment# %3d:  #ref %1d  (%d+%d)/2\n",
+	      printf("***** Reference Counts Not Equal\n");
+	      printf("Segment# %3d:  #ref %1d  (%d+%d)/2\n",
 		   *num_seg,(ref1+ref2)/2,ref1,ref2);
 	} else
 	    printf("Segment# %3d:  #ref %1d\n",*num_seg,ref1);
