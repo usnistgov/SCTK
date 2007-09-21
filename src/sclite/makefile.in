@@ -177,6 +177,7 @@ testinstalldirs:
 # We need more tests.
 check:
 	cd testdata && ./tsclite.sh
+	cd testdata && ./tsc_stats.sh
 
 uninstall:
 	for p in $(PROGRAMS); do \
