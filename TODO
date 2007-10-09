@@ -33,6 +33,7 @@ High Priority:
     [ ] stmValidator
     [ ] tanweenFilt
     [ ] utf_filt
+[ ] Re-implement MAPPSWE segmentation to take into account overlapping speech
 
 Medium Priority:
 [x] use UEMs in asclite
