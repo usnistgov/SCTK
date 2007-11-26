@@ -50,7 +50,7 @@ void SpeakerMatch::LoadFile(string filename)
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(logger, "Error opening SpeakerMatch file " + filename); 
-		exit(1); 
+		exit(E_LOAD); 
 	}
 	
 	while (getline(file,line,'\n'))

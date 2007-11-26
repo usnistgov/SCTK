@@ -244,6 +244,36 @@ For example:
 	Cost: 78 (number of *)
    
 
+=head2 Filtering
+
+=head3 UEM and References
+
+The UEM filtering works as both a filter and a semantic checker.   The times within the UEM and reference files are expected to be coherent meaning there are no UEM segment times that are within the bounds of a reference segment.
+
+It works as a filter because it keeps and scores only the reference segments that are encapsulated by the begin/end time definitions in the UEM (Seg4 in the example).  Conversely, reference segments fully outside the UEM (Seg5-6 in the example) are removed from the scoring. If there is no UEM entry defined for a particular file/channel, then the segments with the same file/channel are removed as well.
+
+It works as a checker by detecting if some segments are not fully inside (or outside) the UEM time definitions (Seg1-3 in the example).  These conditions are fatal errors.
+
+	B   E
+	|---| is the segment in the timeline.
+
+
+	UEM:       |-------------|
+	Seg1:  |-------|                   [out - error]
+	Seg2:                   |-------|  [out - error]
+	Seg3:   |-------------------|      [out - error]
+	Seg4:        |-------|             [ in -  ok  ]
+	Seg5:  |--|                        [out - info ]
+	Seg6:                       |---|  [out - info ]
+
+The program reports an error when a reference segment is not fully inside the UEM (Seg1-3 in the example) then exits. If a reference segment is fully outside the UEM (Seg5-6 in the example) then asclite outputs informational messages about the segment.
+
+Where errors are found in the UEM filtering, asclite exits.
+
+=head3 UEM and Hypotheses
+
+The UEM filtering works not with the begin and end time of every hypothesis segments/tokens, but rather the mid-time. If the mid-time is outside the UEM time definitions then the segment/token is removed from scoring and an information message is outputted.
+
 =head2 Publications
 
 [1] B<Multiple Dimension Levenshtein Edit Distance Calculations for Evaluating Automatic Speech Recognition Systems During Simultaneous Speech>, Jonathan Fiscus, Jerome Ajot, Nicolas Radde and Christophe Laprun, Proceedings of Language Resources and Evaluation (LREC), Genoa, Italy, May 2006.

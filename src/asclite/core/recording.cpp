@@ -337,9 +337,9 @@ void Recording::Filter(vector<string> _filters)
     if (nbErr != 0)
     {
         char buffer[BUFFER_SIZE];
-        sprintf(buffer, "%li Error(s) in the input files", nbErr);
+        sprintf(buffer, "%li Error(s) in the input files during the filtering", nbErr);
         LOG_FATAL(logger, buffer);
-        exit(0);
+        exit(E_FILTER);
     }
 }
 

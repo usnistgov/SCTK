@@ -94,11 +94,11 @@ Segment* SegmentsGroup::GetRefSegmentByTime(Token* token)
     }
     
     //Hey why are you here ?
-    cout << "Warning: This token dont have references segment for him --> " << token->GetText();
-    cout << "(" << token->GetStartTime() << "," << token->GetEndTime() << ")"<< endl;
-    cout << "                    from segment(" << token->GetParentSegment()->GetStartTime() << "," << token->GetParentSegment()->GetEndTime() << ") ";
-    cout << token->GetParentSegment()->GetSource() << ", " << token->GetParentSegment()->GetChannel() << ", " << token->GetParentSegment()->GetSpeakerId() << endl;
-    exit(-1);
+    LOG_FATAL(logger, "Warning: This token dont have references segment for him");
+    cerr << "(" << token->GetStartTime() << "," << token->GetEndTime() << ")"<< endl;
+    cerr << "                    from segment(" << token->GetParentSegment()->GetStartTime() << "," << token->GetParentSegment()->GetEndTime() << ") ";
+    cerr << token->GetParentSegment()->GetSource() << ", " << token->GetParentSegment()->GetChannel() << ", " << token->GetParentSegment()->GetSpeakerId() << endl;
+    exit(E_INVALID);
 	
     return NULL;
 }
@@ -474,7 +474,7 @@ int SegmentsGroup::GetTotalDuration()
 	if(diff <= 0)
 	{
 		LOG_FATAL(logger, "Duration of the Segment group is negative or equal 0");
-		exit(-1);
+		exit(E_INVALID);
 	}
 	
 	return(diff);

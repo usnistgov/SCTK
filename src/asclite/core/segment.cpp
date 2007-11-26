@@ -189,7 +189,7 @@ void Segment::AddFirstToken(Token* token)
 				GetParentSpeech()->GetParentSpeechSet()->GetSourceFileName().c_str(),
 				token->GetText().c_str(), GetSource().c_str(), GetChannel().c_str(), token->GetStartTime(), token->GetEndTime(), GetStartTime(), GetEndTime());
 		LOG_FATAL(logger, buffer);
-		exit(1);
+		exit(E_INVALID);
     }
     else
     {
@@ -207,7 +207,7 @@ void Segment::AddLastToken(Token* token)
 				GetParentSpeech()->GetParentSpeechSet()->GetSourceFileName().c_str(),
 				token->GetText().c_str(), GetSource().c_str(), GetChannel().c_str(), token->GetStartTime(), token->GetEndTime(), GetStartTime(), GetEndTime());
 		LOG_FATAL(logger, buffer);
-		exit(1);
+		exit(E_INVALID);
     }
     else
     {

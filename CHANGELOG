@@ -1,3 +1,9 @@
+SCTK Version 2.3-rc2 - Release November 26, 2007
+  [*] Fixed the exit code, for a fatal error, it exists with a non 0 value.
+  [/] Change the error/Info message when filtering.
+  [+] Added information in the documentation for asclite regarding the 
+      UEM filtering.
+
 SCTK Version 2.3-rc1 - Release September 21, 2007
   [*] Fixed asclite when no input given
   [*] Fixed mapsswe segmentation code 

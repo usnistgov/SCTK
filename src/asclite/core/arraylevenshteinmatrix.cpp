@@ -97,7 +97,7 @@ size_t ArrayLevenshteinMatrix::CoordinatesToSize(size_t* coordinates)
 		char buffer[BUFFER_SIZE];		
 		sprintf(buffer, "Try to access data too far %lu (size matrix %lu)", (ulint) outSize, (ulint) m_MaxSize);
 		LOG_FATAL(m_pLogger, buffer);
-		exit(0);
+		exit(E_INVALID);
 	}
 	
 	return outSize;

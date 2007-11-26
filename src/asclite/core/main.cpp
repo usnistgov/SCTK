@@ -20,8 +20,8 @@
 #include "recording.h"
 #include "properties.h"
 
-#define ASC_VERSION "1.8"
-#define ASC_NAME "Aeryn"
+#define ASC_VERSION "1.9"
+#define ASC_NAME "Ma Puce"
 
 struct inputfilename
 {
@@ -110,7 +110,7 @@ void PrintHelp()
 	cout << endl;
 	cout << "Note:" << endl;
 	cout << "LCM:              Levenshtein Cost Matrix." << endl;
-	exit(1);
+	exit(E_OK);
 }
 
 int main(int argc, char **argv)
@@ -838,7 +838,7 @@ int main(int argc, char **argv)
 	if(!arg_ok)
 	{
 		cerr << "[  FATAL  ] type 'asclite' to display the help." << endl;
-		exit(1);
+		exit(E_ARGS);
 	}
 	else
 	{
@@ -980,5 +980,5 @@ int main(int argc, char **argv)
 	
 	delete logger;
 	
-    return 0;
+    return E_OK;
 }

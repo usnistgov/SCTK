@@ -155,7 +155,7 @@ void Token::UnlinkNextToken(Token* nextToken)
 		char buffer[BUFFER_SIZE];
 		sprintf(buffer, "Can't unlink next token %s from %s", nextToken->ToString().c_str(), ToString().c_str());
 		LOG_FATAL(logger, buffer);
-		exit(1);
+		exit(E_INVALID);
 	}
 	
 	next.erase(tokNext);
@@ -173,7 +173,7 @@ void Token::UnlinkPrevToken(Token* prevToken)
 		char buffer[BUFFER_SIZE];
 		sprintf(buffer, "Can't unlink previous token %s from %s", prevToken->ToString().c_str(), ToString().c_str());
 		LOG_FATAL(logger, buffer);
-		exit(1);
+		exit(E_INVALID);
 	}
 	
 	prec.erase(tokPrec);
@@ -193,7 +193,7 @@ void Token::UnlinkTokens(Token *next)
 		char buffer[BUFFER_SIZE];
 		sprintf(buffer, "Can't unlink tokens %s and %s",this->ToString().c_str(), next->ToString().c_str());
 		LOG_FATAL(logger, buffer);
-		exit(1);
+		exit(E_INVALID);
 	}
 
 	this->next.erase(tokNext);

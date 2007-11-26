@@ -49,7 +49,7 @@ SpeechSet* RTTMInputParser::loadFileLexeme(string name)
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(logger, "Error opening RTTM file " + name);
-		exit(1); 
+		exit(E_LOAD); 
 	}
 	
 	SpeechSet* vec = new SpeechSet(name);
@@ -177,7 +177,7 @@ SpeechSet* RTTMInputParser::loadFileLexeme(string name)
 	if(emptyFile)
 	{
 		LOG_FATAL(logger, "RTTM file '" + name + "' contains no data!");
-		exit(1);
+		exit(E_MISSINFO);
 	}
     
 	return vec;
@@ -195,7 +195,7 @@ SpeechSet* RTTMInputParser::loadFileSpeaker(string name)
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(logger, "Error opening RTTM file " + name); 
-		exit(1); 
+		exit(E_LOAD); 
 	}
 	
 	SpeechSet* vec = new SpeechSet(name);

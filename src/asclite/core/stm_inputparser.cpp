@@ -41,7 +41,7 @@ SpeechSet* STMInputParser::loadFile(string name)
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(logger, "Error opening STM file " + name); 
-		exit (1); 
+		exit (E_LOAD); 
 	}
 	
 	SpeechSet* vec = new SpeechSet(name);
@@ -97,16 +97,7 @@ SpeechSet* STMInputParser::loadFile(string name)
                     LOG_ERR(logger, buffer);
                 }
             }
-						
-            /*
-			cout << "load line: " << line << endl;
-			cout << "     file: " << f_file << endl;
-			cout << "     chan: " << channel << endl;
-			cout << "     spkr: " << spkr << endl;        
-			cout << "     beg : " << start << endl;  
-			cout << "     end : " << end << endl;
-			cout << "     lur : " << lur << endl;
-            */
+
 			Speech* speech = res[spkr];
             
 			if (!speech)
@@ -138,15 +129,6 @@ SpeechSet* STMInputParser::loadFile(string name)
 			else
 			{
 				seg = ParseWords(string(f_file), string(channel), string(spkr), start, end, speech, s_tokens);
-				
-				//vector<Token*> temp = seg->ToTopologicalOrderedStruct();
-				//            cout << "  " << temp.size();
-				//            cout << "[ ";
-				//            for (int k=0 ; k < temp.size() ; k++)
-				//            {
-				//              cout << temp[k]->GetText();
-				//            }
-				//            cout << " ]" << endl;    
 				++elemNum;
 			}			
 			
@@ -159,10 +141,8 @@ SpeechSet* STMInputParser::loadFile(string name)
 			osstr << setw(3) << nouppercase << setfill('0') << (nbSeg - nbIgnoreForSpkr[spkr]) << ")";
 			seg->SetId(osstr.str());
 			
-			//if (nbSeg != 0)
-			//{
-			//	Attach(speech->GetSegment(nbSeg - 1), seg);
-			//}
+//			if (nbSeg != 0)
+//				Attach(speech->GetSegment(nbSeg - 1), seg);
             
 			speech->AddSegment(seg);
 		}
@@ -221,7 +201,7 @@ SpeechSet* STMInputParser::loadFile(string name)
 	if(emptyFile)
 	{
 		LOG_FATAL(logger, "STM file '" + name + "' contains no data!");
-		exit(1);
+		exit(E_MISSINFO);
 	}
     
 	return vec;

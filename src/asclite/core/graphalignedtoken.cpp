@@ -48,7 +48,7 @@ void GraphAlignedToken::SetToken(size_t dim, Token* token)
 	else
 	{
 		printf("GraphAlignedToken::SetToken()\nInvalid dimension (%li), max: %li\nExiting!\n", dim, m_Dimension);
-		exit(0);
+		exit(E_INVALID);
 	}
 }
 

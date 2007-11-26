@@ -110,4 +110,17 @@ class Logger
 #define LOG_FATAL(_l,_m) _l->log(1, (_m));
 #endif
 
+/****************************************
+ * Output Errors                        *
+ ****************************************/
+
+#define E_OK       0
+#define E_LOAD     1
+#define E_COND     2
+#define E_FILTER   3
+#define E_ARGS     4
+#define E_MISSINFO 5
+#define E_INVALID  6
+#define E_LZO      7
+
 #endif

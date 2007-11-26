@@ -28,7 +28,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, 
 	if (lzo_init() != LZO_E_OK)
 	{
 		LOG_FATAL(m_pLogger, "Compression Initialization - 'lzo_init()' failed!");
-		exit(0);
+		exit(E_LZO);
 	}
 	
 	m_pWorkMemory = new lzo_align_t[ ((LZO1X_1_MEM_COMPRESS) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ];
@@ -185,7 +185,7 @@ void CompressedLevenshteinMatrix::CompressBlock(size_t block_index)
 		if( lzo1x_1_compress((lzo_bytep) m_TabStartByte[block_index], decomp_lengh, (lzo_bytep) m_TabStartByteCompressed[block_index], &comp_lengh, m_pWorkMemory) != LZO_E_OK)
 		{
 			LOG_FATAL(m_pLogger, "Compression: 'lzo1x_1_compress()' failed!");
-			exit(0);
+			exit(E_LZO);
 		}
 		
 		if(comp_lengh >= decomp_lengh)
@@ -225,7 +225,7 @@ bool CompressedLevenshteinMatrix::DecompressBlock(size_t block_index)
 		if( lzo1x_decompress((lzo_bytep) m_TabStartByteCompressed[block_index], comp_lengh, (lzo_bytep) m_TabStartByte[block_index], &decomp_lengh, NULL) != LZO_E_OK)
 		{
 			LOG_FATAL(m_pLogger, "Compression: 'lzo1x_decompress()' failed!");
-			exit(0);
+			exit(E_LZO);
 		}
 		
 		free(m_TabStartByteCompressed[block_index]);

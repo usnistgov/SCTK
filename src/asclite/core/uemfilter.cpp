@@ -87,7 +87,7 @@ void UEMFilter::LoadFile(string filename)
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(m_pLogger, "Error opening file " + filename); 
-		exit (1); 
+		exit(E_LOAD); 
 	}
 	
 	char l_file[BUFFER_SIZE];
@@ -140,7 +140,7 @@ void UEMFilter::LoadFile(string filename)
 	if(isEmpty())
 	{
 		LOG_FATAL(m_pLogger, "UEM file '" + filename + "' contains no data!");
-		exit(1);
+		exit(E_LOAD);
 	}
 	
 	m_bUseFile = true;
@@ -169,6 +169,9 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 			
 			if(pListUEMElement->empty())
 			{
+				char bufferUEM0[BUFFER_SIZE];
+				sprintf(bufferUEM0, "UEMFilter - Removing segment in '%s/%s' with times [%d, %d] because nothing has been defined for these file and channel in UEM file", segFile.c_str(), segChannel.c_str(), segStartTime, segEndTime);
+				LOG_INFO(m_pLogger, bufferUEM0);
 				listSegmentsToRemove.push_back(pSegment);
 			}
 			else
@@ -208,7 +211,7 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 							++nbrerr;
 							char bufferUEM1[BUFFER_SIZE];
 							sprintf(bufferUEM1, "UEMFilter - Segment in '%s/%s' has an unproper time [%d, %d] regarding the UEM file with times: (%s/%s) [%d, %d]", segFile.c_str(), segChannel.c_str(), segStartTime, segEndTime,  pUEMElement->GetFile().c_str(), pUEMElement->GetChannel().c_str(), uemStartTime, uemEndTime);
-							LOG_DEBUG(m_pLogger, bufferUEM1);
+							LOG_ERR(m_pLogger, bufferUEM1);
 						}
 						
 						++i;
@@ -223,7 +226,7 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 				{
 					char bufferUEM2[BUFFER_SIZE];
 					sprintf(bufferUEM2, "UEMFilter - Removing segment in '%s/%s' with times [%d, %d] regarding the UEM file rules", segFile.c_str(), segChannel.c_str(), segStartTime, segEndTime);
-					LOG_DEBUG(m_pLogger, bufferUEM2);
+					LOG_INFO(m_pLogger, bufferUEM2);
 					listSegmentsToRemove.push_back(pSegment);
 				}
 			}
@@ -247,6 +250,9 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 			
 			if(pListUEMElement->empty())
 			{
+				char bufferUEM0[BUFFER_SIZE];
+				sprintf(bufferUEM0, "UEMFilter - Removing segment in '%s/%s' with times [%d, %d] (mid: %d) because nothing has been defined for these file and channel in UEM file", segFile.c_str(), segChannel.c_str(), pSegment->GetStartTime(), pSegment->GetEndTime(), segMidPoint);
+				LOG_INFO(m_pLogger, bufferUEM0);
 				listSegmentsToRemove.push_back(pSegment);
 			}
 			else
@@ -272,7 +278,7 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 				{
 					char bufferUEM3[BUFFER_SIZE];
 					sprintf(bufferUEM3, "UEMFilter - Removing segment in '%s/%s' with times [%d, %d] (mid: %d) regarding the UEM file rules", segFile.c_str(), segChannel.c_str(), pSegment->GetStartTime(), pSegment->GetEndTime(), segMidPoint);
-					LOG_DEBUG(m_pLogger, bufferUEM3);
+					LOG_INFO(m_pLogger, bufferUEM3);
 					listSegmentsToRemove.push_back(pSegment);
 				}
 			}
@@ -285,7 +291,7 @@ unsigned long int UEMFilter::ProcessSingleSpeech(Speech* speech)
 	{
 		LOG_FATAL(m_pLogger, "UEMFilter::ProcessSingleSpeech() - Neither Ref nor Hyp - do nothing!");
 		// Not defined so... for the moment do nothing
-		exit(0);
+		exit(E_COND);
 	}
 	
 	// Step 2: removing the unwanted segments
@@ -445,23 +451,23 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 					if( mapMinHypTime.find(file) == mapMinHypTime.end() )
 					{
 						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMinHypTime file '"+file+"' not defined");
-						exit(0);
+						exit(E_MISSINFO);
 					}
 					else if( mapMinHypTime[file].find(channel) == mapMinHypTime[file].end() )
 					{
 						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMinHypTime '"+file+"' channel '"+channel+"' not defined");
-						exit(0);
+						exit(E_MISSINFO);
 					}
 					
 					if( mapMaxHypTime.find(file) == mapMaxHypTime.end() )
 					{
 						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMaxHypTime file '"+file+"' not defined");
-						exit(0);
+						exit(E_MISSINFO);
 					}
 					else if( mapMaxHypTime[file].find(channel) == mapMaxHypTime[file].end() )
 					{
 						LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - mapMaxHypTime '"+file+"' channel'"+channel+"' not defined");
-						exit(0);
+						exit(E_MISSINFO);
 					}
 					/* end checks */
 					
@@ -535,7 +541,7 @@ unsigned long int UEMFilter::ProcessSpeechSet(SpeechSet* references, map<string,
 				if(l == el)
 				{
 					LOG_FATAL(m_pLogger, "UEMFilter::ProcessSpeechSet() - Invalid list of time");
-					exit(-1);
+					exit(E_INVALID);
 				}
 				
 				if(find(mapListSGborder[file][channel].begin(), mapListSGborder[file][channel].end(), begintime) == mapListSGborder[file][channel].end())

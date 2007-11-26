@@ -41,7 +41,7 @@ SpeechSet* CTMInputParser::loadFile(string name)
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(logger, "Error opening CTM file " + name); 
-		exit (1); 
+		exit (E_LOAD); 
 	}
 	
 	SpeechSet* res = new SpeechSet(name);
@@ -282,7 +282,7 @@ SpeechSet* CTMInputParser::loadFile(string name)
 	if(speech->NbOfSegments() == 0)
 	{
 		LOG_FATAL(logger, "CTM file '" + name + "' contains no data!");
-		exit(1);
+		exit(E_MISSINFO);
 	}
 	
 	res->AddSpeech(speech);

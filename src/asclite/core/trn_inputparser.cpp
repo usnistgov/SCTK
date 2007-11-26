@@ -38,7 +38,7 @@ SpeechSet* TRNInputParser::loadFile(string name)
 	if (! file.is_open())
 	{ 
 		LOG_FATAL(logger, "Error opening file " + name); 
-		exit (1); 
+		exit (E_LOAD); 
 	}
 	
 	map<string, Speech*> spkr_list;
@@ -104,7 +104,7 @@ SpeechSet* TRNInputParser::loadFile(string name)
 	if(emptyFile)
 	{
 		LOG_FATAL(logger, "TRN file '" + name + "' contains no data!");
-		exit(1);
+		exit(E_MISSINFO);
 	}
     
 	return vec;

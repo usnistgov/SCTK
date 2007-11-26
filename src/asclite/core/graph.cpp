@@ -192,7 +192,7 @@ void Graph::SetDimension(size_t dim)
         char buffer [BUFFER_SIZE];
         sprintf(buffer, "Graph::SetDimension() - Invalid dimension (%li)!", dim);
 		LOG_FATAL(logger, buffer);
-		exit(0);
+		exit(E_INVALID);
 	}
 }
 
@@ -206,7 +206,7 @@ void Graph::SetDimensionDeep(size_t dim, size_t deep)
         char buffer [BUFFER_SIZE];
         sprintf(buffer, "Graph::SetDimensionDeep() - Invalid dimension (%li), max: %li", dim, m_Dimension);
 		LOG_FATAL(logger, buffer);
-		exit(0);
+		exit(E_INVALID);
 	}
 }
 
@@ -220,7 +220,7 @@ void Graph::SetIndexRef(size_t ind)
         char buffer [BUFFER_SIZE];
         sprintf(buffer, "Graph::SetIndexRef() - Invalid dimension (%li), max: %li", ind, m_Dimension);
 		LOG_FATAL(logger, buffer);
-		exit(0);
+		exit(E_INVALID);
 	}
 }
 
@@ -738,7 +738,7 @@ int Graph::GetCostTransitionWordBased(Token* pToken1, Token* pToken2)
 			if( (file1 != file2) || (channel1 != channel2) )
 			{
 				LOG_FATAL(logger, "Error file and channel mismatch " + file1 + " " + channel1 + " " + file2 + " " + channel2); 
-				exit(0);
+				exit(E_COND);
 			}
 						
 			if(m_pSpeakerMatch->GetRef(file1, channel1, speaker1) == speaker2)
@@ -1397,7 +1397,7 @@ int Graph::GetCostTransitionTimeBased(Token* pToken1, Token* pToken2)
 		if( (file1 != file2) || (channel1 != channel2) )
 		{
 			LOG_FATAL(logger, "Error file and channel mismatch " + file1 + " " + channel1 + " " + file2 + " " + channel2); 
-			exit(0);
+			exit(E_COND);
 		}
 					
 		if(m_pSpeakerMatch->GetRef(file1, channel1, speaker1) != speaker2)

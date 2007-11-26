@@ -207,7 +207,7 @@ void Speech::RemoveSegment(Segment* currentSegment)
 	if (SegIter == m_segments.end())
     {
 		LOG_FATAL(m_pLogger, "Speech::RemoveSegment(), the segment is not at the right spot!!");
-		exit(1);
+		exit(E_INVALID);
 	}
 	
 	m_segments.erase(SegIter);
