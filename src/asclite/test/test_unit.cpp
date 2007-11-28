@@ -53,7 +53,8 @@ int main(int argc, char** argv)
   int repeat = 1;
   vector<string> args;
   Properties::Initialize();
-  Properties::SetProperty("dataDirectory","../src/testfiles");
+  Properties::SetProperty("dataDirectory","../testfiles");
+  
   for(int i=1 ; i < argc ; i++)
   {
     if (string(argv[i]).compare("-b") == 0 || string(argv[i]).compare("--bench") == 0)
@@ -108,9 +109,9 @@ int main(int argc, char** argv)
     UnitTest();
   }
 
-  #ifdef WIN32
-		cout << "Press Enter to continue." << endl;
-		getchar();
+	#ifdef WIN32
+	cout << "Press Enter to continue." << endl;
+	getchar();
 	#endif
 		
     return 0;
@@ -273,64 +274,63 @@ void UnitTest()
 
 void RunBenchmark(string bench_name, int repeat)
 {
-  double time_before, duration;
-  Benchmark* bench = benchmarks[bench_name];
-  if (!bench)
-  {
-    cout << "Benchmark : " << bench_name << " doesn't exist !!!" << endl;
-    exit(-1);
-  }
-  double bench_before = timerStart();
-//  for (int i=0 ; i < 1000000000 ; i++)
-//  {
-//    i = i;
-//  }
-//  cout << timerStart() << endl;
-  printf("+--------------------------------------------+\n");  
-  printf("| Benchmark : %10s                     |\n", bench_name.c_str());
-  time_before = timerStart();
-  Levenshtein* laligner = new Levenshtein();
-  duration = timerEnd(time_before);
-  printf("| Levenshtein creation: %2.3f ms             |\n", duration);
-  printf("| Repetition factor   : %5d                |\n", repeat);
-  printf("+---------+----------+------------+----------+\n");
-  printf("| test    | segments | alignement | results  |\n");
-  printf("+---------+----------+------------+----------+\n");
+	double time_before, duration;
+	Benchmark* bench = benchmarks[bench_name];
+	
+	if (!bench)
+	{
+		cout << "Benchmark : " << bench_name << " doesn't exist !!!" << endl;
+		exit(-1);
+	}
+	
+	double bench_before = timerStart();
+
+	printf("+--------------------------------------------+\n");  
+	printf("| Benchmark : %10s                     |\n", bench_name.c_str());
+	
+	time_before = timerStart();
+	Levenshtein* laligner = new Levenshtein();
+	duration = timerEnd(time_before);
+	
+	printf("| Levenshtein creation: %2.3f ms             |\n", duration);
+	printf("| Repetition factor   : %5d                |\n", repeat);
+	printf("+---------+----------+------------+----------+\n");
+	printf("| test    | segments | alignement | results  |\n");
+	printf("+---------+----------+------------+----------+\n");
   
-	for (int i=0 ; i < bench->GetTestSize() ; i++)
-  {
-    double t_segs, d_segs, t_align, d_align, t_res, d_res;
-		
+	for (int i=0 ; i < bench->GetTestSize() - 1 ; i++)
+	{
+		double t_segs, d_segs, t_align, d_align, t_res, d_res;
 		d_segs = d_align = d_res = 0.0;
-		
-    for (int j=0 ; j < repeat ; j++)
-    {
+			
+		for (int j=0 ; j < repeat ; j++)
+		{
 			Properties::SetProperties(bench->GetProperties(i));
-      t_segs = timerStart();
-      laligner->SetSegments(bench->GetTest(i), NULL, false);
-      d_segs += timerEnd(t_segs);
-      t_align = timerStart();
-      laligner->Align();
-      d_align += timerEnd(t_align);
-      t_res = timerStart();
-      laligner->GetResults();
-      d_res += timerEnd(t_res);
-    }
+			t_segs = timerStart();
+			laligner->SetSegments(bench->GetTest(i), NULL, false);
+			d_segs += timerEnd(t_segs);
+			t_align = timerStart();
+			laligner->Align();
+			d_align += timerEnd(t_align);
+			t_res = timerStart();
+			laligner->GetResults();
+			d_res += timerEnd(t_res);
+		}
 		
-    printf("| test %2d | %2.3f ms |  %2.3f ms  | %2.3f ms |\n", i, d_segs/repeat, d_align/repeat, d_res/repeat);
+		printf("| test %2d | %2.3f ms |  %2.3f ms  | %2.3f ms |\n", i, d_segs/repeat, d_align/repeat, d_res/repeat);
   }
 	
-  printf("+---------+----------+------------+----------+\n");
-  printf("| total   | %2.3f ms                         |\n", timerEnd(bench_before)/repeat);
-  printf("+---------+----------------------------------+\n");
-  cout << endl;
+	printf("+---------+----------+------------+----------+\n");
+	printf("| total   | %2.3f ms                         |\n", timerEnd(bench_before)/repeat);
+	printf("+---------+----------------------------------+\n");
+	cout << endl;
 }
 
 void die_usage(string message)
 {
   cout << "Usage: asclite_test [-b|--bench bench_name] [-r|--repeat repeat_time] [-d|--datadir directoryNameOfTestFiles] [bench_name ...]" << endl;
   
-  cout << "       -d Default is '../src/testfiles'" << endl;
+  cout << "       -d Default is '../testfiles'" << endl;
   cout << endl;
   cout << "  " << message << endl;
   exit(-1);
