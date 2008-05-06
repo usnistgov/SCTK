@@ -30,7 +30,7 @@ Speech::Speech() {}
 // class constructor
 Speech::Speech(SpeechSet* parent)
 {
-  parentSet = parent;
+	parentSet = parent;
 }
 
 Speech::Speech(const vector<Segment *>& segments)

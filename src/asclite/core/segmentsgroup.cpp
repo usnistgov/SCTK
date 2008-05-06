@@ -84,19 +84,19 @@ bool SegmentsGroup::isIgnoreInScoring()
  */
 Segment* SegmentsGroup::GetRefSegmentByTime(Token* token)
 {
-    for (size_t i=0 ; i < references.size() ; ++i)
+    for(size_t i=0; i < references.size(); ++i)
     {
-        for (size_t j=0 ; j < references[i].size() ; ++j)
+        for(size_t j=0; j < references[i].size(); ++j)
         {
-			if (references[i][j]->OverlapWith(token))
+			if(references[i][j]->OverlapWith(token))
                 return references[i][j];
         }
     }
     
     //Hey why are you here ?
-    LOG_FATAL(logger, "Warning: This token dont have references segment for him");
-    cerr << "(" << token->GetStartTime() << "," << token->GetEndTime() << ")"<< endl;
-    cerr << "                    from segment(" << token->GetParentSegment()->GetStartTime() << "," << token->GetParentSegment()->GetEndTime() << ") ";
+    LOG_FATAL(logger, "Warning: This token don't have a reference segment for himself:");
+    cerr << token->GetText() <<" (" << token->GetStartTime() << "," << token->GetEndTime() << ")"<< endl;
+    cerr << "from segment(" << token->GetParentSegment()->GetStartTime() << "," << token->GetParentSegment()->GetEndTime() << ") ";
     cerr << token->GetParentSegment()->GetSource() << ", " << token->GetParentSegment()->GetChannel() << ", " << token->GetParentSegment()->GetSpeakerId() << endl;
     exit(E_INVALID);
 	

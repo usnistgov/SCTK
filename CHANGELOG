@@ -1,3 +1,7 @@
+SCTK Version 2.3-rc2b - Release May 6, 2008
+  [*] Fixed an asclite bug went more than 32768 segment are added to the structure.
+  [/] Changed the asclite compilation flags.
+
 SCTK Version 2.3-rc2 - Release November 26, 2007
   [*] Fixed the exit code, for a fatal error, it exists with a non 0 value.
   [/] Change the error/Info message when filtering.

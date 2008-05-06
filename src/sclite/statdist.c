@@ -786,7 +786,7 @@ double compute_acc_binomial(int R, int n, double p)
       double mean, stdev, zstat, flip;
       mean = n*p;
       stdev = sqrt(n*p*(1.0-p));
-      flip = (double)R + 0.5;
+      flip = (double)R * 0.5;
       zstat = (flip - mean) / stdev;
       sum = normprob((double)fabs(zstat));
       if (zstat < 0.0)  sum = 1.0 - sum;

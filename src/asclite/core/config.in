@@ -13,6 +13,23 @@ AC_CHECK_LIB(m, main)
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(unistd.h)
+AC_CHECK_HEADERS(string.h)
+AC_CHECK_HEADERS(iostream)
+AC_CHECK_HEADERS(ostream)
+AC_CHECK_HEADERS(fstream)
+AC_CHECK_HEADERS(iomanip)
+AC_CHECK_HEADERS(map)
+AC_CHECK_HEADERS(stdio.h)
+AC_CHECK_HEADERS(stdlib.h)
+AC_CHECK_HEADERS(math.h)
+AC_CHECK_HEADERS(time.h)
+AC_CHECK_HEADERS(list)
+AC_CHECK_HEADERS(vector)
+AC_CHECK_HEADERS(set)
+AC_CHECK_HEADERS(assert.h)
+AC_CHECK_HEADERS(sstream)
+AC_CHECK_HEADERS(float.h)
+AC_CHECK_HEADERS(limits.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

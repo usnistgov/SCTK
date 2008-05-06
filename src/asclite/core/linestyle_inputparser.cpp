@@ -49,61 +49,68 @@ Segment* LineStyleInputParser::ParseWords(string source, string channel, string 
 
 Segment* LineStyleInputParser::ParseWordsEx(string source, string channel, string spkr, int start, int end, Speech* speech, string tokens, bool hasconf, float confscr)
 {
-    Segment* seg = Segment::CreateWithEndTime(start, end, speech);
-
-    seg->SetSource(source);
-    seg->SetChannel(channel);
-    seg->SetSpeakerId(spkr);
-    m_bUseConfidence = hasconf;
-    m_Confidence = confscr;
-    m_bUseExtended = true;
-    m_starttime = start;
-    m_endtime = end;
-
-    string tokens_prefiltered0 = FilterSpace(tokens);
-    string tokens_prefiltered1 = ReplaceChar(tokens_prefiltered0, string("_"), string(" "));
-    string tokens_prefiltered2 = ReplaceChar(tokens_prefiltered1, string("#"), string(" "));
-    LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_prefiltered2);
-
-    for (size_t i=0 ; i < words->GetNbStartToken() ; ++i)
-        seg->AddFirstToken(words->GetStartToken(i));
-    
-    for (size_t i=0 ; i < words->GetNbEndToken() ; ++i)
-        seg->AddLastToken(words->GetEndToken(i));
-
-    delete words;
+	Segment* seg = Segment::CreateWithEndTime(start, end, speech);
 	
-    return seg;
+	seg->SetSource(source);
+	seg->SetChannel(channel);
+	seg->SetSpeakerId(spkr);
+	m_bUseConfidence = hasconf;
+	m_Confidence = confscr;
+	m_bUseExtended = true;
+	m_starttime = start;
+	m_endtime = end;
+	
+	string tokens_prefiltered0 = FilterSpace(tokens);
+	string tokens_prefiltered1 = ReplaceChar(tokens_prefiltered0, string("_"), string(" "));
+	string tokens_prefiltered2 = ReplaceChar(tokens_prefiltered1, string("#"), string(" "));
+	LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_prefiltered2);
+	
+	for (size_t i=0 ; i < words->GetNbStartToken() ; ++i)
+		seg->AddFirstToken(words->GetStartToken(i));
+	
+	for (size_t i=0 ; i < words->GetNbEndToken() ; ++i)
+		seg->AddLastToken(words->GetEndToken(i));
+	
+	delete words;
+	
+	return seg;
 }
 
 SpeechSet *LineStyleInputParser::ExpandAlternationSpeechSet(SpeechSet *sset)
 {
 	// Loop through speeches
-	for (size_t ss=0; ss < sset->GetNumberOfSpeech(); ss++){
+	for (size_t ss=0; ss < sset->GetNumberOfSpeech(); ++ss)
+	{
 		// Loop through segments
-		for (size_t segI=0; segI<sset->GetSpeech(ss)->NbOfSegments(); segI++){
+		for (size_t segI=0; segI<sset->GetSpeech(ss)->NbOfSegments(); ++segI)
+		{
 			Segment *seg = sset->GetSpeech(ss)->GetSegment(segI);
-			vector<Token *> tokens = seg->ToTopologicalOrderedStruct(); 
-			for (size_t t=0; t<tokens.size(); t++){
+			vector<Token *> tokens = seg->ToTopologicalOrderedStruct();
+			 
+			for (size_t t=0; t<tokens.size(); ++t)
+			{
 				Token *token = tokens[t]; 
 				// Check for the syntax 
 				size_t beg = token->GetText().find_first_of("{_",0);
 				size_t end = token->GetText().find_last_of("_}",string::npos);
-				if (beg != string::npos && end != string::npos){
+				
+				if (beg != string::npos && end != string::npos)
+				{
 					string tokens_prefiltered0 = FilterSpace(token->GetText());
 					string tokens_prefiltered1 = ReplaceChar(tokens_prefiltered0, string("_"), string(" "));
-					string tokens_prefiltered2 = ReplaceChar(tokens_prefiltered1, string("#"), string(" "));    m_bUseExtended = true;
-
+					string tokens_prefiltered2 = ReplaceChar(tokens_prefiltered1, string("#"), string(" ")); 
+					
 					m_bUseExtended = true;
 					m_starttime = token->GetStartTime();
 					m_endtime = token->GetEndTime();
-	
+					
 					LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_prefiltered2);
 					
 					seg->ReplaceTokenWith(token, words->GetStartTokenVector(), words->GetEndTokenVector());
 					
 					// if (token) delete token;
-					if (words) delete words;					
+					if (words)
+						delete words;					
 				}
 			}				
 		}
@@ -119,7 +126,7 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
   
     if (orStatements.size() != 1)
     {
-        for (size_t i = 0 ; i < orStatements.size() ; ++i)
+        for (size_t i = 0; i < orStatements.size(); ++i)
         {
 			LineStyleInputParser::VirtualSegment* por = ParseWords(seg, orStatements[i]);
 			
@@ -142,7 +149,7 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
         bool isFirstWord = true;
 		LineStyleInputParser::VirtualSegment* prec_token = NULL;
 		
-		for (size_t i=0 ; i < t_words.size() ; ++i)
+		for (size_t i=0; i < t_words.size(); ++i)
         {
 			bool skipToken = false;
             LineStyleInputParser::VirtualSegment* toks;
@@ -197,8 +204,6 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
                         toks->AddStartToken(tok);
                         toks->AddEndToken(tok);
                     }
-                        
-                    
                 }
                 else
                 {
@@ -443,7 +448,7 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::Transition(LineStyle
     {
         if (prec_token != NULL) 
         {
-            for(size_t i=0 ; i < toks->GetNbEndToken() ; ++i)
+            for(size_t i=0; i<toks->GetNbEndToken(); ++i)
                 prec_token->AddEndToken(toks->GetEndToken(i));
             
             return prec_token;
@@ -461,10 +466,8 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::Transition(LineStyle
 
 void LineStyleInputParser::VirtualSegment::AddEndTokens(LineStyleInputParser::VirtualSegment* toks)
 {
-    for (size_t j=0 ; j < toks->GetNbEndToken() ; ++j)
-    {
+    for (size_t j=0; j<toks->GetNbEndToken(); ++j)
         a_endTokens.push_back(toks->GetEndToken(j));
-    }
 }
 
 LineStyleInputParser::VirtualSegment::~VirtualSegment()

@@ -25,9 +25,7 @@
 bool TimedObject::OverlapWith(TimedObject* other)
 {
 	if(other == NULL)
-    {
 		return false;
-	}
 	
 	TimedObject *first, *second;
     
@@ -41,7 +39,7 @@ bool TimedObject::OverlapWith(TimedObject* other)
 		first = other;
 		second = this;
 	}
-    
+	    
 	return (first->GetEndTime() >= second->GetStartTime());
 }
 

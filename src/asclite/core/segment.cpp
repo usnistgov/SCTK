@@ -305,44 +305,47 @@ bool Segment::UseOptionallyDeletable()
 
 /** Replaces the token with a linked list of tokens.  The initial token is NOT deleted **/
 void Segment:: ReplaceTokenWith(Token *token, vector<Token*> startTokens, vector<Token*> endTokens)
-{ 
+{
 	// Store a list of prev tokens to avoid continual adding of tokens!!!
 	vector<Token *>prevTokens;
-	for (size_t p=0; p<token->GetNbOfPrecTokens(); p++)
+	for (size_t p=0; p<token->GetNbOfPrecTokens(); ++p)
 		prevTokens.push_back(token->GetPrecToken(p));
 
 	// Do the link
-	for (size_t s = 0; s<startTokens.size(); s++)
-		for (size_t p=0; p<prevTokens.size(); p++)
+	for (size_t s = 0; s<startTokens.size(); ++s)
+		for (size_t p=0; p<prevTokens.size(); ++p)
 			prevTokens[p]->LinkTokens(startTokens[s]);		
 			
 	// Link in the Starts
 	if (isFirstToken(token))
-		for (size_t s = 0; s<startTokens.size(); s++)
+		for (size_t s = 0; s<startTokens.size(); ++s)
 			AddFirstToken(startTokens[s]);
 	
 	// Store a list of next tokens to avoid continual adding of tokens!!!
 	vector<Token *>nextTokens;
-	for (size_t n=0; n<token->GetNbOfNextTokens(); n++)
+	for (size_t n=0; n<token->GetNbOfNextTokens(); ++n)
 		nextTokens.push_back(token->GetNextToken(n));
 			
 	// Do the link
-	for (size_t e = 0; e<endTokens.size(); e++)
-		for (size_t n=0; n<nextTokens.size(); n++)
+	for (size_t e = 0; e<endTokens.size(); ++e)
+		for (size_t n=0; n<nextTokens.size(); ++n)
 			endTokens[e]->LinkTokens(nextTokens[n]);					
 	
 	// Link in the End
 	if (isLastToken(token))
-		for (size_t e = 0; e<endTokens.size(); e++)
+		for (size_t e = 0; e<endTokens.size(); ++e)
 			AddLastToken(endTokens[e]);
 		
-	// Unlink the token --- With the assumption that something has replaced IT 
+	// Unlink the token --- With the assumption that something has replaced IT
 	if (isFirstToken(token))
 		f_token->UnlinkNextToken(token);
+	
 	if(isLastToken(token))
 		l_token->UnlinkNextToken(token);
+	
 	while(token->GetNbOfPrecTokens() > 0)
 		token->GetPrecToken(0)->UnlinkTokens(token);
+	
 	while(token->GetNbOfNextTokens() > 0)
 		token->UnlinkTokens(token->GetNextToken(0));
 		

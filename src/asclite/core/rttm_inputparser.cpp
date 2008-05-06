@@ -142,7 +142,7 @@ SpeechSet* RTTMInputParser::loadFileLexeme(string name)
                 
                 seg->SetSourceLineNum(lineNum);
                 seg->SetSourceElementNum(elemNum);
-                short nbSeg = speech->NbOfSegments();
+				size_t nbSeg = speech->NbOfSegments();
                 
                 ostringstream osstr;
                 osstr << "(" << l_spkr << "-";
@@ -390,37 +390,6 @@ SpeechSet* RTTMInputParser::loadFileSpeaker(string name)
 		
 		if(nbrseg > 1)
 		{
-			/*
-			Segment* prevSeg;
-			Segment* nextSeg;
-		
-			for(size_t ii=1; ii<nbrseg; ++ii)
-			{
-				Segment* seg1 = _speech->GetSegment(ii - 1);
-				Segment* seg2 = _speech->GetSegment(ii);
-				
-				if(seg1->GetNumberOfLastToken() != 0)
-				{
-					prevSeg = seg1;
-				}
-				else
-				{
-					prevSeg = NULL;
-				}
-				
-				if(seg2->GetNumberOfFirstToken() != 0)
-				{
-					nextSeg = seg2;
-				}
-				else
-				{
-					nextSeg = NULL;
-				}
-				
-				if(prevSeg && nextSeg)
-					Attach(prevSeg, nextSeg);
-			}
-			*/
 			Segment* prevSeg = NULL;
 			Segment* currSeg = NULL;
 			
