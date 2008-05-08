@@ -463,9 +463,9 @@ rm -f conftest*
 fi
     echo "$ac_t""$ac_cv_prog_gcc_g" 1>&6
     if test $ac_cv_prog_gcc_g = yes; then
-      CFLAGS="-g -O"
+      CFLAGS="-Os"
     else
-      CFLAGS="-O"
+      CFLAGS="-Os"
     fi
   fi
 else

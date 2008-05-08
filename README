@@ -1,6 +1,6 @@
 File:  README
-Date:  May 6th, 2008
-SCTK Version: 2.3-rc2b
+Date:  May 8th, 2008
+SCTK Version: 2.3-rc2c
 
 asclite memory usage update.
 
@@ -41,7 +41,7 @@ Darwin Version 7.4.0                          1.3
 Darwin Version 8.5.0 (gcc v4.0.1 build 5367)  2.1.2 2.1.3 2.1.4 2.1.5 2.1.6
                                               2.1.7 2.2.0 2.2.1 2.2.2 2.2.3
                                               2.2.4 2.3-rc1 
-Darwin Version 8.11.0 (gcc v4.0.1 build 5367) 2.3-rc2 2.3-rc2b
+Darwin Version 8.11.0 (gcc v4.0.1 build 5367) 2.3-rc2 2.3-rc2b 2.3-rc2c
 
 	* compiled with warning messages, but successful self test
 	** compiled and ran, but test6, which uses GNU's diff for

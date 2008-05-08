@@ -337,7 +337,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
     alloc_singZ(buf,buf_len,TEXT,'\0');
     init_SGML(&sg);
 
-    while (!feof(fp) && TEXT_ensure_fgets(&buf,&buf_len,fp) != NULL){
+	while (!feof(fp) && TEXT_ensure_fgets(&buf,&buf_len,fp) != NULL){
 	if (*buf == '<' && *(buf+1) != '/'){
 	    if (dbg) fprintf(scfp,"%s: Begin %s",proc,buf);
 	    if (! add_SGML_tag(&sg,buf)) {
@@ -731,7 +731,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
  	    printf("%s: Ignored data outside of PATH tag\n%s",proc,buf);
 	}
     }
-
+    
     free_singarr(buf,TEXT);
     return 1;
 

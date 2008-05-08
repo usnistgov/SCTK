@@ -127,6 +127,14 @@ SpeechSet* RTTMInputParser::loadFileLexeme(string name)
                     confscr = atof(l_conf);
 				
 				string str_word = string(l_word);
+				
+				if (str_word.find('"', 0) != string::npos)
+				{
+					char buffer_err[BUFFER_SIZE];
+					sprintf(buffer_err, "Error parsing the line %li in file %s, forbidden character detected", lineNum, name.c_str());
+					LOG_FATAL(logger, buffer_err);
+					exit(E_LOAD); 
+				}
 			
 				if( lower_stype == string("fp") ||
 					lower_stype == string("frag") ||
