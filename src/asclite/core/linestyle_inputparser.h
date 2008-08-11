@@ -39,8 +39,8 @@ class LineStyleInputParser : public InputParser
      * Parse a string as a line of tokens
      * and return the corresponding Segment
      */	
-    Segment* ParseWords(string source, string channel, string spkr, int start, int end, Speech* speech, string tokens);
-    Segment* ParseWordsEx(string source, string channel, string spkr, int start, int end, Speech* speech, string tokens, bool hasconf, float confscr); 
+    Segment* ParseWords(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens);
+    Segment* ParseWordsEx(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens, const bool& hasconf, const float& confscr); 
 	SpeechSet* ExpandAlternationSpeechSet(SpeechSet *speechs);
 	
     private:
@@ -51,15 +51,15 @@ class LineStyleInputParser : public InputParser
                 ~VirtualSegment();
 				vector<Token *> GetStartTokenVector() { return a_startTokens; }
 				vector<Token *> GetEndTokenVector() { return a_endTokens; }
-                Token* GetStartToken(size_t index) { return a_startTokens[index]; }
+                Token* GetStartToken(const size_t& index) { return a_startTokens[index]; }
                 size_t GetNbStartToken() { return a_startTokens.size(); }
-                Token* GetEndToken(size_t index) { return a_endTokens[index]; }
+                Token* GetEndToken(const size_t& index) { return a_endTokens[index]; }
                 size_t GetNbEndToken() { return a_endTokens.size(); }
                 void AddStartToken(Token* tok) { a_startTokens.push_back(tok); }
                 void AddEndToken(Token* tok) { a_endTokens.push_back(tok); }
                 void AddEndTokens(LineStyleInputParser::VirtualSegment* toks);
                 void ClearEndToken() { a_endTokens.clear(); }
-                void SetTraversable(bool trav) { traversable = trav; }
+                void SetTraversable(const bool& trav) { traversable = trav; }
                 bool IsTraversable() { return traversable; }
 
             private:
@@ -68,13 +68,13 @@ class LineStyleInputParser : public InputParser
                 bool traversable;
         };
 		
-        VirtualSegment* ParseWords(Segment* seg, string tokens);
-		vector<string> SeparateBySlash(string line);
-        vector<string> TokeniseWords(string line);
+        VirtualSegment* ParseWords(Segment* seg, const string& tokens);
+		vector<string> SeparateBySlash(const string& line);
+        vector<string> TokeniseWords(const string& line);
         void Attach(VirtualSegment* tok1, VirtualSegment* tok2);
         VirtualSegment* Transition(VirtualSegment* prec_token, VirtualSegment* toks);
         string FilterSpace(string line);
-        string ReplaceChar(string line, string badstr, string goodstr);
+        string ReplaceChar(const string& line, const string& badstr, const string& goodstr);
         
         bool m_bUseConfidence;
         bool m_bUseExtended;

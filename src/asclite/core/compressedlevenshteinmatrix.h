@@ -49,18 +49,18 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 			
 		static Logger* m_pLogger;
 	
-        void CoordinatesToBlockOffset(size_t* coordinates, size_t & blockNum, size_t & blockOffset);
+        void CoordinatesToBlockOffset(size_t* coordinates, size_t& blockNum, size_t& blockOffset);
 		
-		void CreateBlock(size_t block_index);
+		void CreateBlock(const size_t& block_index);
 		
-		void CompressBlock(size_t block_index);
-		bool DecompressBlock(size_t block_index);
+		void CompressBlock(const size_t& block_index);
+		bool DecompressBlock(const size_t& block_index);
 		
-		bool isBlockCreated(size_t block_index) { return m_TabIsCreated[block_index]; }
+		bool isBlockCreated(const size_t& block_index) { return m_TabIsCreated[block_index]; }
 				
 		void GarbageCollection();
 		bool ForcedGarbageCollection();
-		void TouchBlock(size_t block_index) { m_TabHitsTimer[block_index] = m_Accesses++; }
+		void TouchBlock(const size_t& block_index) { m_TabHitsTimer[block_index] = m_Accesses++; }
 		
 		ulint m_Decompressions;
 		ulint m_Compressions;
@@ -86,17 +86,17 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		size_t* m_TabDimensionDeep;
 		size_t* m_MultiplicatorDivider;
 		
-		void BlockComputation(size_t levelopt);
+		void BlockComputation(const size_t& levelopt);
 		
 		size_t* m_MultiplicatorBlockDimension;
 		size_t m_BlockSizeElts;
 
 	public:
-		CompressedLevenshteinMatrix(size_t _NbrDimensions, size_t* _TabDimensionDeep);
+		CompressedLevenshteinMatrix(const size_t& _NbrDimensions, size_t* _TabDimensionDeep);
 		~CompressedLevenshteinMatrix();
 	
 		int GetCostFor(size_t* coordinates);
-		void SetCostFor(size_t* coordinates, int cost);
+		void SetCostFor(size_t* coordinates, const int& cost);
 		bool IsCostCalculatedFor(size_t* coordinates) { return(GetCostFor(coordinates) != C_UNCALCULATED); }
 		size_t GetNumberOfCalculatedCosts() { return m_SizeOfArray; }
         size_t GetMaxSize() { return m_MaxSize; }

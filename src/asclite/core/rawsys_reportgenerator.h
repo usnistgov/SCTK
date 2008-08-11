@@ -23,6 +23,13 @@
 #include "statistics.h"
 #include "logger.h"
 
+const double log2e = 1.442695041;
+
+inline double F_ROUND(const double& _n, const double& _p)
+{
+    return(((double)((int)((_n) * pow(10.0,(double)(_p)) + ((_n>0.0)?0.5:-0.5)))) / pow(10.0,(double)(_p)));
+}
+
 class RAWSYS_Datas
 {
 	private:
@@ -60,13 +67,13 @@ class RAWSYS_Datas
 		double GetPercentErrors() { return( 100.0*((double)GetNumberErrors())/((double)m_NumberRefWords) ); }
 		double GetPercentSegmentsErrors() { return( 100.0*((double)m_NumberSegmentsErrors)/((double)m_NumberSegments) ); }
 	
-		double AddCorrectWord(double confidence);
+		double AddCorrectWord(const double& confidence);
 		void AddCorrectWord();
-		double AddSubstitutionWord(double confidence);
-		double AddSpeakerErrorWord(double confidence);
+		double AddSubstitutionWord(const double& confidence);
+		double AddSpeakerErrorWord(const double& confidence);
 		void AddDeletionWord();
-		double AddInsertionWord(double confidence);
-		void AddSegment(bool withinError);
+		double AddInsertionWord(const double& confidence);
+		void AddSegment(const bool& withinError);
 };
 
 /**
@@ -87,29 +94,29 @@ class RAWSYSReportGenerator : public ReportGenerator
 		double m_SumTotConfidenceIncorrect;
 	
 		/** Add spaces to the output */
-		void AddChar(int numspc, string str, ostream &outpt);
+		void AddChar(const int& numspc, const string& str, ostream& outpt);
 		/** Adding a string, double, and integer to the display */
-		void AddStringText(ostream &outpt, string value, string justify, uint totalspace, string addstr = "");
-		void AddStringText(ostream &outpt, double value, int floating, string justify, uint totalspace, string addstr = "");
-		void AddStringText(ostream &outpt, int value, string justify, uint totalspace, string addstr = "");
+		void AddStringText(ostream& outpt, const string& value, const string& justify, const uint& totalspace, const string& addstr = "");
+		void AddStringText(ostream& outpt, const double& value, const int& floating, const string& justify, const uint& totalspace, const string& addstr = "");
+		void AddStringText(ostream& outpt, const int& value, const string& justify, const uint& totalspace, const string& addstr = "");
 	
-		void AddSeparator(ostream &outpt, string str, uint fullsize);
+		void AddSeparator(ostream& outpt, const string& str, const uint& fullsize);
 		
 		static Logger* logger;
 	
 	public:
 		/** class constructor with the type */
-		RAWSYSReportGenerator(int _RawSys);
+		RAWSYSReportGenerator(const int& _RawSys);
 		/** class destructor */
 		virtual ~RAWSYSReportGenerator();
 		/** Generate the SYSRAW report */
         void Generate(Alignment* alignment, int where);
 		/** Generate the SYSRAW report by system */
-        void GenerateSystem(Alignment* alignment, string systm, ostream &output);
+        void GenerateSystem(Alignment* alignment, const string& systm, ostream& output);
 		/** Return the number of different speakers */
 		size_t GetNumSpeakers() { return m_MapDatas.size(); }
 	
-		double GetTotalNCE(double numcorrects, double numinsertions, double numsubstitutions, double numspeakererrors);
+		double GetTotalNCE(const double& numcorrects, const double& numinsertions, const double& numsubstitutions, const double& numspeakererrors);
 };
 
 #endif // RAWSYS_REPORTGENERATOR_H

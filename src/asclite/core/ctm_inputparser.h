@@ -35,7 +35,7 @@ class CTMInputParser : public InputParser
 		/**
 		 * Load the named file into a Speech element.
 		 */
-		SpeechSet* loadFile(string name);
+		SpeechSet* loadFile(const string& name);
 	private:
 		static Logger* logger;
 };

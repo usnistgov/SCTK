@@ -27,7 +27,7 @@ class TokenAlignment
         class AlignmentResult 
         {
             public:
-                AlignmentResult(string _shortName = string("UNSET"), string _description = string("Unset description"));
+                AlignmentResult(const string & _shortName = string("UNSET"), const string & _description = string("Unset description"));
                 string GetDescription() { return m_description; }
                 string GetShortName() { return m_shortName; }
                 inline bool operator==(const AlignmentResult & rh) const { return m_shortName == rh.m_shortName; }
@@ -40,11 +40,11 @@ class TokenAlignment
         class AlignmentEvaluation 
         {
             public:
-                AlignmentEvaluation(Token* token, TokenAlignment::AlignmentResult result = TokenAlignment::UNAVAILABLE);
+                AlignmentEvaluation(Token* token, const TokenAlignment::AlignmentResult & result = TokenAlignment::UNAVAILABLE);
                 ~AlignmentEvaluation() {}
                 Token* GetToken() { return m_token; }
                 TokenAlignment::AlignmentResult GetResult() { return m_result; }
-                void SetResult(TokenAlignment::AlignmentResult result) { m_result = result; }
+                void SetResult(const TokenAlignment::AlignmentResult & result) { m_result = result; }
                 
                 string ToString();
                 bool Equals(AlignmentEvaluation* other);
@@ -56,10 +56,10 @@ class TokenAlignment
         TokenAlignment(Token* refToken);
         ~TokenAlignment();
         
-        int AddAlignmentFor(string hypothesisKey, Token* hypothesisToken);
-        AlignmentEvaluation* GetAlignmentFor(string system) { return m_alignmentEvaluations[system]; }
-        AlignmentResult GetResultFor(string system);
-        Token* GetTokenFor(string system);
+        int AddAlignmentFor(const string & hypothesisKey, Token* hypothesisToken);
+        AlignmentEvaluation* GetAlignmentFor(const string & system) { return m_alignmentEvaluations[system]; }
+        AlignmentResult GetResultFor(const string & system);
+        Token* GetTokenFor(const string & system);
         
         Token* GetReferenceToken();
         

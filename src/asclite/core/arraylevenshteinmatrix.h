@@ -37,11 +37,11 @@ class ArrayLevenshteinMatrix : public LevenshteinMatrix
         size_t CoordinatesToSize(size_t* coordinates);
 
 	public:
-		ArrayLevenshteinMatrix(size_t _NbrDimensions, size_t* _TabDimensionDeep);
+		ArrayLevenshteinMatrix(const size_t& _NbrDimensions, size_t* _TabDimensionDeep);
 		~ArrayLevenshteinMatrix();
 	
 		int GetCostFor(size_t* coordinates) { return m_TabCost[CoordinatesToSize(coordinates)]; }
-		void SetCostFor(size_t* coordinates, int cost);
+		void SetCostFor(size_t* coordinates, const int& cost);
 		bool IsCostCalculatedFor(size_t* coordinates) { return(GetCostFor(coordinates) != C_UNCALCULATED); }	
 		size_t GetNumberOfCalculatedCosts() { return m_SizeOfArray; }
         size_t GetMaxSize() { return m_MaxSize; }

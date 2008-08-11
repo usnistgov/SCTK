@@ -285,7 +285,7 @@ Segment* CTMSTMRTTMSegmentor::GetLastOverlapingSegmentGeneric(/*int startTime*/)
     return last;
 }
 
-Segment* CTMSTMRTTMSegmentor::GetFirstSegment(int startTime, SpeechSet* speechs)
+Segment* CTMSTMRTTMSegmentor::GetFirstSegment(const int& startTime, SpeechSet* speechs)
 {
     int min_time = INT_MAX;
 	Segment* retSegment = NULL;
@@ -307,7 +307,7 @@ Segment* CTMSTMRTTMSegmentor::GetFirstSegment(int startTime, SpeechSet* speechs)
     return retSegment;
 }
 
-Segment* CTMSTMRTTMSegmentor::GetFirstSegmentGeneric(int startTime)
+Segment* CTMSTMRTTMSegmentor::GetFirstSegmentGeneric(const int& startTime)
 {
     int min_time = INT_MAX;
 	Segment* retSegment = NULL;

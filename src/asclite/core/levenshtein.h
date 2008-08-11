@@ -43,7 +43,7 @@ class Levenshtein : public Aligner
 		/**
 		 * Initialise the Aligner to work with this set of segments
 		 */
-		virtual void SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeakerMatch, bool useCompArray);
+		virtual void SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeakerMatch, const bool& useCompArray);
         /**
          * Return the minimal cost of the graph
          */

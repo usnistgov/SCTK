@@ -178,7 +178,7 @@ ullint SegmentsGroup::GetDifficultyNumber()
 /**
  * Return the List of Token by topological order for the Reference no i
  */
-vector<Token*> SegmentsGroup::ToTopologicalOrderedStructRef(size_t index)
+vector<Token*> SegmentsGroup::ToTopologicalOrderedStructRef(const size_t& index)
 {
     vector<Token*> tokens;
 	
@@ -200,7 +200,7 @@ vector<Token*> SegmentsGroup::ToTopologicalOrderedStructRef(size_t index)
 /**
  * Return the List of Token by topological order for the Hypothesis no i
  */
-vector<Token*> SegmentsGroup::ToTopologicalOrderedStructHyp(size_t index)
+vector<Token*> SegmentsGroup::ToTopologicalOrderedStructHyp(const size_t& index)
 {
     vector<Token*> tokens;
 	
@@ -266,7 +266,7 @@ string SegmentsGroup::ToString()
 }
 
 /** Log display Alignment */
-void SegmentsGroup::LoggingAlignment(bool bgeneric, string type)
+void SegmentsGroup::LoggingAlignment(const bool& bgeneric, const string& type)
 {
 	char buffer1[BUFFER_SIZE];
 	sprintf(buffer1, "%li", s_id);
@@ -462,7 +462,6 @@ int SegmentsGroup::GetMaxTime()
 	}
 	
 	return(maxETSG);
-
 }
 
 int SegmentsGroup::GetTotalDuration()
@@ -478,5 +477,4 @@ int SegmentsGroup::GetTotalDuration()
 	}
 	
 	return(diff);
-
 }

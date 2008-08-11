@@ -39,27 +39,27 @@ void RAWSYS_Datas::AddCorrectWord()
 	++m_NumberCorrectWords;
 }
 
-double RAWSYS_Datas::AddCorrectWord(double confidence)
+double RAWSYS_Datas::AddCorrectWord(const double& confidence)
 {
-    double outSum = log(min(max(0.0000001, confidence), 0.9999999))*M_LOG2E;
+    double outSum = log(min(max(0.0000001, confidence), 0.9999999))*log2e;
 	++m_NumberRefWords;
 	++m_NumberCorrectWords;
 	m_SumConfidenceCorrect += outSum;
 	return outSum;
 }
 
-double RAWSYS_Datas::AddSubstitutionWord(double confidence)
+double RAWSYS_Datas::AddSubstitutionWord(const double& confidence)
 {
-	double outSum = log(min(max(0.0000001, confidence), 0.9999999))*M_LOG2E;
+	double outSum = log(min(max(0.0000001, confidence), 0.9999999))*log2e;
 	++m_NumberRefWords;
 	++m_NumberSubstitutions;
 	m_SumConfidenceIncorrect += outSum;
 	return outSum;
 }
 
-double RAWSYS_Datas::AddSpeakerErrorWord(double confidence)
+double RAWSYS_Datas::AddSpeakerErrorWord(const double& confidence)
 {
-	double outSum = log(min(max(0.0000001, confidence), 0.9999999))*M_LOG2E;
+	double outSum = log(min(max(0.0000001, confidence), 0.9999999))*log2e;
 	++m_NumberRefWords;
 	++m_NumberSpeakerErrors;
 	m_SumConfidenceIncorrect += outSum;
@@ -72,15 +72,15 @@ void RAWSYS_Datas::AddDeletionWord()
 	++m_NumberDeletions;
 }
 
-double RAWSYS_Datas::AddInsertionWord(double confidence)
+double RAWSYS_Datas::AddInsertionWord(const double& confidence)
 {
-	double outSum = log(min(max(0.0000001, confidence), 0.9999999))*M_LOG2E;
+	double outSum = log(min(max(0.0000001, confidence), 0.9999999))*log2e;
 	++m_NumberInsertions;
 	m_SumConfidenceIncorrect += outSum;
 	return outSum;
 }
 
-void RAWSYS_Datas::AddSegment(bool withinError)
+void RAWSYS_Datas::AddSegment(const bool& withinError)
 {
 	++m_NumberSegments;
 	
@@ -95,7 +95,7 @@ double RAWSYS_Datas::GetNCE()
 	
 	double pc = min(max(0.0000001, ((double)m_NumberCorrectWords)/((double)(m_NumberCorrectWords+m_NumberInsertions+m_NumberSubstitutions+m_NumberSpeakerErrors))), 0.9999999);
 	
-	double Hmax = -((double)m_NumberCorrectWords)*log(pc)*M_LOG2E-((double)(m_NumberInsertions+m_NumberSubstitutions+m_NumberSpeakerErrors))*log(1.0-pc)*M_LOG2E;
+	double Hmax = -((double)m_NumberCorrectWords)*log(pc)*log2e-((double)(m_NumberInsertions+m_NumberSubstitutions+m_NumberSpeakerErrors))*log(1.0-pc)*log2e;
 	
 	if(Hmax == 0.0)
 		return -2000.0;
@@ -104,7 +104,7 @@ double RAWSYS_Datas::GetNCE()
 }
 
 /** class constructor with the type */
-RAWSYSReportGenerator::RAWSYSReportGenerator(int _RawSys) : m_RawSys(_RawSys)
+RAWSYSReportGenerator::RAWSYSReportGenerator(const int& _RawSys) : m_RawSys(_RawSys)
 {
 	m_SumTotConfidenceCorrect = m_SumTotConfidenceIncorrect = 0.0;
 }
@@ -131,13 +131,13 @@ RAWSYSReportGenerator::~RAWSYSReportGenerator()
 }
 
 /** Add spaces to the output */
-void RAWSYSReportGenerator::AddChar(int numspc, string str, ostream &outpt)
+void RAWSYSReportGenerator::AddChar(const int& numspc, const string& str, ostream& outpt)
 {
 	for(int i=0; i<numspc; ++i)
 		outpt << str;
 }
 
-void RAWSYSReportGenerator::AddStringText(ostream &outpt, string value, string justify, uint totalspace, string addstr)
+void RAWSYSReportGenerator::AddStringText(ostream& outpt, const string& value, const string& justify, const uint& totalspace, const string& addstr)
 {
 	string truevalue;
 	
@@ -170,7 +170,7 @@ void RAWSYSReportGenerator::AddStringText(ostream &outpt, string value, string j
 	}
 }
 
-void RAWSYSReportGenerator::AddStringText(ostream &outpt, double value, int floating, string justify, uint totalspace, string addstr)
+void RAWSYSReportGenerator::AddStringText(ostream& outpt, const double& value, const int& floating, const string& justify, const uint& totalspace, const string& addstr)
 {
 	char tempstr[BUFFER_SIZE];
 	
@@ -183,7 +183,7 @@ void RAWSYSReportGenerator::AddStringText(ostream &outpt, double value, int floa
 	AddStringText(outpt, str, justify, totalspace, addstr);
 }
 
-void RAWSYSReportGenerator::AddStringText(ostream &outpt, int value, string justify, uint totalspace, string addstr)
+void RAWSYSReportGenerator::AddStringText(ostream& outpt, const int& value, const string& justify, const uint& totalspace, const string& addstr)
 {
 	char tempstr[BUFFER_SIZE];
 	
@@ -192,7 +192,7 @@ void RAWSYSReportGenerator::AddStringText(ostream &outpt, int value, string just
 	AddStringText(outpt, str, justify, totalspace, addstr);
 }
 
-void RAWSYSReportGenerator::AddSeparator(ostream &outpt, string str, uint fullsize)
+void RAWSYSReportGenerator::AddSeparator(ostream& outpt, const string& str, const uint& fullsize)
 {
 	outpt << "|";
 	AddChar(fullsize-2, str, outpt);
@@ -200,7 +200,7 @@ void RAWSYSReportGenerator::AddSeparator(ostream &outpt, string str, uint fullsi
 }
 
 /** Generate the SYSRAW report by system */
-void RAWSYSReportGenerator::GenerateSystem(Alignment* alignment, string systm, ostream &output)
+void RAWSYSReportGenerator::GenerateSystem(Alignment* alignment, const string& systm, ostream& output)
 {
 	int sizeofSpeaker = 7;
 	int sizeofSegments = 5;
@@ -920,14 +920,14 @@ void RAWSYSReportGenerator::Generate(Alignment* alignment, int where)
 	}
 }
 
-double RAWSYSReportGenerator::GetTotalNCE(double numcorrects, double numinsertions, double numsubstitutions, double numspeakererrors)
+double RAWSYSReportGenerator::GetTotalNCE(const double& numcorrects, const double& numinsertions, const double& numsubstitutions, const double& numspeakererrors)
 {
 	if((numcorrects + numinsertions + numsubstitutions + numspeakererrors) == 0)
 		return -2000.0;
 	
 	double pc = min(max(0.0000001, numcorrects/(numcorrects + numinsertions + numsubstitutions + numspeakererrors)), 0.9999999);
 	
-	double Hmax = -numcorrects*log(pc)*M_LOG2E-(numinsertions + numsubstitutions + numspeakererrors)*log(1.0-pc)*M_LOG2E;
+	double Hmax = -numcorrects*log(pc)*log2e-(numinsertions + numsubstitutions + numspeakererrors)*log(1.0-pc)*log2e;
 	
 	if(Hmax == 0.0)
 		return -2000.0;

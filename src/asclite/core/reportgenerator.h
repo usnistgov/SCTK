@@ -39,7 +39,7 @@ class ReportGenerator
 		virtual void Generate(Alignment* alignment, int where)=0;
 	
 		/** Find the filename into a path */
-		string GetFileNameFromPath(string path);
+		string GetFileNameFromPath(const string& path);
 };
 
 #endif // REPORTGENERATOR_H

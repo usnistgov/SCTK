@@ -28,7 +28,7 @@ int Logger::log_level = 1;
 /** 
  * Set the logger to log in the path specified as an argument 
  */
-void Logger::logInFile(string file)
+void Logger::logInFile(const string& file)
 {
     ofstream tmp;
     tmp.open(file.c_str());
@@ -46,7 +46,7 @@ void Logger::logOnStdout()
 /** 
  * Change log level
  */
-void Logger::setLogLevel(int level)
+void Logger::setLogLevel(const int& level)
 {
     log_level = level;
 }
@@ -64,7 +64,7 @@ void Logger::setLogLevel(int level)
  *   6 ===> Alignment
  *   7 ===> Alignment only
  */ 
-void Logger::log(int level, char* message)
+void Logger::log(const int& level, const char* const message)
 {
 	if( (level == 6) && (log_level == 7) )
 		(*where) << LevelToString(level) << string(message) << endl;
@@ -72,7 +72,7 @@ void Logger::log(int level, char* message)
         (*where) << LevelToString(level) << string(message) << endl;
 }
 
-void Logger::log(int level, string message)
+void Logger::log(const int& level, const string& message)
 {
 	if( (level == 6) && (log_level == 7) )
 		(*where) << LevelToString(level) << message << endl;
@@ -80,7 +80,7 @@ void Logger::log(int level, string message)
         (*where) << LevelToString(level) << message << endl;
 }
 
-string Logger::LevelToString(int level)
+string Logger::LevelToString(const int& level)
 {
     if(level == 1)
         return string("[  FATAL  ] ");

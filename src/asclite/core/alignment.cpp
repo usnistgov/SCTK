@@ -66,7 +66,7 @@ string Alignment::ToString()
 	return result;
 }
 
-AlignedSpeech* Alignment::GetOrCreateAlignedSpeechFor(Speech* referenceSpeech, bool doCreate)
+AlignedSpeech* Alignment::GetOrCreateAlignedSpeechFor(Speech* referenceSpeech, const bool& doCreate)
 {
 	AlignedSpeech* result = m_references[referenceSpeech];
     
@@ -79,7 +79,7 @@ AlignedSpeech* Alignment::GetOrCreateAlignedSpeechFor(Speech* referenceSpeech, b
 	return result;
 }
 
-void Alignment::AddGraphAlignedSegment(GraphAlignedSegment* gas, string hyp_key, SegmentsGroup* segmentsGroup)
+void Alignment::AddGraphAlignedSegment(GraphAlignedSegment* gas, const string& hyp_key, SegmentsGroup* segmentsGroup)
 {
 	if(gas == NULL)
 		return;
@@ -178,7 +178,7 @@ void Alignment::AddGraphAlignedSegment(GraphAlignedSegment* gas, string hyp_key,
     }
 }
 
-Segment* Alignment::LookRight(size_t gatIndex, Token** nextNonNullRef, GraphAlignedSegment* gas)
+Segment* Alignment::LookRight(const size_t& gatIndex, Token** nextNonNullRef, GraphAlignedSegment* gas)
 {	
 	*nextNonNullRef = gas->GetNextNonNullReference(gatIndex);
 	

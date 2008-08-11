@@ -25,7 +25,7 @@
 Logger* SpeechSet::logger = Logger::getLogger();
 
 // class constructor
-SpeechSet::SpeechSet(string sourceFileName)
+SpeechSet::SpeechSet(const string& sourceFileName)
 {
 	ref = false;
 	hyp = false;
@@ -35,7 +35,7 @@ SpeechSet::SpeechSet(string sourceFileName)
 	titleName = sourceFileName;
 }
 
-void SpeechSet::UpdatePropertiesIfNeeded(bool force)
+void SpeechSet::UpdatePropertiesIfNeeded(const bool& force)
 {
 	if(force || Properties::IsDirty())
     {
@@ -92,7 +92,7 @@ SpeechSet::~SpeechSet()
 /**
  * Set the hyp/ref status of this set
  */
-void SpeechSet::SetOrigin(string status)
+void SpeechSet::SetOrigin(const string& status)
 {
     if(status == "ref")
     {

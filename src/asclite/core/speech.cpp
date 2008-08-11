@@ -80,7 +80,7 @@ SpeechSet* Speech::GetParentSpeechSet()
 * the specified source and channel. If the time is in the middle of
 * A segment return the segment itself.
 */
-Segment* Speech::NextSegment(int time, string source, string channel)
+Segment* Speech::NextSegment(const int& time, const string& source, const string& channel)
 {
 	int last_endTime = 0;	
 	
@@ -105,7 +105,7 @@ Segment* Speech::NextSegment(int time, string source, string channel)
 /**
  * Return the segments of this speech by the given time
  */
-vector<Segment*> Speech::GetSegmentsByTime(int start, int end, string source, string channel)
+vector<Segment*> Speech::GetSegmentsByTime(const int& start, const int& end, const string& source, const string& channel)
 {
 	vector<Segment*> res;
     

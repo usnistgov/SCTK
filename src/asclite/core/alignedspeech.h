@@ -40,7 +40,7 @@ class AlignedSpeech
          * @param segment the Segment associated with the AlignedSegment to be retrieved
          * @param doCreate if true, the method will create a new AlignedSegment if none already exist for the given segment.
          */
-        AlignedSegment* GetOrCreateAlignedSegmentFor(Segment* segment, bool doCreate);
+        AlignedSegment* GetOrCreateAlignedSegmentFor(Segment* segment, const bool& doCreate);
         
         /** Retrieves an iterator over all the AlignedSegments contained in this AlignedSpeech. */
         AlignedSegmentIterator* AlignedSegments();

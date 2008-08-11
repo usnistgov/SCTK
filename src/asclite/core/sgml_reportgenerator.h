@@ -34,7 +34,7 @@ struct AlignedSegmentSequenceComparator
 class Speaker
 {
 	public:
-		Speaker(string _name, int seq)
+		Speaker(const string& _name, const int& seq)
 		{
 			name = _name;
 			sequence = seq;
@@ -82,7 +82,7 @@ class Speaker
 class SpeakerNamePredicate
 {
 	public:
-		SpeakerNamePredicate(string _wantedName = "")
+		SpeakerNamePredicate(const string& _wantedName = "")
 		{
 			wantedName = _wantedName;
 		};
@@ -91,7 +91,7 @@ class SpeakerNamePredicate
 		{
 		};
 		
-		void SetWantedName(string name)
+		void SetWantedName(const string& name)
 		{
 			wantedName = name;
 		};
@@ -136,20 +136,20 @@ class SGMLReportGenerator : public ReportGenerator
 		/** Generate the SGML report */
         void Generate(Alignment* alignment, int where);
 		/** Generate the SGML report by system */
-        void GenerateSystem(Alignment* alignment, string systm, ostream &output);
+        void GenerateSystem(Alignment* alignment, const string& systm, ostream& output);
 	
 	private:
-		void GenerateSpeaker(Speaker* speaker, string systm, ostream &output);
+		void GenerateSpeaker(Speaker* speaker, const string& systm, ostream& output);
 	
-		void GeneratePath(AlignedSegment* alignedSegment, string systm, ostream &output);
+		void GeneratePath(AlignedSegment* alignedSegment, const string& systm, ostream& output);
 	
-        void GenerateTokenAlignment(TokenAlignment* tokenAlign, string systm, ostream &output);
+        void GenerateTokenAlignment(TokenAlignment* tokenAlign, const string& systm, ostream& output);
 		
-		void HandleWordAux(ostream &output);
+		void HandleWordAux(ostream& output);
 		
-		void PreProcessWordAux(Speaker* speaker, string systm);
+		void PreProcessWordAux(Speaker* speaker, const string& systm);
 		
-		void OutputTextFor(Token* token, ostream &output);
+		void OutputTextFor(Token* token, ostream& output);
 };
 
 #endif // SGML_REPORTGENERATOR_H

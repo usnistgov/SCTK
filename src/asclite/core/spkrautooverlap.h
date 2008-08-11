@@ -37,7 +37,7 @@ class SpkrAutoOverlap : public Checker
 		unsigned long int ProcessSingleSpeech(Speech* speech);
 		unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp) { return 0; }
 		
-		void LoadFile(string filename) { }
+		void LoadFile(const string& filename) { }
 		
 	private:
         static Logger* logger;

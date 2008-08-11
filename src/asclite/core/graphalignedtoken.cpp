@@ -20,7 +20,7 @@
 #include "graphalignedtoken.h"
 
 /** Constructor with the number of dimension */
-GraphAlignedToken::GraphAlignedToken(size_t _dimension)
+GraphAlignedToken::GraphAlignedToken(const size_t& _dimension)
 {
 	m_Dimension = _dimension;
 	m_TabAlignedTokens = new Token* [m_Dimension];
@@ -39,7 +39,7 @@ GraphAlignedToken::~GraphAlignedToken()
 }
 
 /** Set the pointer of a token */
-void GraphAlignedToken::SetToken(size_t dim, Token* token)
+void GraphAlignedToken::SetToken(const size_t& dim, Token* token)
 {
 	if(dim < GetDimension())
 	{

@@ -30,7 +30,7 @@ class SpeechSet
 {
 	public:
 		// class constructors
-		SpeechSet(string sourceFileName = "DEFAULT_FILE_NAME");
+		SpeechSet(const string& sourceFileName = "DEFAULT_FILE_NAME");
 		// class destructor
 		~SpeechSet();
 		/**
@@ -40,7 +40,7 @@ class SpeechSet
 		/**
 		 * Return the speech number i in the set
 		 */
-		Speech* GetSpeech(size_t index) {  return speeches[index]; }
+		Speech* GetSpeech(const size_t& index) {  return speeches[index]; }
 		/**
 		 * Add a speech into the set
 		 */
@@ -57,7 +57,7 @@ class SpeechSet
 		/**
 		 * Set the hyp/ref status of this set
 		 */
-		void SetOrigin(string status);
+		void SetOrigin(const string& status);
 		/** Determines if case is taken into account to align Tokens part of this Speech. */
 		bool PerformCaseSensitiveAlignment();
 		/** Determines if fragments are considered as correct when aligning Tokens part of this Speech. */
@@ -73,7 +73,7 @@ class SpeechSet
 		int GetMinTokensTime();
 		int GetMaxTokensTime();
 		
-		void SetTitle(string title) { titleName = title; }
+		void SetTitle(const string& title) { titleName = title; }
 		string GetTitle() { return titleName; }
 	private:
         /**
@@ -106,7 +106,7 @@ class SpeechSet
 		/** Caches the values of the "align.optionally" property. */
 		bool optionally_deletable;		
 		/** Updates the cached properties if needed. */
-		void UpdatePropertiesIfNeeded(bool force);
+		void UpdatePropertiesIfNeeded(const bool& force);
 };
 
 #endif // SPEECHSET_H

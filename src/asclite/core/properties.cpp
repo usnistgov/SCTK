@@ -31,7 +31,7 @@ bool Properties::dirty = true;
 /**
  * Set the property to the desire value
  */
-void Properties::SetProperty(string name, string value)
+void Properties::SetProperty(const string& name, const string& value)
 {
     properties[name] = value;
 	dirty = true;
@@ -40,7 +40,7 @@ void Properties::SetProperty(string name, string value)
 /**
  * Set the properties with a all set of predefined values
  */
-void Properties::SetProperties(map<string, string> props)
+void Properties::SetProperties(const map<string, string>& props)
 {
     dirty = true;
     properties = props;
@@ -124,7 +124,7 @@ void Properties::SetProperties(map<string, string> props)
 /**
  * Retrieve the value of the specified property
  */
-string Properties::GetProperty(string name)
+string Properties::GetProperty(const string& name)
 {
 	dirty = false;
     return properties[name];

@@ -29,7 +29,7 @@ Logger* RTTMInputParser::logger = Logger::getLogger();
  * Also no spkr info are available so it's left empty.
  */
  
-SpeechSet* RTTMInputParser::loadFile(string name)
+SpeechSet* RTTMInputParser::loadFile(const string& name)
 {
 	if(isOneTokenPerSegment())
 		return ExpandAlternationSpeechSet(loadFileLexeme(name));
@@ -37,7 +37,7 @@ SpeechSet* RTTMInputParser::loadFile(string name)
 		return ExpandAlternationSpeechSet(loadFileSpeaker(name));
 }
  
-SpeechSet* RTTMInputParser::loadFileLexeme(string name)
+SpeechSet* RTTMInputParser::loadFileLexeme(const string& name)
 {
 	string line;
 	ifstream file;
@@ -191,7 +191,7 @@ SpeechSet* RTTMInputParser::loadFileLexeme(string name)
 	return vec;
 }
 
-SpeechSet* RTTMInputParser::loadFileSpeaker(string name)
+SpeechSet* RTTMInputParser::loadFileSpeaker(const string& name)
 {
 	string line;
 	ifstream file;

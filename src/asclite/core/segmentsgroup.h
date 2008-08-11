@@ -42,7 +42,7 @@ class SegmentsGroup
 		 * Add a list of Hypothesis into the SegmentGroup.
 		 * This list should be under the same Speech object.
 		 */
-		void AddHypothesis(vector<Segment*> hypothesis) { hypothesiss.push_back(hypothesis); }
+		void AddHypothesis(const vector<Segment*> & hypothesis) { hypothesiss.push_back(hypothesis); }
 		/**
 		 * Add a reference segment into the SegmentGroup.
 		 */
@@ -51,23 +51,23 @@ class SegmentsGroup
 		 * Add a list of reference segment into the SegmentGroup.
 		 * This list should be under the same Speech object.
 		 */
-		void AddReference(vector<Segment*> reference) { references.push_back(reference); }
+		void AddReference(const vector<Segment*> & reference) { references.push_back(reference); }
 		/**
 		 * Return the Segments for the reference nb index
 		 */
-		vector<Segment*> GetReference(size_t index) { return references[index]; }
+		vector<Segment*> GetReference(const size_t& index) { return references[index]; }
 		/**
 		 * Return the Segments for the hypothesis nb index
 		 */
-		vector<Segment*> GetHypothesis(size_t index) { return hypothesiss[index]; }
+		vector<Segment*> GetHypothesis(const size_t& index) { return hypothesiss[index]; }
 		/**
 		 * Return the List of Token by topological order for the Reference no i
 		 */
-		vector<Token*> ToTopologicalOrderedStructRef(size_t index);
+		vector<Token*> ToTopologicalOrderedStructRef(const size_t& index);
 		/**
 		 * Return the List of Token by topological order for the Hypothesis no i
 		 */
-		vector<Token*> ToTopologicalOrderedStructHyp(size_t index);
+		vector<Token*> ToTopologicalOrderedStructHyp(const size_t& index);
 		/**
          * Return the number of references
          */
@@ -101,7 +101,7 @@ class SegmentsGroup
 		string ToString();
 		
 		/** Log display Alignment */
-		void LoggingAlignment(bool bgeneric, string type);
+		void LoggingAlignment(const bool& bgeneric, const string& type);
 		
 		ulint GetsID() { return s_id; }
 		

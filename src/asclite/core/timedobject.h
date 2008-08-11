@@ -53,16 +53,16 @@ class TimedObject
         
     protected:
         /** Initializes this TimedObject based on a start time and duration. */
-        void* InitWithDuration(int _startTime = -1, int _duration = -1);
+        void* InitWithDuration(const int& _startTime = -1, const int& _duration = -1);
         
         /** Checks that start time and duration are valid for this TimedObject. Extension point for subclasses. */
-        virtual bool AreStartTimeAndDurationValid(int _startTime, int _duration);
+        virtual bool AreStartTimeAndDurationValid(const int& _startTime, const int& _duration);
         
         /** Initializes this TimedObject based on a start time and end time. */
-        void* InitWithEndTime(int _startTime = -1, int _endTime = -1);
+        void* InitWithEndTime(const int& _startTime = -1, const int& _endTime = -1);
         
         /** Checks that start time and end time are valid for this TimedObject. Extension point for subclasses. */
-        virtual bool AreStartTimeAndEndTimeValid(int _startTime, int _endTime);
+        virtual bool AreStartTimeAndEndTimeValid(const int& _startTime, const int& _endTime);
         
         /** Returns a string representation of this TimedObject. */
         virtual string ToString();

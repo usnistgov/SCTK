@@ -20,7 +20,7 @@
 Logger* UEMElement::m_pLogger = Logger::getLogger();
 Logger* UEMFilter::m_pLogger = Logger::getLogger();
 
-UEMElement::UEMElement(string _file, string _channel, int _startTime, int _endTime)
+UEMElement::UEMElement(const string& _file, const string& _channel, const int& _startTime, const int& _endTime)
 {
 	m_File = _file;
 	m_Channel = _channel;
@@ -37,7 +37,7 @@ UEMFilter::~UEMFilter()
 	m_VectUEMElements.clear();
 }
 
-void UEMFilter::FindElement(string file, string channel, list<UEMElement*>* pList)
+void UEMFilter::FindElement(const string& file, const string& channel, list<UEMElement*>* pList)
 {
 	pList->clear();
 
@@ -47,7 +47,7 @@ void UEMFilter::FindElement(string file, string channel, list<UEMElement*>* pLis
 				pList->push_back(m_VectUEMElements[i]);
 }
 
-int UEMFilter::ParseString(string chaine)
+int UEMFilter::ParseString(const string& chaine)
 {
 	if(strchr(chaine.c_str(),'.') == NULL)
 	{
@@ -76,7 +76,7 @@ int UEMFilter::ParseString(string chaine)
 	}
 }
 
-void UEMFilter::LoadFile(string filename)
+void UEMFilter::LoadFile(const string& filename)
 {
 	ifstream file;
 	string line;

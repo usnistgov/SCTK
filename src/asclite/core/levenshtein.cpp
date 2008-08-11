@@ -40,7 +40,7 @@ Levenshtein::~Levenshtein()
 /**
  * Initialise the Aligner to work with this set of segments
  */
-void Levenshtein::SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeakerMatch, bool useCompArray)
+void Levenshtein::SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeakerMatch, const bool& useCompArray)
 {
     if (graph != NULL)
         delete graph;

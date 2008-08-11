@@ -39,7 +39,7 @@ class Speech
 		/**
 		 * Retrieve the segment indexed by index.
 		 */
-		Segment* GetSegment(size_t index) { return m_segments[index]; }
+		Segment* GetSegment(const size_t& index) { return m_segments[index]; }
 		/**
 		 * Remove the segment from the list and link the previous tokens to the nexts.
 		 */
@@ -57,11 +57,11 @@ class Speech
 		 * the specified source and channel. If the time is in the middle of
 		 * A segment return the segment itself.
 		 */
-		Segment* NextSegment(int time, string source, string channel);
+		Segment* NextSegment(const int& time, const string& source, const string& channel);
 		/**
 		 * Return the segments of this speech by the given time
 		 */
-		vector<Segment*> GetSegmentsByTime(int start, int end, string source, string channel);
+		vector<Segment*> GetSegmentsByTime(const int& start, const int& end, const string& source, const string& channel);
 		/** Determines if case is taken into account to align Tokens part of this Speech. */
 		bool PerformCaseSensitiveAlignment();
 		/** Determines if fragments are considered as correct when aligning Tokens part of this Speech. */

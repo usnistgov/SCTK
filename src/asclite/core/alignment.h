@@ -38,19 +38,19 @@ class Alignment
         /**
          * Add a system name to the alignment
          */
-        void AddSystem(string filename, string system) { systemFilenames.push_back(filename); systems.push_back(system); }
+        void AddSystem(const string& filename, const string& system) { systemFilenames.push_back(filename); systems.push_back(system); }
         /**
          * Return the nb of systems this alignment contain
          */
-        size_t GetNbOfSystems() { return systems.size(); }
+        size_t GetNbOfSystems() const { return systems.size(); }
         /**
          * Return the system nb index
          */
-        string GetSystem(size_t index) { return systems[index]; }
+        string GetSystem(const size_t& index) const { return systems[index]; }
         /**
          * Return the system filename nb index
          */
-        string GetSystemFilename(size_t index) { return systemFilenames[index]; }
+        string GetSystemFilename(const size_t& index) const { return systemFilenames[index]; }
         
         /**
          * Add a Graph Aligned Segment into the Alignment structure.
@@ -58,7 +58,7 @@ class Alignment
          * @param gas The graphAlignedSegment to add
          * @param hyp_key the key to id the hypothesis into the alignment
          */ 
-        void AddGraphAlignedSegment(GraphAlignedSegment* gas, string hyp_key, SegmentsGroup* segmentsGroup);
+        void AddGraphAlignedSegment(GraphAlignedSegment* gas, const string& hyp_key, SegmentsGroup* segmentsGroup);
 	
         /** 
          * Retrieve or create the AlignedSpeech associated with the given reference Speech. 
@@ -66,7 +66,7 @@ class Alignment
          * @param referenceSpeech the reference Speech associated with the AlignedSpeech to be retrieved
          * @param doCreate if true, the method will create a new AlignedSpeech if none already exist for the given Speech.
          */
-        AlignedSpeech* GetOrCreateAlignedSpeechFor(Speech* referenceSpeech, bool doCreate);
+        AlignedSpeech* GetOrCreateAlignedSpeechFor(Speech* referenceSpeech, const bool& doCreate);
 	
         /** Retrieves an iterator over the AlignedSpeeches contained in this Alignment */
         AlignedSpeechIterator* AlignedSpeeches();
@@ -83,7 +83,7 @@ class Alignment
         vector<string> systems;
         vector<string> systemFilenames;
 	
-        Segment* LookRight(size_t gatIndex, Token** nextNonNullRef, GraphAlignedSegment* gas);
+        Segment* LookRight(const size_t& gatIndex, Token** nextNonNullRef, GraphAlignedSegment* gas);
 		
 		/**
          * the logger

@@ -39,18 +39,18 @@ class InputParser
 		 * Load the select file and create the 
 		 * Speech/Segment/Token structure with it.
 		 */
-		virtual SpeechSet* loadFile(string name)=0;
+		virtual SpeechSet* loadFile(const string& name)=0;
 		
-		int ParseString(string chaine);
+		int ParseString(const string& chaine);
 		
-		void SetOneTokenPerSegment(bool _bool) { m_bOneTokenPerSegment = _bool; }
+		void SetOneTokenPerSegment(const bool& _bool) { m_bOneTokenPerSegment = _bool; }
 		bool isOneTokenPerSegment() { return m_bOneTokenPerSegment; }
 		
 	protected:
         /**
          * Build a Token with a text input
          */
-        Token* BuildToken(int start, int dur, string text_to_parse, Segment* parent);
+        Token* BuildToken(const int& start, const int& dur, const string& text_to_parse, Segment* parent);
 		
 		bool m_bOneTokenPerSegment;
 };

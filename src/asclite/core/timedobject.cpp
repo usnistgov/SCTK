@@ -43,14 +43,14 @@ bool TimedObject::OverlapWith(TimedObject* other)
 	return (first->GetEndTime() >= second->GetStartTime());
 }
 
-void* TimedObject::InitWithDuration(int _startTime, int _duration) 
+void* TimedObject::InitWithDuration(const int& _startTime, const int& _duration) 
 {
     startTime = _startTime;
 	endTime = _startTime + _duration;
 	return this;
 }
 
-bool TimedObject::AreStartTimeAndDurationValid(int _startTime, int _duration)
+bool TimedObject::AreStartTimeAndDurationValid(const int& _startTime, const int& _duration)
 {
 	if(_startTime >= 0 && _duration >= 0)
 		return true;
@@ -58,14 +58,14 @@ bool TimedObject::AreStartTimeAndDurationValid(int _startTime, int _duration)
 	return false;
 }
 
-void* TimedObject::InitWithEndTime(int _startTime, int _endTime) 
+void* TimedObject::InitWithEndTime(const int& _startTime, const int& _endTime) 
 {
     startTime = _startTime;
     endTime = _endTime;
 	return this;
 }
 
-bool TimedObject::AreStartTimeAndEndTimeValid(int _startTime, int _endTime) 
+bool TimedObject::AreStartTimeAndEndTimeValid(const int& _startTime, const int& _endTime) 
 {
 	if(_startTime >= 0 && _endTime >= _startTime)
 		return true;

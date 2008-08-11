@@ -24,18 +24,28 @@
 Logger* Graph::logger = Logger::getLogger();
 
 /** Constructor with the list of segments and the position of the first ref */
-Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCost, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optRef, bool _optHyp, bool _bCompressedArray)
+Graph::Graph(SegmentsGroup* _segmentsGroup, SpeakerMatch* _pSpeakerMatch, const int& _typeCost, const int& _costTrans, const int& _costIns, const int& _costOpt, const int& _costCorrectNonSpeaker, const int& _costAdaptive, const bool& _optRef, const bool& _optHyp, const bool& _bCompressedArray)
+	: m_pSpeakerMatch(_pSpeakerMatch),
+	m_typeCostModel(_typeCost),
+	m_CostTransition(_costTrans),
+	m_CostInsertion(_costIns),
+	m_CostOptionally(_costOpt),
+	m_CostCorrectNonSpeaker(_costCorrectNonSpeaker),
+	m_CostAdaptive(_costAdaptive),
+	m_useOptForRef(_optRef),
+	m_useOptForHyp(_optHyp),
+	m_bCompressedArray(_bCompressedArray)	
 {
-	m_typeCostModel = _typeCost;
-	m_CostTransition = _costTrans;
-	m_CostInsertion = _costIns;
-	m_CostOptionally = _costOpt;
-	m_CostCorrectNonSpeaker = _costCorrectNonSpeaker;
-	m_CostAdaptive = _costAdaptive;
-	m_useOptForRef = _optRef;
-	m_useOptForHyp = _optHyp;
-	m_bCompressedArray = _bCompressedArray;
-	m_pSpeakerMatch = _pSpeakerMatch;
+//	m_typeCostModel = _typeCost;
+//	m_CostTransition = _costTrans;
+//	m_CostInsertion = _costIns;
+//	m_CostOptionally = _costOpt;
+//	m_CostCorrectNonSpeaker = _costCorrectNonSpeaker;
+//	m_CostAdaptive = _costAdaptive;
+//	m_useOptForRef = _optRef;
+//	m_useOptForHyp = _optHyp;
+//	m_bCompressedArray = _bCompressedArray;
+//	m_pSpeakerMatch = _pSpeakerMatch;
 	m_HypRefStatus = (string("true").compare(Properties::GetProperty("align.genericmethod")) != 0);
 	
 	if(m_typeCostModel == 2)
@@ -47,10 +57,10 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 	Token* curToken;
 	size_t i, k, sizevector;
 	
-	SetDimension(_segments->GetNumberOfReferences()+_segments->GetNumberOfHypothesis());
+	SetDimension(_segmentsGroup->GetNumberOfReferences()+_segmentsGroup->GetNumberOfHypothesis());
 	
 	if(m_HypRefStatus)
-		SetIndexRef(_segments->GetNumberOfHypothesis());
+		SetIndexRef(_segmentsGroup->GetNumberOfHypothesis());
 	else
 		SetIndexRef(0);
 	
@@ -67,15 +77,15 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 	{
         vector<Segment*> temp_segs;
 		
-        if (i < _segments->GetNumberOfHypothesis())
+        if (i < _segmentsGroup->GetNumberOfHypothesis())
         {
-            m_TabVecHypRef[i] = _segments->ToTopologicalOrderedStructHyp(i);
-            temp_segs = _segments->GetHypothesis(i);
+            m_TabVecHypRef[i] = _segmentsGroup->ToTopologicalOrderedStructHyp(i);
+            temp_segs = _segmentsGroup->GetHypothesis(i);
         }
         else
         {
-            m_TabVecHypRef[i] = _segments->ToTopologicalOrderedStructRef(i-_segments->GetNumberOfHypothesis());
-            temp_segs = _segments->GetReference(i-_segments->GetNumberOfHypothesis());
+            m_TabVecHypRef[i] = _segmentsGroup->ToTopologicalOrderedStructRef(i-_segmentsGroup->GetNumberOfHypothesis());
+            temp_segs = _segmentsGroup->GetReference(i-_segmentsGroup->GetNumberOfHypothesis());
         }
 		
 		sizevector = m_TabVecHypRef[i].size();
@@ -117,7 +127,7 @@ Graph::Graph(SegmentsGroup* _segments, SpeakerMatch* _pSpeakerMatch, int _typeCo
 	}
 	
 	SetGraphOptimization();
-	m_MaxDurationSegmentGroup = _segments->GetTotalDuration();
+	m_MaxDurationSegmentGroup = _segmentsGroup->GetTotalDuration();
 	
 	if(m_bCompressedArray)
 	{
@@ -183,7 +193,7 @@ Graph::~Graph()
 }
 
 /** Set the dimension */
-void Graph::SetDimension(size_t dim)
+void Graph::SetDimension(const size_t& dim)
 {
 	if(dim >= 1)
 		m_Dimension = dim;
@@ -197,7 +207,7 @@ void Graph::SetDimension(size_t dim)
 }
 
 /** Set the deep of one dimension */
-void Graph::SetDimensionDeep(size_t dim, size_t deep)
+void Graph::SetDimensionDeep(const size_t& dim, const size_t& deep)
 {
 	if(dim < m_Dimension)
 		m_TabDimensionDeep[dim] = deep;
@@ -211,7 +221,7 @@ void Graph::SetDimensionDeep(size_t dim, size_t deep)
 }
 
 /** Set the position of the first ref */
-void Graph::SetIndexRef(size_t ind)
+void Graph::SetIndexRef(const size_t& ind)
 {
     if(ind < m_Dimension)
 		m_IndexRef = ind;
@@ -398,7 +408,7 @@ void Graph::FillGraph()
 }
 
 /** returns the list of previous indexes */
-void Graph::PreviousIndexes(list<size_t>& listPrev, size_t dim, size_t index)
+void Graph::PreviousIndexes(list<size_t>& listPrev, const size_t& dim, const size_t& index)
 {
 	listPrev.clear();
     

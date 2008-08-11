@@ -28,7 +28,7 @@ Logger* STMInputParser::logger = Logger::getLogger();
  * Load the named file into a Speech element.
  * @todo Finish this :P
  */
-SpeechSet* STMInputParser::loadFile(string name)
+SpeechSet* STMInputParser::loadFile(const string& name)
 {
 	string line;
 	ifstream file;

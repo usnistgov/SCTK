@@ -49,7 +49,7 @@ AlignedSpeech::~AlignedSpeech()
 
 }
 
-AlignedSegment* AlignedSpeech::GetOrCreateAlignedSegmentFor(Segment* segment, bool doCreate)
+AlignedSegment* AlignedSpeech::GetOrCreateAlignedSegmentFor(Segment* segment, const bool& doCreate)
 {
 	// segment to be inserted need to be part of the same reference speech
 	if(segment == NULL || m_speech != segment->GetParentSpeech())

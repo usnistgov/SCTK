@@ -34,14 +34,14 @@ class GraphAlignedToken
 		/** Constructor */
 		GraphAlignedToken() {}
 		/** Constructor with the number of dimension */
-		GraphAlignedToken(size_t _dimension);
+		GraphAlignedToken(const size_t& _dimension);
 		/** Destructor */
 		~GraphAlignedToken();
 	
 		/** Set the pointer of a token */
-		void SetToken(size_t dim, Token* token);
+		void SetToken(const size_t& dim, Token* token);
 		/** Returns the pointer of a token */
-		Token* GetToken(size_t dim) { return m_TabAlignedTokens[dim]; }
+		Token* GetToken(const size_t& dim) { return m_TabAlignedTokens[dim]; }
 		/** Returns the number of dimension */
 		size_t GetDimension() { return m_Dimension; }
 		/** Returns a string representation of this GraphAlignedToken */

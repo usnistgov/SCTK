@@ -34,7 +34,7 @@ class TRNInputParser : public LineStyleInputParser
          * Load the named file into a Speech element.
          * Create a segment for each TRN line
          */
-        SpeechSet* loadFile(string name);
+        SpeechSet* loadFile(const string& name);
   
     private:
         static Logger* logger;

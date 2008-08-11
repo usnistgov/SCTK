@@ -40,8 +40,15 @@ class Graph
 {
     // Members
 	private:
-		bool m_bCompressedArray;
-		/** Cost Transition */
+		
+		/**
+		 * Database for the optimization speaker alignment 
+		 */
+		SpeakerMatch* m_pSpeakerMatch;
+		
+		int m_typeCostModel; // 1: regular levenshtein
+							 // 2: time based
+
         int m_CostTransition;		
 		/** Cost Insertion and Deletion */
         int m_CostInsertion;
@@ -56,6 +63,8 @@ class Graph
         /** process or not optionnaly token for hypothesis */
         bool m_useOptForHyp;
         /** Number of dimension */
+        bool m_bCompressedArray;
+		/** Cost Transition */
 		size_t m_Dimension;
 		/** Deep for each dimension, deep is the number of element on the dimension */
 		size_t* m_TabDimensionDeep;
@@ -70,6 +79,7 @@ class Graph
 		 *  false: using optimization for Hyp and Ref cost computation
 		 */
 		bool m_HypRefStatus;
+		
         
 		/** map associating nodes (via their coordinates) to cost */
 		LevenshteinMatrix* m_MapCost;
@@ -104,16 +114,7 @@ class Graph
         // Caching
         /** Caching for transition cost */
         list<size_t>*** m_TabCacheDimPreviousIndex;
-		
-		/**
-		 * Database for the optimization speaker alignment 
-		 */
-		SpeakerMatch* m_pSpeakerMatch;
-		
-		int m_typeCostModel; // 1: regular levenshtein
-							 // 2: time based
-							 
-							 
+
 		int m_TimeBasedSafeDivider;
         
     // Methods
@@ -121,33 +122,33 @@ class Graph
         /** Constructor */
 		Graph() {}
 		/** Constructor with the number of dimension */
-		Graph(SegmentsGroup* _segmentsGroup, SpeakerMatch* _pSpeakerMatch, int _typeCost, int _costTrans, int _costIns, int _costOpt, int _costCorrectNonSpeaker, int _costAdaptive, bool _optIns, bool _optDel, bool _bCompressedArray);
+		Graph(SegmentsGroup* _segmentsGroup, SpeakerMatch* _pSpeakerMatch, const int& _typeCost, const int& _costTrans, const int& _costIns, const int& _costOpt, const int& _costCorrectNonSpeaker, const int& _costAdaptive, const bool& _optIns, const bool& _optDel, const bool& _bCompressedArray);
 		/** Destructor */
 		~Graph();
 		
 		/** Set the deep of one dimension */
-		void SetDimensionDeep(size_t dim, size_t deep);
+		void SetDimensionDeep(const size_t& dim, const size_t& deep);
 		/** Set the position of the first ref */
-		void SetIndexRef(size_t ind);
+		void SetIndexRef(const size_t& ind);
 		/** Set the dimension */
-		void SetDimension(size_t dim);
+		void SetDimension(const size_t& dim);
 	
         /** Returns the deep of one dimension */
-		size_t GetDimensionDeep(size_t d) { return m_TabDimensionDeep[d]; }
+		size_t GetDimensionDeep(const size_t& d) { return m_TabDimensionDeep[d]; }
 		/** Returns the number of dimensions */
 		size_t GetDimension() { return m_Dimension; }
 		
 		/** Return true if the dimension is a reference, false if not */
-		bool IsReference(size_t dim) { return(dim >= m_IndexRef); }
+		bool IsReference(const size_t& dim) { return(dim >= m_IndexRef); }
 		/** Return true if the dimension is a hypothesis, false if not */
-		bool IsHypothesis(size_t dim) { return(dim < m_IndexRef); }
+		bool IsHypothesis(const size_t& dim) { return(dim < m_IndexRef); }
 		
 		// Debug methods
 		/** Size of the map */
 		size_t SizeMap() { return m_MapCost->GetNumberOfCalculatedCosts(); }
 		
 		/** returns cost of insertion */
-		int GetCostInsertion(bool optionally) { return optionally ? m_CostOptionally : m_CostInsertion; }
+		int GetCostInsertion(const bool& optionally) { return optionally ? m_CostOptionally : m_CostInsertion; }
 		/** returns cost of transition */
 		int GetCostTransition() { return m_CostTransition; }
 		int GetCostTransitionWordBased(Token* pToken1, Token* pToken2);
@@ -187,7 +188,7 @@ class Graph
 		void PreviousCoordinatesGeneric(GraphCoordinateList& listPrev, size_t* coord);
 	
         /** returns the list of previous indexes */
-		void PreviousIndexes(list<size_t>& listPrev, size_t dim, size_t index);
+		void PreviousIndexes(list<size_t>& listPrev, const size_t& dim, const size_t& index);
 		
 		/** returns the cost between 2 coordinates */
 		int GetTransitionCost(size_t* coordcurr, size_t* coordprev) { return m_HypRefStatus ? GetTransitionCostHypRef(coordcurr, coordprev) : GetTransitionCostGeneric(coordcurr, coordprev); }
@@ -206,7 +207,7 @@ class Graph
 		size_t* GetBestCoordinateAndCost(size_t* coordcurr);
 		
 		/** Check if the Hyp or Ref is empty */
-		bool isHypRefEmpty(size_t hr) { return(m_TabLastTokens[hr].empty()); }
+		bool isHypRefEmpty(const size_t& hr) { return(m_TabLastTokens[hr].empty()); }
 		
 		/** Returns the number of coordinates which have changed */
 		size_t NumberChanged(size_t* coord1, size_t* coord2);

@@ -41,7 +41,7 @@ class Segment : public TimedObject
 		/**
 		 * Try to retrieve the beginning token indexed number "index"
 		 */
-		Token* GetFirstToken(size_t index) { return f_token->GetNextToken(index); }
+		Token* GetFirstToken(const size_t& index) { return f_token->GetNextToken(index); }
 		/**
 		 * Register a Token as an ending token of this segment
 		 * A Segment can have multiple ending token as the token is part of a graph.
@@ -50,7 +50,7 @@ class Segment : public TimedObject
 		/**
 		 * Try to retrieve the ending token indexed number "index"
 		 */
-		Token* GetLastToken(size_t index) { return l_token->GetNextToken(index); }
+		Token* GetLastToken(const size_t& index) { return l_token->GetNextToken(index); }
 		/**
 		 * Return the number of last token of this segments
 		 */
@@ -62,7 +62,7 @@ class Segment : public TimedObject
 		/**
 		 * Set the Channel name of this segment
 		 */
-		void SetChannel(string x) { channel = x; }
+		void SetChannel(const string& x) { channel = x; }
 		/**
 		 * Return the channel name of this segment
 		 */
@@ -70,7 +70,7 @@ class Segment : public TimedObject
 		/**
 		 * Set the Speaker Id of this segment
 		 */
-		void SetSpeakerId(string x) { speakerId = x; }
+		void SetSpeakerId(const string& x) { speakerId = x; }
 		/**
 		 * Retrieve the Speaker Id of this segment
 		 */
@@ -78,7 +78,7 @@ class Segment : public TimedObject
 		/**
 		 * Set the source name of this segment
 		 */
-		void SetSource(string x) { source = x; }
+		void SetSource(const string& x) { source = x; }
 		/**
 		 * Retrieve the source name of this segment
 		 */
@@ -86,11 +86,11 @@ class Segment : public TimedObject
 		/**
 		 * Change the end time of this segment
 		 */
-		void SetEndTime(int _newEndTime) { endTime = _newEndTime; }
+		void SetEndTime(const int& _newEndTime) { endTime = _newEndTime; }
 		/**
 		 * Set the ID of the segment
 		 */
-		void SetId(string _id) { id = _id; }
+		void SetId(const string& _id) { id = _id; }
 		/**
 		 * Retrieve ID of the segments
 		 */
@@ -106,19 +106,19 @@ class Segment : public TimedObject
 		/**
          * Set the element sequence number with the source file.
          */
-		void SetSourceElementNum(long int _ln) { sourceElementNum = _ln; }
+		void SetSourceElementNum(const long int& _ln) { sourceElementNum = _ln; }
 		/**
          * Get the elements sequence number within the source file
          */
 		long int GetSourceElementNum() { return sourceElementNum; }
 		
-		static Segment* CreateWithDuration(int _startTime, int _duration, Speech* parent);
-		static Segment* CreateWithEndTime(int _startTime, int _endTime, Speech* parent);
+		static Segment* CreateWithDuration(const int& _startTime, const int& _duration, Speech* parent);
+		static Segment* CreateWithEndTime(const int& _startTime, const int& _endTime, Speech* parent);
 		/**
 		 * Merge all Segments in one segments
 		 * @deprecated Shoudnt be use anymore. Try to work on the real segments instead
 		 */
-        static Segment* Merge(vector<Segment*> segments);
+        static Segment* Merge(const vector<Segment*> & segments);
 		/**
 		 * Output a planar version of the segment.
 		 */
@@ -163,17 +163,17 @@ class Segment : public TimedObject
 		bool UseOptionallyDeletable();
 		
 		/** Replaces the token with the link list of tokes pointed to by the vectors containing pointers to the start and end tokens **/
-		void ReplaceTokenWith(Token *token, vector<Token*> startTokens, vector<Token*> endTokens);
+		void ReplaceTokenWith(Token *token, const vector<Token*> & startTokens, const vector<Token*> & endTokens);
 		
 		int GetMinTokensTime();
 		int GetMaxTokensTime();
 		
 	protected:	
         /** Checks that start time and duration are valid for this TimedObject. Extension point for subclasses. */
-        virtual bool AreStartTimeAndDurationValid(int _startTime, int _duration) { return AreStartTimeAndEndTimeValid(_startTime, _startTime + _duration); }
+        virtual bool AreStartTimeAndDurationValid(const int& _startTime, const int& _duration) { return AreStartTimeAndEndTimeValid(_startTime, _startTime + _duration); }
 		
         /** Checks that start time and end time are valid for this TimedObject. Extension point for subclasses. */
-        virtual bool AreStartTimeAndEndTimeValid(int _startTime, int _endTime);
+        virtual bool AreStartTimeAndEndTimeValid(const int& _startTime, const int& _endTime);
 		
 		// class constructor
 		Segment();

@@ -22,7 +22,7 @@
 
 #include "linestyle_inputparser.h" // class's header file
 
-Segment* LineStyleInputParser::ParseWords(string source, string channel, string spkr, int start, int end, Speech* speech, string tokens)
+Segment* LineStyleInputParser::ParseWords(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens)
 {
     Segment* seg = Segment::CreateWithEndTime(start, end, speech);
 
@@ -47,7 +47,7 @@ Segment* LineStyleInputParser::ParseWords(string source, string channel, string 
     return seg;
 }
 
-Segment* LineStyleInputParser::ParseWordsEx(string source, string channel, string spkr, int start, int end, Speech* speech, string tokens, bool hasconf, float confscr)
+Segment* LineStyleInputParser::ParseWordsEx(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens, const bool& hasconf, const float& confscr)
 {
 	Segment* seg = Segment::CreateWithEndTime(start, end, speech);
 	
@@ -119,7 +119,7 @@ SpeechSet *LineStyleInputParser::ExpandAlternationSpeechSet(SpeechSet *sset)
 	return(sset);
 } 
 
-LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* seg, string tokens)
+LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* seg, const string& tokens)
 {
     LineStyleInputParser::VirtualSegment* out_struct = new LineStyleInputParser::VirtualSegment();
 	vector<string> orStatements = SeparateBySlash(tokens);
@@ -280,7 +280,7 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
     return out_struct;
 }
 
-vector<string> LineStyleInputParser::SeparateBySlash(string line)
+vector<string> LineStyleInputParser::SeparateBySlash(const string& line)
 {
     int currentParenthesisOpen = 0;
     vector<string> res;
@@ -317,7 +317,7 @@ vector<string> LineStyleInputParser::SeparateBySlash(string line)
     return res;
 }
 
-vector<string> LineStyleInputParser::TokeniseWords(string line)
+vector<string> LineStyleInputParser::TokeniseWords(const string& line)
 {
     int currentParenthesisOpen = 0;
     vector<string> res;
@@ -423,7 +423,7 @@ string LineStyleInputParser::FilterSpace(string line)
     return line;
 }
 
-string LineStyleInputParser::ReplaceChar(string line, string badstr, string goodstr)
+string LineStyleInputParser::ReplaceChar(const string& line, const string& badstr, const string& goodstr)
 {
     size_t badpos = line.find(badstr, 0);
     string outstring = line;

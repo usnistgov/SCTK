@@ -35,13 +35,13 @@ class SpeakerMatch
         ~SpeakerMatch();
 		
 		/** Load the file */
-		void LoadFile(string filename);
+		void LoadFile(const string& filename);
 		
 		/** Initialize a couple, sys-ref */
-		void SetSysRef(string source, string channel, string sys, string ref);
+		void SetSysRef(const string& source, const string& channel, const string& sys, const string& ref);
 		
 		/** Return the ref coupled to the sys */
-		string GetRef(string source, string channel, string sys);
+		string GetRef(const string& source, const string& channel, const string& sys);
         
     protected:
            

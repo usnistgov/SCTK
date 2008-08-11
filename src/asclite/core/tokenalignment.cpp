@@ -55,7 +55,7 @@ TokenAlignment::~TokenAlignment()
 }
 
 
-int TokenAlignment::AddAlignmentFor(string hypothesisKey, Token* hypothesisToken) 
+int TokenAlignment::AddAlignmentFor(const string & hypothesisKey, Token* hypothesisToken) 
 {
 	// an alignment already exists for this key, don't do anything
 	if(m_alignmentEvaluations[hypothesisKey] != NULL)
@@ -65,13 +65,13 @@ int TokenAlignment::AddAlignmentFor(string hypothesisKey, Token* hypothesisToken
 	return 1;
 }
 
-TokenAlignment::AlignmentResult TokenAlignment::GetResultFor(string system)
+TokenAlignment::AlignmentResult TokenAlignment::GetResultFor(const string & system)
 {
 	AlignmentEvaluation* res = GetAlignmentFor(system);
 	return (res != NULL) ? res->GetResult() : TokenAlignment::INVALID_SYSTEM;
 }
 
-Token* TokenAlignment::GetTokenFor(string system) 
+Token* TokenAlignment::GetTokenFor(const string & system) 
 {
 	AlignmentEvaluation* res = GetAlignmentFor(system);
 	return (res != NULL) ? res->GetToken() : NULL;
@@ -99,7 +99,7 @@ string TokenAlignment::ToString()
 	return result;
 }
 
-TokenAlignment::AlignmentEvaluation::AlignmentEvaluation(Token* token, AlignmentResult result) 
+TokenAlignment::AlignmentEvaluation::AlignmentEvaluation(Token* token, const AlignmentResult& result) 
 {
 	m_token = token;
 	m_result = result;
@@ -119,7 +119,7 @@ bool TokenAlignment::AlignmentEvaluation::Equals(AlignmentEvaluation* other)
 	return m_token->Equals(other->m_token) && m_result.GetShortName() == other->m_result.GetShortName();
 }
 
-TokenAlignment::AlignmentResult::AlignmentResult(string shortName, string description)
+TokenAlignment::AlignmentResult::AlignmentResult(const string& shortName, const string& description)
 {
 	m_shortName = shortName;
 	m_description = description;

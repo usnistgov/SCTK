@@ -40,7 +40,7 @@ class Segmentor
 		 * If the references are the same as before only the iteration is initialised.
 		 */
 		virtual void Reset(SpeechSet* references, SpeechSet* hypothesis)=0;
-		virtual void ResetGeneric(map<string, SpeechSet*> &mapspeechSet)=0;
+		virtual void ResetGeneric(map<string, SpeechSet*> & mapspeechSet)=0;
 		/**
 		 * Return true if the segmentor have more segments to process.
 		 * This method is not time consuming and can be call many time.

@@ -32,7 +32,7 @@ Logger* CTMInputParser::logger = Logger::getLogger();
  * 
  * @todo Finish this :P
  */
-SpeechSet* CTMInputParser::loadFile(string name)
+SpeechSet* CTMInputParser::loadFile(const string& name)
 {
 	string line;
 	ifstream file;

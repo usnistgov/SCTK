@@ -67,7 +67,7 @@ void SGMLReportGenerator::Generate(Alignment* alignment, int where)
 }
 
 /** Generate the SGML report by system */
-void SGMLReportGenerator::GenerateSystem(Alignment* alignment, string systm, ostream &output)
+void SGMLReportGenerator::GenerateSystem(Alignment* alignment, const string& systm, ostream& output)
 {
 	AlignedSpeechIterator* aAlignedSpeechs;
 	AlignedSpeech* aAlignedSpeechCurrent;
@@ -186,7 +186,7 @@ void SGMLReportGenerator::GenerateSystem(Alignment* alignment, string systm, ost
 	output << "</SYSTEM>" << endl;
 }
 
-void SGMLReportGenerator::GenerateSpeaker(Speaker* speaker, string systm, ostream &output)
+void SGMLReportGenerator::GenerateSpeaker(Speaker* speaker, const string& systm, ostream& output)
 {
 	vector<AlignedSegment*> segments = speaker->GetSegments();
 	vector<AlignedSegment*>::iterator i = segments.begin();
@@ -206,7 +206,7 @@ void SGMLReportGenerator::GenerateSpeaker(Speaker* speaker, string systm, ostrea
 	output << "</SPEAKER>" << endl;
 }
 
-void SGMLReportGenerator::GeneratePath(AlignedSegment* alignedSegment, string systm, ostream &output)
+void SGMLReportGenerator::GeneratePath(AlignedSegment* alignedSegment, const string& systm, ostream& output)
 {
 	//PreProcessPath(alignedSegment, systm, &refHasTimes, &refHasConf, &hypHasConf, &hypHasTimes);
 
@@ -253,7 +253,7 @@ void SGMLReportGenerator::GeneratePath(AlignedSegment* alignedSegment, string sy
 	output << endl << "</PATH>" << endl;
 }
 
-void SGMLReportGenerator::PreProcessWordAux(Speaker* speaker, string systm)
+void SGMLReportGenerator::PreProcessWordAux(Speaker* speaker, const string& systm)
 {
 	vector<AlignedSegment*> segments = speaker->GetSegments();
 	vector<AlignedSegment*>::iterator j = segments.begin();
@@ -295,7 +295,7 @@ void SGMLReportGenerator::PreProcessWordAux(Speaker* speaker, string systm)
 	}
 }
 
-void SGMLReportGenerator::HandleWordAux(ostream &output)
+void SGMLReportGenerator::HandleWordAux(ostream& output)
 {
 	// Ignores ref and hyp weight as Jon instructed...
 	if(m_bRefHasTimes || m_bHypHasTimes || m_bRefHasConf || m_bHypHasConf || 
@@ -346,7 +346,7 @@ void SGMLReportGenerator::HandleWordAux(ostream &output)
 	}
 }
 
-void SGMLReportGenerator::GenerateTokenAlignment(TokenAlignment* tokenAlign, string systm, ostream &output)
+void SGMLReportGenerator::GenerateTokenAlignment(TokenAlignment* tokenAlign, const string& systm, ostream& output)
 {	
 	TokenAlignment::AlignmentEvaluation* evaluation = tokenAlign->GetAlignmentFor(systm);
 	TokenAlignment::AlignmentResult aAlignmentResult = evaluation->GetResult();
@@ -461,7 +461,7 @@ void SGMLReportGenerator::GenerateTokenAlignment(TokenAlignment* tokenAlign, str
 	}
 }
 
-void SGMLReportGenerator::OutputTextFor(Token* token, ostream &output)
+void SGMLReportGenerator::OutputTextFor(Token* token, ostream& output)
 {
 	int fragStatus = token->GetFragmentStatus();
 	bool optional = token->IsOptional();

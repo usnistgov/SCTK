@@ -29,35 +29,35 @@ const char Token::FRAGMENT_MARKER = '-';
 const char Token::BEGIN_OPTIONAL_MARKER = '(';
 const char Token::END_OPTIONAL_MARKER = ')';
 
-Token* Token::CreateWithDuration(int _startTime, int _duration, Segment* parent) 
+Token* Token::CreateWithDuration(const int& _startTime, const int& _duration, Segment* parent) 
 {
 	Token* token = new Token();
     token->segment = parent;
 	return (Token*) token->InitWithDuration(_startTime, _duration);
 }
 
-Token* Token::CreateWithEndTime(int _startTime, int _endTime, Segment* parent) 
+Token* Token::CreateWithEndTime(const int& _startTime, const int& _endTime, Segment* parent) 
 {
 	Token* token = new Token();
 	token->segment = parent;
 	return (Token*) token->InitWithEndTime(_startTime, _endTime);
 }
 
-Token* Token::CreateWithDuration(int _startTime, int _duration, Segment* parent, string _text)
+Token* Token::CreateWithDuration(const int& _startTime, const int& _duration, Segment* parent, const string& _text)
 {
   Token* token = Token::CreateWithDuration(_startTime, _duration, parent);
   token->SetSourceText(_text);
   return token;
 }
 
-Token* Token::CreateWithEndTime(int _startTime, int _endTime, Segment* parent, string _text)
+Token* Token::CreateWithEndTime(const int& _startTime, const int& _endTime, Segment* parent, const string& _text)
 {
   Token* token = Token::CreateWithEndTime(_startTime, _endTime, parent);
   token->SetSourceText(_text);
   return token;
 }
 
-Token* Token::CreateWithEndTime(int _startTime, int _endTime, Segment* parent, string _text, Token* first_prec_tokens, ...)
+Token* Token::CreateWithEndTime(const int& _startTime, const int& _endTime, Segment* parent, const string& _text, Token* first_prec_tokens, ...)
 {
     Token* token = Token::CreateWithEndTime(_startTime, _endTime, parent, _text);
     Token* tok = first_prec_tokens;
@@ -93,7 +93,7 @@ Token::~Token()
 	next.clear();
 }
 
-void Token::UpdateCleanedUpTextIfNeeded(bool force) 
+void Token::UpdateCleanedUpTextIfNeeded(const bool& force) 
 {
     start = 0;
     size = sourceText.size();
@@ -206,7 +206,7 @@ string Token::GetText()
 	return sourceText.substr(start, size);
 }
 
-void Token::SetSourceText(string text)
+void Token::SetSourceText(const string& text)
 {
 	sourceText = text;
 	UpdateCleanedUpTextIfNeeded(true);
@@ -220,7 +220,7 @@ string Token::GetTextInLowerCase()
 }
 
 // sets the value of confidence
-void Token::SetConfidence(float x)
+void Token::SetConfidence(const float& x)
 {
 	confidence = x;
 	hasConfidence = true;

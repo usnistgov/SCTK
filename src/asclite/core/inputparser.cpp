@@ -25,14 +25,14 @@
 /**
  * Build a Token with a text input
  */
-Token* InputParser::BuildToken(int start, int dur, string text, Segment* parent)
+Token* InputParser::BuildToken(const int& start, const int& dur, const string& text, Segment* parent)
 {
     Token* token = Token::CreateWithDuration(start, dur, parent);
     token->SetSourceText(text);
     return token;
 }
 
-int InputParser::ParseString(string chaine)
+int InputParser::ParseString(const string& chaine)
 {
 	if(strchr(chaine.c_str(),'.') == NULL)
 	{

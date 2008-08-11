@@ -39,7 +39,7 @@ SpeakerMatch::~SpeakerMatch()
 }
 
 /** Load the file */
-void SpeakerMatch::LoadFile(string filename)
+void SpeakerMatch::LoadFile(const string& filename)
 {
 	string line;
 	ifstream file;
@@ -112,7 +112,7 @@ void SpeakerMatch::LoadFile(string filename)
 }
 
 /** Initialize a couple, sys-ref */
-void SpeakerMatch::SetSysRef(string source, string channel, string sys, string ref)
+void SpeakerMatch::SetSysRef(const string& source, const string& channel, const string& sys, const string& ref)
 {
 	string index("");
 	index.append(source);
@@ -133,7 +133,7 @@ void SpeakerMatch::SetSysRef(string source, string channel, string sys, string r
 }
 
 /** Return the ref coupled to the sys */
-string SpeakerMatch::GetRef(string source, string channel, string sys)
+string SpeakerMatch::GetRef(const string& source, const string& channel, const string& sys)
 {
 	string index("");
 	index.append(source);

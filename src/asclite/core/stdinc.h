@@ -45,20 +45,6 @@ typedef unsigned long int ulint;
 typedef unsigned long ulong;
 typedef unsigned long long int ullint;
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 255
-#endif
-
-#ifndef INT_MAX2
-#define INT_MAX2 INT_MAX/2
-#endif
-
-#ifndef M_LOG2E
-#define M_LOG2E (double) 1.4426950408889634074
-#endif
-
-#ifndef F_ROUND
-#define F_ROUND(_n,_p)    (((double)((int)((_n) * pow(10.0,(double)(_p)) + ((_n>0.0)?0.5:-0.5)))) / pow(10.0,(double)(_p)))
-#endif
+const size_t BUFFER_SIZE = 255;
 
 #endif

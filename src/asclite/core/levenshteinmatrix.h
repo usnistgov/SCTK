@@ -21,7 +21,7 @@
 #include "stdinc.h"
 #include "logger.h"
 
-#define C_UNCALCULATED (int) -1
+const int C_UNCALCULATED = -1;
 
 /**
  * Generic class for the Levenshtein Cost Matrix (LCM)
@@ -32,12 +32,12 @@ class LevenshteinMatrix
 		LevenshteinMatrix();
 		virtual ~LevenshteinMatrix();
 	
-		virtual int GetCostFor(size_t* coordinates)=0;
-		virtual void SetCostFor(size_t* coordinates, int cost)=0;
-		virtual bool IsCostCalculatedFor(size_t* coordinates)=0;	
-		virtual size_t GetNumberOfCalculatedCosts()=0;
+		virtual int GetCostFor(size_t* coordinates) = 0;
+		virtual void SetCostFor(size_t* coordinates, const int& cost) = 0 ;
+		virtual bool IsCostCalculatedFor(size_t* coordinates) = 0;	
+		virtual size_t GetNumberOfCalculatedCosts() = 0;
 	
-		virtual string ToString()=0;
+		virtual string ToString() = 0;
 };
 
 #endif

@@ -59,7 +59,7 @@ class AlignedSegment
          * @return an int < 0 if the addition was not successful, 0 if the addition 
          *					had already been done previously
          */
-        int AddTokenAlignment(Token* reference, string hypKey, Token* hypothesis);
+        int AddTokenAlignment(Token* reference, const string& hypKey, Token* hypothesis);
 
         /** Retrieves the TokenAlignment associated to the specified reference Token
          * or NULL if no such TokenAlignment exists.
@@ -78,9 +78,9 @@ class AlignedSegment
         vector< TokenAlignment* > m_tokenAlignments;
         Segment* m_referenceSegment;
         map< Token*, TokenAlignment* > m_refToAlignments;
-        TokenAlignment* GetTokenAlignmentFor(Token* ref, bool create);
-		
-		ulint m_SegGrpID;
+        ulint m_SegGrpID;
+        
+        TokenAlignment* GetTokenAlignmentFor(Token* ref, const bool& create);
 };
 
 #endif

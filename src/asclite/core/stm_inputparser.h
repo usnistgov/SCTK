@@ -40,7 +40,7 @@ class STMInputParser : public LineStyleInputParser
          * Load the named file into a Speech element.
          * Create a segment for each STM line
          */
-        SpeechSet* loadFile(string name);
+        SpeechSet* loadFile(const string& name);
     private:
         static const string IGNORE_TIME_SEGMENT_IN_SCORING;
         static Logger* logger;

@@ -48,7 +48,7 @@ class Aligner
 		/**
 		 * Initialise the Aligner to work with this set of segments
 		 */
-		virtual void SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeakerMatch, bool useCompArray)=0;
+		virtual void SetSegments(SegmentsGroup* segmentsGroup, SpeakerMatch* pSpeakerMatch, const bool& useCompArray)=0;
 };
 
 #endif // ALIGNER_H

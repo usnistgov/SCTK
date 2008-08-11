@@ -66,8 +66,8 @@ class CTMSTMRTTMSegmentor : public Segmentor
         /**
          * Return the first segment that occur after the given time
          */
-        Segment* GetFirstSegment(int startTime, SpeechSet* speechs);
-        Segment* GetFirstSegmentGeneric(int startTime);
+        Segment* GetFirstSegment(const int& startTime, SpeechSet* speechs);
+        Segment* GetFirstSegmentGeneric(const int& startTime);
         /**
          * The logger
          */

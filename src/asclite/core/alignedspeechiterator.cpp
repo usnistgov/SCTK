@@ -30,4 +30,3 @@ bool AlignedSpeechIterator::Current(AlignedSpeech** current) {
 	}
 	return false;
 }
-

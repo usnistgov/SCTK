@@ -39,44 +39,44 @@ class GraphAlignedSegment
 		static Logger* m_pLogger;
 	public:
 		/** class constructor */
-		GraphAlignedSegment(size_t _HypRefIndex);
+		GraphAlignedSegment(const size_t& _HypRefIndex);
 		/** class destructor */
 		~GraphAlignedSegment();
 				
 		/** Return the indexed element of the GraphAlignedSegment */
-		GraphAlignedToken* GetGraphAlignedToken(size_t index);
+		GraphAlignedToken* GetGraphAlignedToken(const size_t& index);
 		/** Return the nb of GraphAlignedToken */
 		size_t GetNbOfGraphAlignedToken() { return m_vGraphAlignedTokens.size(); }
 		/** Add a GraphAlignedToken into the structure to the back */
 		void AddFrontGraphAlignedToken(GraphAlignedToken* _pGToken) { m_vGraphAlignedTokens.push_back(_pGToken); }
 		/** Returns a string representation of this GraphAlignedSegment. */
-		string ToStringAddnChar(string chara, int num);
-		string ToStringAddText(string text, int maxc);
+		string ToStringAddnChar(const string& chara, const int& num);
+		string ToStringAddText(const string& text, const int& maxc);
 		string ToString();
 		/** Retrieves the non-null reference for the (gatIndex + 1)th 
 		 * GraphAlignedToken (or NULL if no such reference exists for that 
 		 * GraphAlignedToken) 
 		 */
-		Token* GetNonNullReference(size_t gatIndex);
+		Token* GetNonNullReference(const size_t& gatIndex);
 		/** Retrieves the non-null hypothesis for the (gatIndex + 1)th 
 		 * GraphAlignedToken (or NULL if no such hypothesis exists for that 
 		 * GraphAlignedToken) 
 		 */
-		Token* GetNonNullHypothesis(size_t gatIndex);
+		Token* GetNonNullHypothesis(const size_t& gatIndex);
 		
 		/** Retrieves the precedent non-null reference that occured before 
 		 * (gatIndex +1) in this GraphAlignedSegment (or NULL if such reference
 		 * does not exist)
 		 */
-		Token* GetPreviousNonNullReference(size_t gatIndex);
+		Token* GetPreviousNonNullReference(const size_t& gatIndex);
 		
 		/** Retrieves the next non-null reference that occurs after 
 		 * (gatIndex +1) in this GraphAlignedSegment (or NULL if such reference
 		 * does not exist)
 		 */
-		Token* GetNextNonNullReference(size_t gatIndex);
+		Token* GetNextNonNullReference(const size_t& gatIndex);
 		
-		void LoggingAlignment(ulint seggrpid);
+		void LoggingAlignment(const ulint& seggrpid);
 		
 		/**
 		 * Redefine the == operator to go throw all the object for the comparison

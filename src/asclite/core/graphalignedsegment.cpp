@@ -24,7 +24,7 @@
 Logger* GraphAlignedSegment::m_pLogger = Logger::getLogger();
 
 /** class constructor */
-GraphAlignedSegment::GraphAlignedSegment(size_t _HypRefIndex) : m_HypRefIndex(_HypRefIndex)
+GraphAlignedSegment::GraphAlignedSegment(const size_t& _HypRefIndex) : m_HypRefIndex(_HypRefIndex)
 {
 }
 
@@ -50,7 +50,7 @@ GraphAlignedSegment::~GraphAlignedSegment()
 }
 
 /** Return the indexed element of the GraphAlignedSegment */
-GraphAlignedToken* GraphAlignedSegment::GetGraphAlignedToken(size_t index)
+GraphAlignedToken* GraphAlignedSegment::GetGraphAlignedToken(const size_t& index)
 {
 	if(index < GetNbOfGraphAlignedToken())
     {
@@ -62,7 +62,7 @@ GraphAlignedToken* GraphAlignedSegment::GetGraphAlignedToken(size_t index)
 	}
 }
 
-string GraphAlignedSegment::ToStringAddnChar(string chara, int num)
+string GraphAlignedSegment::ToStringAddnChar(const string& chara, const int& num)
 {
 	ostringstream outstr;
 	
@@ -72,7 +72,7 @@ string GraphAlignedSegment::ToStringAddnChar(string chara, int num)
 	return outstr.str();
 }
 
-string GraphAlignedSegment::ToStringAddText(string text, int maxc)
+string GraphAlignedSegment::ToStringAddText(const string& text, const int& maxc)
 {
 	ostringstream outstr;
 	
@@ -190,7 +190,7 @@ string GraphAlignedSegment::ToString()
 	return osstr.str();
 }
 
-void GraphAlignedSegment::LoggingAlignment(ulint seggrpid)
+void GraphAlignedSegment::LoggingAlignment(const ulint& seggrpid)
 {
 	char buffer[BUFFER_SIZE];
 	sprintf(buffer, "%li", seggrpid);
@@ -224,7 +224,7 @@ void GraphAlignedSegment::LoggingAlignment(ulint seggrpid)
 	}
 }
 
-Token* GraphAlignedSegment::GetNonNullReference(size_t gatIndex)
+Token* GraphAlignedSegment::GetNonNullReference(const size_t& gatIndex)
 {
 	GraphAlignedToken* aGAT = GetGraphAlignedToken(gatIndex);
 
@@ -244,7 +244,7 @@ Token* GraphAlignedSegment::GetNonNullReference(size_t gatIndex)
 	return NULL;
 }
 
-Token* GraphAlignedSegment::GetNonNullHypothesis(size_t gatIndex)
+Token* GraphAlignedSegment::GetNonNullHypothesis(const size_t& gatIndex)
 {
 	GraphAlignedToken* aGAT = GetGraphAlignedToken(gatIndex);
 
@@ -264,7 +264,7 @@ Token* GraphAlignedSegment::GetNonNullHypothesis(size_t gatIndex)
 	return NULL;
 }
 
-Token* GraphAlignedSegment::GetPreviousNonNullReference(size_t gatIndex)
+Token* GraphAlignedSegment::GetPreviousNonNullReference(const size_t& gatIndex)
 {
 	if (gatIndex == 0)
 		return NULL;
@@ -282,7 +282,7 @@ Token* GraphAlignedSegment::GetPreviousNonNullReference(size_t gatIndex)
 	return result;
 }
 
-Token* GraphAlignedSegment::GetNextNonNullReference(size_t gatIndex)
+Token* GraphAlignedSegment::GetNextNonNullReference(const size_t& gatIndex)
 {
 	size_t size = GetNbOfGraphAlignedToken();
     

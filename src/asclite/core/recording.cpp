@@ -195,7 +195,7 @@ Recording::~Recording()
 * Load the reference&Hypothesis files into the system.
  * use the right loader based on the type.
  */
-void Recording::Load(string _references, string _refType, vector<string> _hypothesis_files, vector<string> _hypothesis_titles, vector<string> _hypothesis_types, string uemFile, string speakeralignfile)
+void Recording::Load(const string& _references, const string& _refType, const vector<string> & _hypothesis_files, const vector<string> & _hypothesis_titles, const vector<string> & _hypothesis_types, const string& uemFile, const string& speakeralignfile)
 {
 	m_bGenericAlignment = false;
 	
@@ -243,7 +243,7 @@ void Recording::Load(string _references, string _refType, vector<string> _hypoth
     }
 }
 
-void Recording::Load(vector<string> _hypothesis_files, vector<string> _hypothesis_titles, vector<string> _hypothesis_types, string _uemFile, string _speakeralignfile)
+void Recording::Load(const vector<string> & _hypothesis_files, const vector<string> & _hypothesis_titles, const vector<string> & _hypothesis_types, const string& _uemFile, const string& _speakeralignfile)
 {
 	m_bGenericAlignment = true;
 	
@@ -286,7 +286,7 @@ void Recording::Load(vector<string> _hypothesis_files, vector<string> _hypothesi
 /**
 * Filter the references and hypothesis with the availables filters.
  */
-void Recording::Filter(vector<string> _filters)
+void Recording::Filter(const vector<string> & _filters)
 {
     unsigned long int nbErr = 0;
   
@@ -748,7 +748,7 @@ void Recording::Score()
 /**
  * Generate the reports based on the scored alignment.
  */
-void Recording::GenerateReport(vector<string> reportsType)
+void Recording::GenerateReport(const vector<string> & reportsType)
 {
 	int outputint = 1;
 	

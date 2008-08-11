@@ -27,7 +27,7 @@ Logger* TRNInputParser::logger = Logger::getLogger();
  * Load the named file into a vector of Speech element.
  * @todo Finish this :P
  */
-SpeechSet* TRNInputParser::loadFile(string name)
+SpeechSet* TRNInputParser::loadFile(const string& name)
 {
 	string line;
 	long int lineNum = -1;

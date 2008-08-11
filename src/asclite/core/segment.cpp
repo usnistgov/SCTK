@@ -26,21 +26,21 @@
 
 Logger* Segment::logger = Logger::getLogger();
 
-Segment* Segment::CreateWithDuration(int _startTime, int _duration, Speech* parent)
+Segment* Segment::CreateWithDuration(const int& _startTime, const int& _duration, Speech* parent)
 {
 	Segment* segment = new Segment();
 	segment->speech = parent;
 	return (Segment*) segment->InitWithDuration(_startTime, _duration);
 }
 
-Segment* Segment::CreateWithEndTime(int _startTime, int _endTime, Speech* parent)
+Segment* Segment::CreateWithEndTime(const int& _startTime, const int& _endTime, Speech* parent)
 {
 	Segment* segment = new Segment();
 	segment->speech = parent;
 	return (Segment*) segment->InitWithEndTime(_startTime, _endTime);
 }
 
-bool Segment::AreStartTimeAndEndTimeValid(int _startTime, int _endTime)
+bool Segment::AreStartTimeAndEndTimeValid(const int& _startTime, const int& _endTime)
 {
 	if(!TimedObject::AreStartTimeAndEndTimeValid(_startTime, _endTime))
 		return false;
@@ -51,7 +51,7 @@ bool Segment::AreStartTimeAndEndTimeValid(int _startTime, int _endTime)
 /**
  * Merge all Segments in one segments
  */
-Segment* Segment::Merge(vector<Segment*> segments)
+Segment* Segment::Merge(const vector<Segment*> & segments)
 {
 	int start=INT_MAX, end=0;
     Token* t_start = NULL;
@@ -304,7 +304,7 @@ bool Segment::UseOptionallyDeletable()
 }
 
 /** Replaces the token with a linked list of tokens.  The initial token is NOT deleted **/
-void Segment:: ReplaceTokenWith(Token *token, vector<Token*> startTokens, vector<Token*> endTokens)
+void Segment:: ReplaceTokenWith(Token *token, const vector<Token*> & startTokens, const vector<Token*> & endTokens)
 {
 	// Store a list of prev tokens to avoid continual adding of tokens!!!
 	vector<Token *>prevTokens;

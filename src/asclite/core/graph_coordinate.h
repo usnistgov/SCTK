@@ -33,14 +33,14 @@ class GraphCoordinateList
 		size_t m_CoordinateDimension;
 	
 	public:
-		GraphCoordinateList(size_t _CoordinateDimension) { m_CoordinateDimension = _CoordinateDimension; }
+		GraphCoordinateList(const size_t& _CoordinateDimension) { m_CoordinateDimension = _CoordinateDimension; }
 		~GraphCoordinateList() { RemoveAll(); }
 	
 		void AddFront(size_t* coordinate);
 		void AddBack(size_t* coordinate);
 		GraphCoordinateListPosition GetBeginPosition() { return m_ListCoordinates.begin(); }
 		GraphCoordinateListPosition GetEndPosition() { return m_ListCoordinates.end(); }
-		size_t* GetAt(GraphCoordinateListPosition GCPosition);
+		size_t* GetAt(const GraphCoordinateListPosition& GCPosition);
 		void RemoveAll();
 		void NextPosition(GraphCoordinateListPosition& GCPosition) { ++GCPosition; }
 		bool isEmpty() { return m_ListCoordinates.empty(); }

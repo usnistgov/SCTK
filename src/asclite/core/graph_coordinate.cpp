@@ -41,7 +41,7 @@ void GraphCoordinateList::AddBack(size_t* coordinate)
 	m_ListCoordinates.push_back(addcoord);
 }
 
-size_t* GraphCoordinateList::GetAt(GraphCoordinateListPosition GCPosition)
+size_t* GraphCoordinateList::GetAt(const GraphCoordinateListPosition& GCPosition)
 {
 	size_t* outcoord = new size_t[m_CoordinateDimension];
 	

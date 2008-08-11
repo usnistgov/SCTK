@@ -28,7 +28,7 @@ class UEMElement
 {		
     public:
         UEMElement() {}
-		UEMElement(string _file, string _channel, int _startTime, int _endTime);
+		UEMElement(const string& _file, const string& _channel, const int& _startTime, const int& _endTime);
         ~UEMElement() {}
 		
 		string GetFile() { return m_File; }
@@ -55,10 +55,10 @@ class UEMFilter : public Checker
 		
 		void    AddUEMElement(UEMElement* _pUEMElement) { m_VectUEMElements.push_back(_pUEMElement); }
 		size_t 	GetNumberElement() { return m_VectUEMElements.size(); }
-		void 	FindElement(string file, string channel, list<UEMElement*>* pList);
+		void 	FindElement(const string& file, const string& channel, list<UEMElement*>* pList);
 		
 		bool isEmpty() { return m_VectUEMElements.empty(); }
-		void LoadFile(string filename);
+		void LoadFile(const string& filename);
 		
 		unsigned long int ProcessSingleSpeech(Speech* speech);
 		
@@ -69,7 +69,7 @@ class UEMFilter : public Checker
 		vector<UEMElement*> m_VectUEMElements;
 		bool m_bUseFile;
 		
-		int ParseString(string chaine);
+		int ParseString(const string& chaine);
 		
         static Logger* m_pLogger;
 };

@@ -36,7 +36,7 @@ class Logger
         /** 
          * Set the logger to log in the path specified as an argument 
          */
-        static void logInFile(string file);
+        static void logInFile(const string& file);
 
         /** 
          * Log on stdout
@@ -46,7 +46,7 @@ class Logger
         /** 
          * Change log level
          */
-        static void setLogLevel(int level);
+        static void setLogLevel(const int& level);
 
         /**
          * Return the stream to output the loggin
@@ -61,14 +61,14 @@ class Logger
 		 *   6 ===> Alignment
 		 *   7 ===> Alignment only
          */ 
-        void log(int level, string message);
-        void log(int level, char* message);
+        void log(const int& level, const string& message);
+        void log(const int& level, const char* const message);
 		
 		int getLogLevel() { return log_level; }
 		
 		bool isAlignLogON() { return ( (log_level == 6) || (log_level == 7) );  }
         
-        string LevelToString(int level);
+        string LevelToString(const int& level);
         
         static Logger* getLogger();
     
@@ -114,13 +114,13 @@ class Logger
  * Output Errors                        *
  ****************************************/
 
-#define E_OK       0
-#define E_LOAD     1
-#define E_COND     2
-#define E_FILTER   3
-#define E_ARGS     4
-#define E_MISSINFO 5
-#define E_INVALID  6
-#define E_LZO      7
+const int E_OK       = 0;
+const int E_LOAD     = 1;
+const int E_COND     = 2;
+const int E_FILTER   = 3;
+const int E_ARGS     = 4;
+const int E_MISSINFO = 5;
+const int E_INVALID  = 6;
+const int E_LZO      = 7;
 
 #endif

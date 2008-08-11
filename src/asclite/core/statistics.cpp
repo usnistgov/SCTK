@@ -17,7 +17,7 @@
 
 #include "statistics.h"
 
-Statistics::Statistics(vector<int> _vecValues)
+Statistics::Statistics(const vector<int> & _vecValues)
 {
 	for(size_t i=0; i< _vecValues.size(); ++i)
 		m_VecValues.push_back((double) _vecValues[i]);
@@ -25,7 +25,7 @@ Statistics::Statistics(vector<int> _vecValues)
 	
 }
 
-Statistics::Statistics(vector<double> _vecValues) : m_VecValues(_vecValues)
+Statistics::Statistics(const vector<double> & _vecValues) : m_VecValues(_vecValues)
 {
 	Compute();
 }

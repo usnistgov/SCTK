@@ -23,9 +23,10 @@
 
 Logger* ArrayLevenshteinMatrix::m_pLogger = Logger::getLogger(); 
 
-ArrayLevenshteinMatrix::ArrayLevenshteinMatrix(size_t _NbrDimensions, size_t* _TabDimensionDeep)
+ArrayLevenshteinMatrix::ArrayLevenshteinMatrix(const size_t& _NbrDimensions, size_t* _TabDimensionDeep)
+	: m_NbrDimensions(_NbrDimensions)
 {
-	m_NbrDimensions = _NbrDimensions;
+//	m_NbrDimensions = _NbrDimensions;
 	m_MultiplicatorDimension = new size_t[m_NbrDimensions];
 	
 	m_MultiplicatorDimension[0] = 1;
@@ -61,7 +62,7 @@ ArrayLevenshteinMatrix::~ArrayLevenshteinMatrix()
 	delete [] m_MultiplicatorDimension;
 }
 
-void ArrayLevenshteinMatrix::SetCostFor(size_t* coordinates, int cost)
+void ArrayLevenshteinMatrix::SetCostFor(size_t* coordinates, const int& cost)
 {
 	size_t coord = CoordinatesToSize(coordinates);
 	
@@ -85,7 +86,7 @@ string ArrayLevenshteinMatrix::ToString()
 	return oss.str();
 }
 
-size_t ArrayLevenshteinMatrix::CoordinatesToSize(size_t* coordinates)
+size_t ArrayLevenshteinMatrix::CoordinatesToSize(size_t* coordinates) 
 {
 	size_t outSize = 0;
 	

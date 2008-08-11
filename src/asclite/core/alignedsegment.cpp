@@ -56,7 +56,7 @@ string AlignedSegment::ToString()
 	return result;
 }
 
-TokenAlignment* AlignedSegment::GetTokenAlignmentFor(Token* reference, bool create)
+TokenAlignment* AlignedSegment::GetTokenAlignmentFor(Token* reference, const bool& create)
 {	
 	TokenAlignment* ta = m_refToAlignments[reference];
 	
@@ -78,7 +78,7 @@ TokenAlignment* AlignedSegment::GetTokenAlignmentFor(Token* reference, bool crea
 	return ta;
 }
 
-int AlignedSegment::AddTokenAlignment(Token* reference, string hypKey, Token* hypothesis) 
+int AlignedSegment::AddTokenAlignment(Token* reference, const string& hypKey, Token* hypothesis) 
 {
 	if(reference != NULL && reference->GetParentSegment() != m_referenceSegment) 
     {

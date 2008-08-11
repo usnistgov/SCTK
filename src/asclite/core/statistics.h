@@ -32,15 +32,15 @@ class Statistics
 		void Compute();
 	
 	public:
-		Statistics(vector<int> _vecValues);
-		Statistics(vector<double> _vecValues);
+		Statistics(const vector<int> & _vecValues);
+		Statistics(const vector<double> & _vecValues);
 		~Statistics() { m_VecValues.clear(); }
 	
-		double GetMean(bool safe = false) { return(((m_Mean == 0.0) && safe) ? 1.0 : m_Mean); }
-		double GetSD(bool safe = false) { return(((m_SD == 0.0) && safe) ? 1.0 : m_SD); }
-		double GetMedian(bool safe = false) { return(((m_Median == 0.0) && safe) ? 1.0 : m_Median); }
-		double GetSum(bool safe = false) { return(((m_Sum == 0.0) && safe) ? 1.0 : m_Sum); }
-		int GetSize(bool safe = false) { return(((m_VecValues.size() == 0) && safe) ? 1 : m_VecValues.size()); }
+		double GetMean(const bool& safe = false) { return(((m_Mean == 0.0) && safe) ? 1.0 : m_Mean); }
+		double GetSD(const bool& safe = false) { return(((m_SD == 0.0) && safe) ? 1.0 : m_SD); }
+		double GetMedian(const bool& safe = false) { return(((m_Median == 0.0) && safe) ? 1.0 : m_Median); }
+		double GetSum(const bool& safe = false) { return(((m_Sum == 0.0) && safe) ? 1.0 : m_Sum); }
+		int GetSize(const bool& safe = false) { return(((m_VecValues.size() == 0) && safe) ? 1 : m_VecValues.size()); }
 		int GetMaxSizeString() { return m_MaxSize; }
 };
 

@@ -32,15 +32,15 @@ class Properties
 		/**
          * Set the property to the desired value
          */
-        static void SetProperty(string name, string value);
+        static void SetProperty(const string& name, const string& value);
         /**
          * Retrieve the value of the specified property
          */
-        static string GetProperty(string name);
+        static string GetProperty(const string& name);
         /**
          * Set the properties with a all set of predefined values
          */
-        static void SetProperties(map<string, string> props);
+        static void SetProperties(const map<string, string> & props);
         /**
          * Initialize the properties.
          * Nothing to do for now there...

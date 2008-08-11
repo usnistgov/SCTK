@@ -21,7 +21,7 @@
  
 #include "reportgenerator.h" // class's header file
 
-string ReportGenerator::GetFileNameFromPath(string path)
+string ReportGenerator::GetFileNameFromPath(const string& path)
 {
 	size_t slash_pos = path.rfind("/");
 	

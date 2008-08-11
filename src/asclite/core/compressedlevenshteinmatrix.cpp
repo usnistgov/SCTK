@@ -23,7 +23,7 @@
 
 Logger* CompressedLevenshteinMatrix::m_pLogger = Logger::getLogger(); 
 
-CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(size_t _NbrDimensions, size_t* _TabDimensionDeep)
+CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimensions, size_t* _TabDimensionDeep)
 {
 	if (lzo_init() != LZO_E_OK)
 	{
@@ -152,7 +152,7 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 	delete [] m_pWorkMemory;
 }
 
-void CompressedLevenshteinMatrix::CreateBlock(size_t block_index)
+void CompressedLevenshteinMatrix::CreateBlock(const size_t& block_index)
 {
 	if(! isBlockCreated(block_index))
 	{
@@ -171,7 +171,7 @@ void CompressedLevenshteinMatrix::CreateBlock(size_t block_index)
 	}
 }
 
-void CompressedLevenshteinMatrix::CompressBlock(size_t block_index)
+void CompressedLevenshteinMatrix::CompressBlock(const size_t& block_index)
 {
 	CreateBlock(block_index);
 	
@@ -209,7 +209,7 @@ void CompressedLevenshteinMatrix::CompressBlock(size_t block_index)
 	}
 }
 
-bool CompressedLevenshteinMatrix::DecompressBlock(size_t block_index)
+bool CompressedLevenshteinMatrix::DecompressBlock(const size_t& block_index)
 {
 	CreateBlock(block_index);
 	
@@ -299,7 +299,7 @@ string CompressedLevenshteinMatrix::ToString()
 	return string("");
 }
 
-void CompressedLevenshteinMatrix::CoordinatesToBlockOffset(size_t* coordinates, size_t & blockNum, size_t & blockOffset)
+void CompressedLevenshteinMatrix::CoordinatesToBlockOffset(size_t* coordinates, size_t& blockNum, size_t& blockOffset)
 {
 	blockNum = 0;
 	blockOffset = 0;
@@ -326,7 +326,7 @@ int CompressedLevenshteinMatrix::GetCostFor(size_t* coordinates)
 	return (out);
 }
 
-void CompressedLevenshteinMatrix::SetCostFor(size_t* coordinates, int cost)
+void CompressedLevenshteinMatrix::SetCostFor(size_t* coordinates, const int& cost)
 {
 	size_t coord_x;
 	size_t coord_y;
@@ -343,7 +343,7 @@ void CompressedLevenshteinMatrix::SetCostFor(size_t* coordinates, int cost)
 		GarbageCollection();
 }
 
-void CompressedLevenshteinMatrix::BlockComputation(size_t levelopt)
+void CompressedLevenshteinMatrix::BlockComputation(const size_t& levelopt)
 {
 	// Declaration Vars
 	size_t* Cursor = new size_t[m_NbrDimensions];

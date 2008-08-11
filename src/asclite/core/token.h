@@ -39,24 +39,24 @@ class Token : public TimedObject
 		// class destructor
 		~Token();
 		
-		void SetSourceText(string x); // sets the value of text
+		void SetSourceText(const string& x); // sets the value of text
 		/** Retrieves the raw text for this Token. */
 		string GetSourceText() { return sourceText; }
 		
 		string GetText(); // returns the cleaned-up version of the text, used for alignment purposes.
 		string GetTextInLowerCase(); // Return the text in lower case FIX-ME: REMOVE?
-		void SetConfidence(float x); // sets the value of confidence
+		void SetConfidence(const float& x); // sets the value of confidence
 		float GetConfidence() { return confidence; } // returns the value of confidence
-        Token* GetNextToken(size_t i) { return next[i]; } //retrieve the next token indexed
+        Token* GetNextToken(const size_t& i) { return next[i]; } //retrieve the next token indexed
 		void AddNextToken(Token* token) { next.push_back(token); } //add a "next" token indexed
-		Token* GetPrecToken(size_t i) { return prec[i]; } //retrieve the next token indexed
+		Token* GetPrecToken(const size_t& i) { return prec[i]; } //retrieve the next token indexed
 		void AddPrecToken(Token* token) { prec.push_back(token); } //add a "prec" token indexed     
 		
-		static Token* CreateWithDuration(int _startTime, int _duration, Segment* parent);
-		static Token* CreateWithDuration(int _startTime, int _duration, Segment* parent, string _text);
-		static Token* CreateWithEndTime(int _startTime, int _endTime, Segment* parent);
-		static Token* CreateWithEndTime(int _startTime, int _endTime, Segment* parent, string _text);
-		static Token* CreateWithEndTime(int _startTime, int _endTime, Segment* parent, string _text, Token* first_prec_tokens, ...);
+		static Token* CreateWithDuration(const int& _startTime, const int& _duration, Segment* parent);
+		static Token* CreateWithDuration(const int& _startTime, const int& _duration, Segment* parent, const string& _text);
+		static Token* CreateWithEndTime(const int& _startTime, const int& _endTime, Segment* parent);
+		static Token* CreateWithEndTime(const int& _startTime, const int& _endTime, Segment* parent, const string& _text);
+		static Token* CreateWithEndTime(const int& _startTime, const int& _endTime, Segment* parent, const string& _text, Token* first_prec_tokens, ...);
 		
 		void LinkTokens(Token *nextToken);    // Links the two tokens together
 		
@@ -129,7 +129,7 @@ class Token : public TimedObject
 		short size;
 		
 		/** Updates cleaned-up text if needed. */
-		void UpdateCleanedUpTextIfNeeded(bool force);
+		void UpdateCleanedUpTextIfNeeded(const bool& force);
 	
 		/**
 		 * The confidence score of the token.

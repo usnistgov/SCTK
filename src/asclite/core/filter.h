@@ -37,7 +37,7 @@ class Filter
 		virtual unsigned long int ProcessSingleSpeech(Speech* speech) = 0;
 		virtual unsigned long int ProcessSpeechSet(SpeechSet* ref, map<string, SpeechSet*> &hyp) = 0;
 		
-		virtual void LoadFile(string filename) = 0;
+		virtual void LoadFile(const string& filename) = 0;
 };
 
 #endif // FILTER_H

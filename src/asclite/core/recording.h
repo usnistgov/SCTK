@@ -67,12 +67,12 @@ class Recording
          * Load the reference&Hypothesis files into the system.
          * use the right loader based on the type.
          */
-        void Load(string refFile, string refType, vector<string> hypFiles, vector<string> HypTitles, vector<string> HypTypes, string uemFile, string speakeralignfile);
-        void Load(vector<string> hypFiles, vector<string> HypTitles, vector<string> HypTypes, string uemFile, string speakeralignfile);
+        void Load(const string& refFile, const string& refType, const vector<string> & hypFiles, const vector<string> & HypTitles, const vector<string> & HypTypes, const string& uemFile, const string& speakeralignfile);
+        void Load(const vector<string> & hypFiles, const vector<string> & HypTitles, const vector<string> & HypTypes, const string& uemFile, const string& speakeralignfile);
         /**
          * Filter the references and hypothesis with the availables filters.
          */
-        void Filter(vector<string> _filters);
+        void Filter(const vector<string> & _filters);
         /**
          * Align the ref to the hyp with the select align algo
          */
@@ -86,7 +86,7 @@ class Recording
         /**
          * Generate the reports based on the scored alignment.
          */
-        void GenerateReport(vector<string> reportType);
+        void GenerateReport(const vector<string> & reportType);
 		
 		//void AddInterSegmentGapsToRefs();
         
