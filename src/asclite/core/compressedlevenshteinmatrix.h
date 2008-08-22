@@ -77,8 +77,8 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		
 		ulint m_Accesses;
 		
-		double MemoryUsedKB() { return(((double)m_CurrentMemorySize)/((double)1024)); }
-		bool isCallGarbageCollector() { return( (MemoryUsedKB()+((double)(m_BaseLengthIn))/1024.0) >= m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart) ); }
+		double MemoryUsedKB() { return( (static_cast<double>(m_CurrentMemorySize))/1024.0 ); }
+		bool isCallGarbageCollector() { return( (MemoryUsedKB()+(static_cast<double>(m_BaseLengthIn))/1024.0) >= m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart) ); }
 		bool isStopGarbageCollector() { return( MemoryUsedKB() <= m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStop) ); }
 		
 		size_t* m_TabBlockDimensionDeep;

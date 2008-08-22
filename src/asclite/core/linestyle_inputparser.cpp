@@ -285,7 +285,7 @@ vector<string> LineStyleInputParser::SeparateBySlash(const string& line)
     int currentParenthesisOpen = 0;
     vector<string> res;
     string currentStatement = "";
-    char* word = strtok((char*) line.c_str(), " \t\r\n");
+    char* word = strtok(const_cast<char*>(line.c_str()), " \t\r\n");
     
     while(word != NULL)
     {
@@ -330,7 +330,7 @@ vector<string> LineStyleInputParser::TokeniseWords(const string& line)
         return res;
     }
     
-    char* word = strtok((char*) line.c_str(), " \t\r\n");
+    char* word = strtok(const_cast<char*>(line.c_str()), " \t\r\n");
     
     while(word != NULL)
     {

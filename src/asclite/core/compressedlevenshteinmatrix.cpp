@@ -25,7 +25,7 @@ Logger* CompressedLevenshteinMatrix::m_pLogger = Logger::getLogger();
 
 CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimensions, size_t* _TabDimensionDeep)
 {
-	if (lzo_init() != LZO_E_OK)
+	if (lzo_init() != static_cast<int>(LZO_E_OK))
 	{
 		LOG_FATAL(m_pLogger, "Compression Initialization - 'lzo_init()' failed!");
 		exit(E_LZO);
@@ -33,8 +33,8 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimen
 	
 	m_pWorkMemory = new lzo_align_t[ ((LZO1X_1_MEM_COMPRESS) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ];
 	
-	m_MaxMemoryKBProp = (size_t) ceil(1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str()));
-	m_BlockSizeKB = (uint) atoi(Properties::GetProperty("align.memorycompressionblock").c_str());
+	m_MaxMemoryKBProp = static_cast<size_t>(ceil(1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())));
+	m_BlockSizeKB = static_cast<uint>(atoi(Properties::GetProperty("align.memorycompressionblock").c_str()));
 	
 	if(m_BlockSizeKB > 1048576)
 		m_BlockSizeKB = 1048575;

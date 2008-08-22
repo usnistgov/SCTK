@@ -65,11 +65,11 @@ int UEMFilter::ParseString(const string& chaine)
 				
 		if(len > 3)
 		{
-			af = (int)((double)(af)/pow((double)10, len-3));
+			af = static_cast<int>(static_cast<double>(af)/pow(static_cast<double>(10), len-3));
 		}
 		else
 		{
-			af = (int)((double)(af)*pow((double)10, 3-len));
+			af = static_cast<int>(static_cast<double>(af)*pow(static_cast<double>(10), 3-len));
 		}
 		
 		return( bf*1000+af);		

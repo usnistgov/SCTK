@@ -39,7 +39,7 @@ ArrayLevenshteinMatrix::ArrayLevenshteinMatrix(const size_t& _NbrDimensions, siz
 	}
         
     char buffer[BUFFER_SIZE];
-    sprintf(buffer, "ArrayLevenshteinMatrix: %lu cells", (ulint) m_MaxSize);
+    sprintf(buffer, "ArrayLevenshteinMatrix: %lu cells", static_cast<ulint>(m_MaxSize) );
 	LOG_DEBUG(m_pLogger, buffer);
     
     m_TabCost = new int[m_MaxSize];
@@ -55,7 +55,7 @@ ArrayLevenshteinMatrix::ArrayLevenshteinMatrix(const size_t& _NbrDimensions, siz
 ArrayLevenshteinMatrix::~ArrayLevenshteinMatrix()
 {
 	char buffer[BUFFER_SIZE];
-	sprintf(buffer, "Array Levenshtein Matrix: Total Size: %lu, Calculated: %lu", (ulint) m_MaxSize, (ulint) m_SizeOfArray);	   
+	sprintf(buffer, "Array Levenshtein Matrix: Total Size: %lu, Calculated: %lu", static_cast<ulint>(m_MaxSize), static_cast<ulint>(m_SizeOfArray) );	   
 	LOG_DEBUG(m_pLogger, buffer);
 	
     delete [] m_TabCost;
@@ -96,7 +96,7 @@ size_t ArrayLevenshteinMatrix::CoordinatesToSize(size_t* coordinates)
 	if(outSize >= m_MaxSize)
 	{
 		char buffer[BUFFER_SIZE];		
-		sprintf(buffer, "Try to access data too far %lu (size matrix %lu)", (ulint) outSize, (ulint) m_MaxSize);
+		sprintf(buffer, "Try to access data too far %lu (size matrix %lu)", static_cast<ulint>(outSize), static_cast<ulint>(m_MaxSize) );
 		LOG_FATAL(m_pLogger, buffer);
 		exit(E_INVALID);
 	}

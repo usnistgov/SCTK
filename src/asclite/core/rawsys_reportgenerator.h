@@ -27,7 +27,7 @@ const double log2e = 1.442695041;
 
 inline double F_ROUND(const double& _n, const double& _p)
 {
-    return(((double)((int)((_n) * pow(10.0,(double)(_p)) + ((_n>0.0)?0.5:-0.5)))) / pow(10.0,(double)(_p)));
+    return( static_cast<double>( static_cast<int>( (_n) * pow(10.0, _p) + ( (_n>0.0)?0.5:-0.5) ) ) / pow(10.0, _p) );
 }
 
 class RAWSYS_Datas
@@ -59,13 +59,13 @@ class RAWSYS_Datas
 		uint GetNumberErrors() { return(m_NumberSubstitutions+m_NumberInsertions+m_NumberDeletions+m_NumberSpeakerErrors); }
 		uint GetNumberSegmentsErrors() { return(m_NumberSegmentsErrors); }
 	
-		double GetPercentCorrectWords() { return( 100.0*((double)m_NumberCorrectWords)/((double)m_NumberRefWords) ); }
-		double GetPercentSubstitutions() { return( 100.0*((double)m_NumberSubstitutions)/((double)m_NumberRefWords) ); }
-		double GetPercentSpeakerErrors() { return( 100.0*((double)m_NumberSpeakerErrors)/((double)m_NumberRefWords) ); }
-		double GetPercentDeletions() { return( 100.0*((double)m_NumberDeletions)/((double)m_NumberRefWords) ); }
-		double GetPercentInsertions() { return( 100.0*((double)m_NumberInsertions)/((double)m_NumberRefWords) ); }
-		double GetPercentErrors() { return( 100.0*((double)GetNumberErrors())/((double)m_NumberRefWords) ); }
-		double GetPercentSegmentsErrors() { return( 100.0*((double)m_NumberSegmentsErrors)/((double)m_NumberSegments) ); }
+		double GetPercentCorrectWords() { return( 100.0*static_cast<double>(m_NumberCorrectWords)/static_cast<double>(m_NumberRefWords) ); }
+		double GetPercentSubstitutions() { return( 100.0*static_cast<double>(m_NumberSubstitutions)/static_cast<double>(m_NumberRefWords) ); }
+		double GetPercentSpeakerErrors() { return( 100.0*static_cast<double>(m_NumberSpeakerErrors)/static_cast<double>(m_NumberRefWords) ); }
+		double GetPercentDeletions() { return( 100.0*static_cast<double>(m_NumberDeletions)/static_cast<double>(m_NumberRefWords) ); }
+		double GetPercentInsertions() { return( 100.0*static_cast<double>(m_NumberInsertions)/static_cast<double>(m_NumberRefWords) ); }
+		double GetPercentErrors() { return( 100.0*static_cast<double>(GetNumberErrors())/static_cast<double>(m_NumberRefWords) ); }
+		double GetPercentSegmentsErrors() { return( 100.0*static_cast<double>(m_NumberSegmentsErrors)/static_cast<double>(m_NumberSegments) ); }
 	
 		double AddCorrectWord(const double& confidence);
 		void AddCorrectWord();

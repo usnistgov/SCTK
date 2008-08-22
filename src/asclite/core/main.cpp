@@ -923,7 +923,7 @@ int main(int argc, char **argv)
             ++i;
         }
         
-        ullint max_gb = (ullint) ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int));
+        ullint max_gb = static_cast<ullint>(ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int)));
         
         char buffer_mem[BUFFER_SIZE];
         sprintf(buffer_mem, "Using %s GB of memory for computation graph. (%llu cells)", Properties::GetProperty("recording.maxnbofgb").c_str(), max_gb );
