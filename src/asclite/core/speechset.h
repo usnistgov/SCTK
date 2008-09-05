@@ -22,6 +22,11 @@
 #include "speech.h"
 #include "logger.h"
 
+typedef struct CATEGORYLABEL
+{
+	string type, id, title, desc;
+} stcCategoryLabel;
+
 /**
  * A speech set represent all the data from one source (reference, participant)
  * it's a collection of Speech(Speaker) from one source.
@@ -75,6 +80,14 @@ class SpeechSet
 		
 		void SetTitle(const string& title) { titleName = title; }
 		string GetTitle() { return titleName; }
+		
+		void AddLabelCategory(const string& type, const string& id, const string& title, const string& desc);
+		
+		size_t GetNumberCategoryLabel() { return m_VectCategoryLabel.size(); }
+		string GetCategoryLabelType(const size_t& ind) { return m_VectCategoryLabel[ind].type; }
+		string GetCategoryLabelID(const size_t& ind) { return m_VectCategoryLabel[ind].id; }
+		string GetCategoryLabelTitle(const size_t& ind) { return m_VectCategoryLabel[ind].title; }
+		string GetCategoryLabelDesc(const size_t& ind) { return m_VectCategoryLabel[ind].desc; }
 	private:
         /**
          * The internal speech collection
@@ -98,6 +111,9 @@ class SpeechSet
 		/** The name of the file from which this SpeechSet originated. */
 		string fileName;
 		string titleName;
+		
+		/** Category/Label information (only for stm) */
+		vector<stcCategoryLabel> m_VectCategoryLabel;
 		
 		/** Caches the value of the "align.case_sensitive" property. */
 		bool case_sensitive;

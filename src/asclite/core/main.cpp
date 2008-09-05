@@ -93,6 +93,8 @@ void PrintHelp()
 	cout << "    -generic-cost This options trigger the generic cost model computing the results disregarding the notion" << endl;
 	cout << "                  of hyp and ref, the results will be a multiple-alignment." << endl;
 	cout << "                  The hypotheses files are the only input." << endl;
+	cout << "    -threads <nb_threads>" << endl;
+	cout << "                  Set the number of threads to <nb_threads> for parallel computation (default: 1)." << endl;
 	cout << "Output Options:" << endl;
 	cout << "    -O <output_dir>" << endl;
 	cout << "                  Writes all output files into output_dir." << endl;
@@ -162,6 +164,8 @@ int main(int argc, char **argv)
     
     bool arg_btimebasecost = false;
     bool arg_bgenericcost = false;
+	
+	string arg_nbthreads = "1";
 	
 	vector<string> arg_vecouput;
 	vector<string> arg_filters;
@@ -724,6 +728,30 @@ int main(int argc, char **argv)
 			}
 		}
 		else
+		// Number of threads
+		if(strcmp(argv[arg_index], "-threads") == 0)
+		{
+			if(arg_index < argc-1)
+			{
+				if(argv[arg_index+1][0] != '-')
+				{
+					arg_index++;
+					arg_nbthreads = string(argv[arg_index]);
+				}
+			
+				if(atoi(arg_nbthreads.c_str()) < 1)
+				{
+					arg_ok = false;
+					cerr << "[  ERROR  ] Number of threads must be >= 1!" << endl;
+				}
+			}
+			else
+			{
+				arg_ok = false;
+				cerr << "[  ERROR  ] Number of threads missing!" << endl;
+			}
+		}
+		else
 		{
 			arg_ok = false;
 			cerr << "[  ERROR  ] Parameter unknown: " << argv[arg_index] << endl;
@@ -865,6 +893,8 @@ int main(int argc, char **argv)
 			Properties::SetProperty("align.typecost", "2");
 		else
 			Properties::SetProperty("align.typecost", "1");
+			
+		Properties::SetProperty("threads.number", arg_nbthreads);
 		
 		Properties::SetProperty("recording.maxspeakeroverlaping", arg_maxnboverlapingspkr);
         Properties::SetProperty("recording.maxnbofgb", arg_maxgb);

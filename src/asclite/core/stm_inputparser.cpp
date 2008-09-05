@@ -55,7 +55,68 @@ SpeechSet* STMInputParser::loadFile(const string& name)
         
 		if (line.find_first_of(";;") == 0)
 		{
-			//comment so skip (for now)
+			string line_catlab = string("");
+			string line_id = string("");
+			string line_title = string("");
+			string line_desc = string("");
+			string token;
+			size_t index = 0;
+		
+			char* word = strtok(const_cast<char*>(line.c_str()), " \t\r\n");
+
+			while(word != NULL)
+			{
+				string str = string(word);
+				// ignore the first one which is ;;
+				if(index == 1) 
+				{
+					if(str.compare("CATEGORY") == 0)
+						line_catlab = string("CATEGORY");
+					
+					if(str.compare("LABEL") == 0)
+						line_catlab = string("LABEL");
+				}
+				else if(index > 1)
+				{
+					size_t qfpos = str.find_first_of("\"");
+					size_t qlpos = str.find_last_of("\"");
+					
+					if(qfpos != qlpos)
+					{
+						token = str;
+					}
+					else
+					{
+						if(!token.empty())
+							token.append(string(" "));
+							
+						token.append(str);
+					}
+
+					if(qlpos == str.size()-1)
+					{
+						while(token.find("\"") != string::npos)
+							token.erase(token.find("\""), 1);
+					
+						// String complete
+						if(index == 2)
+							line_id = token;
+						else if(index == 3)
+							line_title = token;
+						else if(index == 4)
+							line_desc = token;
+
+						token = string("");
+					}
+				}
+			
+			
+				word = strtok(NULL, " \t\r\n");
+				++index;
+			}
+			
+			if(line_id != "")
+				vec->AddLabelCategory(line_catlab, line_id, line_title, line_desc);
 		}
 		else
 		{
@@ -67,15 +128,20 @@ SpeechSet* STMInputParser::loadFile(const string& name)
 			int start, end;
 			char lur[BUFFER_SIZE];                   
 			int nbArgParsed = 0;
+			string lbl = "";
 			
 			nbArgParsed = sscanf(line.c_str(), "%s %s %s %s %s %s", (char*) &f_file, (char*) &channel, (char*) &spkr, (char*) &start_char, (char*) &end_char, (char*) &lur);
-			int wordsBegin = line.find(">")+1;
+			
+			int lblbpos = line.find("<");
+			int lblepos = line.find(">");
+			
+			if(lblbpos != -1)
+				lbl = string(line).substr(lblbpos, lblepos-lblbpos+1);
+				
+			int wordsBegin = lblepos + 1;
 			
 			start = ParseString(string(start_char));
 			end = ParseString(string(end_char));
-			
-			//start = (int)(atof(start_char)*1000.0);
-			//end = (int)(atof(end_char)*1000.0);
 			            
 			if (nbArgParsed < 6 || lur[0] != '<')
             {
@@ -83,9 +149,6 @@ SpeechSet* STMInputParser::loadFile(const string& name)
 				
 				start = ParseString(string(start_char));
 				end = ParseString(string(end_char));
-				
-                //start = (int)(atof(start_char)*1000.0);
-                //end = (int)(atof(end_char)*1000.0);
 				
                 wordsBegin = line.find(start_char)+1;
                 wordsBegin = line.find(end_char, wordsBegin)+string(end_char).size();
@@ -134,6 +197,7 @@ SpeechSet* STMInputParser::loadFile(const string& name)
 			
 			seg->SetSourceLineNum(lineNum);
             seg->SetSourceElementNum(elemNum);
+            seg->SetLabel(lbl);
 			size_t nbSeg = speech->NbOfSegments();
             
             ostringstream osstr;

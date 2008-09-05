@@ -21,6 +21,7 @@
 #include "reportgenerator.h"
 #include "alignment.h"
 #include "segment.h"
+#include "speechset.h"
 #include "logger.h"
 
 struct AlignedSegmentSequenceComparator
@@ -139,6 +140,8 @@ class SGMLReportGenerator : public ReportGenerator
         void GenerateSystem(Alignment* alignment, const string& systm, ostream& output);
 	
 	private:
+		void GenerateCategoryLabel(SpeechSet* speechSet, ostream& output);
+	
 		void GenerateSpeaker(Speaker* speaker, const string& systm, ostream& output);
 	
 		void GeneratePath(AlignedSegment* alignedSegment, const string& systm, ostream& output);

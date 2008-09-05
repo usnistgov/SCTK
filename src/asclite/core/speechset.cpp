@@ -71,6 +71,8 @@ bool SpeechSet::UseOptionallyDeletable()
 // class destructor
 SpeechSet::~SpeechSet()
 {
+	m_VectCategoryLabel.clear();
+	
 	vector<Speech*>::iterator i, ei;
 
 	i = speeches.begin();
@@ -87,6 +89,16 @@ SpeechSet::~SpeechSet()
 	}
 	
 	speeches.clear();
+}
+
+void SpeechSet::AddLabelCategory(const string& type, const string& id, const string& title, const string& desc)
+{
+	stcCategoryLabel stcCategoryLabel1;
+	stcCategoryLabel1.type = type;
+	stcCategoryLabel1.id = id;
+	stcCategoryLabel1.title = title;
+	stcCategoryLabel1.desc = desc;
+	m_VectCategoryLabel.push_back(stcCategoryLabel1);
 }
 
 /**

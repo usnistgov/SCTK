@@ -112,6 +112,9 @@ class Segment : public TimedObject
          */
 		long int GetSourceElementNum() { return sourceElementNum; }
 		
+		void SetLabel(const string& _label) { m_Label = _label; }
+		string GetLabel() { return m_Label; }
+		
 		static Segment* CreateWithDuration(const int& _startTime, const int& _duration, Speech* parent);
 		static Segment* CreateWithEndTime(const int& _startTime, const int& _endTime, Speech* parent);
 		/**
@@ -220,6 +223,11 @@ class Segment : public TimedObject
 		 * Return the parent speech object
 		 */
         Speech* speech;
+
+		/**
+		 * Labels used for stm files 
+		 */
+		string m_Label;
 		
 		int GetLowestTokenStartTime();
 		int GetHighestTokenEndTime();

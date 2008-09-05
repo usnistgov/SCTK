@@ -35,6 +35,7 @@
 #include <sstream>
 #include <float.h>
 #include <limits.h>
+#include <deque>
 
 #include "minilzo.h"
 

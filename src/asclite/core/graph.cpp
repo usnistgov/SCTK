@@ -2,17 +2,17 @@
  * ASCLITE
  * Author: Jerome Ajot, Jon Fiscus, Nicolas Radde, Chris Laprun
  *
- * This software was developed at the National Institute of Standards and Technology by 
- * employees of the Federal Government in the course of their official duties. Pursuant
- * to title 17 Section 105 of the United States Code this software is not subject to
- * copyright protection and is in the public domain. ASCLITE is an experimental system.
- * NIST assumes no responsibility whatsoever for its use by other parties, and makes no
- * guarantees, expressed or implied, about its quality, reliability, or any other
- * characteristic. We would appreciate acknowledgement if the software is used.
- *
- * THIS SOFTWARE IS PROVIDED "AS IS."  With regard to this software, NIST MAKES NO EXPRESS
- * OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY,
- * OR FITNESS FOR A PARTICULAR PURPOSE.
+ * This software was developed at the National Institute of Standards and
+ * Technology by employees of the Federal Government in the course of
+ * their official duties.  Pursuant to Title 17 Section 105 of the United
+ * States Code this software is not subject to copyright protection within
+ * the United States and is in the public domain. It is an experimental
+ * system.  NIST assumes no responsibility whatsoever for its use by any
+ * party.
+ * 
+ * THIS SOFTWARE IS PROVIDED "AS IS."  With regard to this software, NIST
+ * MAKES NO EXPRESS OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER,
+ * INCLUDING MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
  */
  
 /**
@@ -36,17 +36,9 @@ Graph::Graph(SegmentsGroup* _segmentsGroup, SpeakerMatch* _pSpeakerMatch, const 
 	m_useOptForHyp(_optHyp),
 	m_bCompressedArray(_bCompressedArray)	
 {
-//	m_typeCostModel = _typeCost;
-//	m_CostTransition = _costTrans;
-//	m_CostInsertion = _costIns;
-//	m_CostOptionally = _costOpt;
-//	m_CostCorrectNonSpeaker = _costCorrectNonSpeaker;
-//	m_CostAdaptive = _costAdaptive;
-//	m_useOptForRef = _optRef;
-//	m_useOptForHyp = _optHyp;
-//	m_bCompressedArray = _bCompressedArray;
-//	m_pSpeakerMatch = _pSpeakerMatch;
 	m_HypRefStatus = (string("true").compare(Properties::GetProperty("align.genericmethod")) != 0);
+	
+//	m_NbThreads = static_cast<size_t>(atoi(Properties::GetProperty("threads.number").c_str()));
 	
 	if(m_typeCostModel == 2)
 	{
@@ -109,7 +101,7 @@ Graph::Graph(SegmentsGroup* _segmentsGroup, SpeakerMatch* _pSpeakerMatch, const 
 				m_TabMapTokenIndex[i][curToken] = k;
 				size_t prcs = 0;
 				
-				while( (prcs < (size_t)(temp_segs.size()-1)) && (temp_segs[prcs]->isEmpty()) )
+				while( (prcs < (temp_segs.size()-1)) && (temp_segs[prcs]->isEmpty()) )
 					++prcs;
 				
 				if(temp_segs[prcs]->isFirstToken(curToken))
@@ -256,9 +248,6 @@ int Graph::CalculateCost(size_t* curcoord)
 	
 	while(i != ei)
 	{
-		if(coordinate)
-			delete [] coordinate;
-		
 		coordinate = listprevs.GetAt(i);
 		cost = m_MapCost->GetCostFor(coordinate);
 		
@@ -277,19 +266,17 @@ int Graph::CalculateCost(size_t* curcoord)
 			int CostTransCost = cost + GetTransitionCost(curcoord, coordinate);
 			
 			if(CostTransCost < mincost)
-			{
 				mincost = CostTransCost;
-			}
 		}
 
 		listprevs.NextPosition(i);
+		
+		if(coordinate)
+			delete [] coordinate;
 	}
 	
 	// Start cleaning memory	
 	listprevs.RemoveAll();
-	
-	if(coordinate)
-		delete [] coordinate;
 	// End cleaning memory
 	
 	return mincost;
@@ -301,13 +288,13 @@ void Graph::StartingCoordinates(GraphCoordinateList& listStart)
 	list<Token*>::iterator* tabInteratorListBegin = new list<Token*>::iterator[GetDimension()];
 	list<Token*>::iterator* tabInteratorListEnd = new list<Token*>::iterator[GetDimension()];
 	list<Token*>::iterator* tabInteratorListCurrent = new list<Token*>::iterator[GetDimension()];
-	size_t i, curdim;
+	size_t curdim;
 	bool inccurdim;
 	size_t* startcoord = new size_t[GetDimension()];
 	
 	listStart.RemoveAll();
 	
-	for(i=0; i<GetDimension(); ++i)
+	for(size_t i=0; i<GetDimension(); ++i)
 	{
 		if(!isHypRefEmpty(i))
 		{
@@ -319,7 +306,7 @@ void Graph::StartingCoordinates(GraphCoordinateList& listStart)
 	
 	do
 	{
-		for(i=0; i<GetDimension(); ++i)
+		for(size_t i=0; i<GetDimension(); ++i)
 		{
 			if(!isHypRefEmpty(i))
 				startcoord[i] = m_TabMapTokenIndex[i][*(tabInteratorListCurrent[i])];
@@ -471,7 +458,7 @@ void Graph::PreviousIndexes(list<size_t>& listPrev, const size_t& dim, const siz
 			else
 			{
 				Token* tokenIndex = m_TabVecHypRef[dim][index];
-				size_t j, nbprevtokens = tokenIndex->GetNbOfPrecTokens();
+				size_t nbprevtokens = tokenIndex->GetNbOfPrecTokens();
 				
 				if(nbprevtokens == 0)
 				{
@@ -480,7 +467,7 @@ void Graph::PreviousIndexes(list<size_t>& listPrev, const size_t& dim, const siz
 				}
 				else
 				{
-					for(j=0; j<nbprevtokens; ++j)
+					for(size_t j=0; j<nbprevtokens; ++j)
 					{
 						//listPrev.push_front(m_TabMapTokenIndex[dim][tokenIndex->GetPrecToken(j)]);
                         m_TabCacheDimPreviousIndex[dim][index]->push_front(m_TabMapTokenIndex[dim][tokenIndex->GetPrecToken(j)]);
@@ -504,17 +491,18 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 		return;
 	
 	list<size_t>* tabPreviousIndexes = new list<size_t>[GetDimension()];
-    list<size_t>::iterator l, le, m, me;
+	list<size_t>::iterator l, le, m, me;
 	size_t* prevcoordr = new size_t[GetDimension()];
 	size_t* prevcoordh = new size_t[GetDimension()];
 		
 	for(size_t i=0; i<GetDimension(); ++i)
-		PreviousIndexes(tabPreviousIndexes[i], i, coord[i]);
+		if(coord[i]) // != 0
+			PreviousIndexes(tabPreviousIndexes[i], i, coord[i]);
 		
 	// Change only one coordinate into the Refs and both
 	for(size_t i=m_IndexRef; i<GetDimension(); ++i)
 	{
-		if(coord[i] != 0)
+		if(coord[i]) // != 0
 		{
 			l = tabPreviousIndexes[i].begin();
 			le = tabPreviousIndexes[i].end();
@@ -531,7 +519,7 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 				
 				for(size_t j=0; j<m_IndexRef; ++j)
 				{
-					if(coord[j] != 0)
+					if(coord[j]) // != 0
 					{
 						m = tabPreviousIndexes[j].begin();
 						me = tabPreviousIndexes[j].end();
@@ -559,7 +547,7 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 	// Change only one coordinate into the Hyps
 	for(size_t i=0; i<m_IndexRef; ++i)
 	{
-		if(coord[i] != 0)
+		if(coord[i]) // != 0
 		{
 			l = tabPreviousIndexes[i].begin();
 			le = tabPreviousIndexes[i].end();
@@ -576,12 +564,15 @@ void Graph::PreviousCoordinatesHypRef(GraphCoordinateList& listPrev, size_t* coo
 				
 				++l;
 			}
+			
+			tabPreviousIndexes[i].clear();
 		}
 	}
 
 	// Start cleaning memory
 	for(size_t i=0; i<GetDimension(); ++i)
-		tabPreviousIndexes[i].clear();
+		if(coord[i]) // != 0
+			tabPreviousIndexes[i].clear();
 	
 	delete [] prevcoordr;
 	delete [] prevcoordh;
@@ -723,15 +714,13 @@ int Graph::GetCostTransitionWordBased(Token* pToken1, Token* pToken2)
 	
 	if(! pToken1->IsEquivalentTo(pToken2) )
 	{
-		int WordAlignCost = GetCostWordAlign(pToken1, pToken2);
-				
-		return m_CostTransition + AdaptiveCost + WordAlignCost;
+		return m_CostTransition + AdaptiveCost + GetCostWordAlign(pToken1, pToken2);
 	}
 	else
 	{
 		if(!m_bSpeakerOptimization)
 		{
-			return 0 + AdaptiveCost;
+			return AdaptiveCost;
 		}
 		else
 		{
@@ -752,13 +741,9 @@ int Graph::GetCostTransitionWordBased(Token* pToken1, Token* pToken2)
 			}
 						
 			if(m_pSpeakerMatch->GetRef(file1, channel1, speaker1) == speaker2)
-			{
-				return 0 + AdaptiveCost;
-			}
+				return AdaptiveCost;
 			else
-			{
 				return m_CostCorrectNonSpeaker + AdaptiveCost;
-			}
 		}
 	}
 }

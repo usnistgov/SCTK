@@ -79,6 +79,7 @@ void SGMLReportGenerator::GenerateSystem(Alignment* alignment, const string& sys
 	string speakerId = "";
 	Speakers::iterator potentialSpeaker;
 	SpeakerNamePredicate predicate;
+	SpeechSet* parentSpeechSet = NULL;
 	
 	string ref_fname, hyp_fname;
 	ref_fname = "";
@@ -91,10 +92,11 @@ void SGMLReportGenerator::GenerateSystem(Alignment* alignment, const string& sys
 	{
 		aAlignedSegments = aAlignedSpeechCurrent->AlignedSegments();
 		
+		if(!parentSpeechSet)
+			parentSpeechSet = aAlignedSpeechCurrent->GetReferenceSpeech()->GetParentSpeechSet();
+		
         if(!fileNamesSet)
-        {
 			ref_fname = aAlignedSpeechCurrent->GetReferenceSpeech()->GetParentSpeechSet()->GetSourceFileName();
-		}
 		
 		while(aAlignedSegments->Current(&aAlignedSegmentCurrent))
 		{
@@ -164,6 +166,8 @@ void SGMLReportGenerator::GenerateSystem(Alignment* alignment, const string& sys
 	output << " weight_filename=" << "\"" << weight_filename << "\"";
 	output << ">" << endl;
 	
+	GenerateCategoryLabel(parentSpeechSet, output);
+	
 	m_bRefHasTimes = m_bRefHasConf = m_bHypHasConf = m_bHypHasTimes = false;
 	Speakers::iterator current = speakers.begin();
 	Speakers::iterator end = speakers.end();
@@ -184,6 +188,19 @@ void SGMLReportGenerator::GenerateSystem(Alignment* alignment, const string& sys
 	}
 	
 	output << "</SYSTEM>" << endl;
+}
+
+void SGMLReportGenerator::GenerateCategoryLabel(SpeechSet* speechSet, ostream& output)
+{
+	for(size_t i=0; i<speechSet->GetNumberCategoryLabel(); ++i)
+	{
+		output << "<" << speechSet->GetCategoryLabelType(i);
+		output << " id=\"" << speechSet->GetCategoryLabelID(i) << "\"";
+		output << " title=\"" << speechSet->GetCategoryLabelTitle(i) << "\"";
+		output << " desc=\"" << speechSet->GetCategoryLabelDesc(i) << "\"";
+		output << ">" << endl;
+		output << "</" << speechSet->GetCategoryLabelType(i) << ">" << endl;
+	}
 }
 
 void SGMLReportGenerator::GenerateSpeaker(Speaker* speaker, const string& systm, ostream& output)
@@ -214,6 +231,9 @@ void SGMLReportGenerator::GeneratePath(AlignedSegment* alignedSegment, const str
 	output << "<PATH";
 	output << " id=\"" << refSegment->GetId() << "\"";
 	output << " word_cnt=\"" << alignedSegment->GetTokenAlignmentCount() << "\"";
+	
+	if(refSegment->GetLabel() != "")
+		output << " labels=\"" << refSegment->GetLabel() << "\"";
 	
 	if (refSegment->GetSource().compare("") != 0)
 		output << " file=\"" << refSegment->GetSource() << "\"";

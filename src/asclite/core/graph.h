@@ -116,6 +116,8 @@ class Graph
         list<size_t>*** m_TabCacheDimPreviousIndex;
 
 		int m_TimeBasedSafeDivider;
+		
+		size_t m_NbThreads;
         
     // Methods
 	public:
@@ -217,6 +219,8 @@ class Graph
 		
 		/** Use the optimization */
 		void SetGraphOptimization();
+		
+//		bool isMultiThreaded() { return(m_NbThreads>1); }
 };
 
 #endif
