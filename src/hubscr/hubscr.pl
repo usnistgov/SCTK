@@ -414,14 +414,14 @@ sub VerifyResources
     open(IN,"$ASCLITE 2>&1 |") ||
 	die("Error: unable to exec asclite with the command '$ASCLITE'");
     while (<IN>){
-	if ($_ =~ /asclite Version: (\d+\.\d+)[a-z]*/i){
-	    $ver = $1;
+	if ($_ =~ /asclite Version: (\d+)\.(\d+)[a-z]*/i){
+	    $ver = $1*100+$2;
 	}
     }
     close(IN);
     die ("ASCLITE executed by the command '$ASCLITE' is too old. \n".
 	 "       Version 1.0 or better is needed.  This package ls available\n".
-	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 1.4);
+	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 104);
 
     ### Check the version of sclite
     $ver = "";

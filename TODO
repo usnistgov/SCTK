@@ -43,6 +43,7 @@ Medium Priority:
 [x] time-based alignments
 [ ] alignment visualization program
 [ ] add SASTT cookbook to docs
+[ ] multi-threads
 
 Low Priority:
 [x] additive cost based on word aligment distances

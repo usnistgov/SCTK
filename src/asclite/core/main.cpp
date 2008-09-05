@@ -20,8 +20,8 @@
 #include "recording.h"
 #include "properties.h"
 
-#define ASC_VERSION "1.9"
-#define ASC_NAME "Ma Puce"
+#define ASC_VERSION "1.10"
+#define ASC_NAME "Ma Douce"
 
 struct inputfilename
 {

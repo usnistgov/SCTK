@@ -88,39 +88,39 @@ tests, accompanying formats were created to support the evaluations.
      end times (in seconds), optional subset label and  the  text
      for the segment.  Each record follows this BNF format:
 <p>
-      STM :== &ltF&gt &ltC&gt &ltS&gt &ltBT&gt &ltET&gt [ &ltLABEL&gt ] transcript . . .
+      STM :== &lt;F&gt; &lt;C&gt; &lt;S&gt; &lt;BT&gt; &lt;ET&gt; [ &lt;LABEL&gt; ] transcript . . .
 	<ul>
          Where :
 	 <ul>
-          &ltF&gt
+          &lt;F&gt;
 	   <ul>
                The waveform  filename.   NOTE:  no  pathnames  or
                extensions are expected.
   	   </ul>
-          &ltC&gt
+          &lt;C&gt;
 	   <ul>
                The waveform channel.   The text of the waveform channel
 		is not restricted by sclite.  The text can be any text string without
 		witespace so long as the matching string is found in both the reference
 		and hypothesis input files.
   	   </ul>
-          &ltS&gt
+          &lt;S&gt;
 	   <ul>
                The speaker id,  no  restrictions  apply  to  this
                name.
   	   </ul>
-          &ltBT&gt
+          &lt;BT&gt;
 	   <ul>
                The begin time (seconds) of the segment.
   	   </ul>
-          &ltET&gt
+          &lt;ET&gt;
 	   <ul>
                The end time (seconds) of the segment.
   	   </ul>
-          &ltLABEL&gt
+          &lt;LABEL&gt;
 	   <ul>
                A  comma  separated  list  of  subset  identifiers
-               enclosed  in angle brackets.  Ex. "&ltO,F,00&gt".  See
+               enclosed  in angle brackets.  Ex. "&lt;O,F,00&gt;".  See
                "USING STM FORMAT FOR  LABELED  UTTERANCE  REPORTS
                (LUR)" below.
   	   </ul> 
@@ -135,9 +135,9 @@ words can contain an transcript alternation using the following
 BNF format:
 <p>
 <ul>
-          ALTERNATE :== "{" &lttext&gt ALT+ "}"
+          ALTERNATE :== "{" &lt;text&gt; ALT+ "}"
 	<br>
-          ALT       :== "/" &lttext&gt
+          ALT       :== "/" &lt;text&gt;
 	<br>
           TEXT      :== 1 thru n words | "@" | ALTERNATE
 </ul>
@@ -208,22 +208,22 @@ ignored.  Blank lines are also ignored.
           id, a short column heading and a description.  The special
 	  comment line format is:
 	<ul>
-           ;; LABEL "&ltID&gt" "&ltCOL_HD&gt" "&ltDESC&gt"
+           ;; LABEL "&lt;ID&gt;" "&lt;COL_HD&gt;" "&lt;DESC&gt;"
 	  <ul>
              where:
 	     <ul>
-               &ltID&gt
+               &lt;ID&gt;
                  <ul>
                     The subset id.  Used to  label  each  segment
                     that  belongs  to  the subset.  The format is
                     arbitrary, but without spaces.
                  </ul>
-               &ltCOL_HD&gt 
+               &lt;COL_HD&gt; 
                  <ul>
                     Used as column headings in generated reports.
                     Format is arbitrary.
                  </ul>
-               &ltDESC&gt 
+               &lt;DESC&gt; 
                  <ul>
                     Used for  subset  descriptions  in  generated
                     reports.  May be of arbitrary length and for-
@@ -259,9 +259,9 @@ ignored.  Blank lines are also ignored.
                ;; LABEL "00" "Not in Story" "Words or Phrases not
 			 contained in a story"
 <br>
-               940328 1 A 4.00 18.10 &ltO,F,00&gt FROM LOS ANGELES
+               940328 1 A 4.00 18.10 &lt;O,F,00&gt; FROM LOS ANGELES
 <br>
-               940328 1 B 18.10 25.55 &ltO,M,01&gt MEXICO IN TURMOIL
+               940328 1 B 18.10 25.55 &lt;O,M,01&gt; MEXICO IN TURMOIL
 
 </ul>
 </ul>
@@ -287,32 +287,32 @@ ignored.  Blank lines are also ignored.
      appended  for  each word.  Each record follows this BNF for-
      mat:
 <p>
-      CTM :== &ltF&gt &ltC&gt &ltBT&gt &ltDUR&gt word [ &ltCONF&gt ]
+      CTM :== &lt;F&gt; &lt;C&gt; &lt;BT&gt; &lt;DUR&gt; word [ &lt;CONF&gt; ]
 <ul>
          Where :
 <ul>
-          &ltF&gt  -&gt
+          &lt;F&gt;  -&gt;
 <ul>
                The waveform  filename.   NOTE:  no  pathnames  or
                extensions are expected.
 </ul>
-          &ltC&gt  -&gt
+          &lt;C&gt;  -&gt;
 <ul>
                The waveform channel.  Either "A" or "B".  The text of the waveform channel
 		is not restricted by sclite.  The text can be any text string without
 		witespace so long as the matching string is found in both the reference
 		and hypothesis input files.
 </ul>
-          &ltBT&gt -&gt
+          &lt;BT&gt; -&gt;
 <ul>
                The begin time (seconds)  of  the  word,  measured
                from the start time of the file.
 </ul>
-          &ltDUR&gt  -&gt
+          &lt;DUR&gt;  -&gt;
 <ul>
                The duration (seconds) of the word.
 </ul>
-          &ltCONF&gt  -&gt
+          &lt;CONF&gt;  -&gt;
 <ul>
                Optional confidence score.  It  is  proposed  that
                this score will be used in the future.
@@ -366,15 +366,15 @@ ignored.  Blank lines are also ignored.
      For CTM reference files, a format extension exists to permit
      marking  alternate  transcripts.   The  alternation uses the
      same file format  as  described  above,  except  three  word
-     strings, "&ltALT_BEGIN&gt", "&ltALT&gt" and "&ltALT_END&gt", are used to
+     strings, "&lt;ALT_BEGIN&gt;", "&lt;ALT&gt;" and "&lt;ALT_END&gt;", are used to
      delimit the alternation.  Each tag is  treated  as  a  word,
      with  a conversation id, channel and "*"'s for the begin and
      duration time.
 <p>
-     The alternation is begun using the word  "&ltALT_BEGIN&gt",  and
-     terminated using the word "&ltALT_END&gt".  In between the start
+     The alternation is begun using the word  "&lt;ALT_BEGIN&gt;",  and
+     terminated using the word "&lt;ALT_END&gt;".  In between the start
      and  end,  are  at  least  2  alternative  time-marked  word
-     sequences separated by the word "&ltALT&gt".  Each word sequence
+     sequences separated by the word "&lt;ALT&gt;".  Each word sequence
      can contain any number of words.  An empty alternative  sig-
      nifies a null word.
 <p>
@@ -384,15 +384,15 @@ ignored.  Blank lines are also ignored.
   <ul>
      ;;
      <br>
-     7654 A   *    *   &ltALT_BEGIN&gt
+     7654 A   *    *   &lt;ALT_BEGIN&gt;
      <br>
      7654 A 12.00 0.34 UM
      <br>
-     7654 A   *    *   &ltALT&gt
+     7654 A   *    *   &lt;ALT&gt;
      <br>
      7654 A 12.00 0.34 UH
      <br>
-     7654 A   *    *   &ltALT_END&gt
+     7654 A   *    *   &lt;ALT_END&gt;
   <ul>
 </ul>
 </ul>
