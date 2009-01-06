@@ -36,7 +36,7 @@ dist:
 	@ echo "Building the TAR file"
 	@ echo `cat .fname`"-"`date +%Y%m%d-%H%M`.tar.bz2 > .distname
 	@ tar jcf `cat .distname` --exclude CVS  --exclude .svn --exclude TODO `cat .fname` 
-	@ md5sum `cat .distname` > `cat .distname`.md5
+	@ md5 `cat .distname` > `cat .distname`.md5
 	@ (cd `cat .fname`; make config all check)
 	@ rm -rf `cat .fname` .fname .distname
 
