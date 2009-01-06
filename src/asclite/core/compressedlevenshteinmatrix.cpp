@@ -25,19 +25,23 @@ Logger* CompressedLevenshteinMatrix::m_pLogger = Logger::getLogger();
 
 CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimensions, size_t* _TabDimensionDeep)
 {
-	if (lzo_init() != static_cast<int>(LZO_E_OK))
-	{
-		LOG_FATAL(m_pLogger, "Compression Initialization - 'lzo_init()' failed!");
-		exit(E_LZO);
-	}
-	
-	m_pWorkMemory = new lzo_align_t[ ((LZO1X_1_MEM_COMPRESS) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ];
-	
 	m_MaxMemoryKBProp = static_cast<size_t>(ceil(1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())));
 	m_BlockSizeKB = static_cast<uint>(atoi(Properties::GetProperty("align.memorycompressionblock").c_str()));
 	
 	if(m_BlockSizeKB > 1048576)
 		m_BlockSizeKB = 1048575;
+	
+	/* Dictionary size: 1-9 ; 9 best*/
+	m_bz2BlockSize = 9;
+	
+	/* Verbosity: 0-4 ; 0 silent */
+	m_bz2Verbosity = 0;
+	
+	/* Factor to call the fallback compression algo ; 30 default */
+	m_bz2WorkFactor = 30;
+	
+	/* Decompression algorithm: 0-1 ; 0 fast */
+	m_bz2Small = 0;
 	
 	m_NbrDimensions = _NbrDimensions;
 	m_TabDimensionDeep = new size_t[m_NbrDimensions];
@@ -61,7 +65,10 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimen
 	if(m_BaseLengthIn < 0.2*m_BlockSizeKB*1024)
 		BlockComputation(1);
 	
-	m_BaseLengthOut = m_BaseLengthIn + m_BaseLengthIn / 16 + 64 + 3;
+	/* To guarantee that the compressed data will fit in its buffer, allocate 
+	   an output buffer of size 1% larger than the uncompressed data, plus six
+	   hundred extra bytes. */
+	m_BaseLengthOut = m_BaseLengthIn + m_BaseLengthIn / 100 + 600;
 	
 	m_MultiplicatorBlockDimension = new size_t[m_NbrDimensions];
 	m_MultiplicatorDivider = new size_t[m_NbrDimensions];
@@ -101,7 +108,7 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimen
 	m_SizeOfArray = 0;
 	m_NbrCreatedBlocks = 0;
 	
-	m_OverHeadMemory = m_BaseLengthOut + (((LZO1X_1_MEM_COMPRESS) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t)) + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( 2*sizeof(lzo_intp) + sizeof(lzo_uint) + 2*sizeof(bool) + sizeof(ulint) ) + 20*sizeof(double);
+	m_OverHeadMemory = m_BaseLengthOut + m_bz2BlockSize*100 + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( 2*sizeof(int) + sizeof(uint) + 2*sizeof(bool) + sizeof(ulint) ) + 20*sizeof(double);
 	m_UsableMemoryKB = 0.98*( ((double) m_MaxMemoryKBProp) - ((double) m_OverHeadMemory)/((double) 1024) );
 	m_PercentageMemoryTriggerStart = 0.01;
 	m_PercentageMemoryTriggerStop = 0.2;
@@ -149,14 +156,13 @@ CompressedLevenshteinMatrix::~CompressedLevenshteinMatrix()
 	delete [] m_TabDimensionDeep;
 	delete [] m_MultiplicatorDivider;
 	delete [] m_MultiplicatorDimension;
-	delete [] m_pWorkMemory;
 }
 
 void CompressedLevenshteinMatrix::CreateBlock(const size_t& block_index)
 {
 	if(! isBlockCreated(block_index))
 	{
-		lzo_uint decomp_lengh = m_BaseLengthIn;
+		uint decomp_lengh = m_BaseLengthIn;
 		m_TabStartByte[block_index] = (int*) malloc(m_BaseLengthIn);
 		memset(m_TabStartByte[block_index], C_UNCALCULATED, decomp_lengh);
 		
@@ -179,13 +185,17 @@ void CompressedLevenshteinMatrix::CompressBlock(const size_t& block_index)
 	{		
 		// Block is not compressed, then compress it;
 		uint decomp_lengh = m_TabSizes[block_index];
-		lzo_uint comp_lengh = m_BaseLengthOut;
+		uint comp_lengh = m_BaseLengthOut;
 		m_TabStartByteCompressed[block_index] = (int*) malloc(m_BaseLengthOut);
 		
-		if( lzo1x_1_compress((lzo_bytep) m_TabStartByte[block_index], decomp_lengh, (lzo_bytep) m_TabStartByteCompressed[block_index], &comp_lengh, m_pWorkMemory) != LZO_E_OK)
+		if( BZ2_bzBuffToBuffCompress( (char*) m_TabStartByteCompressed[block_index], &comp_lengh,
+		                              (char*) m_TabStartByte[block_index], decomp_lengh,
+							          m_bz2BlockSize,
+							          m_bz2Verbosity,
+							          m_bz2WorkFactor) != BZ_OK)
 		{
-			LOG_FATAL(m_pLogger, "Compression: 'lzo1x_1_compress()' failed!");
-			exit(E_LZO);
+			LOG_FATAL(m_pLogger, "Compression: 'bzBuffToBuffCompress()' failed!");
+			exit(0);
 		}
 		
 		if(comp_lengh >= decomp_lengh)
@@ -217,15 +227,18 @@ bool CompressedLevenshteinMatrix::DecompressBlock(const size_t& block_index)
 	
 	if(decomp = m_TabbIsCompressed[block_index])
 	{
-		// Block is compressed, then compress it;
-		lzo_uint comp_lengh = m_TabSizes[block_index];
-		lzo_uint decomp_lengh = m_BaseLengthIn;
+		// Block is compressed, then decompress it;
+		uint comp_lengh = m_TabSizes[block_index];
+		uint decomp_lengh = m_BaseLengthIn;
 		m_TabStartByte[block_index] = (int*) malloc(m_BaseLengthIn);
 		
-		if( lzo1x_decompress((lzo_bytep) m_TabStartByteCompressed[block_index], comp_lengh, (lzo_bytep) m_TabStartByte[block_index], &decomp_lengh, NULL) != LZO_E_OK)
+		if( BZ2_bzBuffToBuffDecompress( (char*) m_TabStartByte[block_index], &decomp_lengh,
+		                                (char*) m_TabStartByteCompressed[block_index], comp_lengh, 
+							            m_bz2Small,
+							            m_bz2Verbosity ) != BZ_OK)
 		{
-			LOG_FATAL(m_pLogger, "Compression: 'lzo1x_decompress()' failed!");
-			exit(E_LZO);
+			LOG_FATAL(m_pLogger, "Decompression: 'BZ2_bzBuffToBuffDecompress()' failed!");
+			exit(0);
 		}
 		
 		free(m_TabStartByteCompressed[block_index]);

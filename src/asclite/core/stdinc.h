@@ -36,8 +36,7 @@
 #include <float.h>
 #include <limits.h>
 #include <deque>
-
-#include "minilzo.h"
+#include <bzlib.h>
 
 using namespace std;
 

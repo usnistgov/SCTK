@@ -1072,7 +1072,7 @@ void Graph::PrintLevenshteinArray()
 /** Returns the number of coordinates which have changed */
 size_t Graph::NumberChanged(size_t* coord1, size_t* coord2)
 {
-	uint outNum = 0;
+	size_t outNum = 0;
 	
 	for(size_t i=0; i<GetDimension(); ++i)
 	{

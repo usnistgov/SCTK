@@ -37,17 +37,21 @@ class CompressedLevenshteinMatrix : public LevenshteinMatrix
 		int** m_TabStartByte;
 		int** m_TabStartByteCompressed;
 		uint* m_TabSizes;
-		size_t    m_NbrCompressedTabs;
-		lzo_uint  m_BaseLengthIn;
-		lzo_uint  m_BaseLengthOut;
-		
-		lzo_align_t* m_pWorkMemory;
+		size_t m_NbrCompressedTabs;
+		uint m_BaseLengthIn;
+		uint m_BaseLengthOut;
 		
 		size_t m_MaxMemoryKBProp;
 		uint m_BlockSizeKB;
 		size_t m_CurrentMemorySize;
 			
 		static Logger* m_pLogger;
+		
+		int m_bz2BlockSize;
+		int m_bz2Verbosity;
+		int m_bz2WorkFactor;
+		int m_bz2Small;
+		int m_bz2MaxCompressionSize;
 	
         void CoordinatesToBlockOffset(size_t* coordinates, size_t& blockNum, size_t& blockOffset);
 		

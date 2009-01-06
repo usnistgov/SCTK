@@ -1,21 +1,19 @@
 File:  README
-Date:  September 5th, 2008
-SCTK Version: 2.3
+Date:  January 6th, 2009
+SCTK Version: 2.3.1
 
-asclite memory usage update.
+asclite compression algorithm update.
 
-This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains
-the source code, documentation and example data for the following
-programs:
+This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains the 
+source code, documentation and example data for the following programs:
 
 	sclite   V2.3  - "Score Lite",
 	sc_stats V1.3  - sclite's Statistical Significance Comparison tool
 	rover    V0.1  - Recognition Output Voting Error Reduction
 	asclite  V1.10 - Multidimensional alignment replacement for sclite
 
-The distribution was initially written in ANSI C on a SUN Workstation.  To
-date, The code has been successfully compiled and tested on the
-following platforms:
+The distribution was initially written in ANSI C on a SUN Workstation.  To date,
+the code has been successfully compiled and tested on the following platforms:
 
 					      SCTK
 Systems                                     Version 
@@ -35,68 +33,62 @@ Linux Version 2.0.33                          1.0 1.1 1.2
 Cygwin                                        1.3 2.0B2
 Linux Version 2.2.17                          1.3 2.0B2
 Linux Version 2.4.20-20-9 **                  1.3 2.0B2 2.1.7
-Linux Version 2.6.19.fc5                      2.2.0 2.2.1 2.2.2 2.2.3 2.2.4
-Linux Version 2.6.9-5.EL (gcc 3.4.6-3)        2.2.0 2.2.1 2.2.2 2.2.3 2.2.4
+Linux Version 2.6.19.fc5                      2.2.0 - 2.2.4
+Linux Version 2.6.9-5.EL (gcc 3.4.6-3)        2.2.0 - 2.2.4
 Darwin Version 7.4.0                          1.3
-Darwin Version 8.5.0 (gcc v4.0.1 build 5367)  2.1.2 2.1.3 2.1.4 2.1.5 2.1.6
-                                              2.1.7 2.2.0 2.2.1 2.2.2 2.2.3
-                                              2.2.4 2.3-rc1 
-Darwin Version 8.11.0 (gcc v4.0.1 build 5367) 2.3-rc2 2.3-rc2b 2.3-rc2c 2.3
+Darwin Version 8.5.0 (gcc v4.0.1 build 5367)  2.1.2 - 2.3-rc1 
+Darwin Version 8.11.0 (gcc v4.0.1 build 5367) 2.3-rc2 - 2.3.1
 
-	* compiled with warning messages, but successful self test
-	** compiled and ran, but test6, which uses GNU's diff for
-           alignment fails.  The use of DIFF for alignment is rarely
-           used and the failure can be safely ignored.
+ * compiled with warning messages, but successful self test
+** compiled and ran, but test6, which uses GNU's diff for alignment fails.  The 
+   use of DIFF for alignment is rarely used and the failure can be safely
+   ignored.
 
-Read install.txt to compile and install the package.  UNIX-style
-manual pages and 'HTML' formatted manuals are provided in the 'doc'
-directory.
+Read install.txt to compile and install the package.  UNIX-style manual pages 
+and 'HTML' formatted manuals are provided in the 'doc' directory.
 
-			  Bundled Software:
+			Bundled Software:
 
-This version of SCTK includes the CMU-Cambridge Statistical Language
-Modeling Toolkit v2.  Included in STCK is the complete source code
-tree and documentation.  The toolkit has been included so that SCLITE
-can use a language model to compute conditional word weights for
-word-weighted scoring.
+This version of SCTK includes the CMU-Cambridge Statistical Language Modeling 
+Toolkit v2.  Included in STCK is the complete source code tree and 
+documentation.  The toolkit has been included so that SCLITE can use a language 
+model to compute conditional word weights for word-weighted scoring.
 
 
-			  Optional Software:
+			Optional Software:
 
-To use the interactive installation for sclite, edit the file
-src/sclite/config.sh at line 36, set the user_interaction=1 it will
-ask you during the configuration (make config) if you want to use
-GNU diff instead of sclite and CMU-Cambridge SLM for sclite.
-Those choices are not recommended and not used anymore.
+To use the interactive installation for sclite, edit the file 
+src/sclite/config.sh at line 36, set the user_interaction=1 it will ask you 
+during the configuration (make config) if you want to use GNU diff instead of 
+sclite and CMU-Cambridge SLM for sclite.  Those choices are not recommended and 
+not used anymore.
 
-Sclite has the ability to use GNU's "diff" utility as an alternate 
-string alignment method.  The installer has the choice whether or not
-to include this ability in the compiled version.  
+Sclite has the ability to use GNU's "diff" utility as an alternate string 
+alignment method.  The installer has the choice whether or not to include this 
+ability in the compiled version.  
 
-If the use of GNU's "diff" is desired, you will need GNU's "diff"
-utility from their "diffutils" distribution version 2.7.  If you can
-not locate this distribution, it is available via anonymous ftp from
-the jaguar.ncsl.nist.gov server.  The compressed tar file
-'diffutils-2.7.tar.Z' is located in the 'pub' directory.  When you
-install diff, make sure the executable is installed as: "gdiff",
-"gnudiff" or "diffgnu".  The 'config.sh' script expects it to be
+If the use of GNU's "diff" is desired, you will need GNU's "diff" utility from 
+their "diffutils" distribution version 2.7.  If you cannot locate this 
+distribution, it is available via anonymous ftp from the jaguar.ncsl.nist.gov 
+server.  The compressed tar file 'diffutils-2.7.tar.Z' is located in the 'pub' 
+directory.  When you install diff, make sure the executable is installed as: 
+"gdiff", "gnudiff" or "diffgnu".  The 'config.sh' script expects it to be 
 called one of these.
 
-Special Note to SGI owners: When installing GNU's "diff" make sure to
-call it "gnudiff" or "diffgnu", if you use "gdiff" the executable name
-may be overshadowed by a pre-existing executable.
+Special Note to SGI owners: When installing GNU's "diff" make sure to call it 
+"gnudiff" or "diffgnu", if you use "gdiff" the executable name may be 
+overshadowed by a pre-existing executable.
 
-utf_filt is using SGML external software and modules like SGMLS perl 
-module and nsgmls program which have be updated and continued: OpenSP
-(http://sourceforge.net/project/showfiles.php?group_id=2115&package_id=2869).
-The version v1.5.2 of OpenSP have been tested and working with the 
-current version of utf_filt.
+utf_filt is using SGML external software and modules like SGMLS perl module and 
+nsgmls program which have be updated and continued: OpenSP 
+(http://sourceforge.net/project/showfiles.php?group_id=2115&package_id=2869).  
+The version v1.5.2 of OpenSP have been tested and working with the current 
+version of utf_filt.
 
-By default, asclite is compiled in 32 bits with the options (-Os 
--fno-stack-limit -Wall -Wconversion) but can be compiled in 64 bits if -m64 
-is added to the src/asclite/core/makefile and src/asclite/test/makefile file 
-to the CFLAGS variable.
+By default, asclite is compiled in 32 bits with the options (-Os) but can be 
+compiled in 64 bits if -m64 is added to the src/asclite/core/makefile and 
+src/asclite/test/makefile file to the CFLAGS variable. 
 Example of GCC options:
-For PPC64: -fast -m64 -mcpu=powerpc64 -mtune=powerpc64
-If you do not compile in 64 bits you can add a fail safe into the command
-line by adding -difficulty-limit 3.
+For PPC64: -fast -m64 -mcpu=powerpc64 -mtune=powerpc64 If you do not compile in 
+64 bits you can add a fail safe into the command line by adding 
+-difficulty-limit 3.
