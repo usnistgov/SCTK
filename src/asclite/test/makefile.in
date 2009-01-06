@@ -12,7 +12,7 @@ CPPFLAGS = @CPPFLAGS@
 DEFS = @DEFS@
 CFLAGS = @CFLAGS@
 LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@
+LIBS = @LIBS@ -lbz2
 
 # Some System V machines do not come with libPW.
 # If this is true for you, use the GNU alloca.o here.

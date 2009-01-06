@@ -30,6 +30,7 @@ AC_CHECK_HEADERS(assert.h)
 AC_CHECK_HEADERS(sstream)
 AC_CHECK_HEADERS(float.h)
 AC_CHECK_HEADERS(limits.h)
+AC_CHECK_HEADERS(bzlib.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
