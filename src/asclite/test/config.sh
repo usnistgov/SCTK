@@ -2618,7 +2618,7 @@ if test "${ac_cv_lib_m_main+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lm -lbz2  $LIBS"
+LIBS="-lm $LIBS"
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -2675,7 +2675,7 @@ if test $ac_cv_lib_m_main = yes; then
 #define HAVE_LIBM 1
 _ACEOF
 
-  LIBS="-lm -lbz2 $LIBS"
+  LIBS="-lm $LIBS"
 
 fi
 

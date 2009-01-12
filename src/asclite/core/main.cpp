@@ -73,7 +73,7 @@ void PrintHelp()
     cout << "    -overlap-limit <max_nb_of_overlaping speaker>" << endl;
     cout << "                  Change the maximum number of overlaping speaker (default: 1)." << endl;
 	cout << "    -memory-compression <block_KB>" << endl;
-    cout << "                  Set the memory compression with compressed <block_KB> KB block (default: off / recommanded: 64)." << endl;
+    cout << "                  Set the memory compression with compressed <block_KB> KB block (default: off / recommanded: 256)." << endl;
 	cout << "    -force-memory-compression" << endl;
     cout << "                  Force the memory compression." << endl;
 	cout << "    -memory-limit <max_GB>" << endl;
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 	bool arg_bmaxnboverlapingspkr = false;
 	string arg_maxnboverlapingspkr = "4";
 	bool arg_bmemorycompression = false;
-	string arg_memorycompression = "64";
+	string arg_memorycompression = "256";
 	bool arg_bforcememorycompression = false;
 	string arg_optionaltoken = "none";
 	bool arg_bproperty = false;

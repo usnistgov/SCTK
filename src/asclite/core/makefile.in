@@ -12,7 +12,7 @@ CPPFLAGS = @CPPFLAGS@
 DEFS = @DEFS@
 CFLAGS = @CFLAGS@
 LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@ -lbz2
+LIBS = @LIBS@
 
 # Some System V machines do not come with libPW.
 # If this is true for you, use the GNU alloca.o here.
@@ -38,7 +38,7 @@ SHELL = /bin/sh
 
 ######################################################################
 # The source files for all of the programs.
-src_c = $(wildcard *.cpp *.c)
+src_c = $(wildcard *.cpp *.c lzma/*.c)
 
 ######################################################################
 # The Object files for all of the library code.
@@ -62,7 +62,7 @@ asclite: $(src_o)
 	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $(src_o) $(LIBS) 
 
 clean:
-	rm -f *.o $(PROGRAMS) core.*
+	rm -f *.o lzma/*.o $(PROGRAMS) core.*
 
 mostlyclean: clean
 

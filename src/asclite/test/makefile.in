@@ -12,7 +12,7 @@ CPPFLAGS = @CPPFLAGS@
 DEFS = @DEFS@
 CFLAGS = @CFLAGS@
 LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@ -lbz2
+LIBS = @LIBS@
 
 # Some System V machines do not come with libPW.
 # If this is true for you, use the GNU alloca.o here.
@@ -38,7 +38,7 @@ SHELL = /bin/sh
 
 ######################################################################
 # The source files for all of the programs.
-src_c = $(wildcard *.cpp)  $(filter-out ../core/main.cpp, $(wildcard ../core/*.cpp ../core/*.c))
+src_c = $(wildcard *.cpp)  $(filter-out ../core/main.cpp, $(wildcard ../core/*.cpp ../core/*.c ../core/lzma/*.c))
 
 ######################################################################
 # The Object files for all of the library code.

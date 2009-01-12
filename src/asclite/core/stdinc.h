@@ -35,8 +35,8 @@
 #include <sstream>
 #include <float.h>
 #include <limits.h>
-#include <deque>
-#include <bzlib.h>
+
+#include "lzma/LzmaLib.h"
 
 using namespace std;
 

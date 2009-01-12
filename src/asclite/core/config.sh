@@ -1728,13 +1728,13 @@ if test "$ac_test_CXXFLAGS" = set; then
   CXXFLAGS=$ac_save_CXXFLAGS
 elif test $ac_cv_prog_cxx_g = yes; then
   if test "$GXX" = yes; then
-    CXXFLAGS="-Os  -Wall -Wconversion"
+    CXXFLAGS="-g -O2"
   else
-    CXXFLAGS=""
+    CXXFLAGS="-g"
   fi
 else
   if test "$GXX" = yes; then
-    CXXFLAGS="-Os  -Wall -Wconversion"
+    CXXFLAGS="-O2"
   else
     CXXFLAGS=
   fi
@@ -2335,13 +2335,13 @@ if test "$ac_test_CFLAGS" = set; then
   CFLAGS=$ac_save_CFLAGS
 elif test $ac_cv_prog_cc_g = yes; then
   if test "$GCC" = yes; then
-    CFLAGS="-Os  -Wall -Wconversion"
+    CFLAGS="-g -O2"
   else
-    CFLAGS=""
+    CFLAGS="-g"
   fi
 else
   if test "$GCC" = yes; then
-    CFLAGS="-Os  -Wall -Wconversion"
+    CFLAGS="-O2"
   else
     CFLAGS=
   fi
@@ -2618,7 +2618,7 @@ if test "${ac_cv_lib_m_main+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lm -lbz2  $LIBS"
+LIBS="-lm  $LIBS"
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -2675,7 +2675,7 @@ if test $ac_cv_lib_m_main = yes; then
 #define HAVE_LIBM 1
 _ACEOF
 
-  LIBS="-lm -lbz2 $LIBS"
+  LIBS="-lm $LIBS"
 
 fi
 

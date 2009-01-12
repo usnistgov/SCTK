@@ -31,17 +31,15 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimen
 	if(m_BlockSizeKB > 1048576)
 		m_BlockSizeKB = 1048575;
 	
-	/* Dictionary size: 1-9 ; 9 best*/
-	m_bz2BlockSize = 9;
-	
-	/* Verbosity: 0-4 ; 0 silent */
-	m_bz2Verbosity = 0;
-	
-	/* Factor to call the fallback compression algo ; 30 default */
-	m_bz2WorkFactor = 30;
-	
-	/* Decompression algorithm: 0-1 ; 0 fast */
-	m_bz2Small = 0;
+	/* LZMA Properties ; see lzma/LzmaLib.h */
+	m_lzmaLevel = 4;
+	m_lzmaDictionarySize = 1 << 24;
+	m_lzmaLc = 3;
+	m_lzmaLp = 0;
+	m_lzmaPb = 2;
+	m_lzmaFb = 32;
+	m_lzmaNumberThreads = 2;
+	m_lzmaPropertiesSize = LZMA_PROPS_SIZE;
 	
 	m_NbrDimensions = _NbrDimensions;
 	m_TabDimensionDeep = new size_t[m_NbrDimensions];
@@ -66,9 +64,9 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimen
 		BlockComputation(1);
 	
 	/* To guarantee that the compressed data will fit in its buffer, allocate 
-	   an output buffer of size 1% larger than the uncompressed data, plus six
-	   hundred extra bytes. */
-	m_BaseLengthOut = m_BaseLengthIn + m_BaseLengthIn / 100 + 600;
+	   an output buffer of size 2% larger than the uncompressed data, plus extra
+	   size for the compression properties. */
+	m_BaseLengthOut = m_BaseLengthIn + m_BaseLengthIn / 50 + m_lzmaPropertiesSize;
 	
 	m_MultiplicatorBlockDimension = new size_t[m_NbrDimensions];
 	m_MultiplicatorDivider = new size_t[m_NbrDimensions];
@@ -108,16 +106,15 @@ CompressedLevenshteinMatrix::CompressedLevenshteinMatrix(const size_t& _NbrDimen
 	m_SizeOfArray = 0;
 	m_NbrCreatedBlocks = 0;
 	
-	m_OverHeadMemory = m_BaseLengthOut + m_bz2BlockSize*100 + m_NbrDimensions*sizeof(size_t) + m_NbrCompressedTabs*( 2*sizeof(int) + sizeof(uint) + 2*sizeof(bool) + sizeof(ulint) ) + 20*sizeof(double);
-	m_UsableMemoryKB = 0.98*( ((double) m_MaxMemoryKBProp) - ((double) m_OverHeadMemory)/((double) 1024) );
+	m_UsableMemoryKB = 0.98*((double) m_MaxMemoryKBProp);
 	m_PercentageMemoryTriggerStart = 0.01;
 	m_PercentageMemoryTriggerStop = 0.2;
 	
 	LOG_DEBUG(m_pLogger, "Allocation done!");
 	
 	char buffer[BUFFER_SIZE];
-	sprintf(buffer, "Compressed Levenshtein Matrix: %lu blocks of %.1fKB, Overhead: %luKB, Usable: %.0fKB, StartGC: %.0fKB, StopGC: %.0fKB", 
-			(ulint) m_NbrCompressedTabs, ((double)(m_BaseLengthIn))/1024.0 , m_OverHeadMemory/1024, m_UsableMemoryKB, m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart), m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStop));	   
+	sprintf(buffer, "Compressed Levenshtein Matrix: %lu blocks of %.1fKB, Usable: %.0fKB, StartGC: %.0fKB, StopGC: %.0fKB", 
+			(ulint) m_NbrCompressedTabs, ((double)(m_BaseLengthIn))/1024.0, m_UsableMemoryKB, m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStart), m_UsableMemoryKB*(1.0-m_PercentageMemoryTriggerStop));	   
 	LOG_DEBUG(m_pLogger, buffer);
 }
 
@@ -184,23 +181,31 @@ void CompressedLevenshteinMatrix::CompressBlock(const size_t& block_index)
 	if(!m_TabbIsCompressed[block_index])
 	{		
 		// Block is not compressed, then compress it;
-		uint decomp_lengh = m_TabSizes[block_index];
-		uint comp_lengh = m_BaseLengthOut;
+		size_t decomp_lengh = m_TabSizes[block_index];
+		size_t comp_lengh = m_BaseLengthOut;
 		m_TabStartByteCompressed[block_index] = (int*) malloc(m_BaseLengthOut);
 		
-		if( BZ2_bzBuffToBuffCompress( (char*) m_TabStartByteCompressed[block_index], &comp_lengh,
-		                              (char*) m_TabStartByte[block_index], decomp_lengh,
-							          m_bz2BlockSize,
-							          m_bz2Verbosity,
-							          m_bz2WorkFactor) != BZ_OK)
+		size_t outPropsize = m_lzmaPropertiesSize;
+				
+		if( LzmaCompress( (unsigned char*) m_TabStartByteCompressed[block_index] + m_lzmaPropertiesSize, &comp_lengh,
+						  (unsigned char*) m_TabStartByte[block_index], decomp_lengh,
+						  (unsigned char*) m_TabStartByteCompressed[block_index], &outPropsize,
+						  m_lzmaLevel,
+						  m_lzmaDictionarySize,
+						  m_lzmaLc,
+						  m_lzmaLp,
+						  m_lzmaPb,
+						  m_lzmaFb,
+						  m_lzmaNumberThreads ) != SZ_OK)
 		{
-			LOG_FATAL(m_pLogger, "Compression: 'bzBuffToBuffCompress()' failed!");
+			LOG_FATAL(m_pLogger, "Compression: 'LzmaCompress()' failed!");
 			exit(0);
 		}
 		
-		if(comp_lengh >= decomp_lengh)
+		if( (comp_lengh + m_lzmaPropertiesSize >= decomp_lengh) || (outPropsize > m_lzmaPropertiesSize) )
 		{
 			//Incompressible data
+			LOG_DEBUG(m_pLogger, "Compression: Incompressible block ignoring compression!");
 			free(m_TabStartByteCompressed[block_index]);
 			m_TabStartByteCompressed[block_index] = NULL;
 		}
@@ -209,9 +214,9 @@ void CompressedLevenshteinMatrix::CompressBlock(const size_t& block_index)
 			free(m_TabStartByte[block_index]);
 			m_TabStartByte[block_index] = NULL;
 			
-			m_TabSizes[block_index] = comp_lengh;
+			m_TabSizes[block_index] = comp_lengh + m_lzmaPropertiesSize;
 			m_TabbIsCompressed[block_index] = true;
-			m_CurrentMemorySize += comp_lengh - decomp_lengh;
+			m_CurrentMemorySize += comp_lengh + m_lzmaPropertiesSize - decomp_lengh;
 			++m_Compressions;
 			++m_NbrCompressedBlocks;
 			--m_NbrDecompressedBlocks;
@@ -228,16 +233,15 @@ bool CompressedLevenshteinMatrix::DecompressBlock(const size_t& block_index)
 	if(decomp = m_TabbIsCompressed[block_index])
 	{
 		// Block is compressed, then decompress it;
-		uint comp_lengh = m_TabSizes[block_index];
-		uint decomp_lengh = m_BaseLengthIn;
+		size_t comp_lengh = m_TabSizes[block_index] - m_lzmaPropertiesSize;
+		size_t decomp_lengh = m_BaseLengthIn;
 		m_TabStartByte[block_index] = (int*) malloc(m_BaseLengthIn);
-		
-		if( BZ2_bzBuffToBuffDecompress( (char*) m_TabStartByte[block_index], &decomp_lengh,
-		                                (char*) m_TabStartByteCompressed[block_index], comp_lengh, 
-							            m_bz2Small,
-							            m_bz2Verbosity ) != BZ_OK)
+	
+		if(LzmaUncompress( (unsigned char*) m_TabStartByte[block_index], &decomp_lengh,
+						   (unsigned char*) m_TabStartByteCompressed[block_index] + m_lzmaPropertiesSize, &comp_lengh, 
+						   (unsigned char*) m_TabStartByteCompressed[block_index], m_lzmaPropertiesSize) != SZ_OK)
 		{
-			LOG_FATAL(m_pLogger, "Decompression: 'BZ2_bzBuffToBuffDecompress()' failed!");
+			LOG_FATAL(m_pLogger, "Decompression: 'LzmaUncompress()' failed!");
 			exit(0);
 		}
 		
