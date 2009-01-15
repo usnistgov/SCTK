@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id $
+# $Id$
 
 use warnings;
 use strict;
@@ -14,7 +14,7 @@ unless (eval "use Statistics::Descriptive; 1")
 	"Please see 'http://search.cpan.org/search?query=statistics+descriptive&mode=all' for installation information\n";
 }
 
-my $version = "$1" if('$Revision $' =~ /(\d+\.\d+)/);
+my $version = "$1" if('$Revision$' =~ /(\d+\.\d+)/);
 
 my $man = 0;
 my $help = 0;
