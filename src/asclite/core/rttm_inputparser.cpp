@@ -72,19 +72,21 @@ SpeechSet* RTTMInputParser::loadFileLexeme(const string& name)
             char l_conf[BUFFER_SIZE];  
 			char l_start[BUFFER_SIZE]; 
             char l_duration[BUFFER_SIZE];
+            char l_slat[BUFFER_SIZE];
 			int nbArgParsed = 0;
             
-            nbArgParsed = sscanf(line.c_str(), "%s %s %s %s %s %s %s %s %s", (char*) &l_type, 
-                                                                             (char*) &l_file, 
-                                                                             (char*) &l_channel, 
-                                                                             (char*) &l_start, 
-                                                                             (char*) &l_duration, 
-                                                                             (char*) &l_word, 
-                                                                             (char*) &l_stype,
-                                                                             (char*) &l_spkr,
-                                                                             (char*) &l_conf );
+            nbArgParsed = sscanf(line.c_str(), "%s %s %s %s %s %s %s %s %s %s", (char*) &l_type, 
+                                                                                (char*) &l_file, 
+                                                                                (char*) &l_channel, 
+                                                                                (char*) &l_start, 
+                                                                                (char*) &l_duration, 
+                                                                                (char*) &l_word, 
+                                                                                (char*) &l_stype,
+                                                                                (char*) &l_spkr,
+                                                                                (char*) &l_conf,
+                                                                                (char*) &l_slat );
             
-            if(nbArgParsed != 9)
+            if( (nbArgParsed != 9) || (nbArgParsed != 10) )
             {
                 char buffer[BUFFER_SIZE];
                 sprintf(buffer, "Error parsing the line %li in file %s", lineNum, name.c_str());
