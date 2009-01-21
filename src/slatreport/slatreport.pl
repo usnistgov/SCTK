@@ -19,7 +19,7 @@ my $version = "$1" if('$Revision$' =~ /(\d+\.\d+)/);
 my $man = 0;
 my $help = 0;
 my $rttmfile = "";
-my $outputfile = "slatreport";
+my $outputfile = "";
 my $typeslist = "";
 my $stypeslist = "";
 my $filelist = "";
@@ -50,6 +50,8 @@ pod2usage(-exitvalue => 0, -verbose => 2) if $man;
 
 # Checking the inputs
 pod2usage("Error: RTTM file must be specified.\n") if ($rttmfile eq "");
+pod2usage("Error: Output filename must be specified.\n") if($outputfile eq "");
+pod2usage("Error: Histogram partitions 'H' must be bigger than 1.\n") if($histogrampartitions < 2);
 
 my @Files = split(/,/, $filelist);
 my @Chnl = split(/,/, $chnllist);
@@ -217,3 +219,83 @@ sub LoadRTTM
 	
 	return \%h;
 }
+
+__END__
+
+=head1 NAME
+
+slatreport.pl -- Create reports for SLAT information in RTTM files.
+
+=head1 SYNOPSIS
+
+B<slatreport.pl> B<-i> F<FILE> B<-o> F<FILE> [B<-H> F<NUMBER>] [OPTIONS]
+
+=head1 DESCRIPTION
+
+The script analyse and generate reports and bar charts based on the SLAT information from the RTTM file (RT09 specifications).
+
+=head1 OPTIONS
+
+=over 25
+
+=item B<-i> F<FILE>
+
+RTTM input file.
+
+=item B<-o> F<FILE>
+
+Base filename for the histograms.
+
+=item B<-f> F<FILENAME>[,F<FILENAME>[,...]]
+
+Analyses the data only the F<FILENAME>s.
+
+=item B<-c> F<CHANNEL>[,F<CHANNEL>[,...]]
+
+Analyses the data only the F<CHANNEL>s.
+
+=item  B<-n> F<SPEAKER>[,F<SPEAKER>[,...]]
+
+Analyses the data only the F<SPEAKER>s.
+
+=item B<-t> F<TYPE>[,F<TYPE>[,...]]
+
+Analyses the data only the F<SUBTYPE>s.
+
+=item B<-t> F<SUBTYPE>[,F<SUBTYPE>[,...]]
+
+Analyses the data only the F<SUBTYPE>s.
+
+=item B<-h>, B<--help>
+
+Print the help.
+
+=item B<-m>, B<--man>
+
+Print the manual.
+
+=item B<--version>
+
+Print the version number.
+
+=back
+
+=head1 BUGS
+
+No known bugs.
+
+=head1 NOTES
+
+=head1 AUTHOR
+
+Jerome Ajot <jerome.ajot@nist.gov>
+
+=head1 VERSION
+
+slatreport.pl $Revision$
+
+=head1 COPYRIGHT 
+
+This software was developed at the National Institute of Standards and Technology by employees of the Federal Government in the course of their official duties.  Pursuant to Title 17 Section 105 of the United States Code this software is not subject to copyright protection within the United States and is in the public domain. It is an experimental system.  NIST assumes no responsibility whatsoever for its use by any party.
+
+THIS SOFTWARE IS PROVIDED "AS IS."  With regard to this software, NIST MAKES NO EXPRESS OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
