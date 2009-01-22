@@ -60,32 +60,48 @@ my @Types = split(/,/, $typeslist);
 my @STypes = split(/,/, $stypeslist);
 
 my $data = LoadRTTM($rttmfile);
-my ($LatencyMean, $LatencyRatioMean, $LatencyDistribution, $LatencyRatioDistribution) = Compute($data, $histogrampartitions, \@Files, \@Chnl, \@Names, \@Types, \@STypes);
+my ($LatencyMean, $LatencyRatioMean, $LatencySTDEV, $LatencyRatioSTDEV, $LatencyDistribution, $LatencyRatioDistribution) = Compute($data, $histogrampartitions, \@Files, \@Chnl, \@Names, \@Types, \@STypes);
 
 print "Latency Mean: $LatencyMean\n";
+print "Latency Standard Deviation: $LatencySTDEV\n" if(defined($LatencySTDEV));
 
 my $maxv = -1;
 
-for(sort {$a <=> $b} keys %$LatencyDistribution)
+if(defined($LatencyDistribution))
 {
-	print "  key = $_, count = $LatencyDistribution->{$_}\n";
-	$maxv = $_ if($_ > $maxv);
+	for(sort {$a <=> $b} keys %$LatencyDistribution)
+	{
+		print "  key = $_, count = $LatencyDistribution->{$_}\n";
+		$maxv = $_ if($_ > $maxv);
+	}
+	
+	BuildPNG($LatencyDistribution, "$outputfile.LatencyDistribution.$histogrampartitions", "Latency Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
 }
-
-BuildPNG($LatencyDistribution, "$outputfile.LatencyDistribution.$histogrampartitions", "Latency Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
+else
+{
+	print "No distribution with one data point.\n";
+}
 
 print "\n";
 print "Latency Ratio Mean: $LatencyRatioMean\n";
+print "Latency Standard Deviation: $LatencyRatioSTDEV\n" if(defined($LatencyRatioSTDEV));
 
 $maxv = -1;
 
-for(sort {$a <=> $b} keys %$LatencyRatioDistribution)
+if(defined($LatencyRatioDistribution))
 {
-	print "  key = $_, count = $LatencyRatioDistribution->{$_}\n";
-	$maxv = $_ if($_ > $maxv);
+	for(sort {$a <=> $b} keys %$LatencyRatioDistribution)
+	{
+		print "  key = $_, count = $LatencyRatioDistribution->{$_}\n";
+		$maxv = $_ if($_ > $maxv);
+	}
+	
+	BuildPNG($LatencyRatioDistribution, "$outputfile.LatencyRatioDistribution.$histogrampartitions", "Latency Ratio Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
 }
-
-BuildPNG($LatencyRatioDistribution, "$outputfile.LatencyRatioDistribution.$histogrampartitions", "Latency Ratio Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
+else
+{
+	print "No distribution with one data point.\n";
+}
 
 ################
 ### Funtions ###
@@ -128,7 +144,7 @@ sub BuildPNG
 sub Compute
 {
 	my ($data, $HistPar, $Fil, $Chn, $Nam, $Typ, $STy) = @_;
-	
+
 	my $statLacency = Statistics::Descriptive::Full->new();
 	my $statLacencyRatio = Statistics::Descriptive::Full->new();
 	
@@ -151,23 +167,35 @@ sub Compute
 					foreach my $n (keys %{ $data->{$t}{$f}{$c}{$s} })
 					{
 						next if(! IsElement($n, $Nam));
-
-						my $TBEG = $data->{$t}{$f}{$c}{$s}{$n}{TBEG};
-						my $TEND = $data->{$t}{$f}{$c}{$s}{$n}{TEND};
-						my $TSLAT = $data->{$t}{$f}{$c}{$s}{$n}{TSLAT};
 						
-						$statLacency->add_data($TSLAT-$TEND);
-						$statLacencyRatio->add_data(($TSLAT-$TEND)/($TEND-$TBEG));
+						foreach my $TBEG (keys %{ $data->{$t}{$f}{$c}{$s}{$n} })
+						{
+							my $TEND = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TEND};
+							my $TSLAT = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TSLAT};
+							
+							$statLacency->add_data($TSLAT-$TEND);
+							$statLacencyRatio->add_data(($TSLAT-$TEND)/($TEND-$TBEG));
+						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	if($statLacency->count() == 0)
 	{
 		print "No data found in files regarding criteria.\n";
 		exit;
+	}
+	
+	if($statLacency->count() == 1)
+	{
+		return( $statLacency->mean(),
+	            $statLacencyRatio->mean(),
+	            undef,
+	            undef,
+	            undef,
+	            undef );
 	}
 	
 	my %ld = $statLacency->frequency_distribution($HistPar);
@@ -175,6 +203,8 @@ sub Compute
 	
 	return( $statLacency->mean(),
 	        $statLacencyRatio->mean(), 
+	        $statLacency->standard_deviation(),
+	        $statLacencyRatio->standard_deviation(), 
 		    \%ld,
 		    \%lrd );
 }
@@ -189,7 +219,7 @@ sub IsElement
 	for(my $i=0; $i<scalar(@$l); $i++)
 	{
 		return 1
-			if($l->[$i] =~ $e);
+			if($l->[$i] eq $e);
 	}
 	
 	return 0;
@@ -219,9 +249,8 @@ sub LoadRTTM
 		my $tdur = 0;
 		$tdur = $a[4] if($a[4] !~ /<NA>/);
 		
-		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{TBEG} = $a[3];
-		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{TEND} = $a[3]+$tdur;
-		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{TSLAT} = $a[9];
+		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{$a[3]}{TEND} = $a[3]+$tdur;
+		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{$a[3]}{TSLAT} = $a[9];
 	}
 		
 	close(FILE);
