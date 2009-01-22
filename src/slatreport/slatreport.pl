@@ -62,7 +62,7 @@ my @STypes = split(/,/, $stypeslist);
 my $data = LoadRTTM($rttmfile);
 my ($LatencyMean, $LatencyRatioMean, $LatencyDistribution, $LatencyRatioDistribution) = Compute($data, $histogrampartitions, \@Files, \@Chnl, \@Names, \@Types, \@STypes);
 
-print "Latency Mean:       $LatencyMean\n";
+print "Latency Mean: $LatencyMean\n";
 
 my $maxv = -1;
 
@@ -72,7 +72,7 @@ for(sort {$a <=> $b} keys %$LatencyDistribution)
 	$maxv = $_ if($_ > $maxv);
 }
 
-BuildPNG($LatencyDistribution, "$outputfile.LatencyDistribution.$histogrampartitions", "Latency Distribution - $histogrampartitions partitions", $maxv);
+BuildPNG($LatencyDistribution, "$outputfile.LatencyDistribution.$histogrampartitions", "Latency Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
 
 print "\n";
 print "Latency Ratio Mean: $LatencyRatioMean\n";
@@ -85,7 +85,7 @@ for(sort {$a <=> $b} keys %$LatencyRatioDistribution)
 	$maxv = $_ if($_ > $maxv);
 }
 
-BuildPNG($LatencyRatioDistribution, "$outputfile.LatencyRatioDistribution.$histogrampartitions", "Latency Ratio Distribution - $histogrampartitions partitions", $maxv);
+BuildPNG($LatencyRatioDistribution, "$outputfile.LatencyRatioDistribution.$histogrampartitions", "Latency Ratio Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
 
 ################
 ### Funtions ###
@@ -132,29 +132,29 @@ sub Compute
 	my $statLacency = Statistics::Descriptive::Full->new();
 	my $statLacencyRatio = Statistics::Descriptive::Full->new();
 	
-	foreach my $f (keys %{ $data })
+	foreach my $t (keys %{ $data })
 	{
-		next if(! IsElement($f, $Fil));
+		next if(! IsElement($t, $Typ));
 		
-		foreach my $c (keys %{ $data->{$f} })
+		foreach my $f (keys %{ $data->{$t} })
 		{
-			next if(! IsElement($c, $Chn));
+			next if(! IsElement($f, $Fil));
 			
-			foreach my $n (keys %{ $data->{$f}{$c} })
+			foreach my $c (keys %{ $data->{$t}{$f} })
 			{
-				next if(! IsElement($n, $Nam));
+				next if(! IsElement($c, $Chn));
 				
-				foreach my $t (keys %{ $data->{$f}{$c}{$n} })
+				foreach my $s (keys %{ $data->{$t}{$f}{$c} })
 				{
-					next if(! IsElement($t, $Typ));
+					next if(! IsElement($s, $STy));
 					
-					foreach my $s (keys %{ $data->{$f}{$c}{$n}{$t} })
+					foreach my $n (keys %{ $data->{$t}{$f}{$c}{$s} })
 					{
-						next if(! IsElement($s, $STy));
-						
-						my $TBEG = $data->{$f}{$c}{$n}{$t}{$s}{TBEG};
-						my $TEND = $data->{$f}{$c}{$n}{$t}{$s}{TEND};
-						my $TSLAT = $data->{$f}{$c}{$n}{$t}{$s}{TSLAT};
+						next if(! IsElement($n, $Nam));
+
+						my $TBEG = $data->{$t}{$f}{$c}{$s}{$n}{TBEG};
+						my $TEND = $data->{$t}{$f}{$c}{$s}{$n}{TEND};
+						my $TSLAT = $data->{$t}{$f}{$c}{$s}{$n}{TSLAT};
 						
 						$statLacency->add_data($TSLAT-$TEND);
 						$statLacencyRatio->add_data(($TSLAT-$TEND)/($TEND-$TBEG));
@@ -162,6 +162,12 @@ sub Compute
 				}
 			}
 		}
+	}
+	
+	if($statLacency->count() == 0)
+	{
+		print "No data found in files regarding criteria.\n";
+		exit;
 	}
 	
 	my %ld = $statLacency->frequency_distribution($HistPar);
@@ -210,9 +216,12 @@ sub LoadRTTM
 		
 		next if($a[9] =~ /<NA>/);
 		
-		$h{$a[1]}{$a[2]}{$a[7]}{$a[0]}{$a[6]}{TBEG} = $a[3];
-		$h{$a[1]}{$a[2]}{$a[7]}{$a[0]}{$a[6]}{TEND} = $a[3]+$a[4];
-		$h{$a[1]}{$a[2]}{$a[7]}{$a[0]}{$a[6]}{TSLAT} = $a[9];
+		my $tdur = 0;
+		$tdur = $a[4] if($a[4] !~ /<NA>/);
+		
+		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{TBEG} = $a[3];
+		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{TEND} = $a[3]+$tdur;
+		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{TSLAT} = $a[9];
 	}
 		
 	close(FILE);
@@ -254,9 +263,9 @@ Analyses the data only the F<FILENAME>s.
 
 Analyses the data only the F<CHANNEL>s.
 
-=item  B<-n> F<SPEAKER>[,F<SPEAKER>[,...]]
+=item  B<-n> F<NAME>[,F<NAME>[,...]]
 
-Analyses the data only the F<SPEAKER>s.
+Analyses the data only the F<NAME>s.
 
 =item B<-t> F<TYPE>[,F<TYPE>[,...]]
 
