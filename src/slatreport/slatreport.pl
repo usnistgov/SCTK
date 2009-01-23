@@ -174,7 +174,7 @@ sub Compute
 							my $TSLAT = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TSLAT};
 							
 							$statLacency->add_data($TSLAT-$TEND);
-							$statLacencyRatio->add_data(($TSLAT-$TEND)/($TEND-$TBEG));
+							$statLacencyRatio->add_data(($TSLAT-$TEND)/($TEND-$TBEG)) if(($TEND-$TBEG) > 0);
 						}
 					}
 				}
@@ -184,7 +184,7 @@ sub Compute
 
 	if($statLacency->count() == 0)
 	{
-		print "No data found in files regarding criteria.\n";
+		print "No data found in files regarding criteria for Latency.\n";
 		exit;
 	}
 	
