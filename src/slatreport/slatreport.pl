@@ -282,11 +282,11 @@ RTTM input file.
 
 =item B<-o> F<FILE>
 
-Base filename for the histograms.
+Base filename for the PNG bar charts. If '/dev/null' is passed then it will not generate the charts.
 
 =item B<-H> F<NUMBER>
 
-Generates reports and bar charts with F<NUMBER> partitions (default: 2).
+Generates reports and bar charts with F<NUMBER> partitions (default/minimum: 2).
 
 =item B<-f> F<FILENAME>[,F<FILENAME>[,...]]
 
@@ -298,7 +298,7 @@ Analyses the data only the F<CHANNEL>s.
 
 =item  B<-n> F<NAME>[,F<NAME>[,...]]
 
-Analyses the data only the F<NAME>s.
+Analyses the data only the F<NAME>s of the speaker(s).
 
 =item B<-t> F<TYPE>[,F<TYPE>[,...]]
 
