@@ -284,6 +284,10 @@ RTTM input file.
 
 Base filename for the histograms.
 
+=item B<-H> F<NUMBER>
+
+Generates reports and bar charts with F<NUMBER> partitions (default: 2).
+
 =item B<-f> F<FILENAME>[,F<FILENAME>[,...]]
 
 Analyses the data only the F<FILENAME>s.
@@ -298,7 +302,7 @@ Analyses the data only the F<NAME>s.
 
 =item B<-t> F<TYPE>[,F<TYPE>[,...]]
 
-Analyses the data only the F<SUBTYPE>s.
+Analyses the data only the F<TYPE>s.
 
 =item B<-t> F<SUBTYPE>[,F<SUBTYPE>[,...]]
 
@@ -323,6 +327,10 @@ Print the version number.
 No known bugs.
 
 =head1 NOTES
+
+If only one element is in the data pool, the standard deviation and distributions are not calculated.
+
+See RTTM and SLAT specifications on the Rich Transcription 2009 Evaluation website (http://nist.gov/speech/tests/rt/2009/index.html).
 
 =head1 AUTHOR
 
