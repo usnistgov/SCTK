@@ -65,17 +65,23 @@ my ($LatencyMean, $LatencyRatioMean, $LatencySTDEV, $LatencyRatioSTDEV, $Latency
 print "Latency Mean: $LatencyMean\n";
 print "Latency Standard Deviation: $LatencySTDEV\n" if(defined($LatencySTDEV));
 
-my $maxv = -1;
+my $maxx = -1;
+my $maxy = -1;
+my $bin = -1;
+my $prev = -1;
 
 if(defined($LatencyDistribution))
 {
 	for(sort {$a <=> $b} keys %$LatencyDistribution)
 	{
 		print "  key = $_, count = $LatencyDistribution->{$_}\n";
-		$maxv = $_ if($_ > $maxv);
+		$maxx = $_ if($_ > $maxx);
+		$maxy = $LatencyDistribution->{$_} if($LatencyDistribution->{$_} > $maxy);
+		if($prev == -1)   { $prev = $_; }
+		elsif($bin == -1) { $bin = $_ - $prev; }
 	}
 	
-	BuildPNG($LatencyDistribution, "$outputfile.LatencyDistribution.$histogrampartitions", "Latency Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
+	BuildPNG($LatencyDistribution, "$outputfile.LatencyDistribution.$histogrampartitions", "Latency Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
 }
 else
 {
@@ -86,17 +92,23 @@ print "\n";
 print "Latency Ratio Mean: $LatencyRatioMean\n";
 print "Latency Standard Deviation: $LatencyRatioSTDEV\n" if(defined($LatencyRatioSTDEV));
 
-$maxv = -1;
+$maxx = -1;
+$maxy = -1;
+$bin = -1;
+$prev = -1;
 
 if(defined($LatencyRatioDistribution))
 {
 	for(sort {$a <=> $b} keys %$LatencyRatioDistribution)
 	{
 		print "  key = $_, count = $LatencyRatioDistribution->{$_}\n";
-		$maxv = $_ if($_ > $maxv);
+		$maxx = $_ if($_ > $maxx);
+		$maxy = $LatencyRatioDistribution->{$_} if($LatencyRatioDistribution->{$_} > $maxy);
+		if($prev == -1)   { $prev = $_; }
+		elsif($bin == -1) { $bin = $_ - $prev; }
 	}
 	
-	BuildPNG($LatencyRatioDistribution, "$outputfile.LatencyRatioDistribution.$histogrampartitions", "Latency Ratio Distribution - $histogrampartitions partitions", $maxv) if($outputfile ne "/dev/null");
+	BuildPNG($LatencyRatioDistribution, "$outputfile.LatencyRatioDistribution.$histogrampartitions", "Latency Ratio Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
 }
 else
 {
@@ -108,18 +120,19 @@ else
 ################
 sub BuildPNG
 {
-	my ($data, $filename, $title, $maxx) = @_;
+	my ($data, $filename, $title, $maxx, $maxy, $bin) = @_;
 	
 	# Create the dat file
-	open(FILE, ">", "$filename.dat")
-		or die "Cannot open file '$filename.dat'";
+	my $rectstr = "";
 	
 	for(sort {$a <=> $b} keys %$data)
 	{
-		print FILE "$_ $data->{$_}\n";
+		my $xbl = $_-$bin;
+		my $ybl = 0;
+		my $xtr = $_;
+		my $ytr = $data->{$_};
+		$rectstr .= "set object rect from $xbl,$ybl to $xtr,$ytr fc lt 1\n";
 	}
-		
-	close(FILE);
 	
 	open(FILE, ">", "$filename.plt")
 		or die "Cannot open file '$filename.plt'";
@@ -128,16 +141,15 @@ sub BuildPNG
 	print FILE "set nokey\n";
 	print FILE "set title \"$title\"\n";
 	print FILE "set xrange [0:$maxx]\n";
-	print FILE "set ytics 1\n";	
-	print FILE "set style fill solid border -1\n";
-	print FILE "set boxwidth 0.5 relative\n";
-	print FILE "plot '$filename.dat' using 1:2 with boxes\n";
+	print FILE "set yrange [0:$maxy]\n";
+	print FILE "set ytics 1\n";
+	print FILE $rectstr;	
+	print FILE "plot -1\n";
 
 	close(FILE);
 	
 	system("cat $filename.plt | gnuplot > $filename.png");
 	
-	unlink("$filename.dat");
 	unlink("$filename.plt");
 }
 
@@ -304,7 +316,7 @@ Analyses the data only the F<NAME>s of the speaker(s).
 
 Analyses the data only the F<TYPE>s.
 
-=item B<-t> F<SUBTYPE>[,F<SUBTYPE>[,...]]
+=item B<-s> F<SUBTYPE>[,F<SUBTYPE>[,...]]
 
 Analyses the data only the F<SUBTYPE>s.
 
