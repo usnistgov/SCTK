@@ -1,3 +1,6 @@
+SCTK Version 2.3.3 - Release February 20, 2009
+  [+] Added SLAT report and handling by asclite.
+
 SCTK Version 2.3.2 - Release January 12, 2009
   [/] Changed BZip2 to LZMA.
 
