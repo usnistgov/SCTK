@@ -86,7 +86,7 @@ SpeechSet* RTTMInputParser::loadFileLexeme(const string& name)
                                                                                 (char*) &l_conf,
                                                                                 (char*) &l_slat );
             
-            if( (nbArgParsed != 9) || (nbArgParsed != 10) )
+            if( ! ( (nbArgParsed == 9) || (nbArgParsed == 10) ) )
             {
                 char buffer[BUFFER_SIZE];
                 sprintf(buffer, "Error parsing the line %li in file %s", lineNum, name.c_str());
