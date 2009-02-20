@@ -25,7 +25,7 @@ my $stypeslist = "";
 my $filelist = "";
 my $chnllist = "";
 my $namelist = "";
-my $histogrampartitions = 2;
+my $histogrampartitions = 10;
 
 Getopt::Long::Configure("no_ignore_case");
 
@@ -58,6 +58,16 @@ my @Chnl = split(/,/, $chnllist);
 my @Names = split(/,/, $namelist);
 my @Types = split(/,/, $typeslist);
 my @STypes = split(/,/, $stypeslist);
+
+print "Conditions:\n";
+
+print "  FILE: " .  ($filelist eq "" ? "ALL" : $filelist) . "\n";
+print "  CHANNEL: " .  ($chnllist eq "" ? "ALL" : $chnllist) . "\n";
+print "  NAME: " .  ($namelist eq "" ? "ALL" : $namelist) . "\n";
+print "  TYPE: " .  ($typeslist eq "" ? "ALL" : $typeslist) . "\n";
+print "  SUBTYPE: " .  ($stypeslist eq "" ? "ALL" : $stypeslist) . "\n";
+
+print "\n";
 
 my $data = LoadRTTM($rttmfile);
 my ($LatencyMean, $LatencyRatioMean, $LatencySTDEV, $LatencyRatioSTDEV, $LatencyDistribution, $LatencyRatioDistribution) = Compute($data, $histogrampartitions, \@Files, \@Chnl, \@Names, \@Types, \@STypes);
@@ -142,7 +152,6 @@ sub BuildPNG
 	print FILE "set title \"$title\"\n";
 	print FILE "set xrange [0:$maxx]\n";
 	print FILE "set yrange [0:$maxy]\n";
-	print FILE "set ytics 1\n";
 	print FILE $rectstr;	
 	print FILE "plot -1\n";
 
@@ -151,6 +160,8 @@ sub BuildPNG
 	system("cat $filename.plt | gnuplot > $filename.png");
 	
 	unlink("$filename.plt");
+	
+	print "PNG: $filename.png\n";
 }
 
 sub Compute
@@ -340,9 +351,17 @@ No known bugs.
 
 =head1 NOTES
 
+A report that shows the latency for LEXEMEs and lex (as the sub-type):
+
+$ slatreport.pl -i file.rttm -o slatreport -t LEXEME -s lex
+
 If only one element is in the data pool, the standard deviation and distributions are not calculated.
 
 See RTTM and SLAT specifications on the Rich Transcription 2009 Evaluation website (http://nist.gov/speech/tests/rt/2009/index.html).
+
+Latency time is calculated from the end to the SLAT time provided in the RTTM.
+
+Latency Ratio is the ratio: the Latency (End time to SLAT time) divided by the duration of the token. 
 
 =head1 AUTHOR
 

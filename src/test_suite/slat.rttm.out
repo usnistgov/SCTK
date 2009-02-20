@@ -1,0 +1,34 @@
+Conditions:
+  FILE: ALL
+  CHANNEL: ALL
+  NAME: ALL
+  TYPE: LEXEME
+  SUBTYPE: lex
+
+Latency Mean: 9.76772269282211
+Latency Standard Deviation: 1.98559223647495
+  key = 4.29609999999975, count = 16
+  key = 5.59019999999978, count = 58
+  key = 6.8842999999998, count = 268
+  key = 8.17839999999983, count = 613
+  key = 9.47249999999985, count = 1011
+  key = 10.7665999999999, count = 1124
+  key = 12.0606999999999, count = 813
+  key = 13.3547999999999, count = 436
+  key = 14.6489, count = 114
+  key = 15.943, count = 33
+PNG: ../test_suite/slat.rttm.out.test.LatencyDistribution.10.png
+
+Latency Ratio Mean: 62.7852586902177
+Latency Standard Deviation: 50.7465860736533
+  key = 51.0365942029409, count = 2393
+  key = 97.5362318841431, count = 1362
+  key = 144.035869565345, count = 427
+  key = 190.535507246548, count = 181
+  key = 237.03514492775, count = 64
+  key = 283.534782608952, count = 24
+  key = 330.034420290154, count = 17
+  key = 376.534057971356, count = 6
+  key = 423.033695652559, count = 7
+  key = 469.533333333761, count = 5
+PNG: ../test_suite/slat.rttm.out.test.LatencyRatioDistribution.10.png
