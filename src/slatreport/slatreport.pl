@@ -70,28 +70,32 @@ print "  SUBTYPE: " .  ($stypeslist eq "" ? "ALL" : $stypeslist) . "\n";
 print "\n";
 
 my $data = LoadRTTM($rttmfile);
-my ($LatencyMean, $LatencyRatioMean, $LatencySTDEV, $LatencyRatioSTDEV, $LatencyDistribution, $LatencyRatioDistribution) = Compute($data, $histogrampartitions, \@Files, \@Chnl, \@Names, \@Types, \@STypes);
+my ($LatencyBegMean, $LatencyBegStddev, $LatencyBegDistribution, $LatencyMidMean, $LatencyMidStddev, $LatencyMidDistribution, $LatencyEndMean, $LatencyEndStddev, $LatencyEndDistribution) = Compute($data, $histogrampartitions, \@Files, \@Chnl, \@Names, \@Types, \@STypes);
 
-print "Latency Mean: $LatencyMean\n";
-print "Latency Standard Deviation: $LatencySTDEV\n" if(defined($LatencySTDEV));
+print "Sample Processing Latency Begin Time Based (SPLb):\n";
+print "  Mean: " . sprintf("%.3f", $LatencyBegMean) . "\n";
+print "  Standard Deviation: " . sprintf("%.3f", $LatencyBegStddev) . "\n" if(defined($LatencyBegStddev));
 
 my $maxx = -1;
 my $maxy = -1;
 my $bin = -1;
 my $prev = -1;
 
-if(defined($LatencyDistribution))
+print "  Distribution:\n";
+
+if(defined($LatencyBegDistribution))
 {
-	for(sort {$a <=> $b} keys %$LatencyDistribution)
+	for(sort {$a <=> $b} keys %$LatencyBegDistribution)
 	{
-		print "  key = $_, count = $LatencyDistribution->{$_}\n";
+		my $k = sprintf("%.3f", $_);
+		print "    key = $k, count = $LatencyBegDistribution->{$_}\n";
 		$maxx = $_ if($_ > $maxx);
-		$maxy = $LatencyDistribution->{$_} if($LatencyDistribution->{$_} > $maxy);
+		$maxy = $LatencyBegDistribution->{$_} if($LatencyBegDistribution->{$_} > $maxy);
 		if($prev == -1)   { $prev = $_; }
 		elsif($bin == -1) { $bin = $_ - $prev; }
 	}
 	
-	BuildPNG($LatencyDistribution, "$outputfile.LatencyDistribution.$histogrampartitions", "Latency Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
+	BuildPNG($LatencyBegDistribution, "$outputfile.SPLbDistribution.$histogrampartitions", "Sample Processing Latency Begin Time Based Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
 }
 else
 {
@@ -99,26 +103,61 @@ else
 }
 
 print "\n";
-print "Latency Ratio Mean: $LatencyRatioMean\n";
-print "Latency Standard Deviation: $LatencyRatioSTDEV\n" if(defined($LatencyRatioSTDEV));
+print "Sample Processing Latency Mid-point Time Based (SPLm):\n";
+print "  Mean: " . sprintf("%.3f", $LatencyMidMean) . "\n";
+print "  Standard Deviation: " . sprintf("%.3f", $LatencyMidStddev) . "\n" if(defined($LatencyMidStddev));
 
 $maxx = -1;
 $maxy = -1;
 $bin = -1;
 $prev = -1;
 
-if(defined($LatencyRatioDistribution))
+print "  Distribution:\n";
+
+if(defined($LatencyMidDistribution))
 {
-	for(sort {$a <=> $b} keys %$LatencyRatioDistribution)
+	for(sort {$a <=> $b} keys %$LatencyMidDistribution)
 	{
-		print "  key = $_, count = $LatencyRatioDistribution->{$_}\n";
+		my $k = sprintf("%.3f", $_);
+		print "    key = $k, count = $LatencyMidDistribution->{$_}\n";
 		$maxx = $_ if($_ > $maxx);
-		$maxy = $LatencyRatioDistribution->{$_} if($LatencyRatioDistribution->{$_} > $maxy);
+		$maxy = $LatencyMidDistribution->{$_} if($LatencyMidDistribution->{$_} > $maxy);
 		if($prev == -1)   { $prev = $_; }
 		elsif($bin == -1) { $bin = $_ - $prev; }
 	}
 	
-	BuildPNG($LatencyRatioDistribution, "$outputfile.LatencyRatioDistribution.$histogrampartitions", "Latency Ratio Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
+	BuildPNG($LatencyMidDistribution, "$outputfile.SPLmDistribution.$histogrampartitions", "Sample Processing Latency Mid-point Time Based Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
+}
+else
+{
+	print "No distribution with one data point.\n";
+}
+
+print "\n";
+print "Sample Processing Latency End Time Based (SPLe):\n";
+print "  Mean: " . sprintf("%.3f", $LatencyEndMean) . "\n";
+print "  Standard Deviation: " . sprintf("%.3f", $LatencyEndStddev) . "\n" if(defined($LatencyEndStddev));
+
+$maxx = -1;
+$maxy = -1;
+$bin = -1;
+$prev = -1;
+
+print "  Distribution:\n";
+
+if(defined($LatencyEndDistribution))
+{
+	for(sort {$a <=> $b} keys %$LatencyEndDistribution)
+	{
+		my $k = sprintf("%.3f", $_);
+		print "    key = $k, count = $LatencyEndDistribution->{$_}\n";
+		$maxx = $_ if($_ > $maxx);
+		$maxy = $LatencyEndDistribution->{$_} if($LatencyEndDistribution->{$_} > $maxy);
+		if($prev == -1)   { $prev = $_; }
+		elsif($bin == -1) { $bin = $_ - $prev; }
+	}
+	
+	BuildPNG($LatencyEndDistribution, "$outputfile.SPLeDistribution.$histogrampartitions", "Sample Processing Latency End Time Based Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
 }
 else
 {
@@ -168,8 +207,9 @@ sub Compute
 {
 	my ($data, $HistPar, $Fil, $Chn, $Nam, $Typ, $STy) = @_;
 
-	my $statLacency = Statistics::Descriptive::Full->new();
-	my $statLacencyRatio = Statistics::Descriptive::Full->new();
+	my $statLacencyBeg = Statistics::Descriptive::Full->new();
+	my $statLacencyMid = Statistics::Descriptive::Full->new();
+	my $statLacencyEnd = Statistics::Descriptive::Full->new();
 	
 	foreach my $t (keys %{ $data })
 	{
@@ -193,11 +233,13 @@ sub Compute
 						
 						foreach my $TBEG (keys %{ $data->{$t}{$f}{$c}{$s}{$n} })
 						{
+							my $TMID = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TMID};
 							my $TEND = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TEND};
 							my $TSLAT = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TSLAT};
 							
-							$statLacency->add_data($TSLAT-$TEND);
-							$statLacencyRatio->add_data(($TSLAT-$TEND)/($TEND-$TBEG)) if(($TEND-$TBEG) > 0);
+							$statLacencyBeg->add_data($TSLAT-$TBEG);
+							$statLacencyMid->add_data($TSLAT-$TMID);
+							$statLacencyEnd->add_data($TSLAT-$TEND);
 						}
 					}
 				}
@@ -205,31 +247,26 @@ sub Compute
 		}
 	}
 
-	if($statLacency->count() == 0)
+	if($statLacencyBeg->count() == 0)
 	{
 		print "No data found in files regarding criteria for Latency.\n";
 		exit;
 	}
 	
-	if($statLacency->count() == 1)
+	if($statLacencyBeg->count() == 1)
 	{
-		return( $statLacency->mean(),
-	            $statLacencyRatio->mean(),
-	            undef,
-	            undef,
-	            undef,
-	            undef );
+		return( $statLacencyBeg->mean(), undef, undef,
+	            $statLacencyMid->mean(), undef, undef,
+	            $statLacencyEnd->mean(), undef, undef );
 	}
 	
-	my %ld = $statLacency->frequency_distribution($HistPar);
-	my %lrd = $statLacencyRatio->frequency_distribution($HistPar);
+	my %lbd = $statLacencyBeg->frequency_distribution($HistPar);
+	my %lmd = $statLacencyMid->frequency_distribution($HistPar);
+	my %led = $statLacencyEnd->frequency_distribution($HistPar);
 	
-	return( $statLacency->mean(),
-	        $statLacencyRatio->mean(), 
-	        $statLacency->standard_deviation(),
-	        $statLacencyRatio->standard_deviation(), 
-		    \%ld,
-		    \%lrd );
+	return( $statLacencyBeg->mean(), $statLacencyBeg->standard_deviation(), \%lbd,
+			$statLacencyMid->mean(), $statLacencyMid->standard_deviation(), \%lmd,
+			$statLacencyEnd->mean(), $statLacencyEnd->standard_deviation(), \%led );
 }
 
 sub IsElement
@@ -272,6 +309,7 @@ sub LoadRTTM
 		my $tdur = 0;
 		$tdur = $a[4] if($a[4] !~ /<NA>/);
 		
+		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{$a[3]}{TMID} = $a[3]+($tdur/2);
 		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{$a[3]}{TEND} = $a[3]+$tdur;
 		$h{$a[0]}{$a[1]}{$a[2]}{$a[6]}{$a[7]}{$a[3]}{TSLAT} = $a[9];
 	}
@@ -293,7 +331,7 @@ B<slatreport.pl> B<-i> F<FILE> B<-o> F<FILE> [B<-H> F<NUMBER>] [OPTIONS]
 
 =head1 DESCRIPTION
 
-The script analyse and generate reports and bar charts based on the SLAT information from the RTTM file (RT09 specifications).
+The script analyse and generate reports and bar charts based on the SLAT information from the RTTM file (RT09 specifications). It generates Sample Processing Latency based on the begin, mid-point and end time of the token.
 
 =head1 OPTIONS
 
@@ -309,7 +347,7 @@ Base filename for the PNG bar charts. If '/dev/null' is passed then it will not 
 
 =item B<-H> F<NUMBER>
 
-Generates reports and bar charts with F<NUMBER> partitions (default/minimum: 2).
+Generates reports and bar charts with F<NUMBER> partitions (default: 10).
 
 =item B<-f> F<FILENAME>[,F<FILENAME>[,...]]
 
@@ -351,7 +389,7 @@ No known bugs.
 
 =head1 NOTES
 
-A report that shows the latency for LEXEMEs and lex (as the sub-type):
+A report that shows the Sample Processing Latency for LEXEMEs and lex (as the sub-type):
 
 $ slatreport.pl -i file.rttm -o slatreport -t LEXEME -s lex
 
@@ -359,9 +397,11 @@ If only one element is in the data pool, the standard deviation and distribution
 
 See RTTM and SLAT specifications on the Rich Transcription 2009 Evaluation website (http://nist.gov/speech/tests/rt/2009/index.html).
 
-Latency time is calculated from the end to the SLAT time provided in the RTTM.
+Sample Processing Latency begin time based (SPLb) is calculated from the begin time to the SLAT.
 
-Latency Ratio is the ratio: the Latency (End time to SLAT time) divided by the duration of the token. 
+Sample Processing Latency mid-point time based (SPLm) is calculated from the  mid-point time to the SLAT.
+
+Sample Processing Latency end time based (SPLe) is calculated from the end time to the SLAT.
 
 =head1 AUTHOR
 

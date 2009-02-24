@@ -5,30 +5,50 @@ Conditions:
   TYPE: LEXEME
   SUBTYPE: lex
 
-Latency Mean: 9.76772269282211
-Latency Standard Deviation: 1.98559223647495
-  key = 4.29609999999975, count = 16
-  key = 5.59019999999978, count = 58
-  key = 6.8842999999998, count = 268
-  key = 8.17839999999983, count = 613
-  key = 9.47249999999985, count = 1011
-  key = 10.7665999999999, count = 1124
-  key = 12.0606999999999, count = 813
-  key = 13.3547999999999, count = 436
-  key = 14.6489, count = 114
-  key = 15.943, count = 33
-PNG: ../test_suite/slat.rttm.out.test.LatencyDistribution.10.png
+Sample Processing Latency Begin Time Based (SPLb):
+  Mean: 10.003
+  Standard Deviation: 1.980
+  Distribution:
+    key = 4.451, count = 11
+    key = 5.760, count = 57
+    key = 7.069, count = 262
+    key = 8.378, count = 598
+    key = 9.687, count = 1034
+    key = 10.997, count = 1133
+    key = 12.306, count = 818
+    key = 13.615, count = 429
+    key = 14.924, count = 113
+    key = 16.233, count = 31
+PNG: ../test_suite/slat.rttm.out.test.SPLbDistribution.10.png
 
-Latency Ratio Mean: 62.7852586902177
-Latency Standard Deviation: 50.7465860736533
-  key = 51.0365942029409, count = 2393
-  key = 97.5362318841431, count = 1362
-  key = 144.035869565345, count = 427
-  key = 190.535507246548, count = 181
-  key = 237.03514492775, count = 64
-  key = 283.534782608952, count = 24
-  key = 330.034420290154, count = 17
-  key = 376.534057971356, count = 6
-  key = 423.033695652559, count = 7
-  key = 469.533333333761, count = 5
-PNG: ../test_suite/slat.rttm.out.test.LatencyRatioDistribution.10.png
+Sample Processing Latency Mid-point Time Based (SPLm):
+  Mean: 9.886
+  Standard Deviation: 1.982
+  Distribution:
+    key = 4.374, count = 14
+    key = 5.675, count = 60
+    key = 6.977, count = 265
+    key = 8.278, count = 604
+    key = 9.580, count = 1009
+    key = 10.882, count = 1144
+    key = 12.183, count = 812
+    key = 13.485, count = 436
+    key = 14.786, count = 110
+    key = 16.088, count = 32
+PNG: ../test_suite/slat.rttm.out.test.SPLmDistribution.10.png
+
+Sample Processing Latency End Time Based (SPLe):
+  Mean: 9.768
+  Standard Deviation: 1.986
+  Distribution:
+    key = 4.296, count = 16
+    key = 5.590, count = 58
+    key = 6.884, count = 268
+    key = 8.178, count = 613
+    key = 9.472, count = 1011
+    key = 10.767, count = 1124
+    key = 12.061, count = 813
+    key = 13.355, count = 436
+    key = 14.649, count = 114
+    key = 15.943, count = 33
+PNG: ../test_suite/slat.rttm.out.test.SPLeDistribution.10.png

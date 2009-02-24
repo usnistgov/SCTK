@@ -7,8 +7,9 @@ use strict;
 
 system("./slatreport.pl -i ../test_suite/slat.rttm -o ../test_suite/slat.rttm.out.test -t LEXEME -s lex > ../test_suite/slat.rttm.out.test");
 
-unlink("../test_suite/slat.rttm.out.test.LatencyDistribution.10.png");
-unlink("../test_suite/slat.rttm.out.test.LatencyRatioDistribution.10.png");
+unlink("../test_suite/slat.rttm.out.test.SPLbDistribution.10.png");
+unlink("../test_suite/slat.rttm.out.test.SPLmDistribution.10.png");
+unlink("../test_suite/slat.rttm.out.test.SPLeDistribution.10.png");
 
 my $diff = `diff ../test_suite/slat.rttm.out ../test_suite/slat.rttm.out.test`;
 
