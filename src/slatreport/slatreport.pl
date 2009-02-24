@@ -331,7 +331,7 @@ B<slatreport.pl> B<-i> F<FILE> B<-o> F<FILE> [B<-H> F<NUMBER>] [OPTIONS]
 
 =head1 DESCRIPTION
 
-The script analyse and generate reports and bar charts based on the SLAT information from the RTTM file (RT09 specifications). It generates Sample Processing Latency based on the begin, mid-point and end time of the token.
+The script analyses and generates a report and bar charts based on the SLAT information from the RTTM file (RT09 specifications). It generates Sample Processing Latency based on the begin, mid-point and end time of all RTTM Objects with SLAT information.
 
 =head1 OPTIONS
 
@@ -359,15 +359,15 @@ Analyses the data only the F<CHANNEL>s.
 
 =item  B<-n> F<NAME>[,F<NAME>[,...]]
 
-Analyses the data only the F<NAME>s of the speaker(s).
+Analyses the data for only the F<NAME> objects.  Default is all objects.
 
 =item B<-t> F<TYPE>[,F<TYPE>[,...]]
 
-Analyses the data only the F<TYPE>s.
+Analyses the data for only the objects of type F<TYPE>s.  The default is all types. 
 
 =item B<-s> F<SUBTYPE>[,F<SUBTYPE>[,...]]
 
-Analyses the data only the F<SUBTYPE>s.
+Analyses the data for only the objects of type F<SUBTYPE>s.  The default is all subtypes. 
 
 =item B<-h>, B<--help>
 
