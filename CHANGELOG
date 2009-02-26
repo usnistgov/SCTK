@@ -1,3 +1,6 @@
+SCTK Version 2.3.5 - Release February 26, 2009
+  [*] Fixed slatreport makefile behavior.
+
 SCTK Version 2.3.4 - Release February 24, 2009
   [/] Added SLAT report computation and doc updates.
 
