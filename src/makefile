@@ -30,6 +30,7 @@ all clean distclean install:
 	(cd stmValidator; $(MAKE) $@)
 	(cd rttmValidator; $(MAKE) $@)
 	(cd ctmValidator; $(MAKE) $@)
+	(cd slatreport; $(MAKE) $@)
 
 config:
 	(cd asclite; $(MAKE) $@)
@@ -53,6 +54,7 @@ config:
 	(cd stmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
 	(cd rttmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
 	(cd ctmValidator; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
+	(cd slatreport; sed -e 's:PREFIX=.*:PREFIX='${PREFIX}':' < makefile.in > makefile)
 
 checkFast:
 	(cd asclite; $(MAKE) check)
@@ -72,6 +74,7 @@ checkFast:
 	(cd stmValidator; $(MAKE) check)
 	(cd rttmValidator; $(MAKE) check)
 	(cd ctmValidator; $(MAKE) check)
+	(cd slatreport; $(MAKE) check)
 
 check: all checkFast
 	(cd sclite; $(MAKE) $@)
