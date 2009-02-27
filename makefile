@@ -37,7 +37,7 @@ dist:
 	@ echo `cat .fname`"-"`date +%Y%m%d-%H%M`.tar.bz2 > .distname
 	@ tar jcf `cat .distname` --exclude CVS  --exclude .svn --exclude TODO `cat .fname` 
 	@ md5 `cat .distname` > `cat .distname`.md5
-	@ (cd `cat .fname`; make config all check)
+	@ (cd `cat .fname`; make config all check install)
 	@ rm -rf `cat .fname` .fname .distname
 
 cvs-tag-current-distribution:
