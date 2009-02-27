@@ -13,6 +13,8 @@
  
 MAKE=make
 
+.PHONY : install
+
 all clean install config:
 	(mkdir -p bin)
 	(cd src; $(MAKE) $@)
