@@ -1,6 +1,9 @@
 SCTK Basic Installation for Version 2.3.6
 =========================================
 
+You need to install a perl module: Statistics::Descriptive using CPAN or from
+http://search.cpan.org/search?query=statistics+descriptive&mode=all
+
 To install compile and install sctk, from the main directory
 type the commands:
 
