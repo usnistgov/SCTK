@@ -8,11 +8,8 @@ use Getopt::Long;
 use Data::Dumper;
 use Pod::Usage;
 
-unless (eval "use Statistics::Descriptive; 1")
-{
-	die "'Statistics::Descriptive' is not available on your Perl installation.\n",
-	"Please see 'http://search.cpan.org/search?query=statistics+descriptive&mode=all' for installation information\n";
-}
+my $GNUPLOT = `which gnuplot`;
+$GNUPLOT = "" if($GNUPLOT !~ /^\//);
 
 my $version = "$1" if('$Revision$' =~ /(\d+\.\d+)/);
 
@@ -76,26 +73,20 @@ print "Sample Processing Latency Begin Time Based (SPLb):\n";
 print "  Mean: " . sprintf("%.3f", $LatencyBegMean) . "\n";
 print "  Standard Deviation: " . sprintf("%.3f", $LatencyBegStddev) . "\n" if(defined($LatencyBegStddev));
 
-my $maxx = -1;
-my $maxy = -1;
-my $bin = -1;
-my $prev = -1;
-
 print "  Distribution:\n";
 
 if(defined($LatencyBegDistribution))
 {
 	for(sort {$a <=> $b} keys %$LatencyBegDistribution)
 	{
-		my $k = sprintf("%.3f", $_);
-		print "    key = $k, count = $LatencyBegDistribution->{$_}\n";
-		$maxx = $_ if($_ > $maxx);
-		$maxy = $LatencyBegDistribution->{$_} if($LatencyBegDistribution->{$_} > $maxy);
-		if($prev == -1)   { $prev = $_; }
-		elsif($bin == -1) { $bin = $_ - $prev; }
+		my $beginrange = sprintf("%6.3f", $LatencyBegDistribution->{$_}{RANGE_MIN});
+		my $endrange = sprintf("%6.3f", $LatencyBegDistribution->{$_}{RANGE_MAX});
+		my $count = $LatencyBegDistribution->{$_}{COUNT};
+		
+		print "    $beginrange - $endrange: $count\n";
 	}
 	
-	BuildPNG($LatencyBegDistribution, "$outputfile.SPLbDistribution.$histogrampartitions", "Sample Processing Latency Begin Time Based Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
+	BuildPNG($LatencyBegDistribution, "$outputfile.SPLbDistribution.$histogrampartitions", "Sample Processing Latency Begin Time Based Distribution - $histogrampartitions partitions") if($outputfile ne "/dev/null");
 }
 else
 {
@@ -106,27 +97,20 @@ print "\n";
 print "Sample Processing Latency Mid-point Time Based (SPLm):\n";
 print "  Mean: " . sprintf("%.3f", $LatencyMidMean) . "\n";
 print "  Standard Deviation: " . sprintf("%.3f", $LatencyMidStddev) . "\n" if(defined($LatencyMidStddev));
-
-$maxx = -1;
-$maxy = -1;
-$bin = -1;
-$prev = -1;
-
 print "  Distribution:\n";
 
 if(defined($LatencyMidDistribution))
 {
 	for(sort {$a <=> $b} keys %$LatencyMidDistribution)
 	{
-		my $k = sprintf("%.3f", $_);
-		print "    key = $k, count = $LatencyMidDistribution->{$_}\n";
-		$maxx = $_ if($_ > $maxx);
-		$maxy = $LatencyMidDistribution->{$_} if($LatencyMidDistribution->{$_} > $maxy);
-		if($prev == -1)   { $prev = $_; }
-		elsif($bin == -1) { $bin = $_ - $prev; }
+		my $beginrange = sprintf("%6.3f", $LatencyMidDistribution->{$_}{RANGE_MIN});
+		my $endrange = sprintf("%6.3f", $LatencyMidDistribution->{$_}{RANGE_MAX});
+		my $count = $LatencyMidDistribution->{$_}{COUNT};
+		
+		print "    $beginrange - $endrange: $count\n";
 	}
 	
-	BuildPNG($LatencyMidDistribution, "$outputfile.SPLmDistribution.$histogrampartitions", "Sample Processing Latency Mid-point Time Based Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
+	BuildPNG($LatencyMidDistribution, "$outputfile.SPLmDistribution.$histogrampartitions", "Sample Processing Latency Mid-point Time Based Distribution - $histogrampartitions partitions") if($outputfile ne "/dev/null");
 }
 else
 {
@@ -137,27 +121,20 @@ print "\n";
 print "Sample Processing Latency End Time Based (SPLe):\n";
 print "  Mean: " . sprintf("%.3f", $LatencyEndMean) . "\n";
 print "  Standard Deviation: " . sprintf("%.3f", $LatencyEndStddev) . "\n" if(defined($LatencyEndStddev));
-
-$maxx = -1;
-$maxy = -1;
-$bin = -1;
-$prev = -1;
-
 print "  Distribution:\n";
 
 if(defined($LatencyEndDistribution))
 {
 	for(sort {$a <=> $b} keys %$LatencyEndDistribution)
 	{
-		my $k = sprintf("%.3f", $_);
-		print "    key = $k, count = $LatencyEndDistribution->{$_}\n";
-		$maxx = $_ if($_ > $maxx);
-		$maxy = $LatencyEndDistribution->{$_} if($LatencyEndDistribution->{$_} > $maxy);
-		if($prev == -1)   { $prev = $_; }
-		elsif($bin == -1) { $bin = $_ - $prev; }
+		my $beginrange = sprintf("%6.3f", $LatencyEndDistribution->{$_}{RANGE_MIN});
+		my $endrange = sprintf("%6.3f", $LatencyEndDistribution->{$_}{RANGE_MAX});
+		my $count = $LatencyEndDistribution->{$_}{COUNT};
+		
+		print "    $beginrange - $endrange: $count\n";
 	}
 	
-	BuildPNG($LatencyEndDistribution, "$outputfile.SPLeDistribution.$histogrampartitions", "Sample Processing Latency End Time Based Distribution - $histogrampartitions partitions", $maxx, $maxy, $bin) if($outputfile ne "/dev/null");
+	BuildPNG($LatencyEndDistribution, "$outputfile.SPLeDistribution.$histogrampartitions", "Sample Processing Latency End Time Based Distribution - $histogrampartitions partitions") if($outputfile ne "/dev/null");
 }
 else
 {
@@ -169,17 +146,30 @@ else
 ################
 sub BuildPNG
 {
-	my ($data, $filename, $title, $maxx, $maxy, $bin) = @_;
+	my ($data, $filename, $title) = @_;
+	
+	if($GNUPLOT eq "")
+	{
+		print "PNG: 'gnuplot not found' - no PNG generated. Install 'gnuplot' to have the PNGs.\n";
+		return;
+	}
 	
 	# Create the dat file
 	my $rectstr = "";
 	
+	my $maxx = -1;
+	my $maxy = -1;
+	
 	for(sort {$a <=> $b} keys %$data)
 	{
-		my $xbl = $_-$bin;
+		my $xbl = $data->{$_}{RANGE_MIN};
 		my $ybl = 0;
-		my $xtr = $_;
-		my $ytr = $data->{$_};
+		my $xtr = $data->{$_}{RANGE_MAX};
+		my $ytr = $data->{$_}{COUNT};
+		
+		$maxx = $data->{$_}{RANGE_MAX} if($data->{$_}{RANGE_MAX} > $maxx);
+		$maxy = $data->{$_}{COUNT} if($data->{$_}{COUNT} > $maxy);
+		
 		$rectstr .= "set object rect from $xbl,$ybl to $xtr,$ytr fc lt 1\n";
 	}
 	
@@ -207,9 +197,9 @@ sub Compute
 {
 	my ($data, $HistPar, $Fil, $Chn, $Nam, $Typ, $STy) = @_;
 
-	my $statLacencyBeg = Statistics::Descriptive::Full->new();
-	my $statLacencyMid = Statistics::Descriptive::Full->new();
-	my $statLacencyEnd = Statistics::Descriptive::Full->new();
+	my @statLacencyBeg = ();
+	my @statLacencyMid = ();
+	my @statLacencyEnd = ();
 	
 	foreach my $t (keys %{ $data })
 	{
@@ -237,9 +227,9 @@ sub Compute
 							my $TEND = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TEND};
 							my $TSLAT = $data->{$t}{$f}{$c}{$s}{$n}{$TBEG}{TSLAT};
 							
-							$statLacencyBeg->add_data($TSLAT-$TBEG);
-							$statLacencyMid->add_data($TSLAT-$TMID);
-							$statLacencyEnd->add_data($TSLAT-$TEND);
+							push(@statLacencyBeg, $TSLAT-$TBEG);
+							push(@statLacencyMid, $TSLAT-$TMID);
+							push(@statLacencyEnd, $TSLAT-$TEND);
 						}
 					}
 				}
@@ -247,26 +237,26 @@ sub Compute
 		}
 	}
 
-	if($statLacencyBeg->count() == 0)
+	if(scalar(@statLacencyBeg) == 0)
 	{
 		print "No data found in files regarding criteria for Latency.\n";
 		exit;
 	}
 	
-	if($statLacencyBeg->count() == 1)
+	if(scalar(@statLacencyBeg) == 1)
 	{
-		return( $statLacencyBeg->mean(), undef, undef,
-	            $statLacencyMid->mean(), undef, undef,
-	            $statLacencyEnd->mean(), undef, undef );
+		return( mean(\@statLacencyBeg), undef, undef,
+	            mean(\@statLacencyMid), undef, undef,
+	            mean(\@statLacencyEnd), undef, undef );
 	}
 	
-	my %lbd = $statLacencyBeg->frequency_distribution($HistPar);
-	my %lmd = $statLacencyMid->frequency_distribution($HistPar);
-	my %led = $statLacencyEnd->frequency_distribution($HistPar);
+	my $lbd = frequency_distribution(\@statLacencyBeg, $HistPar);
+	my $lmd = frequency_distribution(\@statLacencyMid, $HistPar);
+	my $led = frequency_distribution(\@statLacencyEnd, $HistPar);
 	
-	return( $statLacencyBeg->mean(), $statLacencyBeg->standard_deviation(), \%lbd,
-			$statLacencyMid->mean(), $statLacencyMid->standard_deviation(), \%lmd,
-			$statLacencyEnd->mean(), $statLacencyEnd->standard_deviation(), \%led );
+	return( mean(\@statLacencyBeg), stddev(\@statLacencyBeg), $lbd,
+			mean(\@statLacencyMid), stddev(\@statLacencyMid), $lmd,
+			mean(\@statLacencyEnd), stddev(\@statLacencyEnd), $led );
 }
 
 sub IsElement
@@ -317,6 +307,76 @@ sub LoadRTTM
 	close(FILE);
 	
 	return \%h;
+}
+
+sub mean
+{
+	my ($list) = @_;
+	
+	my $sum = 0;
+	
+	for(my $i=0; $i<scalar(@$list); $i++)
+	{
+		$sum += $list->[$i];
+	}
+	
+	return($sum/scalar(@$list));
+}
+
+sub stddev
+{
+	my ($list) = @_;
+	
+	my $mean = mean($list);
+	my $stddev = 0;
+	
+	for(my $i=0; $i<scalar(@$list); $i++)
+	{
+		$stddev += ($list->[$i] - $mean)*($list->[$i] - $mean);
+	}
+	
+	return(sqrt($stddev/scalar(@$list)));
+}
+
+sub frequency_distribution
+{
+	my ($list, $partitions) = @_;
+	
+	my %hash;
+	
+	my @sorted_list = sort {$a <=> $b} @$list;
+	
+	my $min = $sorted_list[0];
+	my $max = $sorted_list[scalar(@sorted_list)-1];
+	
+	my $range_iter = ($max-$min)/$partitions;
+	
+	for(my $i=0; $i<$partitions; $i++)
+	{
+		my $min_range = $min+$i*$range_iter;
+		my $max_range = $min_range+$range_iter;
+		my $key_range = ($min_range+$max_range)/2;
+		
+		my $range_max_use = $max_range;
+		
+		if($i == $partitions-1)
+		{
+			#last one, make sure we have the max elements
+			$range_max_use += $range_iter
+		}
+		
+		for (my $j=0; $j<scalar(@sorted_list); $j++)
+		{
+			if( ($sorted_list[$j] >= $min_range) && ($sorted_list[$j] < $range_max_use) )
+			{
+				$hash{$i}{RANGE_MIN} = $min_range;
+				$hash{$i}{RANGE_MAX} = $max_range;
+				$hash{$i}{COUNT}++;
+			}
+		}
+	}
+	
+	return(\%hash);
 }
 
 __END__
