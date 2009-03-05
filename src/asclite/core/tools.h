@@ -15,38 +15,12 @@
  * OR FITNESS FOR A PARTICULAR PURPOSE.
  */
 	
-#ifndef STDINC_H
-#define STDINC_H
+#ifndef TOOLS_H
+#define TOOLS_H
 
-#include <cstring>
-#include <iostream>
-#include <ostream>
-#include <fstream>
-#include <iomanip>
-#include <map>
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-#include <ctime>
-#include <list>
-#include <vector>
-#include <set>
-#include <cassert>
-#include <sstream>
-#include <cfloat>
-#include <climits>
-#include <algorithm>
+#include "stdinc.h"
 
-#include "lzma/LzmaLib.h"
-#include "tools.h"
-
-using namespace std;
-
-typedef unsigned int uint;
-typedef unsigned long int ulint;
-typedef unsigned long ulong;
-typedef unsigned long long int ullint;
-
-const size_t BUFFER_SIZE = 255;
+void toLowerCase(std::string &str);
+void toUpperCase(std::string &str);
 
 #endif

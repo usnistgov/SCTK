@@ -172,7 +172,7 @@ SpeechSet* STMInputParser::loadFile(const string& name)
 			string s_tokens(line, wordsBegin, line.size());
 			string temp_tokens = s_tokens;
 			Segment* seg;
-			transform(temp_tokens.begin(), temp_tokens.end(), temp_tokens.begin(), (int(*)(int))tolower);
+			toLowerCase(temp_tokens);
             
 			if (temp_tokens.find(IGNORE_TIME_SEGMENT_IN_SCORING) != string::npos)
 			{
