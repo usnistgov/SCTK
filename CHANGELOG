@@ -1,3 +1,6 @@
+SCTK Version 2.3.9 - Release March 5, 2009
+  [*] Compile with gcc 4.3.
+
 SCTK Version 2.3.8 - Release March 4, 2009
   [*] Fix slat test when gnuplot is not installed.
 
