@@ -215,7 +215,7 @@ void Token::SetSourceText(const string& text)
 string Token::GetTextInLowerCase()
 {
 	string tmp = GetText();
-	toLowerCase(tmp);
+	transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))tolower);
 	return tmp;
 }
 

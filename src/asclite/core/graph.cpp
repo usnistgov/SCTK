@@ -727,12 +727,12 @@ int Graph::GetCostTransitionWordBased(Token* pToken1, Token* pToken2)
 			string file1 = pToken1->GetParentSegment()->GetSource();
 			string channel1 = pToken1->GetParentSegment()->GetChannel();
 			string speaker1 = pToken1->GetParentSegment()->GetSpeakerId();
-			toUpperCase(speaker1);
+			transform(speaker1.begin(), speaker1.end(), speaker1.begin(), (int(*)(int)) toupper);
 			
 			string file2 = pToken2->GetParentSegment()->GetSource();
 			string channel2 = pToken2->GetParentSegment()->GetChannel();
 			string speaker2 = pToken2->GetParentSegment()->GetSpeakerId();
-			toUpperCase(speaker2);
+			transform(speaker2.begin(), speaker2.end(), speaker2.begin(), (int(*)(int)) toupper);
 			
 			if( (file1 != file2) || (channel1 != channel2) )
 			{
@@ -1382,12 +1382,12 @@ int Graph::GetCostTransitionTimeBased(Token* pToken1, Token* pToken2)
 		string file1 = pToken1->GetParentSegment()->GetSource();
 		string channel1 = pToken1->GetParentSegment()->GetChannel();
 		string speaker1 = pToken1->GetParentSegment()->GetSpeakerId();
-		toUpperCase(speaker1);
+		transform(speaker1.begin(), speaker1.end(), speaker1.begin(), (int(*)(int)) toupper);
 		
 		string file2 = pToken2->GetParentSegment()->GetSource();
 		string channel2 = pToken2->GetParentSegment()->GetChannel();
 		string speaker2 = pToken2->GetParentSegment()->GetSpeakerId();
-		toUpperCase(speaker2);
+		transform(speaker2.begin(), speaker2.end(), speaker2.begin(), (int(*)(int)) toupper);
 		
 		if( (file1 != file2) || (channel1 != channel2) )
 		{

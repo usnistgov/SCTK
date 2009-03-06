@@ -100,8 +100,8 @@ void SpeakerMatch::LoadFile(const string& filename)
 			if( tokens[4] == string("mapped") )
 			{
 				//SetSysRef(string(l_file), string(l_channel), string(l_sys), string(l_ref));
-				toUpperCase(tokens[3]);
-				toUpperCase(tokens[2]);
+				transform(tokens[3].begin(), tokens[3].end(), tokens[3].begin(), (int(*)(int)) toupper);
+				transform(tokens[2].begin(), tokens[2].end(), tokens[2].begin(), (int(*)(int)) toupper);
 				SetSysRef(tokens[0], tokens[1], tokens[3], tokens[2]);
 			}
 		}

@@ -285,7 +285,7 @@ sub findNextNum
         return \$x-1 if (\$aa->[\$x] =~ /^[0-9\.]+\$/);
     }
     
-    return \$#{ @\$aa };
+    return scalar(@\$aa)-1;
 }
 sub dh{
     my (\$start, \$end) = @_;
