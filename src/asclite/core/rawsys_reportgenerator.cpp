@@ -593,13 +593,13 @@ void RAWSYSReportGenerator::GenerateSystem(Alignment* alignment, const string& s
 	if(m_RawSys == 1)	// Raw
 		AddStringText(output, static_cast<int>(StatisticsCorrectWords.GetSum()), "right", sizeofCorrectWords, stradd);
 	else // Sys - percentage
-		AddStringText(output, (StatisticsRefWords.GetSum() == 0) ? 0.0 : 100.0*StatisticsCorrectWords.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofCorrectWords, stradd);
+		AddStringText(output, (StatisticsRefWords.GetSum(1) == 0) ? 0.0 : 100.0*StatisticsCorrectWords.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofCorrectWords, stradd);
 	
 	output << " ";
 	if(m_RawSys == 1)	// Raw
 		AddStringText(output, static_cast<int>(StatisticsSubstitutions.GetSum()), "right", sizeofSubstitutions, stradd);
 	else // Sys - percentage
-		AddStringText(output, (StatisticsRefWords.GetSum() == 0) ? 0.0 : 100.0*StatisticsSubstitutions.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofSubstitutions, stradd);
+		AddStringText(output, (StatisticsRefWords.GetSum(1) == 0) ? 0.0 : 100.0*StatisticsSubstitutions.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofSubstitutions, stradd);
 	
 	if (incSpErr)
 	{
@@ -607,26 +607,26 @@ void RAWSYSReportGenerator::GenerateSystem(Alignment* alignment, const string& s
 		if(m_RawSys == 1)	// Raw
 			AddStringText(output, static_cast<int>(StatisticsSpeakerErrors.GetSum()), "right", sizeofSpeakerErrors, stradd);
 		else // Sys - percentage
-			AddStringText(output, (StatisticsRefWords.GetSum() == 0) ? 0.0 : 100.0*StatisticsSpeakerErrors.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofSpeakerErrors, stradd);
+			AddStringText(output, (StatisticsRefWords.GetSum(1) == 0) ? 0.0 : 100.0*StatisticsSpeakerErrors.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofSpeakerErrors, stradd);
 	}
 	
 	output << " ";
 	if(m_RawSys == 1)	// Raw
 		AddStringText(output, static_cast<int>(StatisticsDeletions.GetSum()), "right", sizeofDeletions, stradd);
 	else // Sys - percentage
-		AddStringText(output, (StatisticsRefWords.GetSum() == 0) ? 0.0 : 100.0*StatisticsDeletions.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofDeletions, stradd);
+		AddStringText(output, (StatisticsRefWords.GetSum(1) == 0) ? 0.0 : 100.0*StatisticsDeletions.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofDeletions, stradd);
 	
 	output << " ";
 	if(m_RawSys == 1)	// Raw
 		AddStringText(output, static_cast<int>(StatisticsInsertions.GetSum()), "right", sizeofInsertions, stradd);
 	else // Sys - percentage
-		AddStringText(output, (StatisticsRefWords.GetSum() == 0) ? 0.0 : 100.0*StatisticsInsertions.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofInsertions, stradd);
+		AddStringText(output, (StatisticsRefWords.GetSum(1) == 0) ? 0.0 : 100.0*StatisticsInsertions.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofInsertions, stradd);
 	
 	output << " ";
 	if(m_RawSys == 1)	// Raw
 		AddStringText(output, static_cast<int>(StatisticsErrors.GetSum()), "right", sizeofErrors, stradd);
 	else // Sys - percentage
-		AddStringText(output, (StatisticsRefWords.GetSum() == 0) ? 0.0 : 100.0*StatisticsErrors.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofErrors, stradd);
+		AddStringText(output, (StatisticsRefWords.GetSum(1) == 0) ? 0.0 : 100.0*StatisticsErrors.GetSum()/StatisticsRefWords.GetSum(1), 1, "right", sizeofErrors, stradd);
 	
 	output << " ";
 	if(m_RawSys == 1)	// Raw
