@@ -1,7 +1,7 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 
 # RTTMVALIDATOR
-# Author: Jon Fiscus
+# Author: Jon Fiscus, Jerome Ajot
 #
 # This software was developed at the National Institute of Standards and Technology by 
 # employees of the Federal Government in the course of their official duties. Pursuant
@@ -15,13 +15,14 @@
 # OR IMPLIED WARRANTY AS TO ANY MATTER WHATSOEVER, INCLUDING MERCHANTABILITY,
 # OR FITNESS FOR A PARTICULAR PURPOSE.
 
+use warnings;
 use strict;
 use Getopt::Std;
 use Data::Dumper;
 
 my $debug = 0;
 
-my $VERSION = "v11";
+my $VERSION = "v12";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
@@ -30,13 +31,15 @@ my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "Options:\n".
     "  -u            : disable check that ensures all LEXEMEs belong to some SU object\n".
     "  -s            : disable check that ensures all LEXEMEs belong to some SPEAKER object\n".
+    "  -p            : disable check that ensures all speakers defined in SPKR-INFO object\n".
     "  -e            : disable check that ensure there is an IP for each EDIT and each FILLER object\n".
     "  -f            : disable check that ensures the file columc matches the filename\n".
 	"  -h            : print this help message\n".
     "Input:\n".
     "  -i <RTTM file>: an RTTM file\n\n";
 
-my $NUM_FIELDS = 9; # count from 1
+#my $NUM_FIELDS = 9; # count from 1
+#number of fields can be 9 or 10 (with the SLAT)
 
 my $ROUNDING_THRESHOLD = 0.000999999;
 
@@ -65,8 +68,8 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     my ($date, $time) = date_time_stamp();
     my $commandline = join(" ", @ARGV);
 
-    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h $opt_f $opt_t);
-    getopts('i:usevhft');
+    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h $opt_f $opt_t $opt_p);
+    getopts('i:usevhftp');
     die ("$USAGE") if ($opt_h) || (! $opt_i);
 
     my @mde_types = ();
@@ -152,6 +155,7 @@ sub get_rttm_data {
 	    $obj->{STYPE} = shift @fields;
 	    $obj->{SPKR} = shift @fields;
 	    $obj->{CONF} = shift @fields;
+	    $obj->{SLAT} = shift @fields;
 	    push (@{$data->{$obj->{SRC}}{$obj->{CHNL}}{$obj->{SPKR}}{$obj->{TYPE}}}, $obj);
 	}
     }
@@ -176,8 +180,9 @@ sub check_syntax_errors {
 		    foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			# make sure that we have the correct number of fields
 			#
-			if ($obj->{FIELD_COUNT} != $NUM_FIELDS) {
-			    print "ERROR: This record has $obj->{FIELD_COUNT} fields instead of the required $NUM_FIELDS fields; see $obj->{LOC}\n";
+#			if ($obj->{FIELD_COUNT} != $NUM_FIELDS) {
+			if( ($obj->{FIELD_COUNT} != 9) && ($obj->{FIELD_COUNT} != 10) ){
+			    print "ERROR: This record has $obj->{FIELD_COUNT} fields instead of the required 9 or 10 fields; see $obj->{LOC}\n";
 			    $pass = 0;
 			}
 			
@@ -354,9 +359,12 @@ sub check_syntax_errors {
 			    # make sure that the speaker id field for certain types match the speaker id
 			    # given in the SPKR-INFO object
 			    #
-			    if ($type !~ /(SPKR-INFO|NOSCORE|NONSPEECH)/i && ! find_speaker($obj->{SPKR}, $data)) {
-				print "ERROR: Speaker $obj->{SPKR} doesn't match any of the speaker IDs in SPKR-INFO objects; see $obj->{LOC}\n";
-				$pass = 0;
+			    if( ! $opt_p )
+			    {
+					if ($type !~ /(SPKR-INFO|NOSCORE|NONSPEECH)/i && ! find_speaker($obj->{SPKR}, $data) ) {
+					print "ERROR: Speaker $obj->{SPKR} doesn't match any of the speaker IDs in SPKR-INFO objects; see $obj->{LOC}\n";
+					$pass = 0;
+				}
 			    }
 			}
                     }
