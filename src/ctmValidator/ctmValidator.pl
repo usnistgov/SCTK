@@ -19,7 +19,7 @@ use strict;
 use Getopt::Long;
 use Data::Dumper;
 
-my $VERSION = "v1";
+my $VERSION = "v2";
 
 my $USAGE = "\n\n$0 [-l <language>] [-h] -i <CTM file>\n\n".
     "Description: This Perl program (version $VERSION) validates a given CTM file.\n".
@@ -118,7 +118,7 @@ while(<CTMFILE>)
 		
 		if(lc($language) eq "english")
 		{
-			if($token !~ /^[A-Za-z-\']+$/)
+			if( ($token !~ /^[A-Za-z-\']+$/) && ($token !~ /^[A-Za-z]\./) && ($type eq "lex") )
 			{
 				print "ERROR: [line $line] token '$token' must have alphabetic, hyphens (-) and apostrophes (') characters only\n";
 				$errors++;
