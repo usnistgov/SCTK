@@ -147,4 +147,4 @@ while(<CTMFILE>)
 
 close(CTMFILE);
 
-print "FATAL: Validation failed due to the $errors previous error(s)\n" if($errors > 0);
+print "FATAL: Validation '$inputfile' failed due to the $errors previous error(s)\n" if($errors > 0);
