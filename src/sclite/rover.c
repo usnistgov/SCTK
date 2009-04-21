@@ -47,7 +47,7 @@ void do_exit(char *desc, char *prog, int ret);
 void proc_args(int argc, char **argv, char *prog, char **hname, char **hfmt, int *nhyps, int *feedback, int *linewidth, int *time_align, int *case_sense, char **out_name, double *alpha, double *null_conf, int *method);
 void mfalign_ctm_files_v1(char **hypname, int nhyps, int time_align, int case_sense, char *outfile, int feedback, char *out_name, double alpha, double null_conf, int method);
 void print_linear(NODE *node, void *p);
-NETWORK *perform_mfalign_v1(WTOKE_STR1 **ctms, int nctm, int *sil_end, int time_align);
+NETWORK *perform_mfalign_v1(WTOKE_STR1 **ctms, int nctm, int *sil_end, int time_align, double null_conf);
 void set_tag1(ARC *arc, void *p);
 
 #define MAX_HYPS 50
@@ -135,7 +135,7 @@ void mfalign_ctm_files_v1(char **hypname, int nhyps, int time_align, int case_se
 	}
 	fprintf(mf_sel_str.fpout,"\">\n");
     }
-    mf_sel_str.null_alt = new_WORD((TEXT *)"@",-1,0.0,0.0,0.0,(TEXT *)0,(TEXT *)0,0,0,0.0);
+    mf_sel_str.null_alt = new_WORD((TEXT *)"@",-1,0.0,0.0,null_conf,(TEXT *)0,(TEXT *)0,0,0,0.0);
   
     /* OPEN FILES, INIT WTOKE'S, FILE WTOKE'S */
     for (in=0; in < nhyps; in++){
@@ -170,7 +170,7 @@ void mfalign_ctm_files_v1(char **hypname, int nhyps, int time_align, int case_se
 		}
 	    }
 
-	    mfnet = perform_mfalign_v1(ctms,nhyps,sil_end,time_align);
+	    mfnet = perform_mfalign_v1(ctms,nhyps,sil_end,time_align, null_conf);
 
 	    /* 	    Network_sgml_dump(mfnet, stdout); */
 
@@ -375,6 +375,7 @@ void print_linear(NODE *node, void *p){
 	    word_occ[i] ++;
 	    word_t1[i] += ((WORD*)(parc->arc->data))->T1;
 	    word_t2[i] += ((WORD*)(parc->arc->data))->T2;
+#ifdef mmm
 	    if (parc->arc->net->arc_func.equal(wlist[i],
                                                mf_sel_str->null_alt)==0){
 		if (mf_sel_str->method == METH_METH1 ||
@@ -396,11 +397,14 @@ void print_linear(NODE *node, void *p){
 		    exit(1);
 		}
 	    } else {
+#endif
                 word_conf_sum[i] += ((WORD*)(parc->arc->data))->conf;
 		word_max_conf[i] = MAX(word_max_conf[i],
 				       ((WORD*)(parc->arc->data))->conf);
 		total_conf +=  ((WORD*)(parc->arc->data))->conf;
+#ifdef mmm
 	    }
+#endif
 	}	
 	/* compute the actual score */
 	max_score = -1;
@@ -523,14 +527,14 @@ void print_linear(NODE *node, void *p){
 }
 
 
-NETWORK *perform_mfalign_v1(WTOKE_STR1 **ctms, int nctm, int *end, int time_align){
+NETWORK *perform_mfalign_v1(WTOKE_STR1 **ctms, int nctm, int *end, int time_align, double null_conf){
     char *proc = "perform_mfalign";
     NETWORK **nets, *out_net;
     WORD *null_alt;
     int in;
 
     alloc_singZ(nets,nctm,NETWORK *,(NETWORK *)0);
-    null_alt = new_WORD((TEXT *)"@",-1,0.0,0.0,0.0,(TEXT *)0,(TEXT *)0,0,0,0);
+    null_alt = new_WORD((TEXT *)"@",-1,0.0,0.0,null_conf,(TEXT *)0,(TEXT *)0,0,0,0);
      
     /* create the networks */
     for (in=0; in < nctm; in++){
