@@ -2,14 +2,15 @@
 
 usage="$0 <stm validation script location>"
 
-if [ $# -lt 1 ]; then
+if [ "$#" != '1' ]; then
+    echo Script missing
     echo $usage
     exit 1
 fi
 
 stm=$1
-exec=`file -L $stm | perl -pe 's/.*?executable.*/1/'`
-if [ "$exec" != '1' ]; then
+if [ ! -x "$stm" ]; then
+	echo Script not executable
     echo $usage
     exit 1
 fi

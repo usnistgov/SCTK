@@ -2,14 +2,15 @@
 
 usage="$0 <rttm validation script location> [-v]"
 
-if [ $# -lt 1 ]; then
+if [ "$#" != '1' ]; then
+    echo Script missing
     echo $usage
     exit 1
 fi
 
 rttm=$1
-exec=`file -L $rttm | perl -pe 's/.*?executable.*/1/'`
-if [ "$exec" != '1' ]; then
+if [ ! -x "$rttm" ]; then
+	echo Script not executable
     echo $usage
     exit 1
 fi

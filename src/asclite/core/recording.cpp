@@ -349,6 +349,13 @@ void Recording::Filter(const vector<string> & _filters)
 void Recording::AlignGeneric()
 {
 	uint max_spkrOverlaping = atoi(Properties::GetProperty("recording.maxspeakeroverlaping").c_str());
+	uint min_spkrOverlaping = atoi(Properties::GetProperty("recording.minspeakeroverlaping").c_str());
+	ulint OnlySG_ID = 0;
+	bool bOnlySG = (string("true").compare(Properties::GetProperty("recording.bonlysg")) == 0);
+	
+	if(bOnlySG)
+		OnlySG_ID = atoi(Properties::GetProperty("recording.onlysg").c_str());
+		
     ullint max_nb_gb = static_cast<ullint>(ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int)));
 	ullint max_nb_2gb = static_cast<ullint>(ceil(2.0*1024*1024*1024/sizeof(int)));
 	bool bForceMemoryCompression = (string("true").compare(Properties::GetProperty("align.forcememorycompression")) == 0);
@@ -413,12 +420,31 @@ void Recording::AlignGeneric()
 			LOG_WARN(logger, buffer);
 		}
 		
+		if(!ignoreSegs && bOnlySG )
+		{
+			if(segmentsGroup->GetsID() != OnlySG_ID)
+			{
+				ignoreSegs = true;
+				sprintf(buffer, "Skip this group of segments (%lu): Only scoring %lu", static_cast<ulint>( segmentsGroup->GetsID()), OnlySG_ID);
+				LOG_WARN(logger, buffer);
+			}
+		}
+		
 		if(!ignoreSegs &&  (segmentsGroup->GetNumberOfReferences() > max_spkrOverlaping) )
 		{
 			ignoreSegs = true;        
 			sprintf(buffer, "Skip this group of segments (%lu): nb of reference speaker (%lu) overlaping to high (limit: %lu)", static_cast<ulint>(segmentsGroup->GetsID()), 
 																																static_cast<ulint>(segmentsGroup->GetNumberOfReferences()), 
 																																static_cast<ulint>(max_spkrOverlaping));
+			LOG_WARN(logger, buffer);
+		}
+		
+		if(!ignoreSegs &&  (segmentsGroup->GetNumberOfReferences() < min_spkrOverlaping) )
+		{
+			ignoreSegs = true;        
+			sprintf(buffer, "Skip this group of segments (%lu): nb of reference speaker (%lu) overlaping to small (limit: %lu)", static_cast<ulint>(segmentsGroup->GetsID()), 
+																																 static_cast<ulint>(segmentsGroup->GetNumberOfReferences()), 
+																																 static_cast<ulint>(min_spkrOverlaping));
 			LOG_WARN(logger, buffer);
 		}
 		
@@ -526,6 +552,13 @@ void Recording::AlignGeneric()
 void Recording::AlignHypRef()
 {
 	uint max_spkrOverlaping = atoi(Properties::GetProperty("recording.maxspeakeroverlaping").c_str());
+	uint min_spkrOverlaping = atoi(Properties::GetProperty("recording.minspeakeroverlaping").c_str());
+	ulint OnlySG_ID = 0;
+	bool bOnlySG = (string("true").compare(Properties::GetProperty("recording.bonlysg")) == 0);
+	
+	if(bOnlySG)
+		OnlySG_ID = atoi(Properties::GetProperty("recording.onlysg").c_str());
+	
     ullint max_nb_gb = static_cast<ullint>( ceil(1024*1024*1024*atof(Properties::GetProperty("recording.maxnbofgb").c_str())/sizeof(int)) );
 	ullint max_nb_2gb = static_cast<ullint>( ceil(2.0*1024*1024*1024/sizeof(int)) );
 	bool bForceMemoryCompression = (string("true").compare(Properties::GetProperty("align.forcememorycompression")) == 0);
@@ -567,9 +600,7 @@ void Recording::AlignHypRef()
 				if(segmentsGroup->GetNumberOfReferences() == 1)
 				{
 					if( segmentsGroup->GetReference(0)[0]->GetSpeakerId() == string("inter_segment_gap") )
-					{
 						emptyHypvsISG = true;
-					}
 				}
             }
       
@@ -613,12 +644,22 @@ void Recording::AlignHypRef()
 				sprintf(buffer, "Skip this group of segments (%lu): Inter Segment Gap versus Empty Hyp", static_cast<ulint>( segmentsGroup->GetsID()) );
                 LOG_WARN(logger, buffer);
 			}
-            
+			
 			if(!ignoreSegs && (segmentsGroup->isIgnoreInScoring()) )
             {
                 ignoreSegs = true;
 				sprintf(buffer, "Skip this group of segments (%lu): Ignore this time segments in scoring set into the references", static_cast<ulint>( segmentsGroup->GetsID()) );
                 LOG_WARN(logger, buffer);
+            }
+            
+            if(!ignoreSegs && bOnlySG )
+            {
+            	if(segmentsGroup->GetsID() != OnlySG_ID)
+            	{
+					ignoreSegs = true;
+					sprintf(buffer, "Skip this group of segments (%lu): Only scoring %lu", static_cast<ulint>( segmentsGroup->GetsID()), OnlySG_ID);
+					LOG_WARN(logger, buffer);
+            	}
             }
 			
 			if(!ignoreSegs &&  (segmentsGroup->GetNumberOfReferences() > max_spkrOverlaping) )
@@ -630,6 +671,15 @@ void Recording::AlignHypRef()
                 LOG_WARN(logger, buffer);
             }
 			
+			if(!ignoreSegs &&  (segmentsGroup->GetNumberOfReferences() < min_spkrOverlaping) )
+			{
+				ignoreSegs = true;        
+				sprintf(buffer, "Skip this group of segments (%lu): nb of reference speaker (%lu) overlaping to small (limit: %lu)", static_cast<ulint>(segmentsGroup->GetsID()), 
+																																	 static_cast<ulint>(segmentsGroup->GetNumberOfReferences()), 
+																																	 static_cast<ulint>(min_spkrOverlaping));
+				LOG_WARN(logger, buffer);
+			}
+		
 			if(!ignoreSegs && (bDifficultyLimit) )
 			{
 				ullint difficulty_nb_gb = static_cast<ullint>( ceil(1024*1024*1024*atof(Properties::GetProperty("recording.nbrdifficultygb").c_str())/sizeof(int)) );

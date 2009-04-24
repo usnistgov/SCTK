@@ -199,7 +199,7 @@ void CompressedLevenshteinMatrix::CompressBlock(const size_t& block_index)
 						  m_lzmaNumberThreads ) != SZ_OK)
 		{
 			LOG_FATAL(m_pLogger, "Compression: 'LzmaCompress()' failed!");
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 		
 		if( (comp_lengh + m_lzmaPropertiesSize >= decomp_lengh) || (outPropsize > m_lzmaPropertiesSize) )
@@ -242,7 +242,7 @@ bool CompressedLevenshteinMatrix::DecompressBlock(const size_t& block_index)
 						   (unsigned char*) m_TabStartByteCompressed[block_index], m_lzmaPropertiesSize) != SZ_OK)
 		{
 			LOG_FATAL(m_pLogger, "Decompression: 'LzmaUncompress()' failed!");
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
 		
 		free(m_TabStartByteCompressed[block_index]);
@@ -262,6 +262,13 @@ bool CompressedLevenshteinMatrix::DecompressBlock(const size_t& block_index)
 
 void CompressedLevenshteinMatrix::GarbageCollection()
 {
+	char buffer[BUFFER_SIZE];
+	sprintf(buffer, "Compressed Levenshtein Matrix: Current: %lu KB, Limit: %lu KB, CompressedBlocks: %lu, UncompressedBlocks: %lu", m_CurrentMemorySize/1024, 
+	                                                                                                                                 static_cast<size_t>(m_UsableMemoryKB), 
+	                                                                                                                                 m_NbrCompressedBlocks, 
+	                                                                                                                                 m_NbrDecompressedBlocks);	   
+	LOG_DEBUG(m_pLogger, buffer);
+
 	if(isCallGarbageCollector())
 	{
 		bool found = false;

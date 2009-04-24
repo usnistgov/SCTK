@@ -2,14 +2,15 @@
 
 usage="$0 <ctm validation script location> [-v]"
 
-if [ $# -lt 1 ]; then
+if [ "$#" != '1' ]; then
+    echo Script missing
     echo $usage
     exit 1
 fi
 
 ctm=$1
-exec=`file -L $ctm | perl -pe 's/.*?executable.*/1/'`
-if [ "$exec" != '1' ]; then
+if [ ! -x "$ctm" ]; then
+	echo Script not executable
     echo $usage
     exit 1
 fi

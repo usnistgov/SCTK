@@ -71,7 +71,11 @@ void PrintHelp()
 	cout << "    -wordalign-cost" << endl;
     cout << "                  Activates the word align cost based on the edit distance." << endl;
     cout << "    -overlap-limit <max_nb_of_overlaping speaker>" << endl;
-    cout << "                  Change the maximum number of overlaping speaker (default: 1)." << endl;
+    cout << "                  Change the maximum number of overlaping speaker (default: 4)." << endl;
+    cout << "    -overlap-min <min_nb_of_overlaping speaker>" << endl;
+    cout << "                  Change the minimum number of overlaping speaker (default: 0)." << endl;
+    cout << "    -only-SG <segment_group_ID>" << endl;
+    cout << "                  Only score the segment group specified (default: disable, scoring all Segment Groups)." << endl;
 	cout << "    -memory-compression <block_KB>" << endl;
     cout << "                  Set the memory compression with compressed <block_KB> KB block (default: off / recommanded: 256)." << endl;
 	cout << "    -force-memory-compression" << endl;
@@ -136,6 +140,10 @@ int main(int argc, char **argv)
 	string arg_speakeroptimizationfilename = "";
 	bool arg_bmaxnboverlapingspkr = false;
 	string arg_maxnboverlapingspkr = "4";
+	bool arg_bminnboverlapingspkr = false;
+	string arg_minnboverlapingspkr = "0";
+	bool arg_bonlysg = false;
+	string arg_onlysg = "";
 	bool arg_bmemorycompression = false;
 	string arg_memorycompression = "256";
 	bool arg_bforcememorycompression = false;
@@ -512,7 +520,7 @@ int main(int argc, char **argv)
 			}
 		}
 		else
-        // Time optimization
+        // Max overlap
 		if(strcmp(argv[arg_index], "-overlap-limit") == 0)
 		{
 			if(arg_index < argc-1)
@@ -529,6 +537,46 @@ int main(int argc, char **argv)
 			{
 				arg_ok = false;
 				cerr << "[  ERROR  ] Max number of overlaping speaker missing!" << endl;
+			}
+		}
+		else
+		// Min overlap
+		if(strcmp(argv[arg_index], "-overlap-min") == 0)
+		{
+			if(arg_index < argc-1)
+			{
+				if(argv[arg_index+1][0] != '-')
+				{
+					arg_index++;
+					arg_bminnboverlapingspkr = true;
+					arg_minnboverlapingspkr = string(argv[arg_index]);
+				}
+			}
+			
+			if(!arg_bminnboverlapingspkr)
+			{
+				arg_ok = false;
+				cerr << "[  ERROR  ] Min number of overlaping speaker missing!" << endl;
+			}
+		}
+		else
+		// Only Segment Group
+		if(strcmp(argv[arg_index], "-only-SG") == 0)
+		{
+			if(arg_index < argc-1)
+			{
+				if(argv[arg_index+1][0] != '-')
+				{
+					arg_index++;
+					arg_bonlysg = true;
+					arg_onlysg = string(argv[arg_index]);
+				}
+			}
+			
+			if(!arg_bonlysg)
+			{
+				arg_ok = false;
+				cerr << "[  ERROR  ] Segment Group ID missing!" << endl;
 			}
 		}
 		else
@@ -897,6 +945,9 @@ int main(int argc, char **argv)
 		Properties::SetProperty("threads.number", arg_nbthreads);
 		
 		Properties::SetProperty("recording.maxspeakeroverlaping", arg_maxnboverlapingspkr);
+		Properties::SetProperty("recording.minspeakeroverlaping", arg_minnboverlapingspkr);
+		Properties::SetProperty("recording.bonlysg", arg_bonlysg ? "true" : "false");
+		Properties::SetProperty("recording.onlysg", arg_onlysg);
         Properties::SetProperty("recording.maxnbofgb", arg_maxgb);
 		Properties::SetProperty("recording.difficultygb", arg_bdifficultygb ? "true" : "false");
 		Properties::SetProperty("recording.nbrdifficultygb", arg_difficultygb);
