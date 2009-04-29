@@ -108,7 +108,7 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
 "      -f [ ctm | rttm ]\n".
 "                 ->  Specify the hyps fileformat.\n".
 "      -F [ stm | rttm ]\n".
-"                 ->  Specify the hyps fileformat.\n".
+"                 ->  Specify the refs fileformat.\n".
 "      -G         -> Produce alignment graphs when asclite is used\n".
 "      -u UEM         Specify the UEM file for running mdeval (sastt hub only)\n".
 "      -M \"ARGS\" -> Arguments to pass to mdeval (sastt hup only) Def. '-nafc -c 0.25 -o'\n".            
