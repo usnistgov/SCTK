@@ -22,7 +22,9 @@ my %spkrinfo;
 my %stm_file;
  while (<>) {
      next if ($_ =~ /;;/);
-     if (/(SPKR-INFO|SEGMENT|LEXEME|NON-LEX|CB|SU|EDIT|FILLER|IP|NOSCORE|SPEAKER|NORTMETADATA|NON-SPEECH|A\/P)\s+(\S+)\s+(\d+)\s+(\d*\.?\d+|<NA>)\s+(\d*\.?\d+|<NA>)\s+([\]\[\w%\{\'\<\>.-]+|<NA>)\s+([\w&-]+|<NA>)\s+(\S+|<NA>)\s+(\d*\.?\d+|<NA>)/) {
+     my $wrdExp = '[\]\[\w%\{'."\\'".'\<\>.-]+';
+     my $txtExp = "$wrdExp|\\($wrdExp\\)|<NA>";
+     if (/(SPKR-INFO|SEGMENT|LEXEME|NON-LEX|CB|SU|EDIT|FILLER|IP|NOSCORE|SPEAKER|NORTMETADATA|NON-SPEECH|A\/P)\s+(\S+)\s+(\d+)\s+(\d*\.?\d+|<NA>)\s+(\d*\.?\d+|<NA>)\s+($txtExp)\s+([\w&-]+|<NA>)\s+(\S+|<NA>)\s+(\d*\.?\d+|<NA>)/) {
 	 if ($1 eq "SPKR-INFO") {
 #	     print "--$2  $8--\n";
 	     die "Error: spkrinfo exists for '$2 $8'" if (exists($spkrinfo{$2." ".$8}));
