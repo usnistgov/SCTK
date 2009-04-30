@@ -75,7 +75,7 @@ sub new
 	
 	$self->{NUMPREV} = scalar( @{ $self->{PREVTKNID} } );
 	$self->{NUMNEXT} = scalar( @{ $self->{NEXTTKNID} } );
-		
+	
     return $self;
 }
 

@@ -88,7 +88,9 @@ sub addSGLine
 	my $SG_RefSegID	  = $inputline->[5];
 	my $SG_HypSegID	  = $inputline->[16];
 	
-	if($SG_RefSegID ne "")
+	my $ok = 0;
+	
+	if($SG_RefSegID ne "" && $inputline->[9] ne "")
 	{
 		$SYSREF = "REF";
 		$SegID = $SG_RefSegID;
@@ -98,9 +100,10 @@ sub addSGLine
 		$dur = sprintf("%.3f", $inputline->[11]-$inputline->[10]) if( ($inputline->[10] ne "") || ($inputline->[11] ne "") );
 		
 		$Tokn = new Token($inputline->[9], $inputline->[10], $dur, $inputline->[12], $SYSREF, $inputline->[1], $inputline->[5], $SpkrID, $inputline->[13], $inputline->[14], $inputline->[15], $inputline->[6], $inputline->[7]);
+		$ok = 1;
 	}
 	
-	if($SG_HypSegID ne "")
+	if($SG_HypSegID ne "" && $inputline->[20] ne "")
 	{
 		$SYSREF = "SYS";
 		$SegID = $SG_HypSegID;
@@ -110,25 +113,29 @@ sub addSGLine
 		$dur = sprintf("%.3f", $inputline->[22]-$inputline->[21]) if( ($inputline->[21] ne "") || ($inputline->[22] ne "") );
 		
 		$Tokn = new Token($inputline->[20], $inputline->[21], $dur, $inputline->[23], $SYSREF, $inputline->[1], $inputline->[16], $SpkrID, $inputline->[24], $inputline->[25], $inputline->[26], $inputline->[17], $inputline->[18]);
+		$ok = 1;
 	}
 	
-	$SegGroups{$SG_SegGrpID} = new SegmentGroup($SG_SegGrpID, $SG_SegGrpFile, $SG_SegGrpChan) if(!exists($SegGroups{$SG_SegGrpID}));
-	$SG = $SegGroups{$SG_SegGrpID};
-		
-	if(!exists( $SG->{$SYSREF}{$SegID} ))
+	if($ok)
 	{
-		$Segmnt = new Segment($SegID, $SpkrID);
+		$SegGroups{$SG_SegGrpID} = new SegmentGroup($SG_SegGrpID, $SG_SegGrpFile, $SG_SegGrpChan) if(!exists($SegGroups{$SG_SegGrpID}));
+		$SG = $SegGroups{$SG_SegGrpID};
+			
+		if(!exists( $SG->{$SYSREF}{$SegID} ))
+		{
+			$Segmnt = new Segment($SegID, $SpkrID);
+			
+			$SG->addSysSegment($Segmnt) if($SYSREF eq "SYS");
+			$SG->addRefSegment($Segmnt) if($SYSREF eq "REF");
+		}
+		else
+		{
+			$Segmnt = $SG->{$SYSREF}{$SegID};
+		}
 		
-		$SG->addSysSegment($Segmnt) if($SYSREF eq "SYS");
-		$SG->addRefSegment($Segmnt) if($SYSREF eq "REF");
+		$Tokn->DoDisplay();
+		$Segmnt->AddToken($Tokn);
 	}
-	else
-	{
-		$Segmnt = $SG->{$SYSREF}{$SegID};
-	}
-	
-	$Tokn->DoDisplay();
-	$Segmnt->AddToken($Tokn);
 }
 
 sub addAlignments
