@@ -43,6 +43,7 @@ $TYPES{"noscore"} = 1;
 
 # Number of fields
 my $NUM_FIELDS = 8;
+my $MIN_FIELDS = 5;
 
 my $inputfile = "";
 my $language = "english";
@@ -75,22 +76,27 @@ while(<CTMFILE>)
 	next if($_ =~ /^;;/);
 	
 	my @ctm_record = split(/\s+/, $_);
-	
-	if(scalar(@ctm_record) != $NUM_FIELDS)
+#	print scalar(@ctm_record)." $_\n";
+	if(scalar(@ctm_record) < $MIN_FIELDS){
+		print "ERROR: [line $line] ctm record must have at least $MIN_FIELDS fields and no whitespace at the beginning\n";
+		$errors++;
+	} 
+	elsif(scalar(@ctm_record) > $NUM_FIELDS)
 	{
-		print "ERROR: [line $line] ctm record must have $NUM_FIELDS fields and no whitespace at the beginning\n";
+		print "ERROR: [line $line] ctm record must have no more than $NUM_FIELDS fields and no whitespace at the beginning\n";
 		$errors++;
 	}
 	else
 	{
+
 		my $source   = $ctm_record[0];
 		my $channel  = $ctm_record[1];
 		my $beg_time = $ctm_record[2];
 		my $duration = $ctm_record[3];
 		my $token    = $ctm_record[4];
-		my $conf     = $ctm_record[5];
-		my $type     = $ctm_record[6];
-		my $speaker  = $ctm_record[7];
+		my $conf     = (defined($ctm_record[5]) ? $ctm_record[5] : 0.0);
+		my $type     = (defined($ctm_record[6]) ? $ctm_record[6] : "lex");
+		my $speaker  = (defined($ctm_record[7]) ? $ctm_record[7] : "spkr");
 		
 		if($source !~ /^[A-Za-z0-9_-]+$/)
 		{
