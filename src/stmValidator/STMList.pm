@@ -15,7 +15,7 @@
 
 package STMList;
 use strict;
-use STMRecord;
+use Data::Dumper;
  
 sub new {
     my $class = shift;
@@ -67,25 +67,31 @@ sub dump{
 sub validateEnglishText{
     my ($self, $text, $verbosity) = @_;
     my $err = 0;
+    my $dbg = 0;
+    print " text /$text/\n" if ($dbg);
     foreach my $token (split(/\s+/, $text)){
 	if ($token =~ /^ignore_time_segment_in_scoring$/i){
-	    ;
+	    print "Token: /$token/ pass Rule 1\n" if ($dbg == 1);
 	} elsif ($token =~ /^([a-z]*-)*[a-z]+$/i){  ## hyphenated words and non-hyphenated words
-	    ;
+	    print "Token: /$token/ pass Rule 2\n" if ($dbg == 1);
 	} elsif ($token =~ /^\(([a-z]*-)*[a-z]+\)$/i){  ## optioanlly deletable hyphenated words and non-hyphenated words
-	    ;
+	    print "Token: /$token/ pass Rule 1\n" if ($dbg == 1);
 	} elsif ($token =~ /^[a-z]+\.('s|s)*$/i){       ## Acronyms, plural and posessives
-	    ;
+	    print "Token: /$token/ pass Rule 3\n" if ($dbg == 1);
 	} elsif ($token =~ /^\([a-z]+\.('s|s)*\)$/i){       ## optDel Acronyms, plural and posessives
-	    ;
+	    print "Token: /$token/ pass Rule 4\n" if ($dbg == 1);
 	} elsif ($token =~ /^\([a-z]+-\)$/i){           ## optDel fragments
-	    ;
+	    print "Token: /$token/ pass Rule 5\n" if ($dbg == 1);
 	} elsif ($token =~ /^([a-z]*-)*[a-z]+('(d|s|t|re|ll|m|ve|))*$/i){  ## contractions
-	    ;
-	} elsif ($token =~ /^o'\S+$/i){               ## Special contractions
-	    ;
-	} elsif ($token =~ /^\(%hesitation\)$/i){              ## hesitations
-	    ;
+	    print "Token: /$token/ pass Rule 5a\n" if ($dbg == 1);
+	} elsif ($token =~ /^\(([a-z]*-)*[a-z]+('(d|s|t|re|ll|m|ve|))\)*$/i){  ## contractions
+	    print "Token: /$token/ pass Rule 6\n" if ($dbg == 1);
+	} elsif ($token =~ /^(o'\S+|d'etre)$/i){               ## Special contractions
+	    print "Token: /$token/ pass Rule 7\n" if ($dbg == 1);
+	} elsif ($token =~ /^\(%(hesitation|bcack|bcnack)\)$/i){              ## hesitations
+	    print "Token: /$token/ pass Rule 8\n" if ($dbg == 1);
+      	} elsif ($token =~ /^%(hesitation|bcack|bcnack)$/i){              ## hesitations
+	    print "Token: /$token/ pass Rule 9\n" if ($dbg == 1);
 	} else {
 	    print "   Unrecognized token English -$token-\n" if ($verbosity > 1);
 	    $err ++;
