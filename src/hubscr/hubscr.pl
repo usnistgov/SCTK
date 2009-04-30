@@ -493,79 +493,74 @@ sub FilterFile
 
     print "Filtering $lang file '$file', $format format\n";
 
-     if (! -f $outfile)
-     {
-	 my $rtFilt = "cat";
-
-	 if ($Hub eq "rt-stt" && $format eq "ctm")
-	 {
-	     $rtFilt = "perl -nae 'if (\$_ =~ /^;;/ || \$#F < 6) {print} else {s/^\\s+//; if (\$F[6] eq 'lex') { \$st = 6; \$st-- if (\$F[5] =~ /^na\$/i); splice(\@F, \$st, 10); print join(\" \" ,\@F).\"\\n\" }}' "
-	 }
-
-	 if ($format eq "ctm")
-	 {
-	     $sort_com = "$0 sortCTM < ";
-	     #$sort_com = "cat";
-	     #$sort_com = "sort +0 -1 +1 -2 +2nb -3";
-	 } 
-	 elsif ($format eq "stm")
-	 {
-	     $sort_com = "$0 sortSTM < ";
-	 }
-	 elsif ($format eq "rttm")
-	 {
-	     $sort_com = "rttmSort.pl < ";
-        }
+    my $rtFilt = "cat";
     
-        if ($Lang =~ /^(arabic)$/)
-        { 
-            $csrfilt_com = "$CSRFILT -s -i $format -t $purpose -dh $GLM";
-            if ($DEF_ART_ENABLED){
-            $def_art_com = "$DEF_ART -s $LDCLEX -i $format - -";
-            } else {
-            $def_art_com = "cat";
-            }
-            if ($HAMZA_NORM_ENABLED){
-            $hamza_norm_com = "$HAMZA_NORM -i $format -- - -";
-            } else {
-            $hamza_norm_com = "cat";
-            }
-            if ($TANWEEN_FILT_ENABLED){
-            $tanween_filter_com = "$TANWEEN_FILTER -a -i $format -- - -";
-            } else {
-                $tanween_filter_com = "cat";
-            }
-            $com = "$sort_com $file | $rtFilt | $def_art_com | $hamza_norm_com | $tanween_filter_com | $csrfilt_com > $outfile";
-        } elsif ($Lang =~ /^(mandarin)$/){ 
-            $csrfilt_com = "$CSRFILT -i $format -t $purpose -dh $GLM";
-
-            $com = "cat $file | $rtFilt | $csrfilt_com > $outfile";
-        } elsif ($Lang =~ /^(spanish)$/){ 
-            $csrfilt_com = "$CSRFILT -e -i $format -t $purpose -dh $GLM";
-
-            $com = "$sort_com $file | $rtFilt | $csrfilt_com > $outfile";
-        } elsif ($Lang =~ /^(german)$/){ 
-            $csrfilt_com = "$CSRFILT -e -i $format -t $purpose -dh $GLM";
-            $acomp_com =   "$ACOMP -f -m 2 -l $LDCLEX -i $format - -";
-
-            $com = "$sort_com $file | $rtFilt | $csrfilt_com | $acomp_com > $outfile";
-        } elsif ($Lang =~ /^(english)$/){ 
-            $csrfilt_com = "$CSRFILT -i $format -t $purpose -dh $GLM";
-            $com = "$sort_com $file | $rtFilt | $csrfilt_com > $outfile";
-        } else {
-            die "Undefined language: '$lang'";
-        }
-
-#	    $com = "cat $file | $rtFilt > $outfile";
-	print "   Exec: $com\n" if ($Vb);
-    
-	$rtn = system $com;
-	if ($rtn != 0) {
-	    system("rm -f $outfile");
-	    die("Error: Unable to filter file: $file with command:\n   $com\n");
+    if ($Hub eq "rt-stt" && $format eq "ctm")
+    {
+	$rtFilt = "perl -nae 'if (\$_ =~ /^;;/ || \$#F < 6) {print} else {s/^\\s+//; if (\$F[6] eq 'lex') { \$st = 6; \$st-- if (\$F[5] =~ /^na\$/i); splice(\@F, \$st, 10); print join(\" \" ,\@F).\"\\n\" }}' "
 	}
+    
+    if ($format eq "ctm")
+    {
+	$sort_com = "$0 sortCTM < ";
+	#$sort_com = "cat";
+	#$sort_com = "sort +0 -1 +1 -2 +2nb -3";
+    } 
+    elsif ($format eq "stm")
+    {
+	$sort_com = "$0 sortSTM < ";
+    }
+    elsif ($format eq "rttm")
+    {
+	$sort_com = "rttmSort.pl < ";
+    }
+    
+    if ($Lang =~ /^(arabic)$/)
+    { 
+	$csrfilt_com = "$CSRFILT -s -i $format -t $purpose -dh $GLM";
+	if ($DEF_ART_ENABLED){
+            $def_art_com = "$DEF_ART -s $LDCLEX -i $format - -";
+	} else {
+            $def_art_com = "cat";
+	}
+	if ($HAMZA_NORM_ENABLED){
+            $hamza_norm_com = "$HAMZA_NORM -i $format -- - -";
+	} else {
+            $hamza_norm_com = "cat";
+	}
+	if ($TANWEEN_FILT_ENABLED){
+            $tanween_filter_com = "$TANWEEN_FILTER -a -i $format -- - -";
+	} else {
+	    $tanween_filter_com = "cat";
+	}
+	$com = "$sort_com $file | $rtFilt | $def_art_com | $hamza_norm_com | $tanween_filter_com | $csrfilt_com > $outfile";
+    } elsif ($Lang =~ /^(mandarin)$/){ 
+	$csrfilt_com = "$CSRFILT -i $format -t $purpose -dh $GLM";
+	
+	$com = "cat $file | $rtFilt | $csrfilt_com > $outfile";
+    } elsif ($Lang =~ /^(spanish)$/){ 
+	$csrfilt_com = "$CSRFILT -e -i $format -t $purpose -dh $GLM";
+	
+	$com = "$sort_com $file | $rtFilt | $csrfilt_com > $outfile";
+    } elsif ($Lang =~ /^(german)$/){ 
+	$csrfilt_com = "$CSRFILT -e -i $format -t $purpose -dh $GLM";
+	$acomp_com =   "$ACOMP -f -m 2 -l $LDCLEX -i $format - -";
+	
+	$com = "$sort_com $file | $rtFilt | $csrfilt_com | $acomp_com > $outfile";
+    } elsif ($Lang =~ /^(english)$/){ 
+	$csrfilt_com = "$CSRFILT -i $format -t $purpose -dh $GLM";
+	$com = "$sort_com $file | $rtFilt | $csrfilt_com > $outfile";
     } else {
-	print "   ....Already filtered.  Delete $outfile to re-filter\n"
+	die "Undefined language: '$lang'";
+    }
+    
+#	    $com = "cat $file | $rtFilt > $outfile";
+    print "   Exec: $com\n" if ($Vb);
+    
+    $rtn = system $com;
+    if ($rtn != 0) {
+	system("rm -f $outfile");
+	die("Error: Unable to filter file: $file with command:\n   $com\n");
     }
 }
 
