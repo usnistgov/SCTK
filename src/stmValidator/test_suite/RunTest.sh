@@ -22,10 +22,10 @@ for file in test*.stm ; do
     tmp="$base.log.tmp"
     
     if [ ! -f "$log" ] ; then
-		$stm -i $file > $log
+		$stm -v -i $file > $log
     fi
 
-    $stm -i $file > $tmp
+    $stm -v -i $file > $tmp
     diff_status=`diff $log $tmp | wc -l`
 
     if [ $diff_status -ne 0 ] ; then
