@@ -115,104 +115,106 @@ sub MultiGraphXY
 {
 	my ($self) = @_;
 	
-	my %tokenPositions;
-	my @listTokenID;
-	
-	my $currentlevel = 0;
-	
-	foreach my $tknid(sort {$a <=> $b} keys %{ $self->{TOKENS} })
-	{
-		$tokenPositions{$tknid}{XB} = 0;
-		$tokenPositions{$tknid}{XE} = 1;
-		$tokenPositions{$tknid}{Y} = 0;
-		$tokenPositions{$tknid}{TEXT} = $self->{TOKENS}{$tknid}->{TEXT};
-		
-		push(@listTokenID, $tknid);
-		
-		if( scalar(@{ $self->{TOKENS}{$tknid}->{PREVTKNID} }) == 0 )
-		{
-			$tokenPositions{$tknid}{Y} = $currentlevel;
-			$currentlevel++;
-		}
-	}
-		
-	for(my $i=0; $i<@listTokenID; $i++)
-	{
-		my $tokenid = $listTokenID[$i];
-		my $token = $self->{TOKENS}{$tokenid};
-		my @prevtkn = @{ $token->{PREVTKNID} };
-		my @nexttkn = @{ $token->{NEXTTKNID} };
-		
-		my $tokenBegin = $tokenPositions{$tokenid}{XB};
-		my $tokenEnd = $tokenPositions{$tokenid}{XE};
-		my $tokenY = $tokenPositions{$tokenid}{Y};
-		
-		for(my $j=0; $j<@nexttkn; $j++)
-		{
-			my $nexttokenid = $nexttkn[$j];
-			
-			my $nexttokenBegin = $tokenPositions{$nexttokenid}{XB};
-			my $nexttokenEnd = $tokenPositions{$nexttokenid}{XE};
-			my $nextTokenY = $tokenPositions{$nexttokenid}{Y};
-			
-			if( $nexttokenBegin < $tokenEnd)
-			{
-				$tokenPositions{$nexttokenid}{XB} = $tokenEnd;
-				$tokenPositions{$nexttokenid}{XE} = $tokenPositions{$nexttokenid}{XB} + 1;
-				$i = -1;
-			}
-			
-			my $nbrprev = scalar( @{ $self->{TOKENS}{$nexttokenid}->{PREVTKNID} } ) - 1;
-			
-			if($nextTokenY < ($tokenY + $j - $nbrprev))
-			{
-				$tokenPositions{$nexttokenid}{Y} = $tokenY + $j - $nbrprev;
-				$i = -1;
-			}
-		}
-		
-		for(my $j=0; $j<@prevtkn; $j++)
-		{
-			my $prevtokenid = $prevtkn[$j];
-			
-			my $prevtokenBegin = $tokenPositions{$prevtokenid}{XB};
-			my $prevtokenEnd = $tokenPositions{$prevtokenid}{XE};
-			
-			if( $prevtokenEnd != $tokenBegin)
-			{
-				$tokenPositions{$prevtokenid}{XE} = $tokenBegin;
-				$i = -1;
-			}
-		}
-	}
-	
 	my $maxheigh = 0;
-	my $maxlengh = 0;
 	
-	foreach my $tken (sort {$a <=> $b} keys %tokenPositions)
+	if(scalar(keys %{ $self->{TOKENS} }) != 0)
 	{
-		$maxheigh = $tokenPositions{$tken}{Y} if($tokenPositions{$tken}{Y} > $maxheigh);
-		$maxlengh = $tokenPositions{$tken}{XE} if($tokenPositions{$tken}{XE} > $maxlengh);
-	}
+		my %tokenPositions;
+		my @listTokenID;
+		my $currentlevel = 0;
+		my $maxlengh = 0;
 	
-	foreach my $tknid(keys %{ $self->{TOKENS} })
-	{
-		my $updown = 1;
-		my $base = 0;
-		
-		if($self->{TOKENS}{$tknid}->{REFORSYS} eq "REF")
+		foreach my $tknid(sort {$a <=> $b} keys %{ $self->{TOKENS} })
 		{
-			$updown = -1;
-			$base = $maxheigh;
+			$tokenPositions{$tknid}{XB} = 0;
+			$tokenPositions{$tknid}{XE} = 1;
+			$tokenPositions{$tknid}{Y} = 0;
+			$tokenPositions{$tknid}{TEXT} = $self->{TOKENS}{$tknid}->{TEXT};
+			
+			push(@listTokenID, $tknid);
+			
+			if( scalar(@{ $self->{TOKENS}{$tknid}->{PREVTKNID} }) == 0 )
+			{
+				$tokenPositions{$tknid}{Y} = $currentlevel;
+				$currentlevel++;
+			}
 		}
-	
-		if($self->{TOKENS}{$tknid}->{REALTIME} == 0)
+			
+		for(my $i=0; $i<@listTokenID; $i++)
 		{
-			$self->{TOKENS}{$tknid}->MakeFakeTime($tokenPositions{$tknid}{XB}, $tokenPositions{$tknid}{XE}, $maxlengh);
-			$self->{HASFAKETIME} = 1;
+			my $tokenid = $listTokenID[$i];
+			my $token = $self->{TOKENS}{$tokenid};
+			my @prevtkn = @{ $token->{PREVTKNID} };
+			my @nexttkn = @{ $token->{NEXTTKNID} };
+			
+			my $tokenBegin = $tokenPositions{$tokenid}{XB};
+			my $tokenEnd = $tokenPositions{$tokenid}{XE};
+			my $tokenY = $tokenPositions{$tokenid}{Y};
+			
+			for(my $j=0; $j<@nexttkn; $j++)
+			{
+				my $nexttokenid = $nexttkn[$j];
+				
+				my $nexttokenBegin = $tokenPositions{$nexttokenid}{XB};
+				my $nexttokenEnd = $tokenPositions{$nexttokenid}{XE};
+				my $nextTokenY = $tokenPositions{$nexttokenid}{Y};
+				
+				if( $nexttokenBegin < $tokenEnd)
+				{
+					$tokenPositions{$nexttokenid}{XB} = $tokenEnd;
+					$tokenPositions{$nexttokenid}{XE} = $tokenPositions{$nexttokenid}{XB} + 1;
+					$i = -1;
+				}
+				
+				my $nbrprev = scalar( @{ $self->{TOKENS}{$nexttokenid}->{PREVTKNID} } ) - 1;
+				
+				if($nextTokenY < ($tokenY + $j - $nbrprev))
+				{
+					$tokenPositions{$nexttokenid}{Y} = $tokenY + $j - $nbrprev;
+					$i = -1;
+				}
+			}
+			
+			for(my $j=0; $j<@prevtkn; $j++)
+			{
+				my $prevtokenid = $prevtkn[$j];
+				
+				my $prevtokenBegin = $tokenPositions{$prevtokenid}{XB};
+				my $prevtokenEnd = $tokenPositions{$prevtokenid}{XE};
+				
+				if( $prevtokenEnd != $tokenBegin)
+				{
+					$tokenPositions{$prevtokenid}{XE} = $tokenBegin;
+					$i = -1;
+				}
+			}
 		}
 		
-		$self->{TOKENS}{$tknid}->{YPOS} += $base*30 + $updown*30*$tokenPositions{$tknid}{Y};
+		foreach my $tken (sort {$a <=> $b} keys %tokenPositions)
+		{
+			$maxheigh = $tokenPositions{$tken}{Y} if($tokenPositions{$tken}{Y} > $maxheigh);
+			$maxlengh = $tokenPositions{$tken}{XE} if($tokenPositions{$tken}{XE} > $maxlengh);
+		}
+		
+		foreach my $tknid(keys %{ $self->{TOKENS} })
+		{
+			my $updown = 1;
+			my $base = 0;
+			
+			if($self->{TOKENS}{$tknid}->{REFORSYS} eq "REF")
+			{
+				$updown = -1;
+				$base = $maxheigh;
+			}
+		
+			if($self->{TOKENS}{$tknid}->{REALTIME} == 0)
+			{
+				$self->{TOKENS}{$tknid}->MakeFakeTime($tokenPositions{$tknid}{XB}, $tokenPositions{$tknid}{XE}, $maxlengh);
+				$self->{HASFAKETIME} = 1;
+			}
+			
+			$self->{TOKENS}{$tknid}->{YPOS} += $base*30 + $updown*30*$tokenPositions{$tknid}{Y};
+		}
 	}
 	
 	$self->{HEIGHT} = ($maxheigh+1)*30;
