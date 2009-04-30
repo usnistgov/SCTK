@@ -186,8 +186,10 @@ sub loadFile{
 	    s/^\s*//;
 	    next if ($_ =~ /^$/);
 	    my ($file, $chan, $spk, $bt, $et, $labels, $text) = split(/\s+/,$_,7);
-	    if ($labels !~ /^<.*>$/){
-		$text = "$labels $text";
+	    if (!defined($labels)){
+		$labels = "";
+	    } elsif ($labels !~ /^<.*>$/){
+		$text = "$labels" . (defined($text) ? " ".$text : "");
 		$labels = "";
 	    }
 	    $text = "" if (! defined($text));
