@@ -104,7 +104,7 @@ while(<CTMFILE>)
 			$errors++;
 		}
 		
-		if($channel !~ /^\d+$/)
+		if($channel !~ /^(\d+|[AB])$/)
 		{
 			print "ERROR: [line $line] channel '$channel' must be numeric only\n";
 			$errors++;
@@ -124,9 +124,9 @@ while(<CTMFILE>)
 		
 		if( (lc($language) eq "english") && ($type eq "lex") )
 		{
-			if( ($token !~ /^[A-Za-z-\']+$/) && ($token !~ /^[A-Za-z]\./) )
+			if( ($token !~ /^[A-Za-z-_\']+$/) && ($token !~ /^[A-Za-z]\./) )
 			{
-				print "ERROR: [line $line] token '$token' must have alphabetic, hyphens (-) and apostrophes (') characters only\n";
+				print "ERROR: [line $line] token '$token' must have alphabetic, underscores (_), hyphens (-) and apostrophes (') characters only\n";
 				$errors++;
 			}
 		}
