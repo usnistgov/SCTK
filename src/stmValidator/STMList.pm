@@ -80,6 +80,8 @@ sub validateEnglishText{
 	    print "Token: /$token/ pass Rule 3\n" if ($dbg == 1);
 	} elsif ($token =~ /^\([a-z]+\.('s|s)*\)$/i){       ## optDel Acronyms, plural and posessives
 	    print "Token: /$token/ pass Rule 4\n" if ($dbg == 1);
+	} elsif ($token =~ /^[a-z]+-$/i){           ## fragments
+	    print "Token: /$token/ pass Rule 5\n" if ($dbg == 1);
 	} elsif ($token =~ /^\([a-z]+-\)$/i){           ## optDel fragments
 	    print "Token: /$token/ pass Rule 5\n" if ($dbg == 1);
 	} elsif ($token =~ /^([a-z]*-)*[a-z]+('(d|s|t|re|ll|m|ve|))*$/i){  ## contractions
