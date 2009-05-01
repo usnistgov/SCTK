@@ -197,6 +197,8 @@ SpeechSet* STMInputParser::loadFile(const string& name)
 				sprintf(buffer, "ISG Detected at line %li '%s'", lineNum, spkr);
 				LOG_DEBUG(logger, buffer);
             	LowerCase(spkr);
+            	sprintf(buffer, "ISG new name '%s'", spkr);
+            	LOG_DEBUG(logger, buffer);
 			}
 			
 			Speech* speech = res[spkr];
