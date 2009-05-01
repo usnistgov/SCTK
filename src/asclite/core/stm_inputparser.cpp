@@ -192,8 +192,13 @@ SpeechSet* STMInputParser::loadFile(const string& name)
             // Check if it's inter_segment_gap in case insensitive, and if it is
             // convert it in lower case.
             if(CompareToISGCaseInsensitive(spkr))
+            {
+				char buffer[BUFFER_SIZE];
+				sprintf(buffer, "ISG Detected at line %li '%s'", lineNum, spkr);
+				LOG_DEBUG(logger, buffer);
             	LowerCase(spkr);
-
+			}
+			
 			Speech* speech = res[spkr];
             
 			if (!speech)
