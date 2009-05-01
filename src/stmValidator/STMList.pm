@@ -107,7 +107,7 @@ sub validateEnglishText{
 sub validateNonEnglishText{
     my ($self, $text, $language, $verbosity) = @_;
     my $err = 0;
-    my $punct = "\!\@\#\$\%\^\&\*\(\)\`\~\_\+\=\{\[\}\]\|\\\<\,\>\.\?\/\-";
+    my $punct = "\!\@\#\$\^\&\*\(\)\`\~\_\+\=\{\[\}\]\|\\\<\,\>\.\?\/\-";
     foreach my $token (split(/\s+/, $text)){
 	if ($token =~ /^ignore_time_segment_in_scoring$/i){
 	    ;
@@ -117,7 +117,7 @@ sub validateNonEnglishText{
 	    ;
 	} elsif ($token =~ /^\(%hesitation\)$/i){              ## hesitations
 	    ;
-	} elsif ($token =~ /^[\{\}\/]$/i){              ## Alternation tags; sclite/asclite checks the recursion
+	} elsif ($token =~ /^[\{\}\/@]$/i){              ## Alternation tags; sclite/asclite checks the recursion
 	    ;
 	} else {
 	    print "   Unrecognized token $language -$token-\n" if ($verbosity > 1);
