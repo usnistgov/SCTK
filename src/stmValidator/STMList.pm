@@ -109,21 +109,19 @@ sub validateNonEnglishText{
     my $err = 0;
     my $punct = "\!\@\#\$\%\^\&\*\(\)\`\~\_\+\=\{\[\}\]\|\\\<\,\>\.\?\/\-";
     foreach my $token (split(/\s+/, $text)){
-	foreach $token (split()){
-	    if ($token =~ /^ignore_time_segment_in_scoring$/i){
-		;
-	    } elsif ($token =~ /^[^$punct]+$/i){  ## words
-		;
-	    } elsif ($token =~ /^\([^$punct]+\)$/i){  ## words
-		;
-	    } elsif ($token =~ /^\(%hesitation\)$/i){              ## hesitations
-		;
-	    } elsif ($token =~ /^[\{\}\/]$/i){              ## Alternation tags; sclite/asclite checks the recursion
-		;
-	    } else {
-		print "   Unrecognized token $language -$token-\n" if ($verbosity > 1);
-		$err ++;
-	    }
+	if ($token =~ /^ignore_time_segment_in_scoring$/i){
+	    ;
+	} elsif ($token =~ /^[^$punct]+$/i){  ## words
+	    ;
+	} elsif ($token =~ /^\([^$punct]+\)$/i){  ## words
+	    ;
+	} elsif ($token =~ /^\(%hesitation\)$/i){              ## hesitations
+	    ;
+	} elsif ($token =~ /^[\{\}\/]$/i){              ## Alternation tags; sclite/asclite checks the recursion
+	    ;
+	} else {
+	    print "   Unrecognized token $language -$token-\n" if ($verbosity > 1);
+	    $err ++;
 	}
     }
     ($err == 0);
