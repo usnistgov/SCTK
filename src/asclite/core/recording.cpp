@@ -408,7 +408,7 @@ void Recording::AlignGeneric()
 		
 		if(segmentsGroup->GetNumberOfHypothesis() <= /*1*/ 0)
 		{
-			ignoreSegs = true;
+			//ignoreSegs = true;
 			sprintf(buffer, "Skip this group of segments (%lu): no hypothesis/dimension", static_cast<ulint>(segmentsGroup->GetsID()) );
 			LOG_WARN(logger, buffer);
 		}
@@ -640,7 +640,7 @@ void Recording::AlignHypRef()
             
 			if(emptyHypvsISG)
 			{
-				ignoreSegs = true;
+				//ignoreSegs = true;
 				sprintf(buffer, "Skip this group of segments (%lu): Inter Segment Gap versus Empty Hyp", static_cast<ulint>( segmentsGroup->GetsID()) );
                 LOG_WARN(logger, buffer);
 			}
