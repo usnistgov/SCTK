@@ -192,7 +192,7 @@ Recording::~Recording()
 }
 
 /**
-* Load the reference&Hypothesis files into the system.
+ * Load the reference & Hypothesis files into the system.
  * use the right loader based on the type.
  */
 void Recording::Load(const string& _references, const string& _refType, const vector<string> & _hypothesis_files, const vector<string> & _hypothesis_titles, const vector<string> & _hypothesis_types, const string& uemFile, const string& speakeralignfile)
@@ -240,7 +240,7 @@ void Recording::Load(const string& _references, const string& _refType, const ve
 		
 		hypothesis[title_temp] = hyps_loaded;
 		alignments->AddSystem(_hypothesis_files[i], title_temp);
-    }
+    }    
 }
 
 void Recording::Load(const vector<string> & _hypothesis_files, const vector<string> & _hypothesis_titles, const vector<string> & _hypothesis_types, const string& _uemFile, const string& _speakeralignfile)
@@ -284,7 +284,7 @@ void Recording::Load(const vector<string> & _hypothesis_files, const vector<stri
 }
 
 /**
-* Filter the references and hypothesis with the availables filters.
+ * Filter the references and hypothesis with the availables filters.
  */
 void Recording::Filter(const vector<string> & _filters)
 {
@@ -331,6 +331,57 @@ void Recording::Filter(const vector<string> & _filters)
     	{
     		LOG_INFO(logger, "Filtering ==> " + _filters[i] + " processing");
     		nbErr += filters[_filters[i]]->ProcessSpeechSet(references, hypothesis);
+    	}
+    }
+    
+    // Check the speaker mapping
+    if(string("true").compare(Properties::GetProperty("align.speakeroptimization")) == 0)
+    {
+    	bool foundmatch = false;
+    
+    	for(size_t i=0 ; i < references->GetNumberOfSpeech() ; ++i)
+    	{
+    		for(size_t j=0 ; j < references->GetSpeech(i)->NbOfSegments() ; ++j)
+    		{
+    			string file1 = references->GetSpeech(i)->GetSegment(j)->GetSource();
+				string channel1 = references->GetSpeech(i)->GetSegment(j)->GetChannel();
+				string speaker1 = references->GetSpeech(i)->GetSegment(j)->GetSpeakerId();
+				//transform(speaker1.begin(), speaker1.end(), speaker1.begin(), (int(*)(int)) toupper);
+				
+				map<string, SpeechSet* >::iterator hi  = hypothesis.begin();
+				map<string, SpeechSet* >::iterator hei = hypothesis.end();
+				
+				while(hi != hei)
+				{
+					SpeechSet* spkset = hi->second;
+					
+					for(size_t k = 0; k < spkset->GetNumberOfSpeech(); ++k)
+					{
+						for(size_t l=0 ; l < spkset->GetSpeech(k)->NbOfSegments() ; ++l)
+						{
+							string file2 = spkset->GetSpeech(k)->GetSegment(l)->GetSource();
+							string channel2 = spkset->GetSpeech(k)->GetSegment(l)->GetChannel();
+							string speaker2 = references->GetSpeech(k)->GetSegment(l)->GetSpeakerId();
+							//transform(speaker2.begin(), speaker2.end(), speaker2.begin(), (int(*)(int)) toupper);
+							
+							if( (file1 == file2) && (channel1 == channel2) && (m_pSpeakerMatch->GetRef(file1, channel1, speaker1) == speaker2) )
+								foundmatch = true;
+						}
+					}						
+	
+					++hi;
+				}
+    		}
+    	}
+    	
+    	if(!foundmatch)
+    	{
+    		char buffer[BUFFER_SIZE];
+        	sprintf(buffer, "Speaker map checking - No matching Detected");
+        	LOG_WARN(logger, buffer);
+        	
+        	if(string("true").compare(Properties::GetProperty("filter.spkrmap")) == 0)
+        		nbErr++;
     	}
     }
   

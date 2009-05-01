@@ -49,6 +49,7 @@ void PrintHelp()
 	cout << "                  Apply the UEM rules." << endl;
 	cout << "                  The default value is 'both'." << endl;
 	cout << "    -noisg        Do not creates the Inter Segment Gaps." << endl;
+	cout << "    -spkrmap      Check speaker map coincide with the Speaker ref and Hyp." << endl;
 	cout << "Alignment Options:" << endl;
 	cout << "    -s            Do case-sensitive alignments." << endl;
 	cout << "    -F            Score fragments as correct." << endl;
@@ -166,6 +167,8 @@ int main(int argc, char **argv)
     bool arg_buem = false;
     
     bool arg_buseISG = true;
+    
+    bool arg_bcheckspkrmap = false;
     
     string arg_spkrautooverlapoption = "";
     bool arg_bspkrautooverlap = false;
@@ -358,6 +361,12 @@ int main(int argc, char **argv)
 		if(strcmp(argv[arg_index], "-noisg") == 0)
 		{
 			arg_buseISG = false;
+		}
+		else
+		// spkrmap
+		if(strcmp(argv[arg_index], "-spkrmap") == 0)
+		{
+			arg_bcheckspkrmap = false;
 		}
 		else
 		// Utterance
@@ -973,6 +982,9 @@ int main(int argc, char **argv)
             Properties::SetProperty("filter.spkrautooverlap.option", arg_spkrautooverlapoption);
 			arg_filters.push_back("filter.spkrautooverlap");
 		}
+		
+		//Spkr mapping Check
+		Properties::SetProperty("filter.spkrmap", arg_bcheckspkrmap ? "true" : "false");
         
         // UEM
         if(reffile.fileformat == "trn")
