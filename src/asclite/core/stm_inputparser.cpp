@@ -24,6 +24,34 @@
 const string STMInputParser::IGNORE_TIME_SEGMENT_IN_SCORING = "ignore_time_segment_in_scoring";
 Logger* STMInputParser::logger = Logger::getLogger();
 
+bool STMInputParser::CompareToISGCaseInsensitive(char str[])
+{
+	char tmp[BUFFER_SIZE];
+	
+	int  i=0;
+
+	while(str[i])
+	{
+		tmp[i] = tolower(str[i]);
+		i++;
+	}
+	
+	string tmpstr(tmp);
+	
+	return(tmpstr.compare(string("inter_segment_gap")) == 0);
+}
+
+void STMInputParser::LowerCase(char str[])
+{
+	int  i=0;
+
+	while(str[i])
+	{
+		str[i] = tolower(str[i]);
+		i++;
+	}
+}
+
 /**
  * Load the named file into a Speech element.
  * @todo Finish this :P
@@ -160,6 +188,11 @@ SpeechSet* STMInputParser::loadFile(const string& name)
                     LOG_ERR(logger, buffer);
                 }
             }
+            
+            // Check if it's inter_segment_gap in case insensitive, and if it is
+            // convert it in lower case.
+            if(CompareToISGCaseInsensitive(spkr))
+            	LowerCase(spkr);
 
 			Speech* speech = res[spkr];
             

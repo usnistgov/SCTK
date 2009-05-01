@@ -42,6 +42,9 @@ class STMInputParser : public LineStyleInputParser
          */
         SpeechSet* loadFile(const string& name);
     private:
+    	bool CompareToISGCaseInsensitive(char str[]);
+    	void LowerCase(char str[]);
+    
         static const string IGNORE_TIME_SEGMENT_IN_SCORING;
         static Logger* logger;
         /**
