@@ -94,7 +94,7 @@ sub validateEnglishText{
 	    print "Token: /$token/ pass Rule 8\n" if ($dbg == 1);
       	} elsif ($token =~ /^%(hesitation|bcack|bcnack)$/i){              ## hesitations
 	    print "Token: /$token/ pass Rule 9\n" if ($dbg == 1);
-	} elsif ($token =~ /^[\{\}\/]$/i){              ## Alternation tags; sclite/asclite checks the recursion
+	} elsif ($token =~ /^[\{\}\/@]$/i){              ## Alternation tags; sclite/asclite checks the recursion
 	    print "Token: /$token/ pass Rule 10\n" if ($dbg == 1);
 	} else {
 	    print "   Unrecognized token English -$token-\n" if ($verbosity > 1);
