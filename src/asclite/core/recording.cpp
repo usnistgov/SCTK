@@ -361,7 +361,7 @@ void Recording::Filter(const vector<string> & _filters)
 						{
 							string file2 = spkset->GetSpeech(k)->GetSegment(l)->GetSource();
 							string channel2 = spkset->GetSpeech(k)->GetSegment(l)->GetChannel();
-							string speaker2 = references->GetSpeech(k)->GetSegment(l)->GetSpeakerId();
+							string speaker2 = spkset->GetSpeech(k)->GetSegment(l)->GetSpeakerId();
 							//transform(speaker2.begin(), speaker2.end(), speaker2.begin(), (int(*)(int)) toupper);
 							
 							if( (file1 == file2) && (channel1 == channel2) && (m_pSpeakerMatch->GetRef(file1, channel1, speaker1) == speaker2) )

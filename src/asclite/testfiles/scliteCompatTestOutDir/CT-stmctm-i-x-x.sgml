@@ -18,4 +18,9 @@ C,"a","a",1.000+1.100:C,"b","b",1.100+1.200:C,"c","c",1.200+1.300:C,"d","d",1.30
 
 </PATH>
 </SPEAKER>
+<SPEAKER id="inter_segment_gap">
+<PATH id="(Inter_Segment_Gap-000)" word_cnt="0" file="f" channel="1" sequence="5" R_T1="2.000" R_T2="3.000" word_aux="h_t1+t2">
+
+</PATH>
+</SPEAKER>
 </SYSTEM>

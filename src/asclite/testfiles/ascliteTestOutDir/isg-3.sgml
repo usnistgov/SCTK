@@ -22,4 +22,9 @@ D,"k",,110.000+110.500,:C,"j","j",110.500+111.000,109.750+110.500
 D,"l",,112.000+113.000,
 </PATH>
 </SPEAKER>
+<SPEAKER id="inter_segment_gap">
+<PATH id="(Inter_Segment_Gap-000)" word_cnt="0" file="NIST_20061012-1056" channel="1" sequence="20" R_T1="111.000" R_T2="112.000" word_aux="r_t1+t2,h_t1+t2">
+
+</PATH>
+</SPEAKER>
 </SYSTEM>

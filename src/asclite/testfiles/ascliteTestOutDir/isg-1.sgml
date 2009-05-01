@@ -26,6 +26,9 @@ D,"l",,112.000+113.000,
 <PATH id="(Inter_Segment_Gap-000)" word_cnt="1" file="NIST_20061012-1056" channel="1" sequence="20" R_T1="109.000" R_T2="110.000" word_aux="r_t1+t2,h_t1+t2">
 I,,"k",,109.000+109.750
 </PATH>
+<PATH id="(Inter_Segment_Gap-001)" word_cnt="0" file="NIST_20061012-1056" channel="1" sequence="21" R_T1="111.000" R_T2="112.000" word_aux="r_t1+t2,h_t1+t2">
+
+</PATH>
 <PATH id="(Inter_Segment_Gap-002)" word_cnt="1" file="NIST_20061012-1056" channel="1" sequence="22" R_T1="113.000" R_T2="114.000" word_aux="r_t1+t2,h_t1+t2">
 I,,"l",,112.600+113.600
 </PATH>
