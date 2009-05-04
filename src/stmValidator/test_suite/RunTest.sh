@@ -25,7 +25,7 @@ for file in test*.stm ; do
 		$stm -i $file > $log
     fi
 
-    $stm -v -i $file > $tmp
+    $stm -i $file > $tmp
     diff_status=`diff $log $tmp | wc -l`
 
     if [ $diff_status -ne 0 ] ; then

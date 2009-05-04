@@ -42,7 +42,7 @@ my $USAGE = "\n\n$0 -i <STM file>\n\n".
     "  -i <STM file>: an STM file\n\n";
 
 use vars qw ($opt_i $opt_l $opt_s $opt_h);
-getopts('i:l:vh');
+getopts('i:l:sh');
 die ("$USAGE") if( (! $opt_i) || ($opt_h) );
 
 my $language = "english";
