@@ -69,9 +69,11 @@
 #  Version 1.15 Feb 9, 2007
 #       JGF Added the data purpose field so that the filtering can be contolled 
 #           based on if the texts are references ot hyps
-#
+#  Version 1.16 Apr 30, 2009
+#       JGF Redesigned the code to no upcase everything, instead just the transcript
+#       JGF Fixed bug with delete hypthens on opt del words
 
-version="1.15"
+version="1.16"
 
 trap "/bin/rm -f /tmp/hs_filt.*.$$ ; exit 1" 1 2 3 15
 
@@ -171,13 +173,225 @@ else
 	utt_map=""
 fi
 
+
+############################################################################################
+###  Validation functions  #################################################################
+
+getInvalidOptDelTags(){
+    perl -ne 's/\(/   \(/g; s/\)/\)  /; s/\s\([^\(\)]+\)//g; if ($_ =~ /[()]/) { print }'
+}
+
+############## Validate that optionally deleteable tags are consistent ######
+validateOptDelTags(){
+    res=`perl -ne 's/\(/   \(/g; s/\)/\)  /; s/\s\([^\(\)]+\)//g; if ($_ =~ /[()]/) { print }'`
+    if [ "$res" = "" ] ; then
+	echo "valid"
+    else
+	echo "error"
+    fi
+}
+
+
+
+############### The text to filter is now fully separated from the non-transcript material  ########
+###############  Filtering is now MUCH EASIER ###############
+
+### Uppercase just the text if requested
+toUpper(){
+    perl -pe 'if ($_ !~ /^;;/){
+		    if ("'$UpCase'" eq "true") { 
+			    tr/a-z/A-Z/; 
+			    if ("'$ExtASCII'" eq "true") { tr/\340-\377/\300-\337/; }
+		    }
+	      }'
+}
+
+deleteHyphens(){
+    perl -pe 'if ("'$DeleteHyphens'" eq "true"){ 
+		  s/([^\( ])-(?=[^\) ])/$1 /g; 
+	      }'
+}
+
+propogateOptDel(){
+    perl -e 'my $count = 0;
+	      while (<>){
+		  while ($_ =~ s/(\(\s+[^()\s]+\s+)([^()\s]+)/$1\) \( $2/){
+		      ;
+		  }
+		  print;
+              }'    
+}
+
+propUnitTestSub(){
+    isValid=$1
+    txt="$2"
+    exp="$3"
+    resValid=`echo "$txt" | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g' | validateOptDelTags`
+
+    if [ "$isValid" = 1 -a "$resValid" = "error" ] ; then
+	echo "Error: Valid optDel failed validation /$txt/ with /$resValid/ return" 
+    fi
+    if [ "$isValid" = 0 -a "$resValid" = "valid" ] ; then
+	echo "Error: INValid optDel passed validation /$txt/ with /$resValid/ return" 
+    fi
+
+    res=`echo "$txt" | propogateOptDel`
+    if [ ! "$exp" = "$res" ] ; then
+	echo "Failed: /$res/ != expected /$exp/" 
+    else
+	echo "Passed: /$txt/ -> /$res/" 
+    fi
+}
+
+propUnitTest(){
+    propUnitTestSub 1 " she is "    " she is "
+
+    propUnitTestSub 0 " ( she is "  " ( she ) ( is "
+    propUnitTestSub 0 " she ( is "  " she ( is "
+    propUnitTestSub 0 " she is ( "  " she is ( "
+
+    propUnitTestSub 0 " ) she is "  " ) she is "
+    propUnitTestSub 0 " she ) is "  " she ) is "
+    propUnitTestSub 0 " she is ) "  " she is ) "
+
+    propUnitTestSub 0 " (( she is "  " (( she ) ( is "
+    propUnitTestSub 0 " she (( is "  " she (( is "
+    propUnitTestSub 0 " she is (( "  " she is (( "
+
+    propUnitTestSub 0 " ) she is "  " ) she is "
+    propUnitTestSub 0 " she ) is "  " she ) is "
+    propUnitTestSub 0 " she is ) "  " she is ) "
+
+    propUnitTestSub 0 " she ( is ok yes no she ( is ok yes ) no "  " she ( is ) ( ok ) ( yes ) ( no ) ( she ( is ) ( ok ) ( yes ) no " 
+
+    propUnitTestSub 1 " ( she ) is ok "  " ( she ) is ok " 
+    propUnitTestSub 1 " she ( is ) ok "  " she ( is ) ok " 
+    propUnitTestSub 1 " she is ( ok ) "  " she is ( ok ) " 
+
+    propUnitTestSub 1 " ( she is ) ok yes " " ( she ) ( is ) ok yes " 
+    propUnitTestSub 1 " she ( is ok ) yes "  " she ( is ) ( ok ) yes " 
+    propUnitTestSub 1 " she is ( ok yes ) "  " she is ( ok ) ( yes ) " 
+
+    propUnitTestSub 1 " she is ( ok yes no ) she is ( ok yes no ) "  " she is ( ok ) ( yes ) ( no ) she is ( ok ) ( yes ) ( no ) " 
+    propUnitTestSub 1 " ( she is ok ) yes no ( she is ok ) yes no "  " ( she ) ( is ) ( ok ) yes no ( she ) ( is ) ( ok ) yes no " 
+    propUnitTestSub 1 " she ( is ok yes ) no she ( is ok yes ) no "  " she ( is ) ( ok ) ( yes ) no she ( is ) ( ok ) ( yes ) no " 
+
+}
+
+
+ ###################################################################################################
+#propUnitTest; exit
+
+#########################  HERE document to convert expanded CTMs to alternations  #################
+cat > /tmp/hs_filt.ctm.$$ << EOF
+  while (<>){
+    if (\$_ =~ /^;;/) {print} 
+    else {
+	s/^\s+//;
+	s/([{}])/ \1 /g;
+	@l = split;
+	if (\$#l == 4) {print}
+	else {
+	    if (\$l[\$#l] =~ /^[0-9\.-]*\$/) {\$limit=\$#l-1;\$conf=\$l[\$#l]} 
+	    else {                         \$limit=\$#l;\$conf=""} ; 
+
+	    \$data = join(" ",splice(@l,4,\$limit - 4 + 1));
+	    @sets = split(/\//,\$data);
+	    if (\$#sets > 0) {
+		printf "%s %s * * %s <ALT_BEGIN>\n",\$l[0],\$l[1],\$word,\$conf;
+	    }
+	    for (\$sn = 0; \$sn <= \$#sets; \$sn++){
+		\$set = \$sets[\$sn];
+		\$set =~ s/[{}]//g;
+		\$set =~ s/^\s+//;
+		@words = split(/\s+/,\$set);
+		\$dur = \$l[3] / (\$#words + 1);
+		\$i=0;
+		foreach \$word(@words){
+		    printf "%s %s %.3f %.3f %s %s\n",\$l[0],\$l[1],\$l[2]+(\$dur * \$i),\$dur,\$word,\$conf;
+		    \$i ++;
+		}
+		if (\$#sets > 0 && \$sn != \$#sets){
+		    printf "%s %s * * %s <ALT>\n",\$l[0],\$l[1],\$word,\$conf;
+		}
+	    }
+	    if (\$#sets > 0) {
+		printf "%s %s * * %s <ALT_END>\n",\$l[0],\$l[1],\$word,\$conf;
+	    }
+	}
+    }
+  }
+EOF
+
+#########################  HERE document to convert expanded RTTMs to alternations  #################
+cat > /tmp/hs_filt.rttm.$$ << EOF
+while (<>)
+{
+    if (\$_ =~ /^;;/)
+    {
+        print
+    }
+    else
+    {
+        s/^\s+//;
+        s/([{}])/ \1 /g;
+                
+        @l = split;
+        
+        #print "\$#l \$l[5] \$l[\$#l-2]\n";
+            
+        if (\$#l == 8)
+        {
+            print
+        }
+        else 
+	    {
+            if( (\$l[\$#l-2] ne "LEX") && (\$l[\$#l-2] ne "lex") )
+            {
+                print
+            }
+            else
+            {
+                \$start = \$l[3];
+                \$dur = \$l[4];
+                
+                if(\$dur eq "<NA>")
+                {
+                    \$dur = 0;
+                }
+                
+                if(\$start eq "<NA>")
+                {
+                    \$start = 0;
+                }
+                
+                \$newword = \$l[5];
+                
+                #for (\$j=7; \$j<=\$#l-2; \$j++)
+                for (\$j=6; \$j<=\$#l-3; \$j++)
+                {
+                    \$newword .= "_" . \$l[\$j];
+                }
+                
+                #print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-1] \$l[\$#l]\n";
+                print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-2] \$l[\$#l-1] \$l[\$#l]\n";
+            }
+        }
+    }
+}
+EOF
+
+
+################################################################################
+#############   Beginnning of Main Program       ###############################
+
 # capture and clean up the input
 perl -pe 'if ($_ !~ /^;;/) {
-	if ("'$UpCase'" eq "true") { 
-	   tr/a-z/A-Z/; 
-	   if ("'$ExtASCII'" eq "true") { tr/\340-\377/\300-\337/; }
-        }
-	s/^/ /; s/$/ /; s/\(/ \(/; s/[ \t]+/ /g; }' > /tmp/hs_filt.orig.$$
+  	     s/^/ /; s/$/ /; s/[ \t]+/ /g; 
+           }' > /tmp/hs_filt.orig.$$
+
+#########################################################################
+####   Step 1: separate out the text from the other data in the file ####
 
 # automatically modify the global mapping file to only include regions
 # which apply to the input type.
@@ -198,9 +412,39 @@ cat $glob_map | perl -e '
 
 # perform the filter on the utterance specific rules
 if test "$inputtype" = "ctm" ; then
-	cp /tmp/hs_filt.orig.$$ /tmp/hs_filt.out.$$
+    cat /tmp/hs_filt.orig.$$ | \
+	perl -e '$out1 = "'/tmp/hs_filt.outext.$$'";  $out2 = "'/tmp/hs_filt.out.$$'"; 
+		 open(IN,"<-") || die("Error: failed to open input stm file");
+		 open(OUT1,">$out1") || die("Error: failed to open output \"$out1\" of the stm file");
+		 open(OUT2,">$out2") || die("Error: failed to open output \"$out2\" of the stm file");
+		 while(<IN>){
+			 if ($_ =~ /^;;/) { 
+				 print OUT1 $_; 
+				 print OUT2 "\n";
+			 } else {
+				 @a = split(/\s+/, $_);
+				 print OUT2 splice(@a,5,1)."\n";
+				 print OUT1 join(" ",@a)."\n";
+			 }
+		 }
+		 close IN; close OUT1; close OUT2;'
 elif test "$inputtype" = "rttm" ; then
-	cp /tmp/hs_filt.orig.$$ /tmp/hs_filt.out.$$
+    cat /tmp/hs_filt.orig.$$ | \
+	perl -e '$out1 = "'/tmp/hs_filt.outext.$$'";  $out2 = "'/tmp/hs_filt.out.$$'"; 
+		 open(IN,"<-") || die("Error: failed to open input stm file");
+		 open(OUT1,">$out1") || die("Error: failed to open output \"$out1\" of the stm file");
+		 open(OUT2,">$out2") || die("Error: failed to open output \"$out2\" of the stm file");
+		 while(<IN>){
+			 if ($_ !~ /^ LEXEME/) { 
+				 print OUT1 $_; 
+				 print OUT2 "\n";
+			 } else {
+				 @a = split(/\s+/, $_);
+				 print OUT2 splice(@a,6,1)."\n";
+				 print OUT1 join(" ",@a)."\n";
+			 }
+		 }
+		 close IN; close OUT1; close OUT2;'
 elif test "$inputtype" = "stm" ; then
 	cat /tmp/hs_filt.orig.$$ | \
 	perl -e '$out1 = "'/tmp/hs_filt.outext.$$'";  $out2 = "'/tmp/hs_filt.out.$$'"; 
@@ -269,165 +513,61 @@ else
 	fi
 fi
 
-filt_com="cat /tmp/hs_filt.out.$$ | perl -pe 's/\(/( /g; s/\)/ )/g;' | rfilter1 /tmp/hs_filt.glm.$$ | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g;' "
-if test "$DeleteHyphens" = "true" ; then
-cat > /tmp/hs_filt.dh.$$ << EOF
-use strict;
-my \$type = \$ARGV[0];
-my @a;
-
-sub findNextNum
-{
-    my (\$start, \$aa) = @_;
-    
-    for (my \$x=\$start; \$x<scalar(@\$aa); \$x++)
-    {
-        return \$x-1 if (\$aa->[\$x] =~ /^[0-9\.]+\$/);
-    }
-    
-    return scalar(@\$aa)-1;
-}
-sub dh{
-    my (\$start, \$end) = @_;
-#    print "(\$start, \$end)\n";    
-    for (my \$x=\$start; \$x<=\$end; \$x++){ \$a[\$x] =~ s/([^\(])-(?=[^\)])/\$1 /g; }   
-}
-while (<STDIN>){
-    if (\$_ =~ /;;/ || \$_ =~ /^\$/){
-	print;
-    } else {
-	chomp;    
-	@a= split(/(\s+)/);
-	my \$pad = (\$a[0] eq "") ? 2 : 0;    
-#	print "data pad \$pad '",join("|",@a)."'\n";
-	if (\$type eq "ctm") {     dh(8+\$pad,findNextNum(8+\$pad,\\@a)); }
-	elsif (\$type eq "stm") {  dh(10 + \$pad + (\$a[10+\$pad] =~ /<.*>/ ? 2 : 0),\$#a); }
-	elsif (\$type eq "rttm") { dh(10 + \$pad, 10 + \$pad) if ( (\$_ =~ /^\s*LEXEME/i) && (\$_ =~ /\s+lex\s+/i) ); }
-	elsif (\$type eq "trn") {  dh(0, \$#a - 1 - ((\$a[\$#a] =~ /^\s+\$/) ? 1 : 0)); }
-	elsif (\$type eq "txt") {  dh(0, \$#a); }
-	else {
-	    die "Unknown format \$type";
-	}
-#    if (\$type eq "trn") { dh(0, \$#a -1); }
-	print join("",@a)."\n";
-    }
-}
-EOF
-    if test "$inputtype" = "stm"  -o "$inputtype" = "trn" ; then 
-	filt_com="$filt_com | perl -w /tmp/hs_filt.dh.$$ txt "
-    else
-	filt_com="$filt_com | perl -w /tmp/hs_filt.dh.$$ $inputtype "
-    fi
-#    cp /tmp/hs_filt.dh.$$ dl.x.pl
+############################################################################################
+####   Step 2: Check the optionally deletable tags.  The code relies on them being valid
+ret="`cat /tmp/hs_filt.out.$$ | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | validateOptDelTags`"
+if [ $ret = "error" ] ; then
+    echo "Error: Can not filter text with illegally formatted optional deletion tags.  Look for:"
+    cat /tmp/hs_filt.out.$$ | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | getInvalidOptDelTags
+    exit 1
 fi
 
-if test "$inputtype" = "ctm" ; then
-cat > /tmp/hs_filt.ctm.$$ << EOF
-  while (<>){
-    if (\$_ =~ /^;;/) {print} 
-    else {
-	s/^\s+//;
-	s/([{}])/ \1 /g;
-	@l = split;
-	if (\$#l == 4) {print}
-	else {
-	    if (\$l[\$#l] =~ /^[0-9\.-]*\$/) {\$limit=\$#l-1;\$conf=\$l[\$#l]} 
-	    else {                         \$limit=\$#l;\$conf=""} ; 
 
-	    \$data = join(" ",splice(@l,4,\$limit - 4 + 1));
-	    @sets = split(/\//,\$data);
-	    if (\$#sets > 0) {
-		printf "%s %s * * %s <ALT_BEGIN>\n",\$l[0],\$l[1],\$word,\$conf;
-	    }
-	    for (\$sn = 0; \$sn <= \$#sets; \$sn++){
-		\$set = \$sets[\$sn];
-		\$set =~ s/[{}]//g;
-		\$set =~ s/^\s+//;
-		@words = split(/\s+/,\$set);
-		\$dur = \$l[3] / (\$#words + 1);
-		\$i=0;
-		foreach \$word(@words){
-		    printf "%s %s %.3f %.3f %s %s\n",\$l[0],\$l[1],\$l[2]+(\$dur * \$i),\$dur,\$word,\$conf;
-		    \$i ++;
-		}
-		if (\$#sets > 0 && \$sn != \$#sets){
-		    printf "%s %s * * %s <ALT>\n",\$l[0],\$l[1],\$word,\$conf;
-		}
-	    }
-	    if (\$#sets > 0) {
-		printf "%s %s * * %s <ALT_END>\n",\$l[0],\$l[1],\$word,\$conf;
-	    }
-	}
-    }
-  }
-EOF
-    filt_com="$filt_com | perl /tmp/hs_filt.ctm.$$"
-elif test "$inputtype" = "rttm" ; then
 
-cat > /tmp/hs_filt.rttm.$$ << EOF
-while (<>)
-{
-    if (\$_ =~ /^;;/)
-    {
-        print
-    }
-    else
-    {
-        s/^\s+//;
-        s/([{}])/ \1 /g;
-                
-        @l = split;
-        
-        #print "\$#l \$l[5] \$l[\$#l-2]\n";
-            
-        if (\$#l == 8)
-        {
-            print
-        }
-        else 
-        {
-            if( (\$l[\$#l-2] ne "LEX") && (\$l[\$#l-2] ne "lex") )
-            {
-                print
-            }
-            else
-            {
-                \$start = \$l[3];
-                \$dur = \$l[4];
-                
-                if(\$dur eq "<NA>")
-                {
-                    \$dur = 0;
-                }
-                
-                if(\$start eq "<NA>")
-                {
-                    \$start = 0;
-                }
-                
-                \$newword = \$l[5];
-                
-                #for (\$j=7; \$j<=\$#l-2; \$j++)
-                for (\$j=6; \$j<=\$#l-3; \$j++)
-                {
-                    \$newword .= "_" . \$l[\$j];
-                }
-                
-                #print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-1] \$l[\$#l]\n";
-                print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-2] \$l[\$#l-1] \$l[\$#l]\n";
-            }
-        }
-    }
-}
-EOF
-    chmod +x /tmp/hs_filt.rttm.$$
-    filt_com="$filt_com | perl /tmp/hs_filt.rttm.$$"
-fi
+#########################################################################
+####   Step 3: Build the filter command
+
+filt_com="cat /tmp/hs_filt.out.$$ | toUpper | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | rfilter1 /tmp/hs_filt.glm.$$ | deleteHyphens | propogateOptDel | perl -pe 's/^ //; s/ $//' | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g;' "
+
+#########################################################################################
+####   Step 4: execute the filter command putting back together the text and other data
 
 if test "$inputtype" = "ctm" ; then
-	eval $filt_com |perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
+	eval $filt_com | \
+	    perl -e '$inext = "'/tmp/hs_filt.outext.$$'";
+		open(IN,"<$inext") || die("Error: failed to open input \"$out1\" of the stm file");
+		while (! eof(STDIN)){
+			$text = <STDIN>;
+			chomp($text);
+			$ext = <IN>;
+			if ($text ne ""){
+				@a = split(/\s+/,$ext);
+				splice(@a, 5, 0, $text);
+				$ext = join(" ",@a)."\n";
+			}
+			print $ext;
+		}
+		close IN' | \
+	    perl /tmp/hs_filt.ctm.$$ | \
+	    perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
 elif test "$inputtype" = "rttm" ; then
-	eval $filt_com |perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
+	eval $filt_com | \
+	    perl -e '$inext = "'/tmp/hs_filt.outext.$$'";
+		open(IN,"<$inext") || die("Error: failed to open input \"$out1\" of the stm file");
+		while (! eof(STDIN)){
+			$text = <STDIN>;
+			chomp($text);
+			$ext = <IN>;
+			if ($text ne ""){
+				@a = split(/\s+/,$ext);
+				splice(@a, 6, 0, $text);
+				$ext = join(" ",@a)."\n";
+			}
+			print $ext;
+		}
+		close IN' | \
+	    perl /tmp/hs_filt.rttm.$$ | \
+	    perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
 elif test "$inputtype" = "stm" ; then
 	eval $filt_com | \
 	perl -e '$inext = "'/tmp/hs_filt.outext.$$'";
