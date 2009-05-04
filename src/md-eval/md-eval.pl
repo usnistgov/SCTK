@@ -530,7 +530,7 @@ sub get_rttm_file {
 	$rttm_datatypes{$token->{TYPE}}{$token->{SUBT}} or die
 	    ("\n\nFATAL ERROR:  unknown RTTM data type/subtype ('$token->{TYPE}'/'$token->{SUBT}') in file $rttm_file\n".
 	     "    input RTTM record is: '$record'\n\n");
-	$token->{SPKR} = lc shift @fields;
+	$token->{SPKR} = shift @fields;
 	$token->{CONF} = lc shift @fields;
 	$token->{CONF} = "-"       unless defined $token->{CONF};
 	$token->{SPKR} = "<na>" unless defined $token->{SPKR};
