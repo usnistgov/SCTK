@@ -1,4 +1,4 @@
-command line (run on 2007 Mar 6 at 13:13:16) Version: 22  ../../md-eval/md-eval.pl -nafcs -c 0.25 -o -r sastt-case1.ref.rttm.filt -s sastt-case1.sys.rttm.filt -M sastt-case1.sys.rttm.filt.mdeval.spkrmap
+command line (run on 2009 May 1 at 13:48:49) Version: 22  ../../md-eval/md-eval.pl -nafcs -c 0.25 -o -r sastt-case1.ref.rttm.filt -s sastt-case1.sys.rttm.filt -M sastt-case1.sys.rttm.filt.mdeval.spkrmap
 
 Time-based metadata alignment
 

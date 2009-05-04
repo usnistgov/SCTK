@@ -5,11 +5,11 @@
 System name:   sastt-case1.sys.rttm
 
 Speakers: 
-    0:  REF1
-    1:  REF2
+    0:  Ref1
+    1:  Ref2
 
-Speaker sentences   0:  REF1   #utts: 1
-id: (REF1-000)
+Speaker sentences   0:  Ref1   #utts: 1
+id: (Ref1-000)
 File: VT_20051027-1400
 Channel: 1
 Scores: (#C #S #D #I) 1 2 2 1
@@ -17,8 +17,8 @@ REF:  * T a B C F
 HYP:  Y U a * * F 
 Eval: I S   D D S 
 
-Speaker sentences   1:  REF2   #utts: 2
-id: (REF2-000)
+Speaker sentences   1:  Ref2   #utts: 2
+id: (Ref2-000)
 File: VT_20051027-1400
 Channel: 1
 Scores: (#C #S #D #I) 0 2 0 0
@@ -26,7 +26,7 @@ REF:  G H
 HYP:  G D 
 Eval: S S 
 
-id: (REF2-001)
+id: (Ref2-001)
 File: VT_20051027-1400
 Channel: 1
 Scores: (#C #S #D #I) 1 1 0 1

@@ -7,18 +7,18 @@ VERSION 0.1
 System name:   sastt-case1.sys.rttm
 Ref file:      sastt-case1.ref.rttm.filt
 Hyp file:      sastt-case1.sys.rttm.filt
-Creation date: "Tue Mar  6 13:13:16 2007"
+Creation date: "Fri May  1 13:48:49 2009"
 Fragment Correct Flag Set
 Optionally Deletable Flag Set
 
 Speaker Count: 2
 Speakers: 
-    0:  REF1
-    1:  REF2
+    0:  Ref1
+    1:  Ref2
 
 
-Speaker sentences   0:  REF1   utt# 0 of 1
-id: (REF1-000)
+Speaker sentences   0:  Ref1   utt# 0 of 1
+id: (Ref1-000)
 File: VT_20051027-1400
 Channel: 1
 Scores: (#C #S #D #I) 1 2 2 1
@@ -31,22 +31,22 @@ H_T1: 100.50  101.00  101.40                  104.50
 H_T2: 101.00  101.40  101.90                  105.20  
 Eval: I       S               D       D       S       
 
-Speaker sentences   1:  REF2   utt# 0 of 2
-id: (REF2-000)
+Speaker sentences   1:  Ref2   utt# 0 of 2
+id: (Ref2-000)
 File: VT_20051027-1400
 Channel: 1
 Scores: (#C #S #D #I) 0 2 0 0
 Ref times: t1= 103.30 t2= 105.20
 REF:  G       H       
 R_T1: 103.30  104.10  
-R_T2: 104.40  105.20  
+R_T2: 104.10  105.20  
 HYP:  G       D       
 H_T1: 101.90  102.80  
 H_T2: 103.50  104.00  
 Eval: S       S       
 
-Speaker sentences   1:  REF2   utt# 1 of 2
-id: (REF2-001)
+Speaker sentences   1:  Ref2   utt# 1 of 2
+id: (Ref2-001)
 File: VT_20051027-1400
 Channel: 1
 Scores: (#C #S #D #I) 1 1 0 1
