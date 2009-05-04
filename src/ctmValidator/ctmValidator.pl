@@ -19,9 +19,10 @@ use strict;
 use Getopt::Long;
 use Data::Dumper;
 
-my $VERSION = "v2";
+my $VERSION = "3";
 
 my $USAGE = "\n\n$0 [-l <language>] [-h] -i <CTM file>\n\n".
+    "Version: $VERSION\n".
     "Description: This Perl program (version $VERSION) validates a given CTM file.\n".
     "\tNote that the program will exit after it finds all the syntax errors.\n".
     "Options:\n".
@@ -110,27 +111,39 @@ while(<CTMFILE>)
 			$errors++;
 		}
 		
-		if($beg_time !~ /^(\d+(\.\d+)?)$/)
-		{
+		if ($token =~ /(<ALT>|<ALT_BEGIN>|<ALT_END>)/){
+		    if($beg_time !~ /^\*$/)
+		    {
+			print "ERROR: [line $line] begin '$beg_time' time for ALT Tag must be an asterisk /*/\n";
+			$errors++;
+		    }
+		    if($duration !~ /^\*$/)
+		    {
+			print "ERROR: [line $line] duration '$duration' time for ALT Tag must be an asterisk /*/\n";
+			$errors++;
+		    }
+		} else {
+		    if($beg_time !~ /^(\d+(\.\d+)?)$/)
+		    {
 			print "ERROR: [line $line] begin '$beg_time' time must floating point value\n";
 			$errors++;
-		}
-		
-		if($duration !~ /^(\d+(\.\d+)?)$/)
-		{
+		    }
+	
+		    if($duration !~ /^(\d+(\.\d+)?)$/)
+		    {
 			print "ERROR: [line $line] duration '$duration' time must floating point value\n";
 			$errors++;
-		}
-		
-		if( (lc($language) eq "english") && ($type eq "lex") )
-		{
-			if( ($token !~ /^[A-Za-z-\']+$/) && ($token !~ /^[A-Za-z]\./) )
+		    }
+		    if( (lc($language) eq "english") && ($type eq "lex") )
+		    {
+			if( ($token !~ /^[A-Za-z-\']+$/) && ($token !~ /^[A-Za-z]\./) && ($token !~ /%(BCN?ACK)/))
 			{
 				print "ERROR: [line $line] token '$token' must have alphabetic, hyphens (-) and apostrophes (') characters only\n";
 				$errors++;
 			}
+		    }
 		}
-		
+
 		if($conf !~ /^(\d+(\.\d+)?)$/)
 		{
 			print "ERROR: [line $line] confidence '$conf' time must floating point value\n";
@@ -153,4 +166,10 @@ while(<CTMFILE>)
 
 close(CTMFILE);
 
-print "FATAL: Validation '$inputfile' failed due to the $errors previous error(s)\n" if($errors > 0);
+if($errors > 0){
+    print "FATAL: Validation '$inputfile' failed due to the $errors previous error(s)\n";
+    exit 1;
+} else {
+    print "Validated $inputfile\n";
+    exit 0;
+}
