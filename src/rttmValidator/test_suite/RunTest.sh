@@ -28,10 +28,10 @@ for file in test*.rttm ; do
     tmp="$base.log.tmp"
     
     if [ ! -f "$log" ] ; then
-		$rttm -t -i $file > $log
+		$rttm -S -t -i $file > $log
     fi
 
-    $rttm -t -i $file > $tmp
+    $rttm -S -t -i $file > $tmp
     diff_status=`diff -I 'RTTMValidator' $log $tmp | wc -l`
 
     if [ $diff_status -ne 0 ] ; then

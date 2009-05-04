@@ -1,3 +1,2 @@
-ERROR: This record has 8 fields instead of the required 9 fields; see line 8
-ERROR: This record has 10 fields instead of the required 9 fields; see line 10
+ERROR: This record has 8 fields instead of the required 9 or 10 fields; see line 8
 Validation aborted

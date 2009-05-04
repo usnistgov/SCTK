@@ -22,9 +22,10 @@ use Data::Dumper;
 
 my $debug = 0;
 
-my $VERSION = "v12";
+my $VERSION = "v13";
 
 my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
+    "Version: $VERSION\n".
     "Description: This Perl program (version $VERSION) validates a given RTTM file.\n".
     "\tNote that the program will exit after it finds all the syntax errors or\n".
     "\twhen it finds the first logic error.\n".
@@ -34,6 +35,7 @@ my $USAGE = "\n\n$0 [-useh] -i <RTTM file>\n\n".
     "  -p            : disable check that ensures all speakers defined in SPKR-INFO object\n".
     "  -e            : disable check that ensure there is an IP for each EDIT and each FILLER object\n".
     "  -f            : disable check that ensures the file columc matches the filename\n".
+    "  -S            : allow SCTK enhancements to allow multiple itme notations in LEXEME tags\n".
 	"  -h            : print this help message\n".
     "Input:\n".
     "  -i <RTTM file>: an RTTM file\n\n";
@@ -68,8 +70,8 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     my ($date, $time) = date_time_stamp();
     my $commandline = join(" ", @ARGV);
 
-    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h $opt_f $opt_t $opt_p);
-    getopts('i:usevhftp');
+    use vars qw ($opt_i $opt_u $opt_s $opt_e $opt_h $opt_f $opt_t $opt_p $opt_S);
+    getopts('i:usevhftpS');
     die ("$USAGE") if ($opt_h) || (! $opt_i);
 
     my @mde_types = ();
@@ -77,6 +79,7 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     push (@mde_types, "SPEAKER") if ! $opt_s;
     push (@mde_types, "EDIT") if ! $opt_e;
     $checkFileName = ! $opt_f if $opt_f;
+    my $allowSCTKExtensions = 1 if $opt_S;
 
 	if (! $opt_t)
     {
@@ -85,7 +88,7 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
 	}
 	
     my (%rttm_data, $data_domain);
-    get_rttm_data(\%rttm_data, \$data_domain, $opt_i);
+    get_rttm_data(\%rttm_data, \$data_domain, $opt_i, $allowSCTKExtensions);
 
     # debug
     #
@@ -107,7 +110,7 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
 	}
     }
 
-    if (check_syntax_errors(\%rttm_data, $data_domain, $opt_i) &&
+    if (check_syntax_errors(\%rttm_data, $data_domain, $opt_i, $allowSCTKExtensions) &&
 	check_logic_errors(\%rttm_data, \@mde_types)){
 	exit 0;
     }
@@ -166,7 +169,7 @@ sub check_syntax_errors {
     # check for syntax errors such as missing fields,
     # invalid field values, etc.
     # 
-    my ($data, $domain, $file) = @_;
+    my ($data, $domain, $file, $allowSCTKExtensions) = @_;
 
     my $pass = 1;
 
@@ -298,8 +301,15 @@ sub check_syntax_errors {
 				    print "ERROR: Invalid orthography for alpha $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
 				    $pass = 0;
 			        } 
-                                if ($obj->{ORTHO} !~ /^([\[\]A-Z\.\-\'\x80-\xff]+|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
-		                    print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
+				my $ww = '[\[\]A-Z\.\-\'\x80-\xff]+';
+				if (! $allowSCTKExtensions){
+				    if ($obj->{ORTHO} !~ /^(${ww}|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
+					print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
+				    }
+				} else {
+				    if ($obj->{ORTHO} !~ /^(${ww}|(${ww}_)*$ww|\{((_${ww})+_\/)*(_${ww})+_\}|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
+					print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
+				    }
 				}
 			    } elsif ($obj->{TYPE} =~ /NON-LEX/i) {
 				#### fix lipsmack!!!!
