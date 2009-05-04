@@ -55,9 +55,11 @@ use strict;
 #    - Added the block size for asclite (JA)
 # Version 0.19 June 4, 2007
 #    - Added check of speaker auto-overlap in asclite options (JA)
+# Version 0.20 April 30, 2009
+#    - Added the automatic validation of inputs step AND the ability skipp validation
 # 
 
-my $Version = "0.19"; 
+my $Version = "0.20"; 
 my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o numSpkr ] [ -m GB_Max_Memory[:GB_Max_Difficulty] ] [ -f FORMAT ] [ -a -C -B blocksize ] -g glm -l LANGOPT -h HUBOPT -r ref hyp1 hyp2 ...\n".
 "Version: $Version\n".
 "Desc: Score a Hub-4E/NE or Hub-5E/NE evaluation using the established\n".
@@ -87,6 +89,7 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
 "                     scoring.  May not be used with -M\n".
 "      -H         ->  Perform hamza normalization for Arabic data. \n".
 "      -T         ->  Perform tanween filteing (i.e., removal) for Arabic data. \n".
+"      -V         ->  Skip validation of the input transcripts.  Defauled is to validate input transcripts. \n".
 "Other Options:\n".
 "      -n str     ->  Root filename to write the ensemble reports to.  Default\n".
 "                     is 'Ensemble'\n".
@@ -139,6 +142,9 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
     my $STM2RTTM = "stm2rttm.pl";
     my $ACOMP = "acomp.pl";
     my $MDEVAL = "md-eval.pl";
+    my $CTMVALID = "ctmValidator.pl";
+    my $STMVALID = "stmValidator.pl";
+    my $RTTMVALID = "rttmValidator.pl";
     my $DEF_ART_ENABLED=1;
     my $HAMZA_NORM_ENABLED=0;
     my $TANWEEN_FILT_ENABLED=0;
@@ -164,6 +170,8 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
     
     my $ASCLITE_FORCE_COMPRESSION = "";
     my $asclite_blocksize = 256;
+
+    my $validateInputs = 1;
 #######         End of Globals         #########
 ################################################
 
@@ -174,11 +182,19 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
 my($h); 
 &VerifyResources();
 
-&FilterFile($Ref, $Ref.".filt", $Lang, $reffileformat, "ref");
+print "Filtering Files:\n";
+my $filterSuccess = 1;
+$filterSuccess = 0 unless (&FilterFile($Ref, $Ref.".filt", $Lang, $reffileformat, "ref"));
+for ($h=0; $h<=$#Hyps; $h++)
+{
+    $filterSuccess = 0 unless  (&FilterFile($Hyps[$h], $Hyps_oname[$h], $Lang, $hypfileformat, "hyp"));
+}
+if (! $filterSuccess){
+    die "Error: Filter processes failure detect.  Aborting.  The -V option disables validation";
+}
 
 for ($h=0; $h<=$#Hyps; $h++)
 {
-    &FilterFile($Hyps[$h], $Hyps_oname[$h], $Lang, $hypfileformat, "hyp");
     &RunScoring($Ref,$Hyps[$h],$Hyps_iname[$h],$Hyps_oname[$h],$Lang);
 }
     
@@ -209,7 +225,7 @@ sub ProcessCommandLine
 
 	use Getopt::Std;
 	#&Getopts('l:h:r:vg:L:n:e:RM:w:');
-	getopts('GaCHTdvRl:h:r:g:L:n:e:K:w:p:o:m:f:F:u:M:B:');
+	getopts('VGaCHTdvRl:h:r:g:L:n:e:K:w:p:o:m:f:F:u:M:B:');
 
 	if (defined($main::opt_l)) {	$Lang = $main::opt_l; $Lang =~ tr/A-Z/a-z/; }
 	if (defined($main::opt_h)) {	$Hub = $main::opt_h; $Hub =~ tr/A-Z/a-z/; }
@@ -242,6 +258,7 @@ sub ProcessCommandLine
 	if (defined($main::opt_u)) {	$UEM = $main::opt_u; }
 	if (defined($main::opt_M)) {	$mdevalOpts = $main::opt_M; }
 	if (defined($main::opt_G)) {	$produceAlignmentGraphs = $main::opt_G; }
+	if (defined($main::opt_V)) {	$validateInputs = ! $main::opt_V ; }
 
 	if (defined($main::opt_g)) {	
 		$GLM = $main::opt_g; 
@@ -264,7 +281,7 @@ sub ProcessCommandLine
 	$TANWEEN_FILT_ENABLED = $main::opt_T;
     }
     ####
-		
+
     #### Asclite Check
     die("$Usage\nError: Asclite is working only with english\n") if( ($Lang ne "english") && ($bUseAsclite == 1) );
     die("$Usage\nError: Overlap scoring (-o) is working only with asclite\n") if( ($OVRLAPSPK >= 0) && ($bUseAsclite == 0) );
@@ -284,7 +301,7 @@ sub ProcessCommandLine
     my @Hyps_DEFS = @ARGV;
     my $hyp;
     foreach $hyp(@Hyps_DEFS){
-	print "$hyp\n";
+#	print "$hyp\n";
 	my(@Arr) = split(/\\#/,$hyp);
         if ($#Arr < 1) { $Arr[1] = $Arr[0]; } elsif ($Arr[1] =~ /^$/) { $Arr[1] = $Arr[0]; }
         if ($#Arr < 2) { $Arr[2] = $Arr[0]; } elsif ($Arr[2] =~ /^$/) { $Arr[2] = $Arr[0]; }
@@ -392,9 +409,9 @@ sub get_version{
     open(IN,"$exe 2>&1 |") ||
 	die("Error: unable to exec $name with the command '$exe'");
     while (<IN>){
-	if ($_ =~ /Version: (\d+\.\d+)[a-z]*/){
+	if ($_ =~ /Version: v?(\d+\.\d+)[a-z]*/){
 	    $ver = $1;
-	} elsif ($_ =~ /Version: (\d+)/){
+	} elsif ($_ =~ /Version: v?(\d+)/){
 	    $ver = $1;
 	}
     }
@@ -477,6 +494,22 @@ sub VerifyResources
     die ("stm2rttm.pl executed by the command '$ALIGN2HTML' is too old. \n".
 	 "       Version 0.0 or better is needed.   Get the up-to-date SCTK package\n".
 	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 0.1);
+
+    $ver = &get_version("$CTMVALID -h","ctmValidator.pl");
+    die ("ctmValidator.pl executed by the command '$CTMVALID' is too old. \n".
+	 "       Version 3 or better is needed.   Get the up-to-date SCTK package\n".
+	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 3);
+
+    $ver = &get_version("$STMVALID -h","STMValidator.pl");
+    die ("stmValidator.pl executed by the command '$STMVALID' is too old. \n".
+	 "       Version 1 or better is needed.   Get the up-to-date SCTK package\n".
+	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 1);
+
+    $ver = &get_version("$RTTMVALID -h","rttmValidator.pl");
+    die ("rttmValidator.pl executed by the command '$RTTMVALID' is too old. \n".
+	 "       Version 13 or better is needed.   Get the up-to-date SCTK package\n".
+	 "       from the URL http://www.nist.gov/speech/software.htm") if ($ver < 13);
+
 }
 
 sub FilterFile
@@ -491,7 +524,7 @@ sub FilterFile
     my($sort_com);
     my($com);
 
-    print "Filtering $lang file '$file', $format format\n";
+    print "   Filtering $lang file '$file', $format format\n";
 
     my $rtFilt = "cat";
     
@@ -555,13 +588,32 @@ sub FilterFile
     }
     
 #	    $com = "cat $file | $rtFilt > $outfile";
-    print "   Exec: $com\n" if ($Vb);
+    print "      Exec: $com\n" if ($Vb);
     
     $rtn = system $com;
     if ($rtn != 0) {
 	system("rm -f $outfile");
 	die("Error: Unable to filter file: $file with command:\n   $com\n");
     }
+    
+    if ($validateInputs){
+	print "      Validating the output file '$outfile'\n" if ($Vb);
+	my $vcom = "";
+	if ($format eq "ctm") {
+	    $vcom = "$CTMVALID -l $Lang -i $outfile";
+	} elsif ($format eq "stm") {
+	    $vcom = "stmValidator.pl -l $Lang -i $outfile";
+	} else {  ###if ($format eq "rttm") {
+	    $vcom = "$RTTMVALID -S -f -u -i $outfile";
+	} 
+	$rtn = system "$vcom 2>&1 > /dev/null";
+	if ($rtn != 0){
+	    system $vcom . " | sed 's/^/      /'";
+	    print "Error: Filter operation yielded a non-validated $format output with return code $rtn\n";
+	    return 0;
+	}
+    }
+    return 1
 }
 
 sub RunScoring
