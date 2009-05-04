@@ -7,7 +7,7 @@ VERSION 0.1
 System name:   lvc_hyp.notag.ctm
 Ref file:      lvc_refe.notag.noat.stm.filt
 Hyp file:      lvc_hyp.notag.ctm.filt
-Creation date: "Fri Feb  9 12:50:03 2007"
+Creation date: "Thu Apr 30 20:01:31 2009"
 Fragment Correct Flag Set
 Optionally Deletable Flag Set
 
@@ -826,8 +826,8 @@ File: 3129
 Channel: B
 Scores: (#C #S #D #I) 18 9 1 1
 Ref times: t1= 31.74 t2= 40.49
-REF:  older   car     it's    a       seventy ***     TWO     M_G     so      i       had     to      mail    order   the     part    uh      which   i       HAD     DONE    AND     TONIGHT I       WENT    OUT     AND     uh      at      
-HYP:  older   car     it's    a       seventy T_V     AND     THE     so      i       had     to      mail    order   the     part    uh      which   i       ***     THAT    IT'S    AT      NIGHT   TIME    IN      IT      uh      at      
+REF:  older   car     it's    a       seventy **      TWO     MG      so      i       had     to      mail    order   the     part    uh      which   i       HAD     DONE    AND     TONIGHT I       WENT    OUT     AND     uh      at      
+HYP:  older   car     it's    a       seventy TV      AND     THE     so      i       had     to      mail    order   the     part    uh      which   i       ***     THAT    IT'S    AT      NIGHT   TIME    IN      IT      uh      at      
 H_T1: 31.65   32.08   32.54   32.70   32.77   33.21   33.56   33.66   34.91   35.06   35.16   35.31   35.40   35.63   35.88   35.95   36.87   37.07   37.28           37.52   37.75   37.92   37.98   38.29   38.74   39.16   39.93   40.39   
 H_T2: 32.07   32.53   32.69   32.76   33.20   33.55   33.65   33.71   35.05   35.15   35.30   35.39   35.62   35.87   35.94   36.35   37.06   37.27   37.44           37.74   37.91   37.97   38.28   38.73   39.15   39.24   40.22   40.49   
 Eval:                                         I       S       S                                                                                               D       S       S       S       S       S       S       S                       

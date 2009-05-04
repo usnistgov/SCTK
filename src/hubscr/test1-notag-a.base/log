@@ -1,7 +1,12 @@
 lvc_hyp.notag.ctm
 lvc_hyp2.notag.ctm
-Filtering english file 'lvc_refe.notag.noat.stm', stm format
-Filtering english file 'lvc_hyp.notag.ctm', ctm format
+Filtering Files:
+   Filtering english file 'lvc_refe.notag.noat.stm', stm format
+stmValidator.pl -l english -i lvc_refe.notag.noat.stm.filt
+Validating STM file lvc_refe.notag.noat.stm.filt
+Validated
+   Filtering english file 'lvc_hyp.notag.ctm', ctm format
+   Filtering english file 'lvc_hyp2.notag.ctm', ctm format
 Scoring english Hyp 'lvc_hyp.notag.ctm.filt' against ref 'lvc_refe.notag.noat.stm.filt'
 sclite: 2.3 TK Version 1.3
 Loading Piped input. . . 1 systems loaded.
@@ -13,7 +18,6 @@ Loading Piped input. . . 1 systems loaded.
     Skipping Scaled Binned Histogram, no confidence scores supplied.
 
 Successful Completion
-Filtering english file 'lvc_hyp2.notag.ctm', ctm format
 Scoring english Hyp 'lvc_hyp2.notag.ctm.filt' against ref 'lvc_refe.notag.noat.stm.filt'
 sclite: 2.3 TK Version 1.3
 Loading Piped input. . . 1 systems loaded.
@@ -26,7 +30,7 @@ Loading Piped input. . . 1 systems loaded.
 
 Successful Completion
 Running Statistical Comparison Tests
-sc_stats: 1.2
+sc_stats: 1.3
 Beginning Multi-System comparisons and reports
     Performing the Matched Pair Sentence Segment (Word Error) Test
     Performing the Signed Paired Comparison (Speaker Word Error Rate (%)) Test

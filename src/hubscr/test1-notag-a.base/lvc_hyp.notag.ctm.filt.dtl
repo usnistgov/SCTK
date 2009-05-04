@@ -270,13 +270,13 @@ CONFUSION PAIRS                  Total                 (466)
  239:    1  ->  looked ==> love
  240:    1  ->  looking ==> making
  241:    1  ->  lot ==> role
- 242:    1  ->  m_g ==> the
- 243:    1  ->  main ==> same
- 244:    1  ->  male ==> mail
- 245:    1  ->  may ==> might
- 246:    1  ->  men ==> all
- 247:    1  ->  men ==> man
- 248:    1  ->  metroplex ==> a
+ 242:    1  ->  main ==> same
+ 243:    1  ->  male ==> mail
+ 244:    1  ->  may ==> might
+ 245:    1  ->  men ==> all
+ 246:    1  ->  men ==> man
+ 247:    1  ->  metroplex ==> a
+ 248:    1  ->  mg ==> the
  249:    1  ->  might ==> about
  250:    1  ->  more ==> anymore
  251:    1  ->  much ==> messed
@@ -581,14 +581,14 @@ INSERTIONS                       Total                 (98)
   76:    1  ->  still
   77:    1  ->  stress
   78:    1  ->  suspect
-  79:    1  ->  t_v
-  80:    1  ->  them
-  81:    1  ->  there
-  82:    1  ->  they'll
-  83:    1  ->  think
-  84:    1  ->  those
-  85:    1  ->  too
-  86:    1  ->  turn
+  79:    1  ->  them
+  80:    1  ->  there
+  81:    1  ->  they'll
+  82:    1  ->  think
+  83:    1  ->  those
+  84:    1  ->  too
+  85:    1  ->  turn
+  86:    1  ->  tv
   87:    1  ->  us
   88:    1  ->  use
   89:    1  ->  was
@@ -893,11 +893,11 @@ SUBSTITUTIONS                    Total                 (239)
  155:    1  ->  looked
  156:    1  ->  looking
  157:    1  ->  lot
- 158:    1  ->  m_g
- 159:    1  ->  main
- 160:    1  ->  male
- 161:    1  ->  may
- 162:    1  ->  metroplex
+ 158:    1  ->  main
+ 159:    1  ->  male
+ 160:    1  ->  may
+ 161:    1  ->  metroplex
+ 162:    1  ->  mg
  163:    1  ->  might
  164:    1  ->  more
  165:    1  ->  much
