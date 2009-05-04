@@ -9,6 +9,7 @@ Speakers:
     1:  SUB49
     2:  SUB57
     3:  SUB34
+    4:  inter_segment_gap
 
 Speaker sentences   0:  SUB48   #utts: 2
 id: (SUB48-000)
@@ -69,5 +70,11 @@ Scores: (#C #S #D #I) 0 1 4 0
 REF:  THIS IS HIS SECOND SHEET 
 HYP:  V.   ** *** ****** ***** 
 Eval: S    D  D   D      D     
+
+Speaker sentences   4:  inter_segment_gap   #utts: 1
+id: (Inter_Segment_Gap-000)
+File: VT_20051027-1400
+Channel: 1
+Scores: (#C #S #D #I) 0 0 0 0
 
 

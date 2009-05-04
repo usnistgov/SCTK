@@ -7,16 +7,17 @@ VERSION 0.1
 System name:   sastt-case2.sys.rttm
 Ref file:      sastt-case2.ref.rttm.filt
 Hyp file:      sastt-case2.sys.rttm.filt
-Creation date: "Tue Mar  6 15:32:08 2007"
+Creation date: "Fri May  1 15:00:36 2009"
 Fragment Correct Flag Set
 Optionally Deletable Flag Set
 
-Speaker Count: 4
+Speaker Count: 5
 Speakers: 
     0:  SUB48
     1:  SUB49
     2:  SUB57
     3:  SUB34
+    4:  inter_segment_gap
 
 
 Speaker sentences   0:  SUB48   utt# 0 of 2
@@ -123,5 +124,12 @@ H_T1: 937.84
 H_T2: 938.08                                  
 CONF: 0.3716                                  
 Eval: S       D       D       D       D       
+
+Speaker sentences   4:  inter_segment_gap   utt# 0 of 1
+id: (Inter_Segment_Gap-000)
+File: VT_20051027-1400
+Channel: 1
+Scores: (#C #S #D #I) 0 0 0 0
+Ref times: t1= 939.33 t2= 939.38
 
 

@@ -2,11 +2,11 @@ DETAILED OVERALL REPORT FOR THE SYSTEM: sastt-case2.sys.rttm
 
 SENTENCE RECOGNITION PERFORMANCE
 
- sentences                                           7
- with errors                            100.0%   (   7)
+ sentences                                           8
+ with errors                             87.5%   (   7)
 
-   with substitions                      42.9%   (   3)
-   with deletions                        85.7%   (   6)
+   with substitions                      37.5%   (   3)
+   with deletions                        75.0%   (   6)
    with insertions                        0.0%   (   0)
 
 
