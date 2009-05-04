@@ -29,25 +29,26 @@ my $Installed = 0;
 
 my $debug = 0;
 
-my $VERSION = "v1";
+my $VERSION = "1";
 
 my $USAGE = "\n\n$0 -i <STM file>\n\n".
+    "Version: $VERSION\n".    
     "Description: This Perl program (version $VERSION) validates a given STM file.\n".
     "Options:\n".
     "  -l <language> : language\n".
-    "  -v            : verbose\n".
+    "  -s            : silent\n".
     "  -h            : print this help message\n".
     "Input:\n".
     "  -i <STM file>: an STM file\n\n";
 
-use vars qw ($opt_i $opt_l $opt_v $opt_h);
+use vars qw ($opt_i $opt_l $opt_s $opt_h);
 getopts('i:l:vh');
 die ("$USAGE") if( (! $opt_i) || ($opt_h) );
 
 my $language = "english";
 $language = $opt_l if($opt_l);
 
-my $verbose = 0;
-$verbose = 2 if($opt_v);
+my $verbose = 2;
+$verbose = 0 if($opt_s);
 
 STMList::passFailValidate($opt_i, $language, $verbose);

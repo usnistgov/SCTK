@@ -22,7 +22,7 @@ for file in test*.stm ; do
     tmp="$base.log.tmp"
     
     if [ ! -f "$log" ] ; then
-		$stm -v -i $file > $log
+		$stm -i $file > $log
     fi
 
     $stm -v -i $file > $tmp

@@ -130,7 +130,7 @@ sub validateNonEnglishText{
 sub validate{
     my ($self, $language, $verbosity) = @_;
 
-    print "Validating STM file ".$self->{FILE}."\n" if ($verbosity > 1);
+#    print "Validating STM file ".$self->{FILE}."\n" if ($verbosity > 1);
     $language = lc($language);
     my $ret = 1;
     my $r;
@@ -158,7 +158,7 @@ sub passFailValidate{
     my ($file, $language, $verbosity) = @_;
     my $stm = new STMList($file);
     if ($stm->validate($language, $verbosity)){
-	print "Validated\n" if ($verbosity > 0);
+	print "Validated $file\n" if ($verbosity > 0);
 	exit 0;
     } else {
 	print "Failed Validation\n" if ($verbosity > 0);
