@@ -1917,7 +1917,7 @@ sub score_speaker_diarization {
     $uem_score = exclude_overlapping_speech_from_uem ($uem_score, $rttm_data) if $opt_1;
     tag_scoreable_words ($ref_wds, $uem_score);
     $score_segs = create_speaker_segs ($uem_score, $ref_spkr_data, $sys_spkr_data);
-    print_speaker_segs ($score_segs) if $opt_v;
+    print_speaker_segs ($score_segs, $file, $chnl) if $opt_v;
     ($stats{TYPE}{NSPK}) = speaker_mapping_scores ($spkr_map, $spkr_info);
     score_speaker_segments (\%stats, $score_segs, $ref_wds, $spkr_map, $spkr_info);
     return {%stats};
@@ -2530,7 +2530,7 @@ sub update_speaker_map_file {
 
 sub print_speaker_segs {
 
-    my ($segs) = @_;
+    my ($segs, $file, $chnl) = @_;
     my ($seg, @segs, $spkr, $sep);
 
     @segs = @$segs;
@@ -2549,7 +2549,7 @@ sub print_speaker_segs {
 	    print "$sep$spkr";
 	    $sep = ", ";
 	}
-	print ")\n";
+	print "); file = $file; chnl = $chnl\n";
     }
 }
 
