@@ -334,7 +334,6 @@ while (<>)
     else
     {
         s/^\s+//;
-        s/([{}])/ \1 /g;
                 
         @l = split;
         
@@ -351,7 +350,10 @@ while (<>)
                 print
             }
             else
-            {
+            {                
+		s/([{}])/ \1 /g;
+		@l = split;
+	
                 \$start = \$l[3];
                 \$dur = \$l[4];
                 
@@ -552,6 +554,7 @@ if test "$inputtype" = "ctm" ; then
 	    perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
 elif test "$inputtype" = "rttm" ; then
 	eval $filt_com | \
+tee w | \
 	    perl -e '$inext = "'/tmp/hs_filt.outext.$$'";
 		open(IN,"<$inext") || die("Error: failed to open input \"$out1\" of the stm file");
 		while (! eof(STDIN)){
@@ -566,7 +569,9 @@ elif test "$inputtype" = "rttm" ; then
 			print $ext;
 		}
 		close IN' | \
+tee x | \
 	    perl /tmp/hs_filt.rttm.$$ | \
+tee y | \
 	    perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
 elif test "$inputtype" = "stm" ; then
 	eval $filt_com | \
