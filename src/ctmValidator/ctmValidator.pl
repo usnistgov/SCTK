@@ -136,7 +136,7 @@ while(<CTMFILE>)
 		    }
 		    if( (lc($language) eq "english") && ($type eq "lex") )
 		    {
-			if( ($token !~ /^[A-Za-z-\']+$/) && ($token !~ /^[A-Za-z]\./) && ($token !~ /%(BCN?ACK)/))
+			if( ($token !~ /^[A-Za-z-\']+$/) && ($token !~ /^[A-Za-z]\./) && ($token !~ /@/) && ($token !~ /%(BCN?ACK|HESITATION)/i))
 			{
 				print "ERROR: [line $line] token '$token' must have alphabetic, hyphens (-) and apostrophes (') characters only\n";
 				$errors++;
