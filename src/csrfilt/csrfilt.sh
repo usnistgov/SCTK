@@ -323,66 +323,6 @@ cat > /tmp/hs_filt.ctm.$$ << EOF
   }
 EOF
 
-#########################  HERE document to convert expanded RTTMs to alternations  #################
-cat > /tmp/hs_filt.rttm.$$ << EOF
-while (<>)
-{
-    if (\$_ =~ /^;;/)
-    {
-        print
-    }
-    else
-    {
-        s/^\s+//;
-                
-        @l = split;
-        
-        #print "\$#l \$l[5] \$l[\$#l-2]\n";
-            
-        if (\$#l == 8)
-        {
-            print
-        }
-        else 
-	    {
-            if( (\$l[\$#l-2] ne "LEX") && (\$l[\$#l-2] ne "lex") )
-            {
-                print
-            }
-            else
-            {                
-		s/([{}])/ \1 /g;
-		@l = split;
-	
-                \$start = \$l[3];
-                \$dur = \$l[4];
-                
-                if(\$dur eq "<NA>")
-                {
-                    \$dur = 0;
-                }
-                
-                if(\$start eq "<NA>")
-                {
-                    \$start = 0;
-                }
-                
-                \$newword = \$l[5];
-                
-                #for (\$j=7; \$j<=\$#l-2; \$j++)
-                for (\$j=6; \$j<=\$#l-3; \$j++)
-                {
-                    \$newword .= "_" . \$l[\$j];
-                }
-                
-                #print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-1] \$l[\$#l]\n";
-                print "\$l[0] \$l[1] \$l[2] ". \$start ." " . \$dur ." \$newword \$l[\$#l-2] \$l[\$#l-1] \$l[\$#l]\n";
-            }
-        }
-    }
-}
-EOF
-
 
 ################################################################################
 #############   Beginnning of Main Program       ###############################
@@ -553,7 +493,9 @@ if test "$inputtype" = "ctm" ; then
 	    perl /tmp/hs_filt.ctm.$$ | \
 	    perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
 elif test "$inputtype" = "rttm" ; then
+    # the first perl command handles converting alternations and duel words to underscore notation
 	eval $filt_com | \
+	    perl -pe 'chomp; if ($_ =~ /\s/){s/([\{\}\/\@])/ $1 /g; s/\s+/ /g; s/^\s//; s/\s$//; s/\s/_/g; } $_ .= "\n"' | \
 	    perl -e '$inext = "'/tmp/hs_filt.outext.$$'";
 		open(IN,"<$inext") || die("Error: failed to open input \"$out1\" of the stm file");
 		while (! eof(STDIN)){
@@ -568,7 +510,6 @@ elif test "$inputtype" = "rttm" ; then
 			print $ext;
 		}
 		close IN' | \
-	    perl /tmp/hs_filt.rttm.$$ | \
 	    perl -pe 'if ($_ !~ /^;/) {s/^[ \t]+//; s/[ \t]+$//; s/[ \t]+/ /g}'
 elif test "$inputtype" = "stm" ; then
 	eval $filt_com | \
