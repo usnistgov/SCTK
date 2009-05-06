@@ -307,7 +307,11 @@ sub check_syntax_errors {
 					print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
 				    }
 				} else {
-				    if ($obj->{ORTHO} !~ /^(${ww}|(${ww}_)*$ww|\{((_${ww})+_\/)*(_${ww})+_\}|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
+				    ### Destructively handle recursive alternations
+				    my $_t = $obj->{ORTHO};
+				    my $altExp = "\\{((_${ww})+_\\/)*(_${ww})+_\\}";
+				    while ($_t =~ s/_${altExp}_/_/g){ ; }
+				    if ($_t !~ /^(${ww}|(${ww}_)*$ww|$altExp|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
 					print "WARNING: Invalid orthography with SCTK Extensions for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
 				    }
 				}
