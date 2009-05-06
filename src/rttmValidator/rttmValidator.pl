@@ -308,7 +308,7 @@ sub check_syntax_errors {
 				    }
 				} else {
 				    if ($obj->{ORTHO} !~ /^(${ww}|(${ww}_)*$ww|\{((_${ww})+_\/)*(_${ww})+_\}|<NA>|%?[A-Z\.\x80-\xff]+-?)$/i) {
-					print "WARNING: Invalid orthography for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
+					print "WARNING: Invalid orthography with SCTK Extensions for $obj->{TYPE}; see field (6) '$obj->{ORTHO}' in $obj->{LOC}\n";
 				    }
 				}
 			    } elsif ($obj->{TYPE} =~ /NON-LEX/i) {
