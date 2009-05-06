@@ -437,7 +437,7 @@ elif test "$inputtype" = "rttm" ; then
 		 open(OUT1,">$out1") || die("Error: failed to open output \"$out1\" of the stm file");
 		 open(OUT2,">$out2") || die("Error: failed to open output \"$out2\" of the stm file");
 		 while(<IN>){
-			 if ($_ !~ /^ LEXEME/) { 
+			 if ($_ !~ /^ LEXEME.* (lex|fp|un-lex|for-lex|alpha|acronym|interjection|propernoun|other) /) { 
 				 print OUT1 $_; 
 				 print OUT2 "\n";
 			 } else {
