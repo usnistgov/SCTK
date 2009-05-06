@@ -120,3 +120,4 @@
  " OK " => " OKAY "
 SHE'S => SHE IS
 [S.'S] => [{S.'S / S. IS / S. HAS}] / [ ] __ [ ]
+[RECURSIVE] => [{RECURSIVE/RECUR {SIVE / SI VE}}] / [ ] __A [ ]
