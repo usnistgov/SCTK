@@ -44,6 +44,8 @@ sub runIt{
     }
 }
 
+runIt($operation, "test1-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
+      "../test_suite/sastt-case1.ref.rttm", "../test_suite/sastt-case1.sys.rttm");
 runIt($operation, "test2-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
       "../test_suite/sastt-case2.ref.rttm", "../test_suite/sastt-case2.sys.rttm");
 runIt($operation, "test1-notag", "", "../test_suite/example.glm", "hub5", "english",
@@ -58,8 +60,6 @@ runIt($operation, "test1", "-V", "../test_suite/example.glm", "hub5", "english",
 runIt($operation, "testArb", "-V -H -T -d", "../test_suite/test.arb2004.glm", "hub5", "arabic",
       "../test_suite/test.arb2004.txt.stm", 
       "../test_suite/test.arb2004.txt.ctm");
-runIt($operation, "test1-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
-      "../test_suite/sastt-case1.ref.rttm", "../test_suite/sastt-case1.sys.rttm");
 
 exit;
 
