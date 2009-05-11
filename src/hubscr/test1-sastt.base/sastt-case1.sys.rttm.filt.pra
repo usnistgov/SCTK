@@ -5,10 +5,20 @@
 System name:   sastt-case1.sys.rttm
 
 Speakers: 
-    0:  Ref1
-    1:  Ref2
+    0:  fe016
+    1:  Ref1
+    2:  Ref2
 
-Speaker sentences   0:  Ref1   #utts: 1
+Speaker sentences   0:  fe016   #utts: 1
+id: (fe016-000)
+File: ICSI_20011030-1030_d*_NONE
+Channel: 1
+Scores: (#C #S #D #I) 18 0 0 0
+REF:  so so so so (me-me-) she is s.'s john recursive (she) (is) (she) (is) (she) (is) (she) (is) 
+HYP:  so so so so (me-me-) she is s.'s john recursive                                             
+Eval:                                                                                             
+
+Speaker sentences   1:  Ref1   #utts: 1
 id: (Ref1-000)
 File: VT_20051027-1400
 Channel: 1
@@ -17,7 +27,7 @@ REF:  * T a B C F
 HYP:  Y U a * * F 
 Eval: I S   D D S 
 
-Speaker sentences   1:  Ref2   #utts: 2
+Speaker sentences   2:  Ref2   #utts: 2
 id: (Ref2-000)
 File: VT_20051027-1400
 Channel: 1
