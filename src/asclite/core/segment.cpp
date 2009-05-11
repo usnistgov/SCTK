@@ -381,3 +381,15 @@ int Segment::GetMaxTokensTime()
 	
 	return maxTime;
 }
+
+void  Segment::SetTokensOptionallyDeletable()
+{
+	vector<Token*> vectok = ToTopologicalOrderedStruct();
+			
+	for(size_t veci=0; veci<vectok.size(); ++veci)
+	{
+		 vectok[veci]->BecomeOptionallyDeletable();
+	}
+	
+	vectok.clear();
+}

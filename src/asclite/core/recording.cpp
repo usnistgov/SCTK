@@ -632,6 +632,8 @@ void Recording::AlignHypRef()
         while (segmentor->HasNext())
         {
             segmentsGroup = segmentor->Next();
+            
+            //LOG_INFO(logger, segmentsGroup->ToString());
 			
             //cerr << "Nbr ref: " << segmentsGroup->GetNumberOfReferences() << endl;
             //cerr << "Nbr hyp: " << segmentsGroup->GetNumberOfHypothesis() << endl;

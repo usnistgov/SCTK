@@ -32,9 +32,15 @@ Logger* RTTMInputParser::logger = Logger::getLogger();
 SpeechSet* RTTMInputParser::loadFile(const string& name)
 {
 	if(isOneTokenPerSegment())
+	{
+		LOG_DEBUG(logger, "Load in Lexeme mode file " + name);
 		return ExpandAlternationSpeechSet(loadFileLexeme(name));
+	}
 	else
+	{
+		LOG_DEBUG(logger, "Load in Speaker mode file " + name);
 		return ExpandAlternationSpeechSet(loadFileSpeaker(name));
+	}
 }
  
 SpeechSet* RTTMInputParser::loadFileLexeme(const string& name)
@@ -138,15 +144,18 @@ SpeechSet* RTTMInputParser::loadFileLexeme(const string& name)
 					exit(E_LOAD); 
 				}
 			
+				bool _OptionallyDeletable = false;
+			
 				if( lower_stype == string("fp") ||
 					lower_stype == string("frag") ||
 					lower_stype == string("un-lex") ||
 					lower_stype == string("for-lex") )
 				{
-					str_word = string("(" + str_word + ")");
+					//str_word = string("(" + str_word + ")");
+					_OptionallyDeletable = true;
 				}
                 
-                Segment* seg = ParseWordsEx(string(l_file), string(l_channel), string(l_spkr), start, start+duration, speech, str_word, use_confidence, confscr);
+                Segment* seg = ParseWordsEx(string(l_file), string(l_channel), string(l_spkr), start, start+duration, speech, str_word, use_confidence, confscr, _OptionallyDeletable);
                 
                 ++elemNum;
                 
@@ -355,7 +364,7 @@ SpeechSet* RTTMInputParser::loadFileSpeaker(const string& name)
 					}
 					
 					Token* tok = BuildToken(ParseString(string(l_start)), ParseString(string(l_duration)), str_word, seg);
-				
+
 					if(string(l_conf).compare("<NA>") != 0)
 						tok->SetConfidence(atof(l_conf));
 					

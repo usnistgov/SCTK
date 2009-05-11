@@ -40,7 +40,7 @@ class LineStyleInputParser : public InputParser
      * and return the corresponding Segment
      */	
     Segment* ParseWords(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens);
-    Segment* ParseWordsEx(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens, const bool& hasconf, const float& confscr); 
+    Segment* ParseWordsEx(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens, const bool& hasconf, const float& confscr, bool bOptionallyDeletable); 
 	SpeechSet* ExpandAlternationSpeechSet(SpeechSet *speechs);
 	
     private:
@@ -68,7 +68,7 @@ class LineStyleInputParser : public InputParser
                 bool traversable;
         };
 		
-        VirtualSegment* ParseWords(Segment* seg, const string& tokens);
+        VirtualSegment* ParseWords(Segment* seg, const string& tokens, bool bOptionallyDeletable);
 		vector<string> SeparateBySlash(const string& line);
         vector<string> TokeniseWords(const string& line);
         void Attach(VirtualSegment* tok1, VirtualSegment* tok2);

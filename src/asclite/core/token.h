@@ -112,6 +112,8 @@ class Token : public TimedObject
 		/** Output the string information for csv */
 		string GetCSVInformation();
 		
+		void BecomeOptionallyDeletable() { SetSourceText(Token::BEGIN_OPTIONAL_MARKER + GetSourceText() + Token::END_OPTIONAL_MARKER); }
+		
 	protected:
 		// class constructor
 		Token();

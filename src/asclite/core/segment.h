@@ -171,6 +171,9 @@ class Segment : public TimedObject
 		int GetMinTokensTime();
 		int GetMaxTokensTime();
 		
+		/** Set all the token optionaly deletable by adding () in the text */
+		void SetTokensOptionallyDeletable();
+		
 	protected:	
         /** Checks that start time and duration are valid for this TimedObject. Extension point for subclasses. */
         virtual bool AreStartTimeAndDurationValid(const int& _startTime, const int& _duration) { return AreStartTimeAndEndTimeValid(_startTime, _startTime + _duration); }

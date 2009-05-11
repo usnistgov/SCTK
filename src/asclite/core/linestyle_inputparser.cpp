@@ -34,7 +34,7 @@ Segment* LineStyleInputParser::ParseWords(const string& source, const string& ch
 
     string tokens_filtered = FilterSpace(tokens);
 	
-    LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_filtered);
+    LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_filtered, false);
 
     for (size_t i=0 ; i < words->GetNbStartToken() ; ++i)
         seg->AddFirstToken(words->GetStartToken(i));
@@ -47,7 +47,7 @@ Segment* LineStyleInputParser::ParseWords(const string& source, const string& ch
     return seg;
 }
 
-Segment* LineStyleInputParser::ParseWordsEx(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens, const bool& hasconf, const float& confscr)
+Segment* LineStyleInputParser::ParseWordsEx(const string& source, const string& channel, const string& spkr, const int& start, const int& end, Speech* speech, const string& tokens, const bool& hasconf, const float& confscr, bool bOptionallyDeletable)
 {
 	Segment* seg = Segment::CreateWithEndTime(start, end, speech);
 	
@@ -62,8 +62,9 @@ Segment* LineStyleInputParser::ParseWordsEx(const string& source, const string& 
 	
 	string tokens_prefiltered0 = FilterSpace(tokens);
 	string tokens_prefiltered1 = ReplaceChar(tokens_prefiltered0, string("_"), string(" "));
-	string tokens_prefiltered2 = ReplaceChar(tokens_prefiltered1, string("#"), string(" "));
-	LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_prefiltered2);
+	string tokens_prefiltered2 = ReplaceChar(tokens_prefiltered1, string("#"), string(" "));	
+	
+	LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_prefiltered2, bOptionallyDeletable);
 	
 	for (size_t i=0 ; i < words->GetNbStartToken() ; ++i)
 		seg->AddFirstToken(words->GetStartToken(i));
@@ -72,6 +73,9 @@ Segment* LineStyleInputParser::ParseWordsEx(const string& source, const string& 
 		seg->AddLastToken(words->GetEndToken(i));
 	
 	delete words;
+	
+//	if(bOptionallyDeletable)
+//		seg->SetTokensOptionallyDeletable();
 	
 	return seg;
 }
@@ -89,12 +93,13 @@ SpeechSet *LineStyleInputParser::ExpandAlternationSpeechSet(SpeechSet *sset)
 			 
 			for (size_t t=0; t<tokens.size(); ++t)
 			{
-				Token *token = tokens[t]; 
+				Token *token = tokens[t];
+				
 				// Check for the syntax 
 				size_t beg = token->GetText().find_first_of("{_",0);
 				size_t end = token->GetText().find_last_of("_}",string::npos);
 				
-				if (beg != string::npos && end != string::npos)
+				if(beg != string::npos && end != string::npos)
 				{
 					string tokens_prefiltered0 = FilterSpace(token->GetText());
 					string tokens_prefiltered1 = ReplaceChar(tokens_prefiltered0, string("_"), string(" "));
@@ -104,22 +109,21 @@ SpeechSet *LineStyleInputParser::ExpandAlternationSpeechSet(SpeechSet *sset)
 					m_starttime = token->GetStartTime();
 					m_endtime = token->GetEndTime();
 					
-					LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_prefiltered2);
+					LineStyleInputParser::VirtualSegment* words = ParseWords(seg, tokens_prefiltered2, token->IsOptional());
 					
 					seg->ReplaceTokenWith(token, words->GetStartTokenVector(), words->GetEndTokenVector());
 					
-					// if (token) delete token;
 					if (words)
-						delete words;					
+						delete words;
 				}
-			}				
+			}
 		}
 	}	
 
 	return(sset);
 } 
 
-LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* seg, const string& tokens)
+LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* seg, const string& tokens, bool bOptionallyDeletable)
 {
     LineStyleInputParser::VirtualSegment* out_struct = new LineStyleInputParser::VirtualSegment();
 	vector<string> orStatements = SeparateBySlash(tokens);
@@ -128,7 +132,7 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
     {
         for (size_t i = 0; i < orStatements.size(); ++i)
         {
-			LineStyleInputParser::VirtualSegment* por = ParseWords(seg, orStatements[i]);
+			LineStyleInputParser::VirtualSegment* por = ParseWords(seg, orStatements[i], bOptionallyDeletable);
 			
             if (por->IsTraversable())
                 out_struct->SetTraversable(true);
@@ -156,7 +160,7 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
 			
 			if (t_words[i].find(string(" ")) != string::npos)
             {
-                toks = ParseWords(seg, t_words[i]);
+                toks = ParseWords(seg, t_words[i], bOptionallyDeletable);
 				
                 if (toks->IsTraversable())
                 {
@@ -174,6 +178,9 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
                     if(!m_bUseExtended)
                     {
 						Token* tok = BuildToken(-1, -1, t_words[i], seg);
+						
+						if(bOptionallyDeletable)
+							tok->BecomeOptionallyDeletable();
 						
                         toks->AddStartToken(tok);
                         toks->AddEndToken(tok);
@@ -197,6 +204,9 @@ LineStyleInputParser::VirtualSegment* LineStyleInputParser::ParseWords(Segment* 
                         }
                         
                         Token* tok = BuildToken(startwordtime, durationwordtime, t_words[i], seg);
+                        
+                        if(bOptionallyDeletable)
+							tok->BecomeOptionallyDeletable();
                          
                         if(m_bUseConfidence)
                             tok->SetConfidence(m_Confidence);
@@ -426,7 +436,7 @@ string LineStyleInputParser::FilterSpace(string line)
 string LineStyleInputParser::ReplaceChar(const string& line, const string& badstr, const string& goodstr)
 {
     size_t badpos = line.find(badstr, 0);
-    string outstring = line;
+    string outstring = line;    
     
     while(badpos != string::npos)
     {
