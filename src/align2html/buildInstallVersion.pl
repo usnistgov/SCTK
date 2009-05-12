@@ -48,14 +48,12 @@ while (<EXE>){
     } elsif ($_ =~ /die "HERE DOCUMENT NOT BUILT"/){
         push @file, 'my $here = "";'."\n";
         push @file, "\$here = << 'EOTAR';\n";
-
-#tar cf - ./js | perl -e '' | perl -e 'binmode(STDOUT); while (<STDIN>){ print unpack("u",$_) } ' | tar tvf -
-
-	open TAR, "tar zcf - --exclude CVS ./js/wz_jsgraphics.js ./images/*gif |" || die "TAR/UUENCODE Fialed";
-	binmode TAR;
-	read(TAR, $_, 90000000);
+	open TARPACK, "packImageTarFile" || die "Failed to open the packed Image tar file";
+	while (<TARPACK>){
+	    push @file, $_;
+	}
+	close TARPACK;
 	push @file, pack("u", $_);
-	close TAR;
         push @file, "EOTAR\n";
 
 	push @file, 'open UNTAR, "| (cd $outDir ; tar zxf -)" || die "Failed to UUDECODE/TAR"'.";\n";

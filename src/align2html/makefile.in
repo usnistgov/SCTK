@@ -15,6 +15,9 @@ install: all
 	perl buildInstallVersion.pl > $(bindir)/align2html.pl
 	chmod +x $(bindir)/align2html.pl
 
+buildPackFile:
+	buildPack.pl > packImageTarFile
+
 clean:
 
 distclean: clean
