@@ -41,7 +41,7 @@ class InputParser
 		 */
 		virtual SpeechSet* loadFile(const string& name)=0;
 		
-		int ParseString(const string& chaine);
+		int ParseString(const string& chaine)  { return static_cast<int>(floor( ( atof(chaine.c_str()) * 1000 ) + 0.5)); }
 		
 		void SetOneTokenPerSegment(const bool& _bool) { m_bOneTokenPerSegment = _bool; }
 		bool isOneTokenPerSegment() { return m_bOneTokenPerSegment; }

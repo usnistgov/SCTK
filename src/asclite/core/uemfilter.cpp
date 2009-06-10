@@ -47,35 +47,6 @@ void UEMFilter::FindElement(const string& file, const string& channel, list<UEME
 				pList->push_back(m_VectUEMElements[i]);
 }
 
-int UEMFilter::ParseString(const string& chaine)
-{
-	if(strchr(chaine.c_str(),'.') == NULL)
-	{
-		return(atoi(chaine.c_str()) * 1000);
-	}
-	else
-	{
-		int bf, af;
-		char c2[BUFFER_SIZE];
-		sscanf(chaine.c_str(), "%d.%s", (int*) &bf, (char*) &c2);
-		
-		int len = strlen(c2);
-		
-		af = atoi(c2);
-				
-		if(len > 3)
-		{
-			af = static_cast<int>(static_cast<double>(af)/pow(static_cast<double>(10), len-3));
-		}
-		else
-		{
-			af = static_cast<int>(static_cast<double>(af)*pow(static_cast<double>(10), 3-len));
-		}
-		
-		return( bf*1000+af);		
-	}
-}
-
 void UEMFilter::LoadFile(const string& filename)
 {
 	ifstream file;

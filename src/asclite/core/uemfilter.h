@@ -69,7 +69,7 @@ class UEMFilter : public Checker
 		vector<UEMElement*> m_VectUEMElements;
 		bool m_bUseFile;
 		
-		int ParseString(const string& chaine);
+		int ParseString(const string& chaine) { return static_cast<int>(floor( ( atof(chaine.c_str()) * 1000 ) + 0.5)); }
 		
         static Logger* m_pLogger;
 };

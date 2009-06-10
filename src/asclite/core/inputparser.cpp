@@ -31,32 +31,3 @@ Token* InputParser::BuildToken(const int& start, const int& dur, const string& t
     token->SetSourceText(text);
     return token;
 }
-
-int InputParser::ParseString(const string& chaine)
-{
-	if(strchr(chaine.c_str(),'.') == NULL)
-	{
-		return(atoi(chaine.c_str()) * 1000);
-	}
-	else
-	{
-		int bf, af;
-		char c2[BUFFER_SIZE];
-		sscanf(chaine.c_str(), "%d.%s", (int*) &bf, (char*) &c2);
-		
-		int len = strlen(c2);
-		
-		af = atoi(c2);
-				
-		if(len > 3)
-		{
-			af = (int)((double)(af)/pow((double)10, len-3));
-		}
-		else
-		{
-			af = (int)((double)(af)*pow((double)10, 3-len));
-		}
-		
-		return( bf*1000+af);		
-	}
-}
