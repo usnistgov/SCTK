@@ -1,3 +1,12 @@
+SCTK Version 2.4.0 - Release November 10, 2009
+  [*] Fixed asclite to handle rttm properly when _ are present in the ref
+  [/] The transcript filter, csrfilt.sh, now only modifies the transcript during
+       the filter process rather than up-casing all ASCII characters.
+  [/] The scoring routines that relied on up-cased text were modified to accept
+       the change.
+  [/] Hubscr uem filtering is applied to asclite and mdeval 
+  [-] removed unwanted gif images for align2html
+
 SCTK Version 2.3.11 - Release April 8, 2009
   [+] rttmValidator can handle RTTM slat and RTTM without SPKR-INFO
 
