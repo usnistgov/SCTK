@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 #  File:  csrfilt.sh
-#  Date:  May 3, 2005
+#  Date:  September 15, 2010
 #  Usage: csrfilt.sh global-map-file [ utterance-map-file ] < infile > outfile
 #         Filter the input for stdin, and write the output to stdout
 #
@@ -72,8 +72,10 @@
 #  Version 1.16 Apr 30, 2009
 #       JGF Redesigned the code to no upcase everything, instead just the transcript
 #       JGF Fixed bug with delete hypthens on opt del words
+#  Version 1.17 Sep 15, 2010
+#       JGF - Fixed the trn preprocessor to pass through comment lines without filtering
 
-version="1.16"
+version="1.17"
 
 trap "/bin/rm -f /tmp/hs_filt.*.$$ ; exit 1" 1 2 3 15
 
@@ -416,8 +418,8 @@ elif test "$inputtype" = "trn" ; then
 		 open(OUT2,">$out2") || die("Error: failed to open output \"$out2\" of the stm file");
 		 while(<IN>){
 			 if ($_ =~ /^;;/) { 
-				 print OUT2 $_; 
-				 print OUT1 "\n";
+				 print OUT1 $_; 
+				 print OUT2 "\n";
 			 } elsif ($_ =~ /^(.*)(\(.*\))\s*$/){
 				 print OUT2 $1."\n";
 				 print OUT1 $2."\n";
