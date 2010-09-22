@@ -471,7 +471,7 @@ fi
 #########################################################################
 ####   Step 3: Build the filter command
 
-filt_com="cat /tmp/hs_filt.out.$$ | toUpper | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | rfilter1 /tmp/hs_filt.glm.$$ | deleteHyphens | propogateOptDel | perl -pe 's/^ //; s/ $//' | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g;' "
+filt_com="cat /tmp/hs_filt.out.$$ | toUpper | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | rfilter1 /tmp/hs_filt.glm.$$ | deleteHyphens | propogateOptDel | perl -pe 's/^ //; s/ $//' | perl -pe 's/\([ \t]+/(/g; s/\s+\)/)/g;' "
 
 #########################################################################################
 ####   Step 4: execute the filter command putting back together the text and other data
