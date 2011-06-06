@@ -202,7 +202,8 @@ validateOptDelTags(){
 toUpper(){
     perl -pe 'if ($_ !~ /^;;/){
 		    if ("'$UpCase'" eq "true") { 
-                              tr/[:lower:]/[:upper:]/;
+			    tr/a-z/A-Z/; 
+			    if ("'$ExtASCII'" eq "true") { tr/\340-\377/\300-\337/; }
 		    }
 	      }'
 }
