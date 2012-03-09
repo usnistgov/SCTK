@@ -119,7 +119,7 @@ class Recording
         /**
 		 * contain all the available Filters
          */
-        map<string, Filter::Filter*> filters;
+        map<string, ::Filter*> filters;
         
 		/**
 		 * Database for the optimization speaker alignment 
