@@ -1,3 +1,6 @@
+SCTK Version 2.4.1 - Release March 12, 2012
+  [*] Fixed compilation issue
+
 SCTK Version 2.4.0 - Release November 10, 2009
   [*] Fixed asclite to handle rttm properly when _ are present in the ref
   [/] The transcript filter, csrfilt.sh, now only modifies the transcript during
