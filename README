@@ -87,6 +87,10 @@ nsgmls program which have be updated and continued: OpenSP
 The version v1.5.2 of OpenSP have been tested and working with the current 
 version of utf_filt.
 
+Special Note to Cygwin users: It has been reported that compilation of 'rfilter1'
+can fail in some case, please read the OPTIONS part of the 'rfilter1/makefile' and
+adatp accordingly before retrying compilation.
+
 
 			64 bits Compilation
 
