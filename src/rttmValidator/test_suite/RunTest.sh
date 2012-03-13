@@ -2,7 +2,7 @@
 
 usage="$0 <rttm validation script location> [-v]"
 
-if [ "$#" != '1' ]; then
+if [ "$#" -lt '2' ]; then
     echo Script missing
     echo $usage
     exit 1
