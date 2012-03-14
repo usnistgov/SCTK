@@ -22,12 +22,18 @@ my $ascliteTestOutDir = "ascliteTestOutDir";
 my $failure = 0;
 use Getopt::Long;
 
+####################
+sub error_exit { exit(1); }
+sub error_quit { print('[ERROR] ', join(' ', @_), "\n"); &error_exit(); }
+sub ok_exit { exit(0); }
+sub ok_quit { print(join(' ', @_), "\n"); &ok_exit(); }
+####################
+
 my $Usage = "Usage: ascliteTest.pl -s (all|sastt|std|mdm04|mdm04ByFile|cts04|mdmVariations|passed|notpassed) [ -m ]\n";
 my $suite = "std";
 my $bigMem = 0;
-my $result = GetOptions("s=s" => \$suite,
-						"m" => \$bigMem);
-die "Aborting:\n$Usage\n" if (!$result);
+my $result = GetOptions("s=s" => \$suite, "m" => \$bigMem);
+&error_quit("Aborting:\n$Usage\n") if (!$result);
 
 
 if ($suite =~ /^(std|all|passed)$/)
@@ -84,8 +90,8 @@ if ($suite =~ /^(generic|all|passed)$/)
     RunAscliteTest("generic-1", "-F -D -generic-cost -noisg", "", "-h generic-1.rttm rttm generic-1");
 }
 
-die "Errors: Occured.  Exiting with non-zero code" if ($failure);
-exit 0;
+&error_quit("Errors Occured.  Exiting with non-zero code") if ($failure);
+&ok_quit();
 
 sub RunCompatTest
 {
@@ -108,7 +114,7 @@ sub RunCompatTest
     else
     { 
         my $diffCom = "diff $compatOutDir/$testId.sgml $compatOutDir/$testId.sgml.asclite";
-        open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
+        open (DIFF, "$diffCom |") || &error_quit("Diff command '$diffCom' Failed");
         my @diff = <DIFF>;
         close DIFF;
     
@@ -147,7 +153,7 @@ sub RunAscliteTest
         else 
         { 
             my $diffCom = "diff $ascliteTestOutDir/$testId.sgml $ascliteTestOutDir/$testId.sgml.asclite";
-            open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
+            open (DIFF, "$diffCom |") || &error_quit("Diff command '$diffCom' Failed");
             my @diff = <DIFF>;
             close DIFF;
             
@@ -187,7 +193,7 @@ sub RunAscliteTestLog
         else 
         { 
             my $diffCom = "diff $ascliteTestOutDir/$testId.log $ascliteTestOutDir/$testId.log.asclite";
-            open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
+            open (DIFF, "$diffCom |") || &error_quit("Diff command '$diffCom' Failed");
             my @diff = <DIFF>;
             close DIFF;
             

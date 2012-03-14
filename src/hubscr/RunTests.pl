@@ -3,6 +3,13 @@
 use strict;
 my $operation = (defined($ARGV[0]) ? $ARGV[0] : "test");
 
+####################
+sub error_exit { exit(1); }
+sub error_quit { print('[ERROR] ', join(' ', @_), "\n"); &error_exit(); }
+sub ok_exit { exit(0); }
+sub ok_quit { print(join(' ', @_), "\n"); &ok_exit(); }
+####################
+
 sub runIt{
     my ($op, $testId, $options, $glm, $hub, $lang, $ref, $systems) = @_;
     my $baseDir = $testId.".base";
@@ -27,7 +34,7 @@ sub runIt{
 	"-l $lang -g $glmRoot -h $hub -r $refRoot $systemsRoot > log)";
 #    print  "$com";
     my $ret = system "$com";
-    die "Error: Execution failed" if ($ret != 0);
+    &error_quit("Execution failed") if ($ret != 0);
     if ($op ne "setTests"){
 	print "      Comparing output\n";
 	my $diffoption = "";
@@ -35,10 +42,10 @@ sub runIt{
 	if($options eq "-a") { $diffoption = "-i"; }
 			
 	my $diffCom = "diff -i -x CVS -x .DS_Store -x log -x \*lur -I '[cC]reation[ _]date' -I 'md-eval' -r $outDir $baseDir";
-	open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
+	open (DIFF, "$diffCom |") || &error_quit("Diff command '$diffCom' Failed");
 	my @diff = <DIFF>;
 	close DIFF;
-	die print "Error: Test $testId has failed.  Diff output is :\n@diff\n" if (@diff > 0);
+	&error_quit("Test $testId has failed.  Diff output is :\n@diff\n") if (@diff > 0);
 	print "      Successful Test.  Removing $outDir\n";
 	system "rm -rf $outDir";
     }
@@ -61,7 +68,7 @@ runIt($operation, "testArb", "-V -H -T -d", "../test_suite/test.arb2004.glm", "h
       "../test_suite/test.arb2004.txt.stm", 
       "../test_suite/test.arb2004.txt.ctm");
 
-exit;
+&ok_quit();
 
 #	rm -rf testBase
 #	mkdir -p testBase

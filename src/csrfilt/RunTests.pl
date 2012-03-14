@@ -3,6 +3,14 @@
 use strict;
 my $operation = (defined($ARGV[0]) ? $ARGV[0] : "test");
 
+####################
+sub error_exit { exit(1); }
+sub error_quit { print('[ERROR] ', join(' ', @_), "\n"); &error_exit(); }
+sub ok_exit { exit(0); }
+sub ok_quit { print(join(' ', @_), "\n"); &ok_exit(); }
+####################
+
+
 sub runIt{
     my ($op, $testId, $options, $glm, $utm, $input, $output, $expRet) = @_;
     print "   Running Test $testId\n";
@@ -11,9 +19,9 @@ sub runIt{
     my $com = "./csrfilt.sh $options $glm $utm < $input > tmp.out";
     my $ret = system "$com";
     if ($expRet eq "pass"){
-	die "Error: Execution failed for command expected to pass '$com'" if ($ret != 0);
+	&error_quit("Execution failed for command expected to pass '$com'") if ($ret != 0);
     } else {
-	die "Error: Execution failed for command expected to fail '$com'" if ($ret == 0);
+	&error_quit("Execution failed for command expected to fail '$com'") if ($ret == 0);
     }
     $ENV{PATH} = $oldEnv;
 
@@ -23,10 +31,10 @@ sub runIt{
 	print "      Comparing output\n";
 	my $diffCom = "diff $output tmp.out";
 #	print "$diffCom\n";
-	open (DIFF, "$diffCom |") || die "Diff command '$diffCom' Failed";
+	open (DIFF, "$diffCom |") || &error_quit("Diff command '$diffCom' Failed");
 	my @diff = <DIFF>;
 	close DIFF;
-	die print "Error: Test $testId has failed.\n    Command: $com\n    Diff output is : $diffCom\n@diff\n" if (@diff > 0);
+	&error_quit("Test $testId has failed.\n    Command: $com\n    Diff output is : $diffCom\n@diff\n") if (@diff > 0);
 	print "      Successful Test.  Removing tmp.out\n";
 	system "rm -f tmp.out";
     }
@@ -58,7 +66,7 @@ runIt($operation, "ctm", "-i ctm -dh",
        "../test_suite/example.glm",  "../test_suite/example.utm",  "../test_suite/test_ctm.errors.in",  "../test_suite/test_ctm.errors.out", "fail");
 
 
-exit;
+&ok_quit();
 
 #	rm -rf testBase
 #	mkdir -p testBase
