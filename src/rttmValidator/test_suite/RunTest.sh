@@ -2,7 +2,7 @@
 
 usage="$0 <rttm validation script location> [-v]"
 
-if [ "$#" -lt '2' ]; then
+if [ "$#" -lt '1' ]; then
     echo Script missing
     echo $usage
     exit 1
@@ -22,6 +22,10 @@ else
 fi
 
 for file in test*.rttm ; do
+  if [ -f "$file.toskip" ] ; then
+     echo "(skipping) Testing $file..."
+  else
+
     echo "Testing $file..."
     base=`echo $file | perl -pe 's/.rttm//'`
     log="$base.log.saved"
@@ -40,7 +44,13 @@ for file in test*.rttm ; do
 		if [ $verbose = true ] ; then
 			diff -I 'RTTMValidator' $log $tmp | sed 's/^/   /'
 		fi
+                # exit with error status
+                exit 1
 	else
 		rm $tmp
     fi
+  fi
 done
+
+# exit with ok status
+exit 0

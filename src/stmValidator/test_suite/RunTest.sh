@@ -16,6 +16,9 @@ if [ ! -x "$stm" ]; then
 fi
 
 for file in test*.stm ; do
+  if [ -f "$file.toskip" ] ; then
+     echo "(skipping) $base ..."
+  else
     echo "Testing $file..."
     base=`echo $file | perl -pe 's/.stm//'`
     log="$base.log.saved"
@@ -30,7 +33,11 @@ for file in test*.stm ; do
 
     if [ $diff_status -ne 0 ] ; then
 		echo "   Output log differs from saved log"
+                exit 1
 	else
 		rm $tmp
     fi
+  fi
 done
+
+exit 0

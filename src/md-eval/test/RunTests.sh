@@ -19,6 +19,10 @@ mdeval_pgm=$1
 for file in *.ref.rttm sd_test*.ref.rttm ; do
 #    head -1 $file
     base=`echo $file | perl -pe 's/\..*//'`
+  if [ -f "$file.toskip" ] ; then
+     echo "(skipping) $base ..."
+  else
+    base=`echo $file | perl -pe 's/\..*//'`
 
     if [ ! "`echo $file | grep 'md_test'`" = "" ] ; then
         # Structural metadata extraction tests
@@ -64,4 +68,7 @@ for file in *.ref.rttm sd_test*.ref.rttm ; do
     fi
     echo
     echo
+  fi
 done
+
+exit 0
