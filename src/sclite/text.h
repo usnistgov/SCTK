@@ -9,51 +9,96 @@
 #define COMMENT_CHAR ';'
 #define COMMENT_INFO_CHAR '*'
 
+// ASCII - 7 bit
+// EXTASCII - Extended ASCII - 8 bit
+// GB - ASCII -+ 16 bit characters
+// EUC - synonym for GB
+// UTF-8 - Variable length encoding
+
+enum TEXT_ENCODINGS { ASCII, EXTASCII, GB, UTF8 };
+enum TEXT_COMPARENORM { CASE, NONE };
 
 typedef unsigned char TEXT;
 
 #define TEXT_xnewline(_s) {int _l = TEXT_strlen(_s); if (_s[_l-1] == '\n') _s[_l-1] = '\0';}
 
-TEXT *TEXT_skip_wspace(TEXT *ptr);
-int end_of_TEXT(TEXT text);
-int TEXT_set_coding(char *encoding);
-void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int not_ASCII);
-TEXT *TEXT_add(TEXT *p1, TEXT *p2);
-TEXT *TEXT_strndup(TEXT *p, int n);
-TEXT *TEXT_strndup_noEscape(TEXT *p, int n);
+// TEXT* (TEXT *)
 TEXT *TEXT_strdup(TEXT *p);
-TEXT *TEXT_strchr(TEXT *p, TEXT t);
-TEXT *TEXT_strncpy(TEXT *p, TEXT *t, int n);
-TEXT *TEXT_strstr(TEXT *p, TEXT *t);
-TEXT *TEXT_strrchr(TEXT *p, TEXT t);
-int TEXT_strcmp(TEXT *p, TEXT *t);
-int TEXT_strcasecmp(TEXT *p, TEXT *t);
-int TEXT_strncasecmp(TEXT *p1, TEXT *p2, int n);
-int TEXT_strncmp(TEXT *p, TEXT *t, int n);
-float TEXT_atof(TEXT *p);
-TEXT *TEXT_strtok(TEXT *p, TEXT *t);
-int qsort_TEXT_strcmp(const void *p, const void *p1);
-int bsearch_TEXT_strcmp(const void *p, const void *p1);
-int TEXT_strlen(TEXT *p);
-int TEXT_chrlen(TEXT *text);
-void TEXT_free(TEXT *p);
-int find_next_TEXT_token(TEXT **ctext, TEXT *end_token, int len);
-int find_next_TEXT_alternation(TEXT **ctext, TEXT *token, int len);
-TEXT *TEXT_fgets(TEXT *arr, int len, FILE *fp);
+TEXT *TEXT_skip_wspace(TEXT *ptr);
+
+// TEXT* (TEXT *, TEXT **)
+TEXT *TEXT_add(TEXT *p1, TEXT *p2);
+TEXT *TEXT_strcat(TEXT *p, TEXT *p1);
 TEXT *TEXT_strcpy(TEXT *p1, TEXT *p2);
+TEXT *TEXT_strqtok(TEXT *buf, TEXT *set);
+TEXT *TEXT_strstr(TEXT *p, TEXT *t);
+TEXT *TEXT_strtok(TEXT *p, TEXT *t);
+TEXT *tokenize_TEXT_first_alt(TEXT *p, TEXT *set);
+
+// TEXT *(TEXT *, TEXT)
+TEXT *TEXT_strchr(TEXT *p, TEXT t);
+TEXT *TEXT_strrchr(TEXT *p, TEXT t);
+
+// TEXT* (TEXT *, int)
+TEXT *TEXT_strBdup(TEXT *p, int n);
+TEXT *TEXT_strBdup_noEscape(TEXT *p, int n);
+
+// TEXT* (TEXT *, TEXT *, int)
+TEXT *TEXT_strCcpy(TEXT *p, TEXT *t, int n);
+TEXT *TEXT_strBcpy(TEXT *p, TEXT *t, int n);
+
+// TEXT* (TEXT *, TEXT *, TEXT)
+TEXT *TEXT_strcpy_escaped(TEXT *p1, TEXT *p2, TEXT chr);
+ 
+// TEXT* (TEXT *, int *, FILE *)
 TEXT *TEXT_ensure_fgets(TEXT **arr, int *len, FILE *fp);
-int TEXT_is_empty(TEXT *p);
+
+// TEXT* (TEXT *, int, FILE *)
+TEXT *TEXT_fgets(TEXT *arr, int len, FILE *fp);
+
+// float (TEXT *)
+float TEXT_atof(TEXT *p);
+
+// int (TEXT *)
+int TEXT_chrlen(TEXT *text);
 int TEXT_is_comment(TEXT *p);
 int TEXT_is_comment_info(TEXT *p);
-void TEXT_str_to_upp(TEXT *buf);
-void TEXT_str_to_low(TEXT *buf);
-TEXT *tokenize_TEXT_first_alt(TEXT *p, TEXT *set);
-size_t TEXT_strspn(TEXT *str, TEXT *set);
-size_t TEXT_strcspn(TEXT *str, TEXT *set);
-TEXT *TEXT_strqtok(TEXT *buf, TEXT *set);
-TEXT *TEXT_strcat(TEXT *p, TEXT *p1);
-int TEXT_nth_field(TEXT **to, int *to_len, TEXT *from, int field);
+int TEXT_is_empty(TEXT *p);
 int TEXT_is_wfrag(TEXT *text);
+int TEXT_strlen(TEXT *p);
+int TEXT_nbytes_of_char(TEXT *p);
+
+// int (TEXT)
+int end_of_TEXT(TEXT text);
+
+// int (TEXT *, TEXT *)
+int TEXT_strcasecmp(TEXT *p, TEXT *t);
+int TEXT_strcmp(TEXT *p, TEXT *t);
+
+// int (TEXT *, TEXT *, int)
+int TEXT_strCcasecmp(TEXT *p1, TEXT *p2, int n);
+int TEXT_strCcmp(TEXT *p, TEXT *t, int n);
+int TEXT_strBcmp(TEXT *p, TEXT *t, int n);
+int find_next_TEXT_alternation(TEXT **ctext, TEXT *token, int len);
+int find_next_TEXT_token(TEXT **ctext, TEXT *end_token, int len);
+
+int TEXT_nth_field(TEXT **to, int *to_len, TEXT *from, int field);
+int TEXT_set_encoding(char *encoding);
+enum TEXT_ENCODINGS TEXT_get_encoding();
+int bsearch_TEXT_strcmp(const void *p, const void *p1);
+int qsort_TEXT_strcmp(const void *p, const void *p1);
+
+// size_t (TEXT *, TEXT *)
+size_t TEXT_strcspn(TEXT *str, TEXT *set);
+size_t TEXT_strspn(TEXT *str, TEXT *set);
+
+// void (TEXT *)
+void TEXT_free(TEXT *p);
+void TEXT_str_to_low(TEXT *buf);
+void TEXT_str_to_upp(TEXT *buf);
+
+// void (TEXT *, TEXT *, int *, int)
+void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int not_ASCII);
 
 
 /***********************************************************************/

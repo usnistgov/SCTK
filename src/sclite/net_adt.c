@@ -17,7 +17,7 @@ int Network_add_arc_to_head(NETWORK *net, void *str){
 
     if (db >= 1) printf("Entering %s:\n",proc);
     if (db >= 2) {
-	printf("Net: %x",(signed int)net);
+	printf("Net: %p",net);
 	printf("Item:   "); net->arc_func.print(str);
     }
     return (NETWORK_insert_arc_after_node(net, net->start_node, str));
@@ -28,7 +28,7 @@ int Network_add_arc_to_tail(NETWORK *net, void *str){
 
     if (db >= 1) printf("Entering %s:\n",proc);
     if (db >= 2) {
-	printf("Net: %x\n",(signed int)net);
+	printf("Net: %p\n",net);
 	printf("Item:   "); net->arc_func.print(str);
     }
     if (net->stop_node == (NODE *)0)
@@ -108,7 +108,7 @@ void Network_traverse(NETWORK *net, void (*node_op)(NODE *, void *), void *node_
 
     if (db >= 1) printf("Entering %s:\n",proc);
     if (db >= 2) {
-	printf("Net: %x\n",(signed int)net);
+	printf("Net: %p\n",net);
 	printf("Mode: %x\n",mode); 
 	printf("Static Variables:  traversal_id_set=%8x, num_trav=%d\n",
 	       traversal_id_set,num_trav);
@@ -328,7 +328,7 @@ int Network_destroy(NETWORK *net){
     char *proc = "Network_destroy";
 
     if (db >= 1) printf("Entering: %s\n",proc);
-    if (db >= 2) printf("Net: %x\n",(signed int)net);
+    if (db >= 2) printf("Net: %p\n",net);
 
     while (net->start_node->out_arcs != (ARC_LIST_ATOM *)NULL)
 	Network_delete_arc(net->start_node->out_arcs->arc);
@@ -485,11 +485,9 @@ NETWORK *Network_create_from_TEXT(TEXT *text, char *name, void (*aprn)(void *), 
     while (! end_of_TEXT(*ctext)) {
 	if (find_next_TEXT_token(&ctext,token,MAXSTRING)) {	
 	    if (db > 5) printf("    Token: '%s'\n",token);
-	//	 printf("    Token: '%s'\n",token);
 	    /* create new word structure */
 	    
 	    tword = new_WORD_parseText(token, -1, 0.0, 0.0, 0.0, 0, 0, -1.0);
-
 	    /* append to the word list */
 	    if (Network_add_arc_to_tail(net,(void *)tword) > 0){
 		fprintf(stderr,"Error: Network_add_arc_to_tail failed in %s\n",
@@ -498,7 +496,6 @@ NETWORK *Network_create_from_TEXT(TEXT *text, char *name, void (*aprn)(void *), 
 	    }
 	}
     }
-
     Network_traverse(net,NULL,0,expand_alternates,0,0);
 
     return(net);
@@ -589,8 +586,8 @@ void print_arc(ARC *arc, void *p)
 	printf("  To: ");     
 	if (arc->to_node != NULL)   printf("%9s",arc->to_node->name);
 	else                        printf(" **NULL**");
-	printf("  addr: %6x  weight: %d  ",(int)arc,arc->weight); 
-	printf("  data addr: %x ",arc->data); 
+	printf("  addr: %p  weight: %d  ",arc,arc->weight); 
+	printf("  data addr: %p ",arc->data); 
 	arc->net->arc_func.print((void *)arc->data);
     }
     return;
@@ -636,7 +633,7 @@ int Network_fully_connect_cond(NETWORK *net, int connect_factor, void *(*append)
    
     if (db >= 1) printf("Entering %s:\n",proc);
     if (db >= 2)
-	printf("Net: %x  Connect_factor: %d",(signed int)net,connect_factor);
+	printf("Net: %p  Connect_factor: %d",net,connect_factor);
 
     alloc_ARCSET(&arcset,net->arc_count+1);
 
@@ -690,7 +687,7 @@ NETWORK *Network_create_from_WTOKE(WTOKE_STR1 *wt,int start,int end, char *name,
 				       name); 
 		acnt=0;
 		while ((i<=wt->n) && (i<=end) &&
-		       (TEXT_strncasecmp((TEXT*)"<ALT",
+		       (TEXT_strCcasecmp((TEXT*)"<ALT",
 					 wt->word[i].sp,4) != 0)) {
 		  /* create new word structure */
 		  tword = new_WORD_parseText(wt->word[i].sp, -1,
@@ -1118,8 +1115,8 @@ static int insert_node_in_node_map(NODE *n1, NODE *n2, int add){
         return(-1);
 
     if (db >= 10){
-        printf("   Adding Node name: %9s  addr: %x    ",n1->name,(int)n1);
-	printf("   Adding Node name: %9s  addr: %x\n",n2->name,(int)n2);
+        printf("   Adding Node name: %9s  addr: %p    ",n1->name,n1);
+	printf("   Adding Node name: %9s  addr: %p\n",n2->name,n2);
     }
     node_map[n_node_map][0] = n1;
     node_map[n_node_map][1] = n2;

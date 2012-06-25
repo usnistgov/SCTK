@@ -13,8 +13,8 @@ void kill_arc(ARC *arc1)
 /* code */
 db_enter_msg(proc,0); /* debug only */
 
-if (db_level > 0) printf("%s killing arc @%x\n",
-			 pdb,(int)arc1);
+if (db_level > 0) printf("%s killing arc @%p\n",
+			 pdb,arc1);
 
 /*   if (memory_trace) printf("%s FREEing %x\n",pdb,(int)arc1->symbol); */
 /*   free((void*)arc1->symbol); */

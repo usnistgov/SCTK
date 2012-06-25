@@ -144,7 +144,7 @@ static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *
 	/* loop through the hyp words, MARKING the out-of-bounds */
 	/* words that are NOT alternation markers */
 	for (xx = h_st; xx <= h_end; xx++)
-	    if (TEXT_strncasecmp((TEXT *)"<ALT",
+	    if (TEXT_strCcasecmp((TEXT *)"<ALT",
 				 hyp_segs->word[xx].sp,4) != 0){
 		if ((hyp_segs->word[xx].t1 > et) ||
 		    (hyp_segs->word[xx].t1 + hyp_segs->word[xx].dur < bt)){
@@ -165,7 +165,7 @@ static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *
 		     (yy <= h_end &&
 		      TEXT_strcasecmp((TEXT *)"<ALT_END>",
 				      hyp_segs->word[yy].sp) != 0); yy++)
-		    if (TEXT_strncasecmp((TEXT *)"<ALT",
+		    if (TEXT_strCcasecmp((TEXT *)"<ALT",
 					 hyp_segs->word[yy].sp,4) != 0)
 			if (!hyp_segs->word[yy].ignore) usable++;
 		/* set the ignore flag based on the outcome of the */
@@ -179,7 +179,7 @@ static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *
 	}
 	for (xx = h_st; xx <= h_end; xx++)
 	    if (hyp_segs->word[xx].ignore &&
-		(TEXT_strncasecmp((TEXT *)"<ALT",
+		(TEXT_strCcasecmp((TEXT *)"<ALT",
 				  hyp_segs->word[xx].sp,4) != 0))
 		skip_words ++;
     }
@@ -388,7 +388,7 @@ void segment_hyp_for_utt(WTOKE_STR1 *hyp_segs, STM *stm, int *curhyp, int *curhe
 		     TEXT_strcasecmp((TEXT *)"<ALT_END>",
 				     hyp_segs->word[ch].sp) != 0;
 		     ch++)
-		    if (TEXT_strncasecmp((TEXT *)"<ALT",
+		    if (TEXT_strCcasecmp((TEXT *)"<ALT",
 					 hyp_segs->word[ch].sp,4)
 			!= 0){
 			nmid = (hyp_segs->word[ch].t1 +

@@ -239,6 +239,7 @@ TEXT *nextColon(TEXT *t){
   int extentPos = 0;
   int endFound = 0;
   TEXT *nextColon;
+//  printf("  NextCol: %s\n",t);
   do {
     nextColon = TEXT_strstr(t+extentPos, (TEXT *)WORD_SGML_SUB_WORD_SEP_STR);
     if (nextColon == (TEXT *)NULL){
@@ -250,8 +251,9 @@ TEXT *nextColon(TEXT *t){
        endFound = 1;
        extentPos = nextColon - t;
     }
-    //    printf ("  Reloop %s\n",t+extentPos);
+//        printf ("  Reloop %s\n",t+extentPos);
   } while (! endFound);
+//  printf("    final: %s\n",t+extentPos);
   return (t + extentPos);
 }
 
@@ -266,17 +268,18 @@ WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int
   // Is this an alternation
   if (*textPtr == '{'){
     word = new_WORD(t, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
+    return word;
   } else {
     endOfElement = nextColon(textPtr);
-    text = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
-    if (*endOfElement != (TEXT)NULL){
+    text = TEXT_strBdup_noEscape(textPtr, endOfElement - textPtr);
+    if (*endOfElement != NULL_TEXT){
       textPtr = endOfElement + 1;
       endOfElement = nextColon(textPtr);
-      tag1 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
-      if (*endOfElement != (TEXT)NULL){
+      tag1 = TEXT_strBdup_noEscape(textPtr, endOfElement - textPtr);
+      if (*endOfElement != NULL_TEXT){
         textPtr = endOfElement + 1;
         endOfElement = nextColon(textPtr);
-        tag2 = TEXT_strndup_noEscape(textPtr, endOfElement - textPtr);
+        tag2 = TEXT_strBdup_noEscape(textPtr, endOfElement - textPtr);
       }
     }
 
@@ -299,10 +302,11 @@ WORD *new_WORD(TEXT *t, int id, double t1, double t2, double conf, TEXT *tag1, T
     if (t != (TEXT *)0){
       len = TEXT_strlen(t);
       if (len > 1 && *(t + len - 1) == '*')
-	tw->value = TEXT_strndup(t,len-1);
+	tw->value = TEXT_strBdup(t,len-1);
       else
 	tw->value = TEXT_strdup(t);
     }
+
     tw->tag1  = (tag1 == (TEXT *)0) ? tag1 : TEXT_strdup(tag1);
     tw->tag2  = (tag2 == (TEXT *)0) ? tag2 : TEXT_strdup(tag2);
     tw->value_id = id;
@@ -350,17 +354,17 @@ int equal_WORD_wfrag(void *p1, void *p2){
 	if (l2 < l1-1)
 	    return(1);
 	else
-	    return(TEXT_strncmp(w1->value + 1,w2->value + (l2 - (l1-1)),l1-1));
+	    return(TEXT_strBcmp(w1->value + 1,w2->value + (l2 - (l1-1)),l1-1));
     else if (*(w1->value + l1 - 1) == '-'  && l1 > 1)
-	return(TEXT_strncmp(w1->value,w2->value,l1-1));
+	return(TEXT_strBcmp(w1->value,w2->value,l1-1));
 
     if (*(w2->value) == '-' && l2 > 1) 
 	if (l1 < l2-1)
 	    return(-1);
 	else
-	    return(TEXT_strncmp(w1->value + (l1 - (l2-1)),w2->value + 1,l2-1));
+	    return(TEXT_strBcmp(w1->value + (l1 - (l2-1)),w2->value + 1,l2-1));
     else if (*(w2->value + l2 - 1) == '-' && l2 > 1)
-	return(TEXT_strncmp(w1->value,w2->value,l2-1));
+	return(TEXT_strBcmp(w1->value,w2->value,l2-1));
 
     return(TEXT_strcmp(w1->value,w2->value));
 }
@@ -387,17 +391,17 @@ int equal_WORD2(void *p1, void *p2){
 	if (l2 < l1-1)
 	  return(1);
 	else
-	  return(TEXT_strncmp(it1 + 1,it2 + (l2 - (l1-1)),l1-1));
+	  return(TEXT_strBcmp(it1 + 1,it2 + (l2 - (l1-1)),l1-1));
       else if (*(it1 + l1 - 1) == '-'  && l1 > 1)
-	return(TEXT_strncmp(it1,it2,l1-1));
+	return(TEXT_strBcmp(it1,it2,l1-1));
       
       if (*(it2) == '-' && l2 > 1) 
 	if (l1 < l2-1)
 	  return(-1);
 	else
-	  return(TEXT_strncmp(it1 + (l1 - (l2-1)),it2 + 1,l2-1));
+	  return(TEXT_strBcmp(it1 + (l1 - (l2-1)),it2 + 1,l2-1));
       else if (*(it2 + l2 - 1) == '-' && l2 > 1)
-	return(TEXT_strncmp(it1,it2,l2-1));
+	return(TEXT_strBcmp(it1,it2,l2-1));
     }
     return(TEXT_strcmp(it1,it2));
 }

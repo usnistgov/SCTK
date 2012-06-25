@@ -540,7 +540,7 @@ void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, cha
 	    if (opt+1 >= argc || (opt+1 < argc && *(argv[opt+1]) == '-'))
 		do_exit("Argument required for character encoding\n",prog,1);
 	    opt++;
-	    if (!TEXT_set_coding(argv[opt]))
+	    if (!TEXT_set_encoding(argv[opt]))
 		do_exit(rsprintf("Unrecognized character encoding "
 				 "option '%s'",argv[opt]),prog,1);
 	} else if (strcmp(argv[opt],"-p") == 0){

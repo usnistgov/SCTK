@@ -495,27 +495,27 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			    tp2 = tp + TEXT_strlen(tp);
 			}
 			if (dbg) fprintf(scfp,"%s: Aux str '%s'\n",proc,tp);
-			if (TEXT_strncmp(tp,(TEXT *)"r_t1+t2",7) == 0){
+			if (TEXT_strCcmp(tp,(TEXT *)"r_t1+t2",7) == 0){
 			    BF_SET(path->attrib,PA_REF_WTIMES);
 			    word_aux_fields[num_word_aux++] = PA_REF_WTIMES;
-			} else if (TEXT_strncmp(tp,(TEXT *)"h_t1+t2",7) == 0){
+			} else if (TEXT_strCcmp(tp,(TEXT *)"h_t1+t2",7) == 0){
 			    BF_SET(path->attrib,PA_HYP_WTIMES);
 			    word_aux_fields[num_word_aux++] = PA_HYP_WTIMES;
-			} else if (TEXT_strncmp(tp,(TEXT *)"r_conf",6) == 0){
+			} else if (TEXT_strCcmp(tp,(TEXT *)"r_conf",6) == 0){
 			    BF_SET(path->attrib,PA_REF_CONF);
 			    word_aux_fields[num_word_aux++] = PA_REF_CONF;
-			} else if (TEXT_strncmp(tp,(TEXT *)"h_conf",6) == 0){
+			} else if (TEXT_strCcmp(tp,(TEXT *)"h_conf",6) == 0){
 			    BF_SET(path->attrib,PA_HYP_CONF);
 			    word_aux_fields[num_word_aux++] = PA_HYP_CONF;
-			} else if (TEXT_strncmp(tp,(TEXT *)"r_weight",8) == 0){
+			} else if (TEXT_strCcmp(tp,(TEXT *)"r_weight",8) == 0){
 			    BF_SET(path->attrib,PA_REF_WEIGHT);
 			    word_aux_fields[num_word_aux++] = PA_REF_WEIGHT;
-			} else if (TEXT_strncmp(tp,(TEXT *)"h_weight",8) == 0){
+			} else if (TEXT_strCcmp(tp,(TEXT *)"h_weight",8) == 0){
 			    BF_SET(path->attrib,PA_HYP_WEIGHT);
 			    word_aux_fields[num_word_aux++] = PA_HYP_WEIGHT;
-			} else if (TEXT_strncmp(tp,(TEXT *)"h_spkr",6) == 0){
+			} else if (TEXT_strCcmp(tp,(TEXT *)"h_spkr",6) == 0){
 			    word_aux_fields[num_word_aux++] = PA_HYP_SPKR;
-			} else if (TEXT_strncmp(tp,(TEXT *)"h_isSpkrSub",11) == 0){
+			} else if (TEXT_strCcmp(tp,(TEXT *)"h_isSpkrSub",11) == 0){
                             word_aux_fields[num_word_aux++] = PA_HYP_ISSPKRSUB;
 			} else {
 			    fprintf(scfp,"Warning: Unknown word auxillary inf"
@@ -616,7 +616,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			goto FAIL;
 		    }
 		    p2 = TEXT_strchr(p1+2,'"');
-		    wd1->value = TEXT_strndup(p1+2,p2 - (p1+2));
+		    wd1->value = TEXT_strBdup(p1+2,p2 - (p1+2));
 		    p1 = p2+1;
 		    if (dbg)
 			fprintf(scfp,"%s: first word '%s'\n",proc,wd1->value);
@@ -635,7 +635,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			goto FAIL;
 		    }
 		    p2 = TEXT_strchr(p1+2,'"');
-		    wd2->value = TEXT_strndup(p1+2,p2 - (p1+2));
+		    wd2->value = TEXT_strBdup(p1+2,p2 - (p1+2));
 		    p1 = p2+1;
 		    if (dbg) fprintf(scfp,"%s: second word '%s'\n",
 				     proc,wd2->value);
@@ -875,7 +875,7 @@ int parse_input_comment_line(SCORES *sc, TEXT *buf){
     if (! TEXT_is_comment(buf))
 	return(0);
 
-    if (TEXT_strncmp(buf,(TEXT *)";; LABEL ",9) == 0) {
+    if (TEXT_strCcmp(buf,(TEXT *)";; LABEL ",9) == 0) {
 	/* parse the label line */
 	
 	if (sc->aset.num_plab == sc->aset.max_plab){
@@ -887,19 +887,19 @@ int parse_input_comment_line(SCORES *sc, TEXT *buf){
 	if ((bq = TEXT_strchr(buf,(TEXT)'"')) == NULL) goto FAILED;
 	if ((eq = TEXT_strchr(bq+1,(TEXT)'"')) == NULL) goto FAILED;
 	sc->aset.plab[sc->aset.num_plab].id = 
-	  (char *)TEXT_strndup(bq+1,eq-bq-1);
+	  (char *)TEXT_strBdup(bq+1,eq-bq-1);
 	
 	/* the title */
 	if ((bq = TEXT_strchr(eq+1,(TEXT)'"')) == NULL) goto FAILED;
 	if ((eq = TEXT_strchr(bq+1,(TEXT)'"')) == NULL) goto FAILED;
 	sc->aset.plab[sc->aset.num_plab].title = 
-	  (char *)TEXT_strndup(bq+1,eq-bq-1);
+	  (char *)TEXT_strBdup(bq+1,eq-bq-1);
 	
 	/* the Description  */
 	if ((bq = TEXT_strchr(eq+1,(TEXT)'"')) == NULL) goto FAILED;
 	if ((eq = TEXT_strchr(bq+1,(TEXT)'"')) == NULL) goto FAILED;
 	sc->aset.plab[sc->aset.num_plab].desc =
-	  (char *)TEXT_strndup(bq+1,eq-bq-1);
+	  (char *)TEXT_strBdup(bq+1,eq-bq-1);
 
 	/* before we increment the counter, let's make sure this is not
 	   a duplicate entry */
@@ -920,7 +920,7 @@ int parse_input_comment_line(SCORES *sc, TEXT *buf){
 	  TEXT_free((TEXT*)sc->aset.plab[sc->aset.num_plab].title);
 	  TEXT_free((TEXT*)sc->aset.plab[sc->aset.num_plab].desc);
 	}
-    } else if (TEXT_strncmp(buf,(TEXT *)";; CATEGORY ",12) == 0) {
+    } else if (TEXT_strCcmp(buf,(TEXT *)";; CATEGORY ",12) == 0) {
 
 	/* parse the category line */
 	if (sc->aset.num_cat == sc->aset.max_cat){
@@ -933,19 +933,19 @@ int parse_input_comment_line(SCORES *sc, TEXT *buf){
 	if ((bq = TEXT_strchr(buf,(TEXT)'"')) == NULL) goto FAILED;
 	if ((eq = TEXT_strchr(bq+1,(TEXT)'"')) == NULL) goto FAILED;
 	sc->aset.cat[sc->aset.num_cat].id =
-	  (char *)TEXT_strndup(bq+1,eq-bq-1);
+	  (char *)TEXT_strBdup(bq+1,eq-bq-1);
 	
 	/* the title */
 	if ((bq = TEXT_strchr(eq+1,(TEXT)'"')) == NULL) goto FAILED;
 	if ((eq = TEXT_strchr(bq+1,(TEXT)'"')) == NULL) goto FAILED;
 	sc->aset.cat[sc->aset.num_cat].title =
-	  (char *)TEXT_strndup(bq+1,eq-bq-1);
+	  (char *)TEXT_strBdup(bq+1,eq-bq-1);
 	
 	/* the Description  */
 	if ((bq = TEXT_strchr(eq+1,(TEXT)'"')) == NULL) goto FAILED;
 	if ((eq = TEXT_strchr(bq+1,(TEXT)'"')) == NULL) goto FAILED;
 	sc->aset.cat[sc->aset.num_cat].desc = 
-	  (char *)TEXT_strndup(bq+1,eq-bq-1);
+	  (char *)TEXT_strBdup(bq+1,eq-bq-1);
 	
 	/* before we increment the counter, let's make sure this is not
 	   a duplicate entry */

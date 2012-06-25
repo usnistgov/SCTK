@@ -131,19 +131,19 @@ db_enter_msg(proc,0); /* debug only */
 	     rp = TEXT_strtok((TEXT *)in_buf + TEXT_strspn(in_buf,
 							   (TEXT*)" \t"),
 			      (TEXT *)" \t\n");
-	       TEXT_strncpy((TEXT *)xconv,rp,LINE_LENGTH);
+	       TEXT_strBcpy((TEXT *)xconv,rp,LINE_LENGTH);
 	       rp = TEXT_strtok((TEXT *)0,(TEXT *)" \t\n");
-	       TEXT_strncpy((TEXT *)side,rp,LINE_LENGTH);
+	       TEXT_strBcpy((TEXT *)side,rp,LINE_LENGTH);
 	       rp = TEXT_strtok((TEXT *)0,(TEXT *)" \t\n");
-	       TEXT_strncpy((TEXT *)s2,rp,LINE_LENGTH);
+	       TEXT_strBcpy((TEXT *)s2,rp,LINE_LENGTH);
 	       rp = TEXT_strtok((TEXT *)0,(TEXT *)" \t\n"); 
-	       TEXT_strncpy((TEXT *)s3,rp,LINE_LENGTH);
+	       TEXT_strBcpy((TEXT *)s3,rp,LINE_LENGTH);
 	       rp = TEXT_strtok((TEXT *)0,(TEXT *)" \t\n");
-	       TEXT_strncpy((TEXT *)xsp,rp,LINE_LENGTH);
+	       TEXT_strBcpy((TEXT *)xsp,rp,LINE_LENGTH);
 	       if ((rp = TEXT_strtok((TEXT *)0,(TEXT *)" \t\n")) != NULL){
-		 TEXT_strncpy((TEXT *)xconf,rp,LINE_LENGTH);
+		 TEXT_strBcpy((TEXT *)xconf,rp,LINE_LENGTH);
 		 if ((rp = TEXT_strtok((TEXT *)0,(TEXT *)" \t\n")) != NULL){
-		   TEXT_strncpy((TEXT *)xcorr,rp,LINE_LENGTH);
+		   TEXT_strBcpy((TEXT *)xcorr,rp,LINE_LENGTH);
 		 }
 	       }
 	   }	    
@@ -220,7 +220,7 @@ db_enter_msg(proc,0); /* debug only */
 				   (TEXT *)"<ALT_END>")!=0)
 		   in_alternate = T;
 	   }
-	   if (TEXT_strncasecmp(word_tokens->word[n].sp,(TEXT*)"<ALT",4) == 0)
+	   if (TEXT_strCcasecmp(word_tokens->word[n].sp,(TEXT*)"<ALT",4) == 0)
 	       in_alternate = T;
 	   word_tokens->word[n].alternate = in_alternate;
        }

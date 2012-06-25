@@ -1,50 +1,110 @@
 #include "sctk.h"
 
-static int STATIC_ext_ASCII = 1;
+//s The encoding is now a typed field
+static enum TEXT_ENCODINGS STATIC_ENCODING = ASCII;
+static enum TEXT_COMPARENORM STATIC_NORMALIZATION = CASE;
 
-
-#define is_2byte(_p)  (((*(_p)) & 0x80) != 0 && (!STATIC_ext_ASCII))
 #define is_EXTASC(_p)  (((*(_p)) & 0x80) != 0)
+#define is_2byte(_p)  (TEXT_nbytes_of_char(_p) == 2)
 
+/// XXX This isn't done until these are all deleted :)
+//
+//
 #define VTisspace(_p) (is_2byte(&(_p)) ? 0 : (is_EXTASC(&(_p)) ? 0 : isspace(_p)))
-#define VTisupper(_p) (is_2byte(&(_p)) ? 0 : \
-		       (is_EXTASC(&(_p)) ? (((unsigned char)(_p) >= 192) && \
-					    ((unsigned char)(_p) <= 223)) \
-			: isupper(_p)))
-#define VTtoupper(_p) ((is_EXTASC(_p)) ? (char)(*((unsigned char *)_p) - 32) : toupper(*(_p)))
+//#define VTisupper(_p) (is_2byte(&(_p)) ? 0 : \
+//		       (is_EXTASC(&(_p)) ? (((unsigned char)(_p) >= 192) && \
+//					    ((unsigned char)(_p) <= 223)) \
+//			: isupper(_p)))
+//#define VTtoupper(_p) ((is_EXTASC(_p)) ? (char)(*((unsigned char *)_p) - 32) : toupper(*(_p)))
+//
+//#define VTislower(_p) (is_2byte(&(_p)) ? 0 : \
+//		       (is_EXTASC(&(_p)) ? ((unsigned char)(_p) >= 224) \
+//			: islower(_p)))
+//#define VTtolower(_p) ((is_EXTASC(_p)) ? (char)(*((unsigned char *)_p) + 32) : tolower(*(_p)))
 
-#define VTislower(_p) (is_2byte(&(_p)) ? 0 : \
-		       (is_EXTASC(&(_p)) ? ((unsigned char)(_p) >= 224) \
-			: islower(_p)))
-#define VTtolower(_p) ((is_EXTASC(_p)) ? (char)(*((unsigned char *)_p) + 32) : tolower(*(_p)))
-
+// tested
 TEXT *TEXT_skip_wspace(TEXT *ptr) {
     while (VTisspace(*ptr)) ptr++;
     return(ptr);
 }
 
+// tested 
 int end_of_TEXT(TEXT text){
     return(text == '\0');
 }
 
-int TEXT_set_coding(char *encoding){
+// new 
+int TEXT_set_encoding(char *encoding){
     if ((TEXT_strcasecmp((TEXT *)encoding,(TEXT *)"EUC") == 0) ||
 	(TEXT_strcasecmp((TEXT *)encoding,(TEXT *)"GB") == 0)){
-	STATIC_ext_ASCII = 0;
+        STATIC_ENCODING = GB;                                                                                                    
 	return(1);
     } else if (TEXT_strcasecmp((TEXT *)encoding,(TEXT *)"EXT_ASCII") == 0) {
-	STATIC_ext_ASCII = 1;
+        STATIC_ENCODING = EXTASCII;                                                                                                    
 	return(1);
-    } 
+    } else if (TEXT_strcasecmp((TEXT *)encoding,(TEXT *)"ASCII") == 0) {
+        STATIC_ENCODING = ASCII;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)encoding,(TEXT *)"UTF-8") == 0) {
+        STATIC_ENCODING = UTF8;                                                                                                    
+	return(1);
+    }
     return(0);
 }
 
+enum TEXT_ENCODINGS TEXT_get_encoding(){
+    return(STATIC_ENCODING);
+}
+
+int TEXT_set_compare_normalization(char *normalization){                                                                         
+    if (TEXT_strcasecmp((TEXT *)normalization,(TEXT *)"CASE") == 0){                                                             
+        STATIC_NORMALIZATION = CASE;                                                                                             
+        return(1);                                                                                                               
+    } else if (TEXT_strcasecmp((TEXT *)normalization,(TEXT *)"NONE") == 0){                                                           
+        STATIC_NORMALIZATION = NONE;                                                                                             
+        return(1);                                                                                                               
+    }                                                                                                                            
+    return(0);                                                                                                                   
+}
+
+// tested
+// Return the number of bytes consumed be the first char at the pointer
+int TEXT_nbytes_of_char(TEXT *p){
+    if (STATIC_ENCODING == ASCII || STATIC_ENCODING == EXTASCII){
+        return 1;
+    } else {
+        if (((*p) & 0x80) == 0){
+            return 1;
+        } else if (STATIC_ENCODING == GB) {
+            return 2;
+        } else if (STATIC_ENCODING == UTF8){
+            if (((*p) & 0x80) == 0){
+                return 1;
+            } else if (((*p) & 0xE0) == 0xC0){
+                return 2;
+            } else if (((*p) & 0xf0) == 0xE0){
+                return 3;
+            } else if (((*p) & 0xF8) == 0xF0){
+                return 4;
+            } else if (((*p) & 0xFC) == 0xF8){
+                return 5;
+            } else {
+                fprintf(stderr, "Error: UTF-8 parsing of character size failed. first char %x %s\n",(TEXT)*p, p);
+                exit(1);
+            }
+        }
+    }
+}
+   
+// tested                                                                                     
 void TEXT_delete_chars(TEXT *arr, TEXT *set){ 
-    TEXT *last = arr;
+    TEXT *last = arr;   
+    int i;
     while (*arr != NULL_TEXT){
-	if (is_2byte(arr)){
-	    *(last++) = *(arr++);
-	    *(last++) = *(arr++);
+        int sz = TEXT_nbytes_of_char(arr);
+    	if (sz > 1){
+	    for (i=0; i<sz; i++)
+	       *(last++) = *(arr++);
 	} else {
 	    if (TEXT_strchr(set,*arr) == NULL)
 		*(last++) = *(arr++);
@@ -55,45 +115,45 @@ void TEXT_delete_chars(TEXT *arr, TEXT *set){
     *last = (TEXT)'\0';
 }
 
+// tested
 void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int flag){
-    int cs, os;
+    int cs, os, i;
     TEXT *tp = *to;
     int not_ASCII = (flag & CALI_NOASCII) != 0;
     int del_HYPHEN = (flag & CALI_DELHYPHEN) != 0;
-
+    int charSize;
     *tp = '\0';
     while (*from != NULL_TEXT){
-	if (is_2byte(from)){
-	    cs = 2;
-	} else {
-	    if (isspace(*from)) {
-		from++;
-		if (tp-1 >= *to && (*(tp-1) != ' ')) *(tp++) = ' ';
-		continue;
-	    }
-	    cs = 1;
-	}
+        cs = TEXT_nbytes_of_char(from);
+        if (cs == 1 && *from == ' ') {
+           from++;
+	   if (tp-1 >= *to && (*(tp-1) != ' ')) *(tp++) = ' ';
+	      continue;
+        }
+	
 	if ((tp-*to) + cs > *to_size-3){
 	    os = tp-*to;
 	    expand_singarr((*to),os,(*to_size),2,TEXT);
 	    tp = *to + os;
 	}
 	if ((tp-*to) != 0 && (*(tp-1) != ' ')) 
-	    if ((cs == 1 && !not_ASCII) || (cs == 2)) {
+	    if ((cs == 1 && !not_ASCII) || (cs > 1)) {
 		*(tp++) = ' ';
 	    } 
-	if (cs == 2) *(tp++) = *(from++);
-	*(tp++) = *(from++);
+        for (i=0; i<cs; i++)
+          *(tp++) = *(from++);
     }
     *tp = '\0';
     if (del_HYPHEN)
 	TEXT_delete_chars(*to,(TEXT *)"-");
 }
 
+// tested
 TEXT *TEXT_strcpy(TEXT *p1, TEXT *p2){
     return((TEXT *)strcpy((char *)p1, (char *)p2));
 }
 
+// tested 
 TEXT *TEXT_strcpy_escaped(TEXT *p1, TEXT *p2, TEXT chr){
   TEXT *orig = p1;
   while (*p2 != '\0'){
@@ -106,44 +166,50 @@ TEXT *TEXT_strcpy_escaped(TEXT *p1, TEXT *p2, TEXT chr){
   return orig;
 }
 
+// tested
 TEXT *TEXT_strstr(TEXT *src, TEXT *sub){
     int len_src, len_sub;
     int i;
+    TEXT *t_src = src;
 
     if (src == (TEXT*)0 || sub == (TEXT*)0)
         return((TEXT*)0);
 
-    len_src = TEXT_strlen(src);
-    len_sub = TEXT_strlen(sub);
-    for (i=0; i<len_src-len_sub; i++){
-        if (TEXT_strncasecmp(src+i,sub,len_sub) == 0){
-	    return((TEXT *)src+i);
+    len_src = TEXT_chrlen(src);
+    len_sub = TEXT_chrlen(sub);
+//    printf("  %d %d\n",len_src, len_sub);
+    for (i=0; i<=len_src-len_sub; i++){
+//        printf("%d %s =? %s\n",i,t_src, sub);
+        if (TEXT_strCcasecmp(t_src,sub,len_sub) == 0){
+	    return((TEXT *)t_src);
 	}
+	t_src += TEXT_nbytes_of_char(t_src);
     }
 
     return((TEXT *)0);
 }
 
+// tested
 int TEXT_strlen(TEXT *text){
     register int i = 0;
     while (*text != '\0'){
-	if (is_2byte(text))
-	    i++ , text++;
-	i++ , text++;
+	i += TEXT_nbytes_of_char(text);
+        text += TEXT_nbytes_of_char(text);
     }
     return(i);
 }
 
+// tested
 int TEXT_chrlen(TEXT *text){
     register int i = 0;
     while (*text != '\0'){
-	if (is_2byte(text))
-	    text++;
-	i++ , text++;
+        text += TEXT_nbytes_of_char(text);
+        i++;
     }
     return(i);
 }
 
+// Tested
 TEXT *TEXT_add(TEXT *p1, TEXT *p2){
     char *sp;
 
@@ -153,7 +219,8 @@ TEXT *TEXT_add(TEXT *p1, TEXT *p2){
     return((TEXT *)sp);
 }
 
-TEXT *TEXT_strndup(TEXT *p, int n){
+//  tested
+TEXT *TEXT_strBdup(TEXT *p, int n){
     char *cp;
 
     alloc_singarr(cp,n + 1,char);
@@ -162,23 +229,28 @@ TEXT *TEXT_strndup(TEXT *p, int n){
     return((TEXT *)cp);
 }
 
-TEXT *TEXT_strndup_noEscape(TEXT *p, int n){
+// n is the max number of bytes of the input to copy to the output.  This is typically calculated by pointer math
+//  tested
+TEXT *TEXT_strBdup_noEscape(TEXT *p, int n){
     char *cp, *begin;
     int i;
     alloc_singarr(cp,n + 1,char);
     begin = cp;
-    
+//    printf("  TEXT_strBdup_noEscape: %s n=%d\n",p,n);
     for (i=0; i<n; i++){
       if (*p != '\\'){
 	*cp++ = *p++;
       } else {
 	p++;
+// JF changed this.  N now refers the the number of bytes in the ref....
+//	i--;  // jumping over an escape
       }
     }
     *cp = '\0';
     return((TEXT *)begin);
 }
 
+// tested
 TEXT *TEXT_strdup(TEXT *p){
     char *cp;
     int len;
@@ -189,17 +261,7 @@ TEXT *TEXT_strdup(TEXT *p){
     return((TEXT *)cp);
 }
 
-int TEXT_strcmp(TEXT *p, TEXT *p1){
-    register unsigned char *u1=(unsigned char *)p, *u2=(unsigned char *)p1; 
-
-    for (; *u1 == *u2; u1++, u2++)
-	if (*u1 == '\0')
-	    return(0);
-    /* printf("p=%s   p1=%s   ret %x-%x = %d\n",p,p1,*u1,*u2,*u1-*u2); */
-    return(*u1 - *u2);
-}
-
-
+// Tested
 TEXT *TEXT_strcat(TEXT *p, TEXT *p1){
     return((TEXT *)strcat((char *)p,(char *)p1));
 }
@@ -208,60 +270,123 @@ TEXT *TEXT_strcat(TEXT *p, TEXT *p1){
  * Repaired by Jon Fiscus,  May 1, 1997.  Had to fix the case ("f","for")
  * which resulted in the "prime-the-pump" loop
  */
+// Tested
+int TEXT_strcmp_master(TEXT *p1, TEXT *p2, int n, int doCase){
+    TEXT *_p1 = p1, *_p2 = p2;
+    int c1, c2, i, iteration = 0;
+
+    if (_p1 == (TEXT *)0 && _p2 == (TEXT *)0)  return(0);
+    if (_p2 == (TEXT *)0)  return(1);
+    if (_p1 == (TEXT *)0)  return(-1);
+    do {
+        if (end_of_TEXT(*_p1) && end_of_TEXT(*_p2))   return(0);
+        if (end_of_TEXT(*_p2))                        return(1);
+        if (end_of_TEXT(*_p1))                        return(-1);
+        c1 = TEXT_nbytes_of_char(_p1);
+        c2 = TEXT_nbytes_of_char(_p2);
+        if (c1 != c2) return (c1 < c2 ? -1 : 1);  
+        // Lengths match
+        if (c1 > 1 || doCase == 0){
+            // NO CASE CONVERSON FOR NOW !!!
+            for (i=0; i<c1; i++){
+               if (*((unsigned char *)_p1) != *((unsigned char *)_p2))
+                  return ((*((unsigned char *)_p1) < *((unsigned char *)_p2)) ? -1 : 1);
+               _p1++;
+               _p2++;
+            }
+        } else {
+            TEXT char1 = *_p1; 
+            TEXT char2 = *_p2;
+            if (STATIC_ENCODING == EXTASCII){
+                // Handle both ASCII and EXTASCII
+                if (is_EXTASC(&char1)) { if (char1 >= 192 && char1 <= 223) { char1 -= 32; } }
+                else { char1 = tolower(char1); }
+
+                if (is_EXTASC(&char1)) { if (char2 >= 192 && char2 <= 223) { char2 -= 32; } }
+                else { char2 = tolower(char2); }                
+            } else {
+                // Handle JUST ASCII
+                char1 = toupper(char1);
+                char2 = toupper(char2);
+            }
+            if (char1 != char2)
+                return (char1 < char2 ? -1 : 1);
+            _p1++;
+            _p2++;
+        }
+        iteration ++;
+    } while ((n == -1) || (iteration < n));
+    return(0);
+}
+
+// tested
+int TEXT_strCcasecmp(TEXT *p1, TEXT *p2, int n){
+    return(TEXT_strcmp_master(p1, p2, n, 1));
+}
+
+// tested
 int TEXT_strcasecmp(TEXT *p1, TEXT *p2){
-    TEXT x1, x2='\0';
-    x1 = (VTisupper(*p1)) ? VTtolower(p1) : *p1;
-    x2 = (VTisupper(*p2)) ? VTtolower(p2) : *p2;
-    while (x1 != '\0' && x2 != '\0'){
-	if (x1 != x2)
-	  return(x1 - x2);
-	p1++;
-	p2++;
-	x1 = (VTisupper(*p1)) ? VTtolower(p1) : *p1;
-	x2 = (VTisupper(*p2)) ? VTtolower(p2) : *p2;
-    }
-    return((x1 == '\0' && x2 == '\0') ? 0 : x1 - x2);
+    return(TEXT_strcmp_master(p1, p2, -1, 1));
 }
 
-int TEXT_strncasecmp(TEXT *p1, TEXT *p2, int n){
-    TEXT x1, x2='\0';
-
-    while ((x1 = (VTisupper(*p1)) ? VTtolower(p1) : *p1) != '\0' &&
-	   (x2 = (VTisupper(*p2)) ? VTtolower(p2) : *p2) != '\0' &&
-	   n > 0){
-	if (x1 != x2)
-	    return(x1 - x2);
-	p1++;
-	p2++;
-	n--;
-    }
-    return((x1 == '\0') || (n == 0) ? 0 : x1 - x2);
+//  tested
+int TEXT_strCcmp(TEXT *p, TEXT *p1, int n){
+    return(TEXT_strcmp_master(p, p1, n, 0));
 }
 
-int TEXT_strncmp(TEXT *p, TEXT *p1, int n){
-    return(strncmp((char *)p,(char *)p1, n));
+int TEXT_strBcmp(TEXT *p, TEXT *p1, int n){
+    return(strncmp(p, p1, n));
 }
 
+//  tested
+int TEXT_strcmp(TEXT *p, TEXT *p1){
+    return(TEXT_strcmp_master(p, p1, -1, 0));
+}
+
+// NO Test needed
 int qsort_TEXT_strcmp(const void *p, const void *p1){
     return(TEXT_strcmp(*((TEXT **)p),*((TEXT **)p1)));
 }
 
+// NO Test needed
 int bsearch_TEXT_strcmp(const void *p, const void *p1){
     return(TEXT_strcmp((TEXT *)p,*((TEXT **)p1)));
 }
 
-TEXT *TEXT_strncpy(TEXT *p, TEXT *p1, int n){
-    return((TEXT *)strncpy((char *)p,(char *)p1,n));
+// tested -- copies the number fo BYTES
+TEXT *TEXT_strBcpy(TEXT *p, TEXT *p1, int n){
+   int i;
+   TEXT *p_t = p, *p1_t = p1;
+   for (i=0; i<n; i++)
+      *p_t++ = *p1_t++;
+   *p_t = NULL_TEXT;
+   return(p);     
 }
 
+//  tested  -- copies the number of chars
+TEXT *TEXT_strCcpy(TEXT *p, TEXT *p1, int c){
+   int i, y, nchar;
+   TEXT *p_t = p, *p1_t = p1;
+   for (i=0; i<c; i++){
+      nchar = TEXT_nbytes_of_char(p1_t);
+      for(y=0; y<nchar; y++)
+         *p_t++ = *p1_t++;
+   }
+   *p_t = NULL_TEXT;
+   return(p);     
+}
+
+// no test needed
 float TEXT_atof(TEXT *p){
     return(atof((char *)p));
 }
 
+/// no test needed.  
 TEXT *TEXT_strchr(TEXT *p, TEXT t){
     return((TEXT *)strchr((char *)p,(char)t));
 }
 
+//Tested
 TEXT *TEXT_strtok(TEXT *p, TEXT *t){
     static TEXT *basep = (TEXT *)NULL, *ext;
 
@@ -280,19 +405,17 @@ TEXT *TEXT_strtok(TEXT *p, TEXT *t){
     /* skip white space */
 
     while (*ext != '\0' && strchr((char *)t,(char)*ext) != NULL){
-	if (is_2byte(ext)) {
-	    ext++;
-	    basep++;
-	}
-	ext++;
-	basep++;
+	int sz = TEXT_nbytes_of_char(ext);
+        ext+= sz;
+        basep+= sz;
     }
     if (*(p = ext) == '\0') return((TEXT *)0);
 
     /* skip the token */
     while (*ext != '\0'){
 	/* printf("      check %x\n",*ext); */
-	if (!is_2byte(ext)) {
+	int sz = TEXT_nbytes_of_char(ext);
+	if (sz == 1) {
 	    if (strchr((char *)t,(char)*ext) != NULL){
 		*ext = '\0';
 		basep = ext+1;
@@ -301,7 +424,7 @@ TEXT *TEXT_strtok(TEXT *p, TEXT *t){
 	    }
 	    ext++;
 	} else
-	    ext+=2;
+	    ext+=sz;
     }
 
     basep = ext + ((*ext == '\0') ? 0 : 1);
@@ -309,32 +432,57 @@ TEXT *TEXT_strtok(TEXT *p, TEXT *t){
     return(p);
 }
 
+// no test needed
 TEXT *TEXT_strrchr(TEXT *p, TEXT t){
     return((TEXT *)strrchr((char *)p,(char)t));
 }
 
-void TEXT_str_to_low(TEXT *buf){
-    while (*buf != '\0'){
-	if (is_2byte(buf))
-	    buf+=2;
-	else {
-	    if (VTisupper(*buf)) 
-		*buf = VTtolower(buf);
-	    buf++;
-	}
-     }
+// tested
+void TEXT_str_to_master(TEXT *buf, int toLow){
+    int c1;
+
+    if (buf == (TEXT *)0)  return;
+    do {
+        if (end_of_TEXT(*buf)) return;
+        c1 = TEXT_nbytes_of_char(buf);
+//        printf(" %c %d chr\n",*buf, c1);
+        if (c1 > 1){
+            buf += c1;
+        } else {
+            if (toLow){
+                if (STATIC_ENCODING == EXTASCII){
+                    // Handle both ASCII and EXTASCII
+                    if (is_EXTASC(buf)) { if (*buf >= 192 && *buf <= 223) { *buf += 32; } }
+                    else { *buf = tolower(*buf); }
+                } else {
+                    // Handle JUST ASCII
+                    *buf = tolower(*buf);
+                }
+//                printf("    LOW %c %d chr\n",*buf, c1);
+            } else {
+                if (STATIC_ENCODING == EXTASCII){
+                    // Handle both ASCII and EXTASCII
+                    if (is_EXTASC(buf)) { if (*buf >= 224) { *buf -= 32; } }
+                    else { *buf = toupper(*buf); }
+                } else {
+                    // Handle JUST ASCII
+                    *buf = toupper(*buf);
+                }
+//                printf("    UPP %c(%d) %d chr\n",*buf, *buf, c1);
+            }
+            buf++;
+        }
+    } while (1);
 }
 
+// tested
+void TEXT_str_to_low(TEXT *buf){
+    TEXT_str_to_master(buf, 1);
+}
+
+// tested
 void TEXT_str_to_upp(TEXT *buf){
-    while (*buf != '\0'){
-	if (is_2byte(buf))
-	    buf+=2;
-	else {
-	    if (VTislower(*buf))
-		*buf = VTtoupper(buf);
-	    buf++;
-	}
-    }
+    TEXT_str_to_master(buf, 0);
 }
 
 /*********************************************************************/
@@ -342,6 +490,7 @@ void TEXT_str_to_upp(TEXT *buf){
 /* characters where read, the last character before the NULL is a    */
 /* '\n'.                                                             */
 /*********************************************************************/
+// no test needed
 TEXT *TEXT_fgets(TEXT *arr, int len, FILE *fp){
     unsigned char *tc, ans;
 
@@ -364,6 +513,7 @@ TEXT *TEXT_fgets(TEXT *arr, int len, FILE *fp){
     return(arr);
 }
 
+// no test needed
 TEXT *TEXT_ensure_fgets(TEXT **arr, int *len, FILE *fp){
     TEXT *tc, *xp;
 
@@ -392,9 +542,10 @@ void TEXT_free(TEXT *p){
     free((char *)p);
 }
 
+// tested
 int find_next_TEXT_token(TEXT **ctext, TEXT *token, int len){
     char *proc="find_next_TEXT_token", *pt=(char *)token;
-    int c=0, alt_cnt=0;
+    int c=0, alt_cnt=0, nchar, i;
 
     if (db >= 10) fprintf(stdout,"Entering: %s\n",proc);
     if (db >= 11) fprintf(stdout,"    function args: ctext='%s' len=%d\n",
@@ -403,8 +554,7 @@ int find_next_TEXT_token(TEXT **ctext, TEXT *token, int len){
     
     /* Skip leading white space */
     while (VTisspace(**ctext)){
-	if (is_2byte(*ctext)) (*ctext)++;
-	(*ctext)++;
+	(*ctext) += TEXT_nbytes_of_char(*ctext);
     }
 
     /* if we're at the end, there isn't a token */
@@ -414,53 +564,50 @@ int find_next_TEXT_token(TEXT **ctext, TEXT *token, int len){
     if (**ctext == ALT_BEGIN) {
 	/* Nab the alternation */
 	do {
-	    if (db >= 20)
-		printf("ALT Char %c %d %s\n",**ctext,is_2byte(*ctext),*ctext);
+	    nchar = TEXT_nbytes_of_char(*ctext);
+            if (db >= 20)
+		printf("ALT Char %c nchar=%d %s\n",**ctext,nchar,*ctext);
 	    if (**ctext == ALT_BEGIN)
 		alt_cnt ++;
 	    if (**ctext == ALT_END)
 		alt_cnt --;
-	    if (c + (is_2byte(*ctext) ? 2 : 1) > len) {
-		fprintf(stderr,"proc: %s increase token size > %d\n",proc,len);
-		return(0);
-		}
-	    if (is_2byte(*ctext))  *(token++) = **ctext;
-	    *(token++) = *(*ctext + (is_2byte(*ctext) ? 1 : 0)); 
+            for (i=0; i<nchar; i++){
+   	        if (++c > len) {
+		    fprintf(stderr,"proc: %s increase token size > %d\n",proc,len);
+		    return(0);
+ 	        }
+		*(token++) = *(*ctext)++; 
+            }
 	} while (!end_of_TEXT(**ctext) && 
-		 (**ctext != ALT_END || (**ctext == ALT_END && alt_cnt > 0)) &&
-		 !end_of_TEXT(* ((*ctext)+= (is_2byte(*ctext) ? 2 : 1))));
-	if (**ctext == ALT_END && alt_cnt == 0)
-	    ++(*ctext);
+		 (alt_cnt > 0));
+        *(token) = NULL_TEXT;
 	if (db >= 20) {*token = '\0'; printf("       Token now %s\n",pt);}
+        if (alt_cnt > 0) return(0);
     } else {
 	/* Nab the word */
 	do {
-	    if (db>=20)
-		printf("Char %s %x %d\n",*ctext,**ctext,is_2byte(*ctext));
-	    if (is_2byte(*ctext)) {
-		if (++c > len) {
-		    fprintf(stderr,"proc: %s increase token size > %d\n",
-			    proc,len);
+            nchar = TEXT_nbytes_of_char(*ctext);
+            if (db>=20)
+		printf("Char /%s/ %x nchar=%d\n",*ctext,**ctext,nchar);
+            for (i=0; i<nchar; i++){
+   	        if (++c > len) {
+		    fprintf(stderr,"proc: %s increase token size > %d\n",proc,len);
 		    return(0);
-		}
+ 	        }
 		*(token++) = *(*ctext)++; 
-	    }
-	    if (++c > len) {
-		fprintf(stderr,"proc: %s increase token size > %d\n",proc,len);
-		return(0);
-	    }
-	    *(token++) = *(*ctext)++;
-	    if (db >= 20) {*token = '\0'; printf("       Token now %s\n",pt);}
+            }
+	    if (db >= 20) {*token = '\0'; printf("       Token now /%s/\n",pt);}
 	} while (!end_of_TEXT(**ctext) && ! VTisspace(**ctext));
     }
     *token = NULL_TEXT;
     return(1);
 }
 
-
+/// tested
 int find_next_TEXT_alternation(TEXT **ctext, TEXT *token, int len){
     char *proc="find_next_TEXT_alternation";
-    int c=0;
+    int c=0, nchar, i;
+    TEXT *t_token = token;
     int alt_cnt=0;
 
     if (db > 10) printf("Entering: %s\n",proc);
@@ -470,20 +617,27 @@ int find_next_TEXT_alternation(TEXT **ctext, TEXT *token, int len){
     *token = NULL_TEXT;
     
     /* Skip leading white space */
-    while (VTisspace(**ctext) ||  **ctext == '/')
-	if (is_2byte(*ctext)) 
-	    (*ctext)+=2;
-	else
-	    (*ctext)++;
+    while (VTisspace(**ctext) ||  **ctext == '/'){
+	(*ctext) += TEXT_nbytes_of_char(*ctext);
+    }
 
     /* if we're at the end, there isn't a token */
     if (end_of_TEXT(**ctext))
 	return(0);
 
     do {
-	if (**ctext == ALT_BEGIN) alt_cnt++;
-	if (**ctext == ALT_END) alt_cnt--;
-	if (is_2byte(*ctext)) {
+        nchar = TEXT_nbytes_of_char(*ctext);
+        if (nchar > 1){
+            for (i=0; i<nchar; i++){
+   	        if (++c > len) {
+		    fprintf(stderr,"proc: %s increase token size > %d\n",proc,len);
+		    return(0);
+ 	        }
+		*(token++) = *(*ctext)++; 
+ 	    }   
+        } else {
+            if (**ctext == ALT_BEGIN) alt_cnt++;
+	    if (**ctext == ALT_END) alt_cnt--;
 	    if (++c > len) {
 		fprintf(stderr,"proc: %s increase token size > %d\n",
 			proc,len);
@@ -491,13 +645,11 @@ int find_next_TEXT_alternation(TEXT **ctext, TEXT *token, int len){
 	    }
 	    *(token++) = *(*ctext)++; 
 	}
-	if (++c > len) {
-	    fprintf(stderr,"proc: %s increase output token size > %d\n",
-		    proc,len);
-	    return(0);
-	}
-	*(token++) = **ctext;
-    } while ((*(++*ctext) != '/' || (**ctext == '/' && alt_cnt > 0)) &&
+        if (db > 20){
+            *token = NULL_TEXT;
+            printf("  Now %s\n",t_token);
+        }	
+    } while ((**ctext != '/' || (**ctext == '/' && alt_cnt > 0)) &&
 	     (**ctext != ALT_END || (**ctext == ALT_END && alt_cnt > 0)) && 
 	     !end_of_TEXT(**ctext));
     *token = NULL_TEXT;
@@ -509,11 +661,18 @@ int find_next_TEXT_alternation(TEXT **ctext, TEXT *token, int len){
 /*  Return 1 if the string is empty, i.e. containing all       */
 /*  spaces, or tabs.                                           */
 /***************************************************************/
+// tested
 int TEXT_is_empty(TEXT *str)
 {
     if (str == NULL) return(0);
-    while (VTisspace(*str))
+    while (*str != NULL_TEXT){
+        int sz = TEXT_nbytes_of_char(str);
+        if (sz > 1)
+           return(0);
+        if (! isspace((int)*str))
+           return(0);
         str++;
+    }
     if (*str == '\0')
         return(1);
     return(0);
@@ -523,6 +682,7 @@ int TEXT_is_empty(TEXT *str)
 /*   check the character pointer to see if it points to the        */
 /*   comment character                                             */
 /*******************************************************************/
+// does not need tested
 int TEXT_is_comment(TEXT *str)
 {
    if ((*str == COMMENT_CHAR) && (*(str+1) != COMMENT_CHAR)){
@@ -542,6 +702,7 @@ int TEXT_is_comment(TEXT *str)
 /*   check the character pointer to see if it points to the        */
 /*   comment_info character                                        */
 /*******************************************************************/
+// Does not need tested
 int TEXT_is_comment_info(TEXT *str)
 {
    if ((*str == COMMENT_INFO_CHAR) && (*(str+1) != COMMENT_INFO_CHAR)){
@@ -562,15 +723,16 @@ int TEXT_is_comment_info(TEXT *str)
 /*   Use strtok to tokenize a text stream,  If an alternate trans  */
 /*   is found, only return the first alternate                     */
 /*******************************************************************/
+// tested
 TEXT *tokenize_TEXT_first_alt(TEXT *p, TEXT *set){
     TEXT *ctxt;
     static int firstalt=1;
     static int in_alt=0, alt_cnt=0;
     
     if (p != NULL) in_alt = alt_cnt = 0;
-
+    if (db >= 20) printf("  text is %s, set is %s\n",p, set);
     ctxt = TEXT_strtok(p,set);
-
+        
     while (ctxt != NULL){
 	if (*ctxt == '{'){
 	    if (firstalt)
@@ -588,15 +750,19 @@ TEXT *tokenize_TEXT_first_alt(TEXT *p, TEXT *set){
 		
 		if (!in_alt || (alt_cnt == 0))
 		    /* Return the alternate IF IT IS NOT a NULL '@' */
-		    if (TEXT_strcmp(ctxt,(TEXT *)"@") != 0)
+		    if (TEXT_strcmp(ctxt,(TEXT *)"@") != 0){
+                        if (db >= 20) printf("   ctxt %s\n",ctxt);
 			return(ctxt);
+                    }
 	    }
 	}
-	ctxt = TEXT_strtok(NULL,(TEXT *)" \t\n");
+	ctxt = TEXT_strtok(NULL,set);
     }
+    if (db >= 20) printf("   ctxt %s\n",ctxt);
     return(ctxt);
 }
 
+// Tested
 size_t TEXT_strspn(TEXT *str, TEXT *set)
 {
     TEXT *p = str;
@@ -611,7 +777,7 @@ size_t TEXT_strspn(TEXT *str, TEXT *set)
     }
 
     while (*p != '\0')
-	if (is_2byte(p)) 
+	if (TEXT_nbytes_of_char(p) > 1) 
 	    return(p - str);
 	else {
 	    if (TEXT_strchr(set,*p) == NULL)
@@ -621,31 +787,36 @@ size_t TEXT_strspn(TEXT *str, TEXT *set)
     return(p - str);
 }
 
-
+// Tested - But set MUST be ASCII
+// Number of BYTES of the initial part of str1 not containing any of the
+// characters that are part of str2
 size_t TEXT_strcspn(TEXT *str, TEXT *set)
 {
     TEXT *p = str;
+    size_t n;
 
     if (p == (TEXT *)0) {
-	fprintf(stderr,"Error: TEXT_strspn string arg was a NULL pointer\n");
+	fprintf(stderr,"Error: TEXT_strcspn string arg was a NULL pointer\n");
 	exit(1);
     }
     if (set == (TEXT *)0) {
-	fprintf(stderr,"Error: TEXT_strspn set arg was a NULL pointer\n");
+	fprintf(stderr,"Error: TEXT_strcspn set arg was a NULL pointer\n");
 	exit(1);
     }
 
-    while (*p != '\0')
-	if (is_2byte(p)) 
-	    p+=2;
-	else {
+    while (*p != '\0'){
+	if ((n = TEXT_nbytes_of_char(p)) > 1) {
+	    p += n;
+	} else {
 	    if (TEXT_strchr(set,*p) != NULL)
 		return(p - str);
 	    p++;
 	}
+    }
     return(p - str);
 }
 
+//Tested
 /* Perform a strtok function, except ignore any characters inside of */
 /* double quote '"' marks.                                           */
 TEXT *TEXT_strqtok(TEXT *buf, TEXT *set)
@@ -694,8 +865,9 @@ TEXT *TEXT_strqtok(TEXT *buf, TEXT *set)
     terminate = 0;
     /* locate the first occurance of the separator character */
     while (*ptr2 != '\0' && !terminate) {
-	if (is_2byte(ptr2))
-	    ptr2++;
+        int sz = TEXT_nbytes_of_char(ptr2);
+	if (sz > 1)
+	    ptr2 += sz;
 	else if (*ptr2 == '"'){
 	    if ((pt = TEXT_strchr(ptr2 + 1,'"')) != NULL)
 		ptr2 = pt + 1;
@@ -745,6 +917,7 @@ int add_TEXT_LIST(TEXT_LIST *tl, TEXT *str){
     return(1);
 }
 
+// no test needed
 void free_TEXT_LIST(TEXT_LIST **tl)
 {
     int e;
@@ -758,6 +931,7 @@ void free_TEXT_LIST(TEXT_LIST **tl)
     free_singarr(ptl,TEXT_LIST);   
 }
 
+// tested
 TEXT_LIST *load_TEXT_LIST(char *file, int col)
 {
     TEXT *buf, *beg, *end;
@@ -855,7 +1029,7 @@ int TEXT_nth_field(TEXT **to_addr, int *to_len, TEXT *from, int field){
 	p_from = TEXT_skip_wspace(p_from);
     }
     p_to = p_from + TEXT_strcspn(p_from,(TEXT *)" \t\n");
-    TEXT_strncpy(to,p_from,p_to-p_from);
+    TEXT_strBcpy(to,p_from,p_to-p_from);
     return(1);
 }
 

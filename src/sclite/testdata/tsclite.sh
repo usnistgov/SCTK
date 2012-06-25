@@ -530,6 +530,8 @@ if test "`eval $filter`" = "" ; then
 else
     echo "     !!!!!  TESTS HAVE FAILED  !!!!!"
     echo ""
+    grep 'diff -c -r' Failed.log | awk '{print $5}'
+    echo ""
     echo "Read Failed.log"
     eval $vfilter > Failed.log
     exit 1

@@ -441,7 +441,7 @@ static void process_inserts(SCORES **scor, PATH **path_set, int npath, int *pset
     if ((path_set[p]->num > psets[p]) && 
 	(path_set[p]->pset[psets[p]].eval & P_INS) != 0){
       TEXT buf[200];
-      TEXT_strncpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
+      TEXT_strBcpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
       if (BF_notSET(path_set[p]->attrib,PA_CASE_SENSE))
 	TEXT_str_to_upp(buf);
       TEXT_strcat(outbuf[p],(TEXT *)rsprintf(fmt,buf));
@@ -488,12 +488,12 @@ static void process_rest(SCORES **scor, PATH **path_set, int npath, int *psets, 
       TEXT buf[200], *aster = (TEXT *)"****************************************";
       *buf = (TEXT )'\0';
       if ((path_set[p]->pset[psets[p]].eval & P_DEL) == 0){
-	TEXT_strncpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
+	TEXT_strBcpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
 	if (((path_set[p]->pset[psets[p]].eval & P_CORR) == 0) &&
 	    BF_notSET(path_set[p]->attrib,PA_CASE_SENSE))
 	  TEXT_str_to_upp(buf);
       } else {
-	TEXT_strncpy(buf,aster + 40 - MIN(40,max),40); 
+	TEXT_strBcpy(buf,aster + 40 - MIN(40,max),40); 
       }
 
       TEXT_strcat(outbuf[p],(TEXT *)rsprintf(fmt,buf));

@@ -40,7 +40,7 @@ void remove_id(TEXT *utt, TEXT **id, int *id_len){
 	free_singarr(*id,TEXT);
 	alloc_singZ((*id),*id_len,TEXT,'\0');
     }
-    TEXT_strncpy(*id,L_paren,R_paren - L_paren + 1);
+    TEXT_strBcpy(*id,L_paren,R_paren - L_paren + 1);
     *(*id + (R_paren - L_paren + 1)) = NULL_TEXT;
     *L_paren = NULL_TEXT;
 }
@@ -51,7 +51,7 @@ int extract_speaker(TEXT *id, TEXT *sname, enum id_types idt){
     switch (idt){
       case ATIS:
       case WSJ:
-	TEXT_strncpy(sname, id + 1, 3);
+	TEXT_strBcpy(sname, id + 1, 3);
 	sname[3] = NULL_TEXT;
 	return(0);
       case RM:
@@ -70,7 +70,7 @@ int extract_speaker(TEXT *id, TEXT *sname, enum id_types idt){
 	    }
 	    return(1);
         }
-	TEXT_strncpy(sname, id + 1, p - (id+1)); 
+	TEXT_strBcpy(sname, id + 1, p - (id+1)); 
 	sname[p - (id+1)] = NULL_TEXT; 
 	return(0);
       default:
@@ -162,7 +162,7 @@ void load_refs(SCORES *sc, char *hyp_file, char *ref_file, TEXT ***rset, TEXT **
 				    bsearch_TEXT_strcmp)) != NULL){
 	    rind = ind - idset;
 	    if (refset[rind] != (TEXT *)0){
-		if (TEXT_strncmp(in_buf,refset[rind],TEXT_strlen(in_buf))!= 0){
+		if (TEXT_strBcmp(in_buf,refset[rind],TEXT_strlen(in_buf))!= 0){
 		    fprintf(stderr,"Error: double reference text for id '%s'\n",
 			    id_buf);
 		    failure=1;
@@ -273,6 +273,11 @@ PATH *infer_word_seg_algo2(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
 
     Network_fully_connect_cond(refnet, max_word_len, append_WORD_no_NULL,
 			       WORD_in_TEXT_LIST, tl);
+
+    /* printf("-----------------\n");
+       Network_traverse(hypnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);
+       Network_traverse(refnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);  */
+
     Network_dpalign(refnet,hypnet,wwd_WORD,&path,FALSE);
     PATH_add_utt_id(path,(char *)id);
     PATH_set_sequence(path);
@@ -343,6 +348,7 @@ PATH *infer_word_seg_algo1(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
     } else 
 	hypnet = hnet;
 
+//       Network_traverse(hypnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);
 
     if (opt_del){
       Network_traverse(hypnet,NULL,0,decode_opt_del,0,0);
@@ -354,14 +360,16 @@ PATH *infer_word_seg_algo1(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
       Network_traverse(refnet,NULL,0,decode_fragment,0,0);
     }
 
+//    Network_traverse(hypnet,NULL,0,0c,0,NT_CA_For+NT_Verbose);
     Network_traverse(hypnet,NULL,0,expand_words_to_chars,&char_align,0);
+//    Network_traverse(hypnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);
 
     Network_fully_connect_cond(hypnet, max_word_len, append_WORD_no_NULL,
 			       WORD_in_TEXT_LIST, tl);
 
-    /* printf("-----------------\n");
-       Network_traverse(hypnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);
-       Network_traverse(refnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);  */
+//     printf("-----------------\n");
+//       Network_traverse(hypnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);
+//       Network_traverse(refnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);  
 
     Network_dpalign(refnet,hypnet,wwd_WORD,&path,FALSE);
     PATH_add_utt_id(path,(char *)id);
@@ -633,7 +641,7 @@ void set_word_opt_del(ARC *arc, void *ptr){
 void expand_words_to_chars(ARC *arc, void *ptr){
     char *proc = "expand_words_to_chars";
     WORD *tw = (WORD *)(arc->data);
-    static TEXT *chars=(TEXT *)0;
+    static TEXT *chars=(TEXT *)0, *charsEsc;
     static int chars_len=100;
     NETWORK *subnet;
     char buf[20];
@@ -648,12 +656,20 @@ void expand_words_to_chars(ARC *arc, void *ptr){
 	printf("%s: String length > 1\n",proc);
 	arc->net->arc_func.print(arc->data);
     }
-    sprintf(buf,"expand-net %d",alt);
+//    sprintf(buf,"expand-net %d",alt);
     TEXT_separate_chars((!tw->opt_del) ? tw->value : tw->intern_value,
 			&chars,&chars_len,*((int *)ptr));
+			
+//    printf("   from /%s/ comes /%s/\n",tw->value, chars);
+    
+    // Escape the semicolon
+    alloc_singZ(charsEsc, chars_len*2+1, TEXT, NULL_TEXT);
+    TEXT_strcpy_escaped(charsEsc, chars, ';');
+//    printf("   and escaped /%s/\n", charsEsc);
+    
     /* Fix, it wasn't enough check to see if the there were any spaces */
     if (TEXT_strcmp(chars,tw->value) != 0){
-	subnet = Network_create_from_TEXT(chars, buf, arc->net->arc_func.print,
+	subnet = Network_create_from_TEXT(charsEsc, buf, arc->net->arc_func.print,
 					  arc->net->arc_func.equal,
 					  arc->net->arc_func.destroy,
 					  arc->net->arc_func.is_null_alt,
@@ -683,6 +699,7 @@ void expand_words_to_chars(ARC *arc, void *ptr){
 	Network_delete_arc(arc);
 	alt++;
     }
+    free_singarr(charsEsc, TEXT);
 }
 
 
@@ -714,7 +731,7 @@ void decode_opt_del(ARC *arc, void *ptr){
     if ((*(tw->value + len - 1) == WORD_OPT_DEL_POST_CHAR) &&
 	(*(tw->value) == WORD_OPT_DEL_PRE_CHAR)){
       tw->opt_del = TRUE;
-      tw->intern_value = TEXT_strndup(tw->value + 1,len - 2);
+      tw->intern_value = TEXT_strBdup(tw->value + 1,len - 2);
     }
     return;
 }

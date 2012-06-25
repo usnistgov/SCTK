@@ -458,7 +458,7 @@ int load_pralign_file(FILE *fp, SCORES **scor, int *nscor, int maxn){
     while (!feof(fp) && TEXT_ensure_fgets(&buf,&buf_len,fp) != NULL){
 	TEXT_xnewline(buf);
 
-	if (TEXT_strncmp(buf,(TEXT *)"System name:",12) == 0){
+	if (TEXT_strCcmp(buf,(TEXT *)"System name:",12) == 0){
 	    printf("PARSE: System hit:  %s",buf);
 
 	    if (maxn <= *nscor){
@@ -471,9 +471,9 @@ int load_pralign_file(FILE *fp, SCORES **scor, int *nscor, int maxn){
 	    }
 	    tscor = SCORES_init((char *)buf2,10);
 	    scor[(*nscor)++] = tscor;
-	} else if (TEXT_strncmp(buf,(TEXT *)"Speaker sentences",17) == 0){
+	} else if (TEXT_strCcmp(buf,(TEXT *)"Speaker sentences",17) == 0){
 	    printf("PARSE: Speaker hit: %s",buf);
-	} else if (TEXT_strncmp(buf,(TEXT *)"id: ",4) == 0){
+	} else if (TEXT_strCcmp(buf,(TEXT *)"id: ",4) == 0){
 	    printf("PARSE: utterance hit: %s",buf);
 	}
 

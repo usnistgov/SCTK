@@ -417,7 +417,7 @@ int load_WWL(WWL **wwl, TEXT *filename)
 	    if ((e = TEXT_strchr(p+1,'\'')) != NULL){
 	      alloc_singZ(twwl->weight_desc[twwl->num_w],
 			  e-p +1,TEXT,'\0');
-	      TEXT_strncpy(twwl->weight_desc[twwl->num_w],p+1,e-p-1);
+	      TEXT_strBcpy(twwl->weight_desc[twwl->num_w],p+1,e-p-1);
 	      twwl->num_w ++;
 	    }
 	    p = e + 1;
@@ -427,7 +427,7 @@ int load_WWL(WWL **wwl, TEXT *filename)
 	  if ((p = TEXT_strchr(buff,(TEXT)'\'')) != NULL){
 	    if ((e = TEXT_strchr(p+1,(TEXT)'\'')) != NULL){
 	      *word = (char)'\0';
-	      TEXT_strncpy(word,p+1,e-p-1);
+	      TEXT_strBcpy(word,p+1,e-p-1);
 	      twwl->default_weight = (double)atof((char *)word);
 	      continue;
 	    }

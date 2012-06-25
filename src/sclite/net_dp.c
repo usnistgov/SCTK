@@ -821,7 +821,7 @@ NET_ALIGN *alloc_NET_ALIGN(NET_ALIGN *net_ali, int na, int nb){
     if (na < init_size) na = init_size;
     if (nb < init_size) nb = init_size;
     if (db >= 2) 
-	printf("NET_ALIGN: %x  na=%d  nb=%d\n",(signed int)net_ali,na,nb);
+	printf("NET_ALIGN: %p  na=%d  nb=%d\n",net_ali,na,nb);
 
     if (net_ali == NET_ALIGN_NULL) {
 	/* do the first initialization */
