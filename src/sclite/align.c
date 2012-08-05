@@ -656,11 +656,12 @@ void expand_words_to_chars(ARC *arc, void *ptr){
 	printf("%s: String length > 1\n",proc);
 	arc->net->arc_func.print(arc->data);
     }
-//    sprintf(buf,"expand-net %d",alt);
+//    arc->net->arc_func.print(arc->data);
+    sprintf(buf,"expand-net %d",alt);
     TEXT_separate_chars((!tw->opt_del) ? tw->value : tw->intern_value,
 			&chars,&chars_len,*((int *)ptr));
 			
-//    printf("   from /%s/ comes /%s/\n",tw->value, chars);
+//    printf("   from /%s/ comes /%s/\n",(!tw->opt_del) ? tw->value : tw->intern_value, chars);
     
     // Escape the semicolon
     alloc_singZ(charsEsc, chars_len*2+1, TEXT, NULL_TEXT);

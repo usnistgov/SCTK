@@ -53,18 +53,18 @@ Eval:    D  D
 id: (ma_0029_b-001)
 File: ma_0029
 Channel: 2
-Scores: (#C #S #D #I) 2 1 0 0
-REF:  他 可 能- 
-HYP:  他 可 能  
-Eval:       S   
+Scores: (#C #S #D #I) 3 0 1 0
+REF:  他 可 能 - 
+HYP:  他 可 能 * 
+Eval:          D 
 
 id: (ma_0029_b-002)
 File: ma_0029
 Channel: 2
-Scores: (#C #S #D #I) 9 1 0 0
-REF:  个 人- 气 质 上 能 力 啊 以 及 
-HYP:  个 人  气 质 上 能 力 啊 以 及 
-Eval:    S                           
+Scores: (#C #S #D #I) 10 0 1 0
+REF:  个 人 - 气 质 上 能 力 啊 以 及 
+HYP:  个 人 * 气 质 上 能 力 啊 以 及 
+Eval:       D                         
 
 id: (ma_0029_b-003)
 File: ma_0029

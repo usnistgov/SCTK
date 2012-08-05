@@ -188,6 +188,9 @@ SCORES *align_ctm_to_stm_dp(char *ref_file, char *hyp_file, char *set_title, int
 SCORES *align_trans_mode_diff(char *ref_file, char *hyp_file, char *title, int keep_path, int case_sense, int feedback, enum id_types idt);
 SCORES *align_ctm_to_stm_diff(char *ref_file, char *hyp_file, char *set_title, int keep_path, int case_sense, int feedback, enum id_types idt);
 SCORES *align_text_to_stm(char *ref_file, char *hyp_file, char *set_title, int keep_path, int case_sense, int feedback, enum id_types idt);
+void expand_words_to_chars(ARC *arc, void *ptr);
+void decode_opt_del(ARC *arc, void *ptr);
+void decode_fragment(ARC *arc, void *ptr);
 
 PATH *network_dp_align_texts(TEXT *ref, NETWORK *rnet, TEXT *hyp, NETWORK *hnet, int char_align, int case_sense, char *id, int fcorr, int opt_del, int time_align, WWL *wwl, char *lm_file);
 PATH *infer_word_seg_algo1(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,char *id, char *lex_fname, int fcorr, int opt_del, int no_ascii);

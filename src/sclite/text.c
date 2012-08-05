@@ -6,7 +6,10 @@ static enum TEXT_COMPARENORM STATIC_NORMALIZATION = CASE;
 
 #define is_EXTASC(_p)  (((*(_p)) & 0x80) != 0)
 #define is_2byte(_p)  (TEXT_nbytes_of_char(_p) == 2)
-
+#define is_ASCII(_p)  (STATIC_ENCODING == ASCII || STATIC_ENCODING == EXTASCII || \
+                       (STATIC_ENCODING != ASCII && STATIC_ENCODING != EXTASCII && \
+                       (((*(_p)) & 0x80) == 0)))
+                        
 /// XXX This isn't done until these are all deleted :)
 //
 //
@@ -115,37 +118,105 @@ void TEXT_delete_chars(TEXT *arr, TEXT *set){
     *last = (TEXT)'\0';
 }
 
+//// tested
+//void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int flag){
+//    int cs, os, i;
+//    TEXT *tp = *to;
+//    int not_ASCII = (flag & CALI_NOASCII) != 0;
+//    int del_HYPHEN = (flag & CALI_DELHYPHEN) != 0;
+//    int charSize;
+//    *tp = '\0';
+//    while (*from != NULL_TEXT){
+//        cs = TEXT_nbytes_of_char(from);
+//        if (cs == 1 && *from == ' ') {
+//           from++;
+//	   if (tp-1 >= *to && (*(tp-1) != ' ')) *(tp++) = ' ';
+//	      continue;
+//        }
+//	
+//	if ((tp-*to) + cs > *to_size-3){
+//	    os = tp-*to;
+//	    expand_singarr((*to),os,(*to_size),2,TEXT);
+//	    tp = *to + os;
+//	}
+//	if ((tp-*to) != 0 && (*(tp-1) != ' ')) 
+//	    if ((cs == 1 && !not_ASCII) || (cs > 1)) {
+//		*(tp++) = ' ';
+//	    } 
+//        for (i=0; i<cs; i++)
+//          *(tp++) = *(from++);
+//    }
+//    *tp = '\0';
+//    if (del_HYPHEN)
+//	TEXT_delete_chars(*to,(TEXT *)"-");
+//}
+
 // tested
 void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int flag){
-    int cs, os, i;
-    TEXT *tp = *to;
+    int lastcs, cs, os, i, lastIsAscii, isAscii, isHyphen, isSpace, lastIsSpace;
+    TEXT *tp = *to, *next;
     int not_ASCII = (flag & CALI_NOASCII) != 0;
     int del_HYPHEN = (flag & CALI_DELHYPHEN) != 0;
     int charSize;
     *tp = '\0';
-    while (*from != NULL_TEXT){
+    
+    // Handle the empty string
+    if (*from == NULL_TEXT)
+        return;
+
+    lastIsAscii = 0;
+    lastIsSpace = 1;
+    do {
         cs = TEXT_nbytes_of_char(from);
-        if (cs == 1 && *from == ' ') {
-           from++;
-	   if (tp-1 >= *to && (*(tp-1) != ' ')) *(tp++) = ' ';
-	      continue;
+        if ((tp - *to) + cs + 2 > *to_size){
+            int os = *to_size;
+            expand_singarr((*to),os,(*to_size),2,TEXT);
+            tp = *to + TEXT_strlen(*to);
         }
-	
-	if ((tp-*to) + cs > *to_size-3){
-	    os = tp-*to;
-	    expand_singarr((*to),os,(*to_size),2,TEXT);
-	    tp = *to + os;
-	}
-	if ((tp-*to) != 0 && (*(tp-1) != ' ')) 
-	    if ((cs == 1 && !not_ASCII) || (cs > 1)) {
-		*(tp++) = ' ';
-	    } 
-        for (i=0; i<cs; i++)
-          *(tp++) = *(from++);
-    }
-    *tp = '\0';
-    if (del_HYPHEN)
-	TEXT_delete_chars(*to,(TEXT *)"-");
+        isAscii = is_ASCII(from);
+        isHyphen = (cs == 1 && *from == '-');
+        isSpace = (cs == 1 && *from == ' ');
+//        printf("  from: %s, to: %s, notAscii: %d, del_HYPHEN: %d, cs: %d isAscii: %d, isHyphen: %d, isSpace: %d, lastIsSpace: %d\n",
+//                from,*to,cs,not_ASCII, del_HYPHEN,isAscii,isHyphen,isSpace,lastIsSpace);
+        if (tp == *to){
+          // nothing is is to so far
+          if (del_HYPHEN && isHyphen){
+              ; // do not copy
+          } else {
+              // ok to copy but copy everything
+              TEXT_strCcpy(tp, from, 1);
+              tp += cs;
+              lastIsAscii = isAscii;
+              lastIsSpace = isSpace;
+//              printf("   First copy %s\n",*to);
+          }
+        } else {
+          if (del_HYPHEN && isHyphen){
+            ; // do not copy
+          } else {
+            if (lastIsSpace){
+              ; // do not copy, do not change last is space
+            } else {
+              if (isSpace){
+                ; // no not add a space
+              } else if (not_ASCII && isAscii && lastIsAscii) {
+                ; // do not add a space
+              } else {
+                TEXT_strCcpy(tp, (TEXT *)" ", 1);
+                tp += 1;
+//                printf("    Add space\n");
+                }
+              }
+  
+              TEXT_strCcpy(tp, from, 1);
+              tp += cs;
+              lastIsAscii = isAscii;
+              lastIsSpace = isSpace;
+            }
+        }
+//        printf("    end from: %s, to: /%s/\n",from,*to);
+        from += cs;
+    } while (*from != NULL_TEXT);
 }
 
 // tested
