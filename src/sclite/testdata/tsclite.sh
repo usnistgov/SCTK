@@ -505,6 +505,31 @@ $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/lvc_refr.stm stm -h $DATA/lvc_hypr.ctm
 	-o all lur -O $OUT -f 0 -n $TEST -m ref \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
 
+# TEST Number 15_a
+TN=15_a
+TEST=test$TN
+PURECOVOPTIONS="-counts-file=`pwd`/$TEST.sclite.pvc"; export PURECOVOPTIONS
+PURIFYOPTIONS="-log-file=`pwd`/$TEST.sclite.pure -view-file=`pwd`/$TEST.sclite.pv";
+export PURIFYOPTIONS
+echo "Test $TN:  UTF-8 test - no options"
+$exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/test.cantonese.stm stm -h $DATA/test.cantonese.ctm ctm \
+	-o all prf -O $OUT -f 0 -n $TEST -e utf-8 \
+	1> $OUT/$TEST.out 2> $OUT/$TEST.err
+sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+
+# TEST Number 15_b
+TN=15_b
+TEST=test$TN
+PURECOVOPTIONS="-counts-file=`pwd`/$TEST.sclite.pvc"; export PURECOVOPTIONS
+PURIFYOPTIONS="-log-file=`pwd`/$TEST.sclite.pure -view-file=`pwd`/$TEST.sclite.pv";
+export PURIFYOPTIONS
+echo "Test $TN:  UTF-8 test - no options"
+$exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/test.cantonese.stm stm -h $DATA/test.cantonese.ctm ctm \
+	-o all prf -O $OUT -f 0 -n $TEST -e utf-8 -c NOASCII DH\
+	1> $OUT/$TEST.out 2> $OUT/$TEST.err
+sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+
+
 echo ""
 echo "Executions complete: Comparing output"
 filter="diff -r $base_dir $OUT | grep -v CVS"
