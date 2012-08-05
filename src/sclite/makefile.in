@@ -177,10 +177,8 @@ testinstalldirs:
 	done
 
 # We need more tests.
-unitTest:
-	sctkUnit
-
 check: sctkUnit
+	./sctkUnit
 	cd testdata && ./tsclite.sh
 	cd testdata && ./tsc_stats.sh
 
