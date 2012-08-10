@@ -428,7 +428,7 @@ int bsearch_TEXT_strcmp(const void *p, const void *p1){
 TEXT *TEXT_strBcpy(TEXT *p, TEXT *p1, int n){
    int i;
    TEXT *p_t = p, *p1_t = p1;
-   for (i=0; i<n; i++)
+   for (i=0; i<n && *p1_t != NULL_TEXT; i++)
       *p_t++ = *p1_t++;
    *p_t = NULL_TEXT;
    return(p);     
