@@ -63,7 +63,7 @@ void fill_WTOKE_structure(WTOKE_STR1 *ctm_segs, FILE *fp_ctm, char *ctm_file, in
 
    int i, j, n=0;
    TEXT *in_buf, *rp, *gets_rtn;
-   static int in_buf_len = 100;
+   static int in_buf_len = 2000;
        /* sxx[LINE_LENGTH], *sx    = &sxx[0];*/
    char *xconv, *xconf, *xsp, *side, *s2, *s3, *xcorr;
    double xt1, xdur;

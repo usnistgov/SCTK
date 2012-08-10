@@ -978,7 +978,7 @@ int parse_input_comment_line(SCORES *sc, TEXT *buf){
 
 void load_comment_labels_from_file(SCORES *scor, char *labfile){
     FILE *fp;
-    int len=100;
+    int len=2000;
     TEXT *buf;
 
     alloc_singZ(buf,len,TEXT,(TEXT)0);
