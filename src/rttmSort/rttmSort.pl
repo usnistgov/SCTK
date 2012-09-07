@@ -23,6 +23,7 @@ my %stm_file;
  while (<>) {
      next if ($_ =~ /;;/);
      my $wrdExp = '[\]\[\w%\{'."\\'".'\<\>.-]+';
+     $wrdExp = '[^\s]+';
      my $txtExp = "$wrdExp|\\($wrdExp\\)|<NA>";
      if (/(SPKR-INFO|SEGMENT|LEXEME|NON-LEX|CB|SU|EDIT|FILLER|IP|NOSCORE|SPEAKER|NORTMETADATA|NON-SPEECH|A\/P)\s+(\S+)\s+(\d+)\s+(\d*\.?\d+|<NA>)\s+(\d*\.?\d+|<NA>)\s+($txtExp)\s+([\w&-]+|<NA>)\s+(\S+|<NA>)\s+(\d*\.?\d+|<NA>)/) {
 	 if ($1 eq "SPKR-INFO") {
