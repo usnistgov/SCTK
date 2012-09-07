@@ -232,9 +232,11 @@ static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *
 			    rs, r_st, r_end);
 
 	if ((TEXT_strstr(stm->seg[rs].text,
-			(TEXT *)"IGNORE_TIME_SEGMENT_IN_SCORING") != (TEXT*)0) || 
+			(TEXT *)"IGNORE_TIME_SEGMENT_IN_SCORING") == (TEXT*)0) &&
 	    (TEXT_strstr(stm->seg[rs].text,
-			(TEXT *)"IGNORETIMESEGMENTINSCORING") != (TEXT*)0)){
+			(TEXT *)"IGNORETIMESEGMENTINSCORING") == (TEXT*)0)){
+	  ;
+	} else {
 	    ignored_refseg++;
 	    ignored_hypword += curhend - curhyp + 1;
 	    ignore_segment = 1;
