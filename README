@@ -1,13 +1,13 @@
 File:  README
-Date:  August 5, 2012
-SCTK Version: 2.4.2
+Date:  September 7, 2012
+SCTK Version: 2.4.3
 
 asclite compression algorithm update.
 
 This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains the 
 source code, documentation and example data for the following programs:
 
-	sclite   V2.3  - "Score Lite",
+	sclite   V2.4  - "Score Lite",
 	sc_stats V1.3  - sclite's Statistical Significance Comparison tool
 	rover    V0.1  - Recognition Output Voting Error Reduction
 	asclite  V1.10 - Multidimensional alignment replacement for sclite
@@ -40,6 +40,8 @@ Darwin Version 8.5.0 (gcc v4.0.1 build 5367)  2.1.2 - 2.3-rc1
 Darwin Version 8.11.0 (gcc v4.0.1 build 5367) 2.3-rc2 - 2.4.0
 Darwin Version 9.6.0 (gcc v4.0.1 build 5490)  2.3.6 - 2.4.0
 RedHat Fedora 9 (gcc v4.3.0-8)                2.3.9 - 2.4.0
+Darwin Version 10.8.0 (gcc version 4.2.1 (Apple Inc. build 5666)
+       	       	      	   	   	      2.4.2 - 2.4.3
 
  * compiled with warning messages, but successful self test
 ** compiled and ran, but test6, which uses GNU's diff for alignment fails.  The 

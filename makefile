@@ -33,8 +33,8 @@ dist:
 	@ echo "sctk-"`grep Version: README | head -1 | perl -pe 's/.*Version:\s+//; s/\s+\$$//; s/\s+/_/g'` > .fname	
 	@ echo "Building a release version" `cat .fname`
 	@ echo "Verifying and up-to-date CVS copy"
-	@ cvs -d gaston:/home/sware/cvs up 
-	@ cvs -d gaston:/home/sware/cvs co -d `cat .fname` sctk
+	@ cvs -d gaston.ncsl.nist.gov:/home/sware/cvs up 
+	@ cvs -d gaston.ncsl.nist.gov:/home/sware/cvs co -d `cat .fname` sctk
 	@ echo "Building the TAR file"
 	@ echo `cat .fname`"-"`date +%Y%m%d-%H%M`.tar.bz2 > .distname
 	@ find `cat .fname` -name "._*" -delete
