@@ -134,6 +134,18 @@ $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/csrnab.ref -h $DATA/csrnab.hyp -i wsj 
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
 sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
+# TEST Number 1d
+TN=1d
+TEST=test$TN
+PURECOVOPTIONS="-counts-file=`pwd`/$TEST.sclite.pvc"; export PURECOVOPTIONS
+PURIFYOPTIONS="-log-file=`pwd`/$TEST.sclite.pure -view-file=`pwd`/$TEST.sclite.pv";
+export PURIFYOPTIONS
+echo "Test $TN:    Same as test1, but producing a nl.sgml file"
+$exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/csrnab.ref -h $DATA/csrnab.hyp -i wsj \
+	-o nl.sgml -O $OUT -f 0 -n $TEST \
+	1> $OUT/$TEST.out 2> $OUT/$TEST.err
+sed 's/creation_date="[^"]*"//' < out/$TEST.nl.sgml > x ; mv x out/$TEST.nl.sgml
+
 # TEST Number 2
 TN=2
 TEST=test$TN

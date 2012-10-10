@@ -459,6 +459,7 @@ fi
 
 ############################################################################################
 ####   Step 2: Check the optionally deletable tags.  The code relies on them being valid
+
 ret="`cat /tmp/hs_filt.out.$$ | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | validateOptDelTags`"
 if [ $ret = "error" ] ; then
     echo "Error: Can not filter text with illegally formatted optional deletion tags.  Look for:"
@@ -471,7 +472,7 @@ fi
 #########################################################################
 ####   Step 3: Build the filter command
 
-filt_com="cat /tmp/hs_filt.out.$$ | toUpper | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | rfilter1 /tmp/hs_filt.glm.$$ | deleteHyphens | propogateOptDel | perl -pe 's/^ //; s/ $//' | perl -pe 's/\([ \t]+/(/g; s/\s+\)/)/g;' "
+filt_com="cat /tmp/hs_filt.out.$$ | toUpper | perl -pe 's/\(/( /g; s/\)/ )/g; s/^/ /; s/$/ /;' | rfilter1 /tmp/hs_filt.glm.$$ | deleteHyphens | propogateOptDel | perl -pe 's/^ //; s/ $//' | perl -pe 's/\(\s+/(/g; s/\s+\)/)/g;' | tee /tmp/hs_filt.filtout."$$" "
 
 #########################################################################################
 ####   Step 4: execute the filter command putting back together the text and other data
@@ -528,11 +529,11 @@ elif test "$inputtype" = "stm" ; then
 elif test "$inputtype" = "trn" ; then
 	eval $filt_com | \
 	perl -e '$inext = "'/tmp/hs_filt.outext.$$'";
-		open(IN,"<$inext") || die("Error: failed to open input \"$out1\" of the stm file");
+		open(IN,"<$inext") || die("Error: failed to open input \"$out1\" of the trn file");
 		while (! eof(STDIN)){
 			$text = <STDIN>;
 			$ext = <IN>;
-			chop($text);
+			chomp($text);
 			print "$text$ext";
 		}
 		close IN' | \

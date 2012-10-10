@@ -169,7 +169,7 @@ void load_comment_labels_from_file(SCORES *scor, char *labfile);
 void add_PATH_score(SCORES *sc, PATH *path, int grp, int keep_path);
 void dump_SCORES(SCORES *sc, FILE *fp);
 void dump_SCORES_alignments(SCORES *sc, FILE *fp, int lw, int full);
-void dump_SCORES_sgml(SCORES *sc, FILE *fp);
+void dump_SCORES_sgml(SCORES *sc, FILE *fp, TEXT *token_separator, TEXT *token_attribute_separator);
 int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxscor);
 void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw, int do_weighted, int feedback);
 void print_N_system_summary(SCORES *sc[], int nsc, char *out_root_name, char *test_name, int do_raw, int feedback);
@@ -180,7 +180,7 @@ void print_N_lur(SCORES *scor[], int nscor, char *outname, char *test_name, int 
 void compute_SCORE_nce(SCORES *sc, double *nce_system, double *nce_a);
 void print_N_SCORE(SCORES *scor[], int nscor, char *outname, int max, int feedback, int score_diff);
 
-enum id_types {WSJ,RM,ATIS,SWB,SPUID};
+enum id_types {WSJ,RM,ATIS,SWB,SPUID,SP};
 
 SCORES *align_trans_mode_dp(char *ref_file, char *hyp_file, char *title, int keep_path, int case_sense, int feedback, int char_align, enum id_types idt, int infer_word_seg, char *lexicon, int frag_correct, int opt_del, int inf_no_ascii, WWL *wwl, char *lm_file);
 SCORES *align_ctm_to_stm_dp(char *ref_file, char *hyp_file, char *set_title, int keep_path, int case_sense, int feedback, int char_align, enum id_types idt, int infer_word_seg, char *lexicon, int frag_correct, int opt_del, int inf_no_ascii, int reduce_ref, int reduce_hyp, int left_to_right, WWL *wwl, char *lm_file);

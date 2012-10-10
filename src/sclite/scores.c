@@ -151,7 +151,7 @@ TEXT *formatWordForSGML(WORD *word, TEXT *buffer){
   return buffer;
 }
 
-void dump_SCORES_sgml(SCORES *sc, FILE *fp){
+void dump_SCORES_sgml(SCORES *sc, FILE *fp, TEXT *token_separator, TEXT *token_attribute_separator){
     int i, p, w;
     TEXT bufA[1000];
     TEXT bufB[1000];
@@ -255,64 +255,75 @@ void dump_SCORES_sgml(SCORES *sc, FILE *fp){
 	       */
 	    for (w=0; w<path->num; w++) {
 		if (path->pset[w].eval == P_INS)
-		  fprintf(fp,"I,,\"%s\"",
+		  fprintf(fp,"I%s%s\"%s\"", token_attribute_separator, token_attribute_separator, 
 			  formatWordForSGML((WORD *)path->pset[w].b_ptr, bufB));
 		else if (path->pset[w].eval == P_DEL)
-		    fprintf(fp,"D,\"%s\",",
-			    formatWordForSGML((WORD *)path->pset[w].a_ptr, bufA));
-		else if (path->pset[w].eval == P_CORR)
-		    fprintf(fp,"C,\"%s\",\"%s\"",
+		    fprintf(fp,"D%s\"%s\"%s",token_attribute_separator, 
 			    formatWordForSGML((WORD *)path->pset[w].a_ptr, bufA),
+			    token_attribute_separator);
+		else if (path->pset[w].eval == P_CORR)
+		    fprintf(fp,"C%s\"%s\"%s\"%s\"",
+			    token_attribute_separator, 
+			    formatWordForSGML((WORD *)path->pset[w].a_ptr, bufA),
+			    token_attribute_separator, 
 			    formatWordForSGML((WORD *)path->pset[w].b_ptr, bufB));
 		else {
-		    fprintf(fp,"%c,\"%s\",\"%s\"",
+		    fprintf(fp,"%c%s\"%s\"%s\"%s\"",			    
 			    ((path->pset[w].eval == P_SUB) ? 'S' :
 			     ((path->pset[w].eval == P_MRG) ? 'M' : 
 			      ((path->pset[w].eval == P_SPL) ? 'T' : 'U'))),
+			    token_attribute_separator, 
 			    formatWordForSGML((WORD *)path->pset[w].a_ptr, bufA),
+			    token_attribute_separator, 
 		            formatWordForSGML((WORD *)path->pset[w].b_ptr, bufB));
 		}
 		/* Extra attributes */
 		if (BF_isSET(path->attrib,PA_REF_WTIMES))
 		    if (path->pset[w].eval != P_INS)
-			fprintf(fp,",%.3f+%.3f",
+			fprintf(fp,"%s%.3f+%.3f",
+				token_attribute_separator, 
 				((WORD *)path->pset[w].a_ptr)->T1,
 				((WORD *)path->pset[w].a_ptr)->T2);
 		    else
-			fprintf(fp,",");
+			fprintf(fp,"%s",token_attribute_separator);
 		if (BF_isSET(path->attrib,PA_HYP_WTIMES))
 		    if (path->pset[w].eval != P_DEL)
-			fprintf(fp,",%.3f+%.3f",
+			fprintf(fp,"%s%.3f+%.3f",
+				token_attribute_separator, 
 				((WORD *)path->pset[w].b_ptr)->T1,
 				((WORD *)path->pset[w].b_ptr)->T2);
 		    else
-			fprintf(fp,",");
+			fprintf(fp,"%s",token_attribute_separator);
 		if (BF_isSET(path->attrib,PA_REF_CONF))
 		    if (path->pset[w].eval != P_INS)
-			fprintf(fp,",%f",
+			fprintf(fp,"%s%f",
+				token_attribute_separator,
 				((WORD *)path->pset[w].a_ptr)->conf);
 		    else
-			fprintf(fp,",");
+			fprintf(fp,"%s",token_attribute_separator);
 		if (BF_isSET(path->attrib,PA_HYP_CONF))
 		    if (path->pset[w].eval != P_DEL)
-			fprintf(fp,",%f",
+			fprintf(fp,"%s%f",
+				token_attribute_separator, 
 				((WORD *)path->pset[w].b_ptr)->conf);
 		    else
-			fprintf(fp,",");
+			fprintf(fp,"%s",token_attribute_separator);
 		if (BF_isSET(path->attrib,PA_REF_WEIGHT))
 		    if (path->pset[w].eval != P_INS)
-			fprintf(fp,",%f",
+			fprintf(fp,"%s%f",
+				token_attribute_separator, 
 				((WORD *)path->pset[w].a_ptr)->weight);
 		    else
-			fprintf(fp,",");
+			fprintf(fp,"%s",token_attribute_separator);
 		if (BF_isSET(path->attrib,PA_HYP_WEIGHT))
 		    if (path->pset[w].eval != P_DEL)
-			fprintf(fp,",%f",
+			fprintf(fp,"%s%f",
+				token_attribute_separator, 
 				((WORD *)path->pset[w].b_ptr)->weight);
 		    else
-			fprintf(fp,",");
+			fprintf(fp,"%s",token_attribute_separator);
 
-		if (w < path->num-1) fprintf(fp,":");
+		if (w < path->num-1) fprintf(fp,"%s",token_separator);
 	    }
 	    fprintf(fp,"\n</PATH>\n");
 	}

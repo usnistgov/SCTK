@@ -1,7 +1,8 @@
+
 #define MAIN
 #include "sctk.h"
 
-#define SCLITE_VERSION "2.4"
+#define SCLITE_VERSION "2.5"
 
 void do_exit(char *desc, char *prog, int ret);
 void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, char **hname, char **hfmt, int *nhyps,  enum id_types *id_type, int *case_sens, int *outputs, char **title, int *feedback, int *linewidth, int *use_diff, char **out_dir, char **out_name,int *char_align, int *pipeout, int *pipein, int *infered_wordseg, char **lexicon, int *frag_correct, int *opt_del, int *inf_flags, int *stm2ctm_reduce, int *time_align, int *conf_outputs, int *left_to_right, char **wwl_file, char **lm_file);
@@ -17,6 +18,7 @@ void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, cha
 #define OUT_DTL            0x0100
 #define OUT_PRALIGN_FULL   0x0200
 #define OUT_WWS            0x0400
+#define OUT_NL_SGML        0x0800
 
 #define CONF_OUT_NONE      0x0000
 #define CONF_OUT_DET       0x0001
@@ -76,7 +78,7 @@ char *usage = "%s: <OPTIONS>\n"
 "    -p          Pipe the alignments to another sclite utility.  Sets -f to 0.\n"
 "Scoring Report Options:\n"
 "    -o [ sum | rsum | pralign | all | sgml | stdout | lur | snt | spk | \n"
-"         dtl | prf | wws | none ]\n"
+"         dtl | prf | wws | nl.sgml | none ]\n"
 "                Defines the output reports. Default: 'sum stdout'\n"
 "    -C [ det | bhist | sbhist | hist | none ] \n"
 "                Defines the output formats for analysis of confidence scores.\n"
@@ -322,7 +324,18 @@ int main(int argc, char **argv){
 	    if (fp != stdout && feedback >= 1)
 		printf("    Writing SGML string alignments to '%s'\n",
 		       rsprintf("%s.sgml",outroot));
-	    dump_SCORES_sgml(scor[nsc],fp);
+	    dump_SCORES_sgml(scor[nsc],fp,(TEXT *)":",(TEXT *)",");
+	    if (fp != stdout) fclose(fp);
+	}
+	if (BF_isSET(outputs,OUT_NL_SGML)){
+	    FILE *fp = stdout;
+	    if (BF_notSET(outputs,OUT_STDOUT))
+		fp = fopen(rsprintf("%s.nl.sgml",outroot),"w");
+	    if (fp == (FILE *)0) fp = stdout;
+	    if (fp != stdout && feedback >= 1)
+		printf("    Writing Newline Separated SGML string alignments to '%s'\n",
+		       rsprintf("%s.nl.sgml",outroot));
+	    dump_SCORES_sgml(scor[nsc],fp,(TEXT *)"\n",(TEXT *)"\n");
 	    if (fp != stdout) fclose(fp);
 	}
 	if (BF_isSET(conf_outputs,CONF_OUT_DET))
@@ -342,7 +355,7 @@ int main(int argc, char **argv){
 
     if (pipeout)
 	for (nsc=0; nsc < num_hyps + num_piped; nsc++)
-	    dump_SCORES_sgml(scor[nsc],stdout);
+	    dump_SCORES_sgml(scor[nsc],stdout,(TEXT *)"\n",(TEXT *)"\n");
 
     /* clean up the score structures */
     for (nsc=0; nsc < num_hyps + num_piped; nsc++)
@@ -452,6 +465,8 @@ void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, cha
 		    BF_FLIP(*outputs,OUT_STDOUT);
 		else if (strcmp(argv[opt],"sgml") == 0) 
 		    BF_FLIP(*outputs,OUT_SGML);
+		else if (strcmp(argv[opt],"nl.sgml") == 0) 
+		    BF_FLIP(*outputs,OUT_NL_SGML);
 		else if (strcmp(argv[opt],"snt") == 0) 
 		    BF_FLIP(*outputs,OUT_SENT);
 		else if (strcmp(argv[opt],"spk") == 0) 
@@ -673,6 +688,7 @@ void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, cha
 	else if (strcmp(id,"rm") == 0)     *id_type=RM;
 	else if (strcmp(id,"wsj") == 0)    *id_type=WSJ;
 	else if (strcmp(id,"spu_id") == 0) *id_type=SPUID;
+        else if (strcmp(id,"sp") == 0)     *id_type=SP;
 	else
 	    do_exit(rsprintf("Utterance id type '%s' not acceptable",id),
 		    prog,1);

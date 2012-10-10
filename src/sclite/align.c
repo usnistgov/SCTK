@@ -49,6 +49,9 @@ int extract_speaker(TEXT *id, TEXT *sname, enum id_types idt){
     char *proc = "extract_speaker";
     TEXT *p;
     switch (idt){
+      case SP:
+	TEXT_strcpy(sname, id);
+	return(0);
       case ATIS:
       case WSJ:
 	TEXT_strBcpy(sname, id + 1, 3);
