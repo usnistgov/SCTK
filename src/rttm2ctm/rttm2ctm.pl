@@ -3,6 +3,15 @@
 use strict;
 use Data::Dumper;
 
+my $in = "-";
+my $out = "-";
+
+use Getopt::Std;
+getopts('i:o:');
+if (defined($main::opt_o)) {	$out = $main::opt_o; }
+if (defined($main::opt_i)) {	$in = $main::opt_i; }
+
+
 my %sort_order = ("SPKRINFO"       => 0,
 		  "NOSCORE"         =>  1,
 		  "NORTMETADATA"  =>  2,
@@ -20,7 +29,11 @@ my %sort_order = ("SPKRINFO"       => 0,
 		  "SUboundary"      => 14);
 my %spkrinfo;
 my %stm_file;
- while (<>) {
+
+open IN, "$in" || die "Failed to open $in";
+open OUT, ">$out" || die "Failed to open $out";
+
+ while (<IN>) {
      next if ($_ =~ /;;/);
      my $wrdExp = '[\]\[\S\%\{'."\\'".'\<\>.-]+';
      my $txtExp = "$wrdExp|\\($wrdExp\\)|<NA>";
@@ -29,10 +42,13 @@ my %stm_file;
 #     print "($1, $2, $3, $4, $5, $6, $7, $8, $9, (defined($10) ? $10 : undef))\n";
        my ($type, $file, $chan, $beg, $dur, $token, $stype, $spkr, $conf, $slat) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, (defined($10) ? $10 : undef));
        if ($1 eq "LEXEME" && $7 eq "lex"){
-         print "$file $chan $beg $dur $token $conf\n";
+         print OUT "$file $chan $beg $dur $token $conf\n";
        }
      } else {
   	   die "malformed line $.\n--> $_\n";
      }
  }
+close IN;
+close OUT;
+
 
