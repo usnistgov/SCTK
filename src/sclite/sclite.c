@@ -110,7 +110,10 @@ int main(int argc, char **argv){
     int pipein;
     int num_piped;
     int nh;
-    char *hroot, hdir[200],outroot[200];
+    char *hroot;
+    int hdirLen = 200;
+    int outrootLen = 200;
+    TEXT *hdir, *outroot;
     int infered_wordseg;
     char *lexicon;
     int frag_correct;
@@ -121,6 +124,9 @@ int main(int argc, char **argv){
     int left_to_right;
     WWL *wwl = (WWL *)0;
     char *lm_file;
+
+    alloc_singZ(hdir, hdirLen, TEXT, NULL_TEXT);
+    alloc_singZ(outroot, outrootLen, TEXT, NULL_TEXT);
 
 #ifdef LM_ALIGN
     /*    ng_t ng; */
@@ -168,21 +174,28 @@ int main(int argc, char **argv){
 
 	    /* Set up the output root name */
 	    if ((hroot = strrchr(hypname[nh],'/')) != NULL){
-		strncpy(hdir,hypname[nh],hroot-hypname[nh]);
-		hdir[hroot-hypname[nh]] = '\0';
-		hroot++;
+	      if (hroot-hypname[nh] + 2 > hdirLen){
+		expand_singarr(hdir,(hroot-hypname[nh]),hdirLen,1.5,TEXT);
+	      }
+	      TEXT_strBcpy(hdir,hypname[nh],hroot-hypname[nh]);
+	      hroot++;
 	    } else {
 		hroot = hypname[nh];
-		strcpy(hdir,".");
+		TEXT_strcpy(hdir,(TEXT *)".");
 	    }
 	    
-	    if ((out_dir != (char *)0) ||
-		strcmp(((out_dir != (char *)0) ? out_dir : hdir),".") != 0)
-	      sprintf(outroot,"%s/%s",((out_dir != (char *)0) ? out_dir :hdir),
-		      (out_name != (char *)0) ? out_name : hroot);
-	    else
-	      sprintf(outroot,"%s",(out_name != (char *)0) ? out_name : hroot);
-
+	    { char *name;
+	      if ((out_dir != (char *)0) ||
+		  TEXT_strcmp(((out_dir != (char *)0) ? (TEXT *)out_dir : (TEXT *)hdir),(TEXT *)".") != 0)
+                name = rsprintf("%s/%s",((out_dir != (char *)0) ? out_dir : (char *)hdir),
+				(out_name != (char *)0) ? out_name : hroot);
+	      else
+	        name = rsprintf("%s",(out_name != (char *)0) ? out_name : hroot);
+	      if (outrootLen < TEXT_strlen((TEXT *)name)+1){
+		expand_singarr(outroot,TEXT_strlen((TEXT *)name),outrootLen,1.5,TEXT);
+	      }
+              TEXT_strcpy(outroot, name);	      
+	    }
 	    if (strcmp(reffmt,"trn") == 0 && strcmp(hypfmt[nh],"trn") == 0)
 		if (!use_diff)
 		    scor[nh]=align_trans_mode_dp(refname,hypname[nh],title[nh],
@@ -256,8 +269,8 @@ int main(int argc, char **argv){
 		strcpy(hdir,".");
 	    }
 	    if ((out_dir != (char *)0) ||
-		strcmp(((out_dir != (char *)0) ? out_dir : hdir),".") != 0)
-	      sprintf(outroot,"%s/%s",((out_dir != (char *)0) ? out_dir :hdir),
+		strcmp(((out_dir != (char *)0) ? out_dir : (char *)hdir),".") != 0)
+	      sprintf(outroot,"%s/%s",((out_dir != (char *)0) ? out_dir : (char *)hdir),
 		      (out_name != (char *)0) ? out_name : hroot);
 	    else
 	      sprintf(outroot,"%s",(out_name != (char *)0) ? out_name : hroot);
@@ -265,33 +278,33 @@ int main(int argc, char **argv){
 	
 	if (BF_isSET(outputs,OUT_SUM))
 	  print_system_summary(scor[nsc],
-			       BF_isSET(outputs,OUT_STDOUT) ? "-":outroot,
+			       BF_isSET(outputs,OUT_STDOUT) ? "-": (char *)outroot,
 			       0, 0, 0, feedback);
 	if (BF_isSET(outputs,OUT_WWS)){
 	  if (scor[nsc]->weight_ali)
 	    print_system_summary(scor[nsc],
-				 BF_isSET(outputs,OUT_STDOUT) ? "-":outroot,
+				 BF_isSET(outputs,OUT_STDOUT) ? "-": (char *)outroot,
 				 0, 0, 1, feedback);
 	  else
 	    printf("    Skipping WWS Report, no word weights supplied.\n");
 	}
 	if (BF_isSET(outputs,OUT_RSUM))
 	    print_system_summary(scor[nsc], 
-				 BF_isSET(outputs,OUT_STDOUT) ? "-":outroot,
+				 BF_isSET(outputs,OUT_STDOUT) ? "-":(char *)outroot,
 				 0, 1, 0, feedback);
 	if (BF_isSET(outputs,OUT_SENT))
-	    score_dtl_sent(scor[nsc], BF_isSET(outputs,OUT_STDOUT)?"-":outroot,
+	    score_dtl_sent(scor[nsc], BF_isSET(outputs,OUT_STDOUT)?"-":(char *)outroot,
 			   feedback);
 	if (BF_isSET(outputs,OUT_SPKR))
-	    score_dtl_spkr(scor[nsc], BF_isSET(outputs,OUT_STDOUT)?"-":outroot,
+	    score_dtl_spkr(scor[nsc], BF_isSET(outputs,OUT_STDOUT)?"-":(char *)outroot,
 			   feedback);
 	if (BF_isSET(outputs,OUT_DTL))
 	    score_dtl_overall(scor[nsc],
-			      BF_isSET(outputs,OUT_STDOUT) ? "-":outroot,
+			      BF_isSET(outputs,OUT_STDOUT) ? "-":(char *)outroot,
 			      feedback);
 	if (BF_isSET(outputs,OUT_LUR))
 	    print_lur(scor[nsc],
-		      BF_isSET(outputs,OUT_STDOUT) ? "-":outroot, feedback);
+		      BF_isSET(outputs,OUT_STDOUT) ? "-":(char *)outroot, feedback);
 	if (BF_isSET(outputs,OUT_PRALIGN)){
 	    FILE *fp = stdout;
 	    if (BF_notSET(outputs,OUT_STDOUT))

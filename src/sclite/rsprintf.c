@@ -6,7 +6,7 @@
 # include <varargs.h>
 #endif
 
-char static_message_buffer[1000];
+char static_message_buffer[10000];
 
 #ifdef __STDC__
 char *rsprintf(char *format , ...)
