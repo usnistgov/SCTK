@@ -1,6 +1,6 @@
 File:  README
-Date:  October 2, 2012
-SCTK Version: 2.4.4
+Date:  October 22, 2012
+SCTK Version: 2.4.5
 
 asclite compression algorithm update.
 
@@ -41,7 +41,7 @@ Darwin Version 8.11.0 (gcc v4.0.1 build 5367) 2.3-rc2 - 2.4.0
 Darwin Version 9.6.0 (gcc v4.0.1 build 5490)  2.3.6 - 2.4.0
 RedHat Fedora 9 (gcc v4.3.0-8)                2.3.9 - 2.4.0
 Darwin Version 10.8.0 (gcc version 4.2.1 (Apple Inc. build 5666)
-       	       	      	   	   	      2.4.2 - 2.4.4
+       	       	      	   	   	      2.4.2 - 2.4.5
 
  * compiled with warning messages, but successful self test
 ** compiled and ran, but test6, which uses GNU's diff for alignment fails.  The 
