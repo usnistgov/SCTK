@@ -111,8 +111,8 @@ int main(int argc, char **argv){
     int num_piped;
     int nh;
     char *hroot;
-    int hdirLen = 200;
-    int outrootLen = 200;
+    int hdirLen = FILENAME_MAX;
+    int outrootLen = FILENAME_MAX;
     TEXT *hdir, *outroot;
     int infered_wordseg;
     char *lexicon;
