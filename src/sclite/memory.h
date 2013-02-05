@@ -166,6 +166,16 @@ int _msz_;
 	_max = (int)((_max) * (_fact)); \
     }
 
+#define expand_singarr_to_size(_a,_n,_max,_newmax,_type) \
+    {   \
+        _type *_tp; \
+	alloc_singarr(_tp,(int)(_newmax),_type); \
+	memcpy(_tp,_a,sizeof(_type) * (_n)); \
+	free_singarr(_a,_type); \
+	_a = _tp; \
+	_max = (int)(_newmax); \
+    }
+
 #define expand_1dim(_a,_n,_max,_fact,_type,_upd1) \
     {   \
         _type *_tp; \

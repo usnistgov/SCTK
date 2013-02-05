@@ -1,13 +1,13 @@
 File:  README
-Date:  October 22, 2012
-SCTK Version: 2.4.5
+Date:  February 4, 2013
+SCTK Version: 2.4.6
 
 asclite compression algorithm update.
 
 This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains the 
 source code, documentation and example data for the following programs:
 
-	sclite   V2.5  - "Score Lite",
+	sclite   V2.6  - "Score Lite",
 	sc_stats V1.3  - sclite's Statistical Significance Comparison tool
 	rover    V0.1  - Recognition Output Voting Error Reduction
 	asclite  V1.10 - Multidimensional alignment replacement for sclite
