@@ -87,7 +87,7 @@ done
 for f in out/test1.snt* ; do
 	mv $f `echo $f |sed 's/test1.snt/test1_st/'`
 done
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 1a
 TN=1a
@@ -101,7 +101,7 @@ $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/csrnab.ref -h $DATA/csrnab.hyp -i wsj 
 	$exe_dir/${exe_name} ${SCLFLAGS} -P \
 	-o dtl prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 1b
 TN=1b
@@ -116,7 +116,7 @@ if test $SLM_ENABLED = 1 ; then
 	-L $DATA/csrnab_r.blm \
 	-o sum wws prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-    sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+    grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 else
     echo "            **** SLM weighted alignment is disabled, not testing ***"
 fi
@@ -132,7 +132,7 @@ $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/csrnab.ref -h $DATA/csrnab.hyp -i wsj 
 	-w $DATA/csrnab_r.wwl \
 	-o wws prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 1d
 TN=1d
@@ -173,7 +173,7 @@ echo "            Conversation time marks (CTM)"
 $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/lvc_ref.stm stm -h $DATA/lvc_hyp.ctm ctm \
 	-o all lur prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 3a
 TN=3a
@@ -187,7 +187,7 @@ echo "            IGNORE_TIME_SEGMENT_IN_SCORING"
 $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/lvc_refe.stm stm -h $DATA/lvc_hyp.ctm ctm \
 	-o all lur prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 3b
 TN=3b
@@ -239,7 +239,7 @@ if test $DIFF_ENABLED = 1 ; then
     $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/lvc_ref.stm stm -h $DATA/lvc_hyp.txt txt \
 	-o all prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-    sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+    grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 else
     echo "            **** Diff alignments have been disabled, not testing ***"
 fi
@@ -375,7 +375,7 @@ echo "Test $TN:     Run the Mandarin, doing a character alignment"
 $exe_dir/${exe_name} ${SCLFLAGS} -e gb -r $DATA/mand_ref.stm stm -h $DATA/mand_hyp.ctm ctm \
 	-o all dtl prf -O $OUT -f 0 -n $TEST -c \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 9_1
 TN=9_1
@@ -398,7 +398,7 @@ echo "Test $TN:    Run the Mandarin, doing a character alignment, not effecting 
 $exe_dir/${exe_name} ${SCLFLAGS} -e gb -r $DATA/mand_ref.stm stm -h $DATA/mand_hyp.ctm ctm \
 	-o all prf -O $OUT -f 0 -n $TEST -c NOASCII \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 10_1
 TN=10_1
@@ -445,7 +445,7 @@ echo "Test $TN:    Run alignments on two CTM files, using DP Word alignments"
 $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/tima_ref.ctm ctm -h $DATA/tima_hyp.ctm ctm \
 	-o all prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 13_a
 TN=13_a
@@ -527,7 +527,7 @@ echo "Test $TN:  UTF-8 test - no options"
 $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/test.cantonese.stm stm -h $DATA/test.cantonese.ctm ctm \
 	-o all prf -O $OUT -f 0 -n $TEST -e utf-8 \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 15_b
 TN=15_b
@@ -539,7 +539,7 @@ echo "Test $TN:  UTF-8 test - no options"
 $exe_dir/${exe_name} ${SCLFLAGS} -r $DATA/test.cantonese.stm stm -h $DATA/test.cantonese.ctm ctm \
 	-o all prf -O $OUT -f 0 -n $TEST -e utf-8 -c NOASCII DH\
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-sed '/^Creation date:/d' < out/$TEST.prf > x ; mv x out/$TEST.prf
+grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 
 echo ""
