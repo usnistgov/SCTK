@@ -43,15 +43,17 @@ void read_stm_line(TEXT **buf, int *len, FILE *fp){
 }
 
 
-void parse_stm_line(STM_SEG *seg,TEXT *buf, int case_sense, int dbg){
-    TEXT *rp;
+void parse_stm_line(STM_SEG *seg, TEXT **buf_ptr, int *buf_len, int case_sense, int dbg){
+    TEXT *rp, *buf;
     int i, len;
 
-    if (!case_sense)
-	TEXT_str_to_low(buf);
-	
-    if (*buf == '\0')
+    if (**buf_ptr == '\0')
 	return;
+
+    if (!case_sense)
+        TEXT_str_case_change_with_mem_expand(buf_ptr, buf_len, 1);
+	
+    buf = *buf_ptr;
 
     len = TEXT_strlen(buf);
 
@@ -133,7 +135,7 @@ void fill_STM(FILE *fp, STM *stm, char *fname, boolean *end_of_file, int case_se
 	if (dbg) printf("STM Read %s\n",buf);
 
 	if (*buf != NULL_TEXT){
-	    parse_stm_line(&(stm->seg[stm->num]), buf, case_sense, dbg);
+	    parse_stm_line(&(stm->seg[stm->num]), &buf, &len, case_sense, dbg);
 	    stm->num++;	
 	}
     }
@@ -233,7 +235,7 @@ void convert_stm_to_word_list(char *file, char *words, int case_sense, int *num_
 	if (feof(fp)) break;
 
 	/* parse the reference transcript */
-	parse_stm_line(&seg,buf,case_sense,0);
+	parse_stm_line(&seg,&buf,&buf_len,case_sense,0);
 	
 	/* for each reference word, located it's matching diff output */
 	ctext = tokenize_TEXT_first_alt(seg.text,(TEXT *)" \t\n");

@@ -2,6 +2,7 @@
 #include "sctk.h"
 
 static int v = 1;
+static int exitOnError = 1;
 
 int test_separate_chars(TEXT *from, TEXT *exp, int flag){
   TEXT *buff;
@@ -38,7 +39,7 @@ int test_void_Fof_TPtr_TPtr(TEXT *exp_arg1, TEXT *function, TEXT *arg1, TEXT *ar
   if (TEXT_strcmp(exp_arg1, arg1) != 0){
     if (v)
       printf("Error: %s(/%s/, /%s/) =? void, arg1 is /%s/ but should be /%s/\n", function, cp_arg1, arg2, arg1, exp_arg1);
-    
+    if (exitOnError) exit(1);   
     return 1;
   }
   return(0);
@@ -50,18 +51,17 @@ int test_void_Fof_TPtr(TEXT *exp_arg1, TEXT *function, TEXT *arg1){
   TEXT_strcpy(cp_arg1, arg1);
   if (v > 1)
     printf("Testing %s(/%s/) =? void, Arg1 should equal /%s/\n", function, arg1, exp_arg1);
-  if (TEXT_strcmp(function, "TEXT_str_to_low") == 0){
-    TEXT_str_to_low(cp_arg1);
-  } else if (TEXT_strcmp(function, "TEXT_str_to_upp") == 0){
-    TEXT_str_to_upp(cp_arg1);
+  if (0) {
+     ;
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (TEXT_strcmp(exp_arg1, cp_arg1) != 0){
     if (v)
       printf("Error: %s(/%s/) =? void, arg1 is /%s/ but should be /%s/\n", function, arg1, cp_arg1, exp_arg1);
-    
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -77,12 +77,13 @@ int test_sizet_Fof_TPtr_TPtr(size_t expected, TEXT *function, TEXT *arg1, TEXT *
     rtn =  TEXT_strcspn(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (rtn != expected){
     if (v)
       printf("Error: %s(/%s/, /%s/) = /%lu/ but should be /%lu/\n", function, arg1, arg2, (unsigned long)rtn, (unsigned long)expected);
-    
+    if (exitOnError) exit(1);   
     return 1;
   }
   return(0);
@@ -98,12 +99,14 @@ int test_TPtr_Fof_TPtr(TEXT *expected, TEXT *function, TEXT *arg1){
     rtn = TEXT_skip_wspace(arg1);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (TEXT_strcmp(rtn, expected) != 0){
     if (v)
       printf("Error: %s(/%s/) = /%s/ but should be /%s/\n", function, arg1, rtn, expected);
     
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -131,12 +134,14 @@ int test_TPtr_Fof_TPtr_TPtr(TEXT *expected, TEXT *function, TEXT *arg1, TEXT *ar
     rtn = tokenize_TEXT_first_alt(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (TEXT_strcmp(rtn, expected) != 0){
     if (v)
       printf("Error: %s(/%s/, /%s/) = /%s/ but should be /%s/\n", function, arg1, arg2, rtn, expected);
     
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -151,14 +156,40 @@ int test_TPtr_Fof_TPtr_int(TEXT *expected, TEXT *function, TEXT *arg1, int arg2)
     rtn = TEXT_strBdup(arg1, arg2);
   } else if (TEXT_strcmp(function, "TEXT_strBdup_noEscape") == 0){
     rtn = TEXT_strBdup_noEscape(arg1, arg2);
+  } else if (TEXT_strcmp(function, "TEXT_str_to_master") == 0){
+    rtn = TEXT_str_to_master(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (TEXT_strcmp(rtn, expected) != 0){
     if (v)
       printf("Error: %s(/%s/, /%d/) = /%s/ but should be /%s/\n", function, arg1, arg2, rtn, expected);
     
+    if (exitOnError) exit(1);
+    return 1;
+  }
+  return(0);
+}
+
+
+int test_TPtr_Fof_int(TEXT *expected, TEXT *function, int arg1, int numCharCompare){
+  TEXT *rtn = (TEXT *)NULL;
+  if (v > 1)
+    printf("Testing %s(/%d/) =? /%s/\n", function, arg1, expected);
+  if (TEXT_strcmp(function, "TEXT_UTFCodePointToTEXT") == 0){
+    rtn = TEXT_UTFCodePointToTEXT(arg1);
+  } else {
+    printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
+    return(1);
+  }
+  if (TEXT_strCcmp(rtn, expected, numCharCompare) != 0){
+    if (v)
+      printf("Error: %s(/%d/) = /%s/ but should be /%s/\n", function, arg1, rtn, expected);
+    
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -172,11 +203,13 @@ int test_TPtr_Fof_TPtr_TPtr_T(TEXT *expected, TEXT *function, TEXT *arg1, TEXT *
     rtn = TEXT_strcpy_escaped(arg1, arg2, chr);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (TEXT_strcmp(rtn, expected) != 0){
     if (v)
       printf("Error: %s(/%s/, /%s/, /%c/) = /%s/ but should be /%s/\n", function, arg1, arg2, chr, rtn, expected);
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -190,11 +223,13 @@ int test_TPtr_Fof_TPtr_TPtr_int(TEXT *expected, TEXT *function, TEXT *arg1, TEXT
     rtn = TEXT_strBcpy(arg1, arg2, arg3);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (TEXT_strcmp(rtn, expected) != 0){
     if (v)
       printf("Error: %s(/%s/, /%s/, /%d/) = /%s/ but should be /%s/\n", function, arg1, arg2, arg3, rtn, expected);
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -212,14 +247,17 @@ int test_int_Fof_TPtr(int expected, TEXT *function, TEXT *arg1){
     rtn =  TEXT_chrlen(arg1);
   } else if (TEXT_strcmp(function, "TEXT_is_empty") == 0){
     rtn =  TEXT_is_empty(arg1);
+  } else if (TEXT_strcmp(function, "TEXT_getUTFCodePoint") == 0){
+    rtn =  TEXT_getUTFCodePoint(arg1);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (rtn != expected){
     if (v)
       printf("Error: %s(/%s/) = /%d/ but should be /%d/\n", function, arg1, rtn, expected);
-    
+    if (exitOnError) exit(1);    
     return 1;
   }
   return(0);
@@ -236,12 +274,14 @@ int test_int_Fof_TPtr_TPtr(int expected, TEXT *function, TEXT *arg1, TEXT *arg2)
     rtn = TEXT_strcmp(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (rtn != expected){
     if (v)
       printf("Error: %s(/%s/, /%s/) = /%d/ but should be /%d/\n", function, arg1, arg2, rtn, expected);
     
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -257,12 +297,14 @@ int test_int_Fof_TPtr_TPtr_int(int expected, TEXT *function, TEXT *arg1, TEXT *a
     rtn = TEXT_strCcmp(arg1, arg2, arg3);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (rtn != expected){
     if (v)
       printf("Error: %s(/%s/, /%s/, %d) = /%d/ but should be /%d/\n", function, arg1, arg2, arg3, rtn, expected);
     
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -279,21 +321,43 @@ int test_int_Fof_TPtrPtr_TPtr_int(int expected, TEXT *function, TEXT **arg1, TEX
     rtn = find_next_TEXT_alternation(arg1, arg2, arg3);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (rtn != expected){
     if (v)
       printf("Error: %s(/%s/, //, %d) = /%d/ but should be /%d/\n", function, arg1_init, arg3, rtn, expected);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (TEXT_strcmp(arg2, exp_arg2) != 0){
     if (v)
       printf("Error: %s(/%s/, //, %d), Arg2 = /%s/ but should be /%s/\n", function, arg1_init, arg3, arg2, exp_arg2);
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
 }
 
+int test_void_Fof_TPtrPtr_IntPtr_int(TEXT *function, TEXT **arg1, int *arg2, int arg3, TEXT *exp_arg1){
+  TEXT *arg1_init = *arg1;
+  if (v > 1)
+    printf("Testing %s(/%s/, /%d/, %d), arg1 expected to be /%s/\n", function, *arg1, *arg2, arg3, exp_arg1);
+  if (TEXT_strcmp(function, "TEXT_str_case_change_with_mem_expand") == 0){
+    TEXT_str_case_change_with_mem_expand(arg1, arg2, arg3);
+  } else {
+    printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
+    return(1);
+  }
+  if (TEXT_strcmp(*arg1, exp_arg1) != 0){
+    if (v)
+      printf("Error: %s(/?/, /%d/, %d), arg1 expected to be /%s/ but was /%s/\n", function, *arg2, arg3, exp_arg1, *arg1);
+    if (exitOnError) exit(1);
+    return 1;
+  }
+  return(0);
+}
 
 int test_int_Fof_TEXT(int expected, TEXT *function, TEXT arg1){
   int rtn = 0;
@@ -303,12 +367,13 @@ int test_int_Fof_TEXT(int expected, TEXT *function, TEXT arg1){
     rtn =  end_of_TEXT(arg1);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (rtn != expected){
     if (v)
       printf("Error: %s(/%c/) = /%d/ but should be /%d/\n", function, arg1, rtn, expected);
-    
+    if (exitOnError) exit(1);    
     return 1;
   }
   return(0);
@@ -323,12 +388,14 @@ int test_int_Fof_TEXTLIST_TPtr(int expected, TEXT *function, TEXT_LIST *arg1, TE
     rtn = in_TEXT_LIST(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
+    if (exitOnError) exit(1);
     return(1);
   }
   if (rtn != expected){
     if (v)
       printf("Error: %s(\"%s\", /%s/) = /%d/ but should be /%d/\n", function, arg1->file, arg2, rtn, expected);
     
+    if (exitOnError) exit(1);
     return 1;
   }
   return(0);
@@ -390,6 +457,7 @@ int testNetExpandChar(TEXT *str, TEXT *sepStr, int char_align, int optDel){
     printf("   Expanded Text Its: %s\n",report);
     if (TEXT_strcmp(report, sepStr) != 0){
       printf("Error: testNetExpandChar cali=%d failed separation of %s.  expected /%s/ got /%s/\n",char_align, str,sepStr,report);
+      if (exitOnError) exit(1);
       return(1);
     }
     
@@ -402,6 +470,7 @@ int unitTestTEXT(){
   int err = 0, tst = 0;
   int iter, i;
   TEXT *X, *Y, *A, *B, *lexicon;
+  int *Xcp;
   int charSizeX = 0;
   int charSizeY = 0;
 
@@ -420,6 +489,10 @@ int unitTestTEXT(){
   TEXT *semiColon = (TEXT *)";";
   TEXT *t;
 
+  TEXT EMPTY_D[4], *EMP;
+  EMPTY_D[0] = NULL_TEXT;
+  EMP = (TEXT *)&EMPTY_D;
+
   /// *********** X is three characters
   /// *********** Y is two characters
   
@@ -429,6 +502,10 @@ int unitTestTEXT(){
   ASCII_Y[0] = (TEXT)'i'; ASCII_Y[1] = (TEXT)'s'; ASCII_Y[2] = NULL_TEXT;   
   ASCII_A[0] = (TEXT)'c'; ASCII_A[1] = (TEXT)'d'; ASCII_A[2] = NULL_TEXT;   
   ASCII_B[0] = (TEXT)'C'; ASCII_B[1] = (TEXT)'D'; ASCII_B[2] = NULL_TEXT;   
+  int ASCII_X_CODEPOINTS[20];
+  ASCII_X_CODEPOINTS[0] = 84;
+  ASCII_X_CODEPOINTS[1] = 79;
+  ASCII_X_CODEPOINTS[2] = 79;
   
   // EXTENDED ASCII  8859-1 /cup/ and /pa/
   TEXT EXTASCII_X[20], EXTASCII_Y[20], EXTASCII_A[20], EXTASCII_B[20]; 
@@ -453,16 +530,24 @@ int unitTestTEXT(){
         UTF8_2B_X[2] = (TEXT)(0xcf); UTF8_2B_X[3] = (TEXT)(0x87); 
         UTF8_2B_X[4] = (TEXT)(0xcf); UTF8_2B_X[5] = (TEXT)(0x81); 
         UTF8_2B_X[6] = NULL_TEXT;
+  int UTF8_2B_X_CODEPOINTS[20];
+  UTF8_2B_X_CODEPOINTS[0] = 945;
+  UTF8_2B_X_CODEPOINTS[1] = 967;
+  UTF8_2B_X_CODEPOINTS[2] = 961;
   UTF8_2B_Y[0] = (TEXT)(0xce); UTF8_2B_Y[1] = (TEXT)(0xbc);
         UTF8_2B_Y[2] = (TEXT)(0xcf); UTF8_2B_Y[3] = (TEXT)(0x86);
         UTF8_2B_Y[4] = NULL_TEXT;
   
-  // Three byte Letters /DAJ/ /EL/
+  // Three byte Letters /DAJ/ /EL/ -- page with code points U+13A0 to U+149F
   TEXT UTF8_3B_X[20], UTF8_3B_Y[20];  
   UTF8_3B_X[0] = (TEXT)(0xe1); UTF8_3B_X[1] = (TEXT)(0x8e); UTF8_3B_X[2] = (TEXT)(0xa0); 
         UTF8_3B_X[3] = (TEXT)(0xe1); UTF8_3B_X[4] = (TEXT)(0x8e); UTF8_3B_X[5] = (TEXT)(0xaa); 
         UTF8_3B_X[6] = (TEXT)(0xe1); UTF8_3B_X[7] = (TEXT)(0x8e); UTF8_3B_X[8] = (TEXT)(0xab); 
         UTF8_3B_X[9] = NULL_TEXT;
+  int UTF8_3B_X_CODEPOINTS[20];
+  UTF8_3B_X_CODEPOINTS[0] = 5024;
+  UTF8_3B_X_CODEPOINTS[1] = 5034;
+  UTF8_3B_X_CODEPOINTS[2] = 5035;
   UTF8_3B_Y[0] = (TEXT)(0xe1); UTF8_3B_Y[1] = (TEXT)(0x8f); UTF8_3B_Y[2] = (TEXT)(0x8b); 
         UTF8_3B_Y[3] = (TEXT)(0xe1); UTF8_3B_Y[4] = (TEXT)(0x8f); UTF8_3B_Y[5] = (TEXT)(0x9e); 
         UTF8_3B_Y[6] = NULL_TEXT;
@@ -473,6 +558,10 @@ int unitTestTEXT(){
         UTF8_4B_X[4] = (TEXT)(0xf0); UTF8_4B_X[5] = (TEXT)(0x90); UTF8_4B_X[6] = (TEXT)(0x85); UTF8_4B_X[7] = (TEXT)(0x83); 
         UTF8_4B_X[8] = (TEXT)(0xf0); UTF8_4B_X[9] = (TEXT)(0x90); UTF8_4B_X[10] = (TEXT)(0x85); UTF8_4B_X[11] = (TEXT)(0x81); 
         UTF8_4B_X[12] = NULL_TEXT;
+  int UTF8_4B_X_CODEPOINTS[20];
+  UTF8_4B_X_CODEPOINTS[0] = 65856;
+  UTF8_4B_X_CODEPOINTS[1] = 65859;
+  UTF8_4B_X_CODEPOINTS[2] = 65857;
   UTF8_4B_Y[0] = (TEXT)(0xf0); UTF8_4B_Y[1] = (TEXT)(0x90); UTF8_4B_Y[2] = (TEXT)(0x85); UTF8_4B_Y[3] = (TEXT)(0xbc); 
         UTF8_4B_Y[4] = (TEXT)(0xf0); UTF8_4B_Y[5] = (TEXT)(0x90); UTF8_4B_Y[6] = (TEXT)(0x86); UTF8_4B_Y[7] = (TEXT)(0x90); 
         UTF8_4B_Y[8] = NULL_TEXT;
@@ -524,7 +613,7 @@ int unitTestTEXT(){
   TEXT X1bX2bX3bA1A2bY1bY2D[200],   *X1bX2bX3bA1A2bY1bY2 = (TEXT *)&X1bX2bX3bA1A2bY1bY2D;  
   TEXT X1bX2bX3bA1bA2bY1bY2D[200],   *X1bX2bX3bA1bA2bY1bY2 = (TEXT *)&X1bX2bX3bA1bA2bY1bY2D;  
 
-  for (iter=0; iter<6; iter++){
+  for (iter=0; iter<7; iter++){
     if (iter == 0){
       printf("Testing ASCII data\n");
       // ASCII Data
@@ -537,6 +626,7 @@ int unitTestTEXT(){
         printf("Error: Unable to set ASCII encoding\n");
       }
       lexicon = (TEXT *)"testdata/tests.lex";
+      Xcp = (int *)&ASCII_X_CODEPOINTS;
     } else if (iter == 1){
       printf("Testing Extended ASCII data\n");
       // extended ASCII Data
@@ -549,6 +639,7 @@ int unitTestTEXT(){
         tst++; err++;
         printf("Error: Unable to set EXTASCII encoding\n");
       }
+      Xcp = (int *)0;
     } else if (iter == 2){
       printf("Testing 2-byte UTF-8 data\n");
       // 2Byte UTF-8 Data
@@ -560,6 +651,7 @@ int unitTestTEXT(){
         tst++; err++;
         printf("Error: Unable to set UTF-8 encoding\n");
       }
+      Xcp = (int *)&UTF8_2B_X_CODEPOINTS;
     } else if (iter == 3){
       printf("Testing 3-byte UTF-8 data\n");
       X = (TEXT *)&UTF8_3B_X;
@@ -570,6 +662,7 @@ int unitTestTEXT(){
         tst++; err++;
         printf("Error: Unable to set UTF-8 encoding\n");
       }
+      Xcp = (int *)&UTF8_3B_X_CODEPOINTS;
     } else if (iter == 4){
       printf("Testing 4-byte UTF-8 data\n");
       X = (TEXT *)&UTF8_4B_X;
@@ -580,6 +673,7 @@ int unitTestTEXT(){
         tst++; err++;
         printf("Error: Unable to set UTF-8 encoding\n");
       }
+      Xcp = (int *)&UTF8_4B_X_CODEPOINTS;
     } else if (iter == 5){
       printf("Testing 2-byte GB data\n");
       X = (TEXT *)&GB_X;
@@ -591,7 +685,21 @@ int unitTestTEXT(){
         printf("Error: Unable to set GB encoding\n");
       }
       lexicon = (TEXT *)"testdata/mand.lex";
-    } else {
+      Xcp = (int *)0;
+    } else if (iter == 6){
+      printf("Testing ASCII as UTF-8 data\n");
+      // ASCII Data
+      X = (TEXT *)&ASCII_X;
+      Y = (TEXT *)&ASCII_Y;
+      charSizeX = 1;
+      charSizeY = 1;
+      if (TEXT_set_encoding("UTF-8") != 1){
+        tst++; err++;
+        printf("Error: Unable to set UTF-8 encoding\n");
+      }
+      lexicon = (TEXT *)"testdata/tests.lex";
+      Xcp = (int *)&ASCII_X_CODEPOINTS;
+     } else {
       fprintf(stderr,"Internal Error: abort\n");
       exit(1);
     }
@@ -685,6 +793,7 @@ int unitTestTEXT(){
     printf("  X = /%s/\n",X);
     printf("  Y = /%s/\n",Y);
     printf("  A = /%s/\n",A);
+    printf("  EMP = /%s/\n",EMP);
     printf("  XbAbY = /%s/\n",XbAbY);
     printf("  oXhoboAoboYo = /%s/\n",oXhoboAoboYo);
     printf("  eqXbYeq = /%s/\n", eqXbYeq);
@@ -740,14 +849,36 @@ int unitTestTEXT(){
     tst++; err+= test_TPtr_Fof_TPtr_int(X, "TEXT_strBdup", XbAbY, 3*charSizeX);    
     tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, "TEXT_strBdup", XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
     tst++; err+= test_TPtr_Fof_TPtr_int(XbA, "TEXT_strBdup", XbAbY, 3*charSizeX + 1 + 2);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_strBdup", EMP, 1);    
 
     tst++; err+= test_TPtr_Fof_TPtr_int(X, "TEXT_strBdup_noEscape", X, 3*charSizeX);    
     tst++; err+= test_TPtr_Fof_TPtr_int(X, "TEXT_strBdup_noEscape", XbAbY, 3*charSizeX);    
     tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, "TEXT_strBdup_noEscape", XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
     tst++; err+= test_TPtr_Fof_TPtr_int(XbA, "TEXT_strBdup_noEscape", XbAbY, 3*charSizeX + 1 + 2);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_strBdup_noEscape", EMP, 1);    
 
     tst++; err+= test_TPtr_Fof_TPtr_int(qXbYq, "TEXT_strBdup_noEscape", eqXbYeq, 1 + 1 + 3*charSizeX + 1 + 2*charSizeY + 1 + 1);    
     tst++; err+= test_TPtr_Fof_TPtr_int(XsX, "TEXT_strBdup_noEscape", XesXsYsY, 3*charSizeX + 1 + 1 + 3*charSizeX);    
+
+    tst++; err+=  test_int_Fof_TPtr(3, "TEXT_chrlen", X);
+    tst++; err+=  test_int_Fof_TPtr(3 + 1, "TEXT_chrlen", Xb);
+    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2, "TEXT_chrlen", XbY);
+    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2 + 1, "TEXT_chrlen", XbYb);
+    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_chrlen", EMP);
+
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3, "TEXT_strlen", X);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1, "TEXT_strlen", Xb);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2, "TEXT_strlen", XbY);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2 + 1, "TEXT_strlen", XbYb);
+    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_strlen", EMP);
+
+    tst++; err+=  test_int_Fof_TPtr(charSizeX, "TEXT_nbytes_of_char", X);
+    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", bX);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX, "TEXT_nbytes_of_char", Xb);
+    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", b);
+    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", e);
+    tst++; err+=  test_int_Fof_TPtr(charSizeY, "TEXT_nbytes_of_char", Y);
+    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", EMP);
 
     buff[0] = NULL_TEXT;
     tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(X, "TEXT_strBcpy", buff, X, 3*charSizeX);    
@@ -757,23 +888,34 @@ int unitTestTEXT(){
     tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(XbAbY, "TEXT_strBcpy", buff, XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
     buff[0] = NULL_TEXT;
     tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(XbA, "TEXT_strBcpy", buff, XbAbY, 3*charSizeX + 1 + 2);    
- 
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, "TEXT_strstr", X, X);    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbAbY, "TEXT_strstr", XbAbY, X);    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, "TEXT_strstr", XbAbY, Y);    
+    buff[0] = NULL_TEXT;
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(EMP, "TEXT_strBcpy", buff, EMP, 1);    
 
-    if (TEXT_get_encoding() == ASCII){
-        tst++; err+= test_void_Fof_TPtr((TEXT *)&ASCII_A, "TEXT_str_to_low", (TEXT *)&ASCII_B);    
-        tst++; err+= test_void_Fof_TPtr((TEXT *)&ASCII_B, "TEXT_str_to_upp", (TEXT *)&ASCII_A);    
-    } else if (TEXT_get_encoding() == EXTASCII){
-        tst++; err+= test_void_Fof_TPtr((TEXT *)&EXTASCII_A, "TEXT_str_to_low", (TEXT *)&EXTASCII_B);    
-        tst++; err+= test_void_Fof_TPtr((TEXT *)&EXTASCII_B, "TEXT_str_to_upp", (TEXT *)&EXTASCII_A);    
-    } else {
-        tst++; err+= test_void_Fof_TPtr(XbAbY, "TEXT_str_to_low", XbBbY);    
-        tst++; err+= test_void_Fof_TPtr(XbBbY, "TEXT_str_to_upp", XbAbY);    
-    }
+    // Test int ___(TEXT)
+    tst++; err+=  test_int_Fof_TEXT(0, "end_of_TEXT", *X);
+    tst++; err+=  test_int_Fof_TEXT(1, "end_of_TEXT", *EMP);
+
+    // Test int ___(TEXT *)
+    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_is_empty", b);
+    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_is_empty", bbX);
+    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_is_empty", Yb);
+    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_is_empty", EMP);
     
-    if (TEXT_get_encoding() == ASCII){
+
+    if (TEXT_get_encoding() == ASCII || TEXT_get_encoding() == UTF8 && charSizeX == 1){
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&ASCII_A, "TEXT_str_to_master", (TEXT *)&ASCII_B, 1);    
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&ASCII_B, "TEXT_str_to_master", (TEXT *)&ASCII_A, 0);    
+    } else if (TEXT_get_encoding() == EXTASCII){
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&EXTASCII_A, "TEXT_str_to_master", (TEXT *)&EXTASCII_B, 1);    
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&EXTASCII_B, "TEXT_str_to_master", (TEXT *)&EXTASCII_A, 0);
+    } else {
+        tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, "TEXT_str_to_master", XbBbY, 1);    
+        tst++; err+= test_TPtr_Fof_TPtr_int(XbBbY, "TEXT_str_to_master", XbAbY, 0);    
+    }
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_str_to_master", EMP, 0);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_str_to_master", EMP, 1);    
+
+    if (TEXT_get_encoding() == ASCII || TEXT_get_encoding() == UTF8 && charSizeX == 1){
        tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)&ASCII_A, (TEXT *)&ASCII_A);    
        tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)&ASCII_A, (TEXT *)&ASCII_B);    
        tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)&ASCII_B, (TEXT *)&ASCII_A);    
@@ -787,8 +929,11 @@ int unitTestTEXT(){
         tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcasecmp", Y, (TEXT *)0);    
         tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcasecmp", (TEXT *)0, Y);    
         tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)0, (TEXT *)0);    
-
     }
+    tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", EMP, EMP);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcasecmp", EMP, X);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcasecmp", X, EMP);    
+    
     tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcmp", X, X);    
     tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcmp", X, Y);    
     tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcmp", Y, X);    
@@ -796,56 +941,49 @@ int unitTestTEXT(){
     tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcmp", Y, (TEXT *)0);    
     tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcmp", (TEXT *)0, Y);    
     tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcmp", (TEXT *)0, (TEXT *)0);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcmp", EMP, EMP);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcmp", EMP, X);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcmp", X, EMP);    
     
     tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", XbAbY, XbBbY);    
     tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcasecmp", XbAbY, XbBbY, 3);    
     tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcasecmp", XbAbY, XbBbY, 6);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcasecmp", EMP, EMP, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(-1, "TEXT_strCcasecmp", EMP, X, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, "TEXT_strCcasecmp", X, EMP, 1);    
 
     tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcmp", XbAbY, XbBbY, 4);    
     tst++; err+= test_int_Fof_TPtr_TPtr_int(1, "TEXT_strCcmp", XbAbY, XbBbY, 6);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcmp", EMP, EMP, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(-1, "TEXT_strCcmp", EMP, X, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, "TEXT_strCcmp", X, EMP, 1);    
     
+ 
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, "TEXT_strstr", X, X);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbAbY, "TEXT_strstr", XbAbY, X);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, "TEXT_strstr", XbAbY, Y);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, "TEXT_strstr", XbAbY, EMP);    
 
-    // Test int ___(TEXT)
-    tst++; err+=  test_int_Fof_TEXT(0, "end_of_TEXT", *X);
-    buff[0] = NULL_TEXT;
-    tst++; err+=  test_int_Fof_TEXT(1, "end_of_TEXT", *buff);
-
-    // Test int ___(TEXT *)
-    tst++; err+=  test_int_Fof_TPtr(charSizeX, "TEXT_nbytes_of_char", X);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", bX);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX, "TEXT_nbytes_of_char", Xb);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", b);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", e);
-    tst++; err+=  test_int_Fof_TPtr(charSizeY, "TEXT_nbytes_of_char", Y);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3, "TEXT_strlen", X);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1, "TEXT_strlen", Xb);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2, "TEXT_strlen", XbY);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2 + 1, "TEXT_strlen", XbYb);
-
-    tst++; err+=  test_int_Fof_TPtr(3, "TEXT_chrlen", X);
-    tst++; err+=  test_int_Fof_TPtr(3 + 1, "TEXT_chrlen", Xb);
-    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2, "TEXT_chrlen", XbY);
-    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2 + 1, "TEXT_chrlen", XbYb);
-
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_is_empty", b);
-    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_is_empty", bbX);
-    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_is_empty", Yb);
-    
     // Test TEXT* ___(TEXT *)
     tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_strdup", X);
     tst++; err+= test_TPtr_Fof_TPtr(XbA, "TEXT_strdup", XbA);
     tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_skip_wspace", X);
     tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_skip_wspace", bX);
     tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_skip_wspace", bbX);
+    tst++; err+= test_TPtr_Fof_TPtr(EMP, "TEXT_skip_wspace", EMP);
     
     // Test TEXT* ___(TEXT *, TEXT *)
     tst++; err+= test_TPtr_Fof_TPtr_TPtr(XY, "TEXT_add", X, Y);
     tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbY, "TEXT_add", Xb, Y);
     tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, "TEXT_add", Xb, Yb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_add", Xb, EMP);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_add", EMP, Xb);
     
     buff[0] = NULL_TEXT;
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, "TEXT_strcat", (TEXT *)&buff, EMP);
     tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_strcat", (TEXT *)&buff, Xb);
     tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, "TEXT_strcat", (TEXT *)&buff, Yb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, "TEXT_strcat", (TEXT *)&buff, EMP);
 
     buff[0] = NULL_TEXT;
     tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_strcat", (TEXT *)&buff, Xb);
@@ -858,15 +996,21 @@ int unitTestTEXT(){
 
     buff[0] = NULL_TEXT;
     tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_strcpy", (TEXT *)&buff, Xb);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_strcpy", (TEXT *)&buff, Xb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, "TEXT_strcpy", (TEXT *)&buff, EMP);
     buff[0] = NULL_TEXT;
 
     // Test size_y __(TEXT *, TEXT *)
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", Xb, EMP); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", EMP, b); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", EMP, EMP); 
     tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", Xb, b); 
     tst++; err+= test_sizet_Fof_TPtr_TPtr(1, "TEXT_strspn", bX, b);
     tst++; err+= test_sizet_Fof_TPtr_TPtr(2, "TEXT_strspn", llXrslYrrbX, lar); 
 
     // strcspn
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(charSizeX * 3 + 1, "TEXT_strcspn", Xb, EMP); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", EMP, b); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", EMP, EMP); 
     tst++; err+= test_sizet_Fof_TPtr_TPtr(charSizeX * 3, "TEXT_strcspn", Xb, b); 
     tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", bX, b); 
     tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", llXrslYrrbX, lar); 
@@ -891,6 +1035,7 @@ int unitTestTEXT(){
     // TEXT_delete_chars
     TEXT_strcpy((TEXT *)&buff, bX);
     tst++; err+= test_void_Fof_TPtr_TPtr(X, "TEXT_delete_chars", (TEXT *)&buff, " ");    
+    tst++; err+= test_void_Fof_TPtr_TPtr(X, "TEXT_delete_chars", (TEXT *)&buff, EMP);    
     TEXT_strcpy((TEXT *)&buff, Xb);
     tst++; err+= test_void_Fof_TPtr_TPtr(X, "TEXT_delete_chars", (TEXT *)&buff, " ");    
     TEXT_strcpy((TEXT *)&buff, qXbYq);
@@ -900,13 +1045,15 @@ int unitTestTEXT(){
     buff[0] = NULL_TEXT;
     tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(XbYb, "TEXT_strcpy_escaped", (TEXT *)&buff, XbYb, '"');    
     tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(eqXbYeq, "TEXT_strcpy_escaped", (TEXT *)&buff, qXbYq, '"');    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(EMP, "TEXT_strcpy_escaped", (TEXT *)&buff, EMP, '"');    
 
     // TEXT_separate_chars  
-    tst++; err+= test_separate_chars(XhY, X1bX2bX3bhbY1bY2, 0);    
+    tst++; err+= test_separate_chars(EMP, EMP, CALI_DELHYPHEN);    
     tst++; err+= test_separate_chars(XY, X1bX2bX3bY1bY2, CALI_DELHYPHEN);    
     tst++; err+= test_separate_chars(oXo, obX1bX2bX3bo, 0);    
     tst++; err+= test_separate_chars(oXo, obX1bX2bX3bo, CALI_DELHYPHEN);    
-    if (TEXT_get_encoding() == ASCII || TEXT_get_encoding() == EXTASCII){
+    if (TEXT_get_encoding() == ASCII || TEXT_get_encoding() == EXTASCII ||
+        TEXT_get_encoding() == UTF8 && charSizeX == 1){
        tst++; err+= test_separate_chars(XbAbY, XbAbY, CALI_NOASCII);    
        tst++; err+= test_separate_chars(XbAbY, X1bX2bX3bA1bA2bY1bY2, CALI_DELHYPHEN);    
        tst++; err+= test_separate_chars(XbAbY, X1bX2bX3bA1bA2bY1bY2, 0);    
@@ -960,6 +1107,13 @@ int unitTestTEXT(){
          tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "tokenize_TEXT_first_alt", Xb, (TEXT *)" \t");
          tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "tokenize_TEXT_first_alt", blbXbrbslYr, (TEXT *)" \t");
 
+         //{ TEXT test[20];
+         //  TEXT_strcpy(test, (TEXT *)"a b { c d / c / e } e f g ");
+         //  tptr = test;
+         //  test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, "a");    
+         //  test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, "b");    
+         //  test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, "{ c d / c / e }");    
+         //}       
      }
      // NetADT Testing
      { 
@@ -981,10 +1135,83 @@ int unitTestTEXT(){
 //          tst++; err += testNetExpandChar(oXo, oX1oboX2oboX3o, CALI_ON + CALI_NOASCII, 1);
         }
      }
+     if (TEXT_get_encoding() == UTF8){
+        printf("Testing UTF Code point computation and reversal\n");
+         tst++; err+= test_int_Fof_TPtr(Xcp[0], "TEXT_getUTFCodePoint", X);    
+         tst++; err+= test_int_Fof_TPtr(Xcp[1], "TEXT_getUTFCodePoint", X+charSizeX);    
+         tst++; err+= test_int_Fof_TPtr(Xcp[2], "TEXT_getUTFCodePoint", X+2*charSizeX);    
+       
+         tst++; err+= test_TPtr_Fof_int(X+charSizeX*0, "TEXT_UTFCodePointToTEXT", Xcp[0], 1);    
+         tst++; err+= test_TPtr_Fof_int(X+charSizeX*1, "TEXT_UTFCodePointToTEXT", Xcp[1], 1);    
+         tst++; err+= test_TPtr_Fof_int(X+charSizeX*2, "TEXT_UTFCodePointToTEXT", Xcp[2], 1);    
+                
+     }
      printf("\n");
   }
 
+  // Check the language specific Case conversion
+  if (1) {  int i;
+     TEXT tmp[20];
+
+     TEXT_set_lang_prof("babel_turkish");
+     printf("Testing Case Conversion for Babel Turkish\n");
+     
+     if (TEXT_set_encoding("UTF-8") != 1){
+       tst++; err++;
+       printf("Error: Unable to set UTF-8 encoding\n");
+     }
+     for (i=0; i<1; i++){
+        TEXT *uc, *lc, ucD[20], lcD[20], tmp[20];
+        if (i == 0){
+           TEXT_strCcpy(ucD+0*2,TEXT_UTFCodePointToTEXT( 0xC7),1);  TEXT_strCcpy(lcD+0*2,TEXT_UTFCodePointToTEXT( 0xE7),1);
+           TEXT_strCcpy(ucD+1*2,TEXT_UTFCodePointToTEXT( 0xD6),1);  TEXT_strCcpy(lcD+1*2,TEXT_UTFCodePointToTEXT( 0xF6),1);
+           TEXT_strCcpy(ucD+2*2,TEXT_UTFCodePointToTEXT( 0xDC),1);  TEXT_strCcpy(lcD+2*2,TEXT_UTFCodePointToTEXT( 0xFC),1);
+           TEXT_strCcpy(ucD+3*2,TEXT_UTFCodePointToTEXT(0x130),1);  TEXT_strCcpy(lcD+3*2,TEXT_UTFCodePointToTEXT( 0x69),1);
+           TEXT_strCcpy(ucD+4*2,TEXT_UTFCodePointToTEXT( 0x49),1);  TEXT_strCcpy(lcD+4*2-1,TEXT_UTFCodePointToTEXT(0x131),1); 
+           uc = (TEXT *)&ucD;
+           lc = (TEXT *)&lcD;
+        }
+        printf("UC /%s/, LC /%s/\n", uc, lc);
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);    
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);            
+     }
+    // Check for expansion of a field
   
+     TEXT uc[4], lc[7];
+     TEXT_strCcpy(uc+0,TEXT_UTFCodePointToTEXT(0x49),1); TEXT_strCcpy(lc+0,TEXT_UTFCodePointToTEXT(0x131),1);
+     TEXT_strCcpy(uc+1,TEXT_UTFCodePointToTEXT(0x49),1); TEXT_strCcpy(lc+2,TEXT_UTFCodePointToTEXT(0x131),1);
+     TEXT_strCcpy(uc+2,TEXT_UTFCodePointToTEXT(0x49),1); TEXT_strCcpy(lc+4,TEXT_UTFCodePointToTEXT(0x131),1);
+     printf("UC /%s/, LC /%s/\n", uc, lc);
+
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);    
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);            
+
+     { 
+        TEXT *ws;
+        int ws_len;
+        
+        ws = TEXT_strdup(uc);  ws_len = TEXT_strlen(ws) + 1; tst++;
+        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 1, lc);
+        free_singarr(ws, TEXT);
+        
+        ws = TEXT_strdup(lc);  ws_len = TEXT_strlen(ws) + 1; tst++;
+        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 1, lc);
+        free_singarr(ws, TEXT);
+        
+        ws = TEXT_strdup(uc);  ws_len = TEXT_strlen(ws) + 1; tst++;
+        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 0, uc);
+        free_singarr(ws, TEXT);
+        
+        ws = TEXT_strdup(lc);  ws_len = TEXT_strlen(ws) + 1; tst++;
+        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 0, uc);
+        free_singarr(ws, TEXT);
+      }
+    TEXT_set_lang_prof("generic");
+  }            
   
   printf("Total Tests: %d\nErrors: %d\n", tst, err);
 
@@ -997,6 +1224,11 @@ int main(int argc, char **argv){
   
   error = unitTestTEXT();
 //  error += unitTestNetADT((TEXT *)"ab (cd) fr- (ag-)");
+
+//  { TEXT txt[10]; txt[0] = 0x25; txt[1] = 0xd8; txt[2] = 0xaa; txt[3] = 0xd8; txt[4] = 0xb1;  txt[5] = 0x0;
+//    printf("TXT is %s\n",txt);
+//    }
+    
   exit(error);
 }
  

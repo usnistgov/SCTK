@@ -107,7 +107,8 @@ void load_refs(SCORES *sc, char *hyp_file, char *ref_file, TEXT ***rset, TEXT **
         exit(1);
     }
     while (!feof(fp)){
-        *in_buf  = *(in_buf+1) = COMMENT_CHAR;
+        *in_buf  = *(in_buf+1) = COMMENT_CHAR; 
+        *(in_buf+2) = NULL_TEXT;
         while (!feof(fp) && (parse_input_comment_line(sc,in_buf) ||
 			     TEXT_is_comment_info(in_buf) ||
 			     TEXT_is_empty(in_buf))){
@@ -116,7 +117,7 @@ void load_refs(SCORES *sc, char *hyp_file, char *ref_file, TEXT ***rset, TEXT **
 	}
 	if (!feof(fp)){
 	    if (!case_sense)
-		TEXT_str_to_low(in_buf);
+		TEXT_str_case_change_with_mem_expand(&in_buf, &in_buf_len, 1);
 	    remove_id(in_buf,&id_buf,&id_buf_len);
 	    if (num_ids + 1 >= max_ids) {
 		/* expanding the array */
@@ -147,7 +148,8 @@ void load_refs(SCORES *sc, char *hyp_file, char *ref_file, TEXT ***rset, TEXT **
 	TEXT **ind;
 	int rind;
 
-        *in_buf  = *(in_buf+1) = COMMENT_CHAR;
+        *in_buf  = *(in_buf+1) = COMMENT_CHAR; 
+        *(in_buf+2) = NULL_TEXT;
         while (!feof(fp) && (parse_input_comment_line(sc,in_buf) ||
 			     TEXT_is_comment_info(in_buf) ||
 			     TEXT_is_empty(in_buf))){
@@ -156,8 +158,9 @@ void load_refs(SCORES *sc, char *hyp_file, char *ref_file, TEXT ***rset, TEXT **
 	}
         if (feof(fp))
             break;
+
 	if (!case_sense)
-	    TEXT_str_to_low(in_buf);
+	    TEXT_str_case_change_with_mem_expand(&in_buf, &in_buf_len, 1);
 
 	remove_id(in_buf,&id_buf,&id_buf_len);
 	/* Search for the id in idset */
@@ -231,11 +234,9 @@ PATH *infer_word_seg_algo2(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
 		max_word_len = s;
     }
 
-    if (!case_sense){
-	if (hyp != (TEXT *)0) TEXT_str_to_low(hyp);
-	TEXT_str_to_low(ref);
-    }
-    if ((refnet = Network_create_from_TEXT(ref, "Reference Net",
+    {
+        TEXT *refCC = (case_sense ? TEXT_strdup(TEXT_str_to_master(ref, 1)) : ref);
+        if ((refnet = Network_create_from_TEXT(ref, "Reference Net",
 					   print_WORD,
 					   equal_WORD2,
 					   release_WORD, null_alt_WORD,
@@ -243,11 +244,16 @@ PATH *infer_word_seg_algo2(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
 					   copy_WORD, make_empty_WORD,
 					   use_count_WORD))
 	== NULL_NETWORK){
-	fprintf(stderr,"Network_create_from_TEXT failed\n");
-	exit(1);
+            fprintf(stderr,"Network_create_from_TEXT failed\n");
+	    exit(1);
+        }
+        if (case_sense){
+            free_singarr(refCC, TEXT);
+        }
     }
     
     if (hyp != (TEXT *)0){
+	TEXT *hypCC = (case_sense ? TEXT_strdup(TEXT_str_to_master(hyp, 1)) : hyp);
 	if ((hypnet = Network_create_from_TEXT(hyp,"Hypothesis Net",
 					       print_WORD,
 					       equal_WORD2,
@@ -259,6 +265,9 @@ PATH *infer_word_seg_algo2(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
     fprintf(stderr,"Network_create_from_TEXT failed\n");
 	    exit(1);
 	}
+        if (case_sense){
+           free_singarr(hypCC, TEXT);
+        }
     } else 
 	hypnet = hnet;
 
@@ -320,11 +329,9 @@ PATH *infer_word_seg_algo1(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
 		max_word_len = s;
     }
 
-    if (!case_sense){
-	if (hyp != (TEXT *)0) TEXT_str_to_low(hyp);
-	TEXT_str_to_low(ref);
-    }
-    if ((refnet = Network_create_from_TEXT(ref, "Reference Net",
+    TEXT *refCC = (! case_sense ? TEXT_strdup(TEXT_str_to_master(ref, 1)) : ref);
+//db=20;
+    if ((refnet = Network_create_from_TEXT(refCC, "Reference Net",
 					   print_WORD,
 					   equal_WORD2,
 					   release_WORD, null_alt_WORD,
@@ -335,9 +342,13 @@ PATH *infer_word_seg_algo1(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
 	fprintf(stderr,"Network_create_from_TEXT failed\n");
 	exit(1);
     }
-    
+
+    if (! case_sense){
+        free_singarr(refCC, TEXT);
+    }    
     if (hyp != (TEXT *)0){
-	if ((hypnet = Network_create_from_TEXT(hyp,"Hypothesis Net",
+	TEXT *hypCC = (! case_sense ? TEXT_strdup(TEXT_str_to_master(hyp, 1)) : hyp);
+	if ((hypnet = Network_create_from_TEXT(hypCC,"Hypothesis Net",
 					       print_WORD,
 					       equal_WORD2,
 					       release_WORD, null_alt_WORD,
@@ -348,6 +359,9 @@ PATH *infer_word_seg_algo1(TEXT *ref, TEXT *hyp, NETWORK *hnet, int case_sense,c
     fprintf(stderr,"Network_create_from_TEXT failed\n");
 	    exit(1);
 	}
+        if (! case_sense){
+            free_singarr(hypCC, TEXT);
+        }
     } else 
 	hypnet = hnet;
 
@@ -403,14 +417,12 @@ PATH *network_dp_align_texts(TEXT *ref, NETWORK *rnet, TEXT *hyp, NETWORK *hnet,
 		"for 'ref' and 'rnet'\n",proc);
 	exit(1);
     }
-
-    if (!case_sense){
-      if (hyp != (TEXT *)0) TEXT_str_to_low(hyp);
-      if (ref != (TEXT *)0) TEXT_str_to_low(ref);
-    }
-
+//    printf("\nREF -> %s\n",ref);
+//    printf("HYP -> %s\n",hyp);
     if (ref != (TEXT *)0){
-      if ((refnet = Network_create_from_TEXT(ref, "Reference Net",print_WORD,
+      TEXT *refCC = (! case_sense ? TEXT_strdup(TEXT_str_to_master(ref, 1)) : ref);
+      
+      if ((refnet = Network_create_from_TEXT(refCC, "Reference Net",print_WORD,
 					     equal_WORD2,
 					     release_WORD, null_alt_WORD,
 					     opt_del_WORD,
@@ -420,12 +432,17 @@ PATH *network_dp_align_texts(TEXT *ref, NETWORK *rnet, TEXT *hyp, NETWORK *hnet,
 	fprintf(stderr,"Network_create_from_TEXT failed\n");
 	exit(1);
       }
+      if (! case_sense){
+        free_singarr(refCC, TEXT);
+      }
     } else {
       refnet = rnet;
     }
 
     if (hyp != (TEXT *)0){
-	if ((hypnet = Network_create_from_TEXT(hyp,"Hypothesis Net",
+        TEXT *hypCC = (!case_sense ? TEXT_strdup(TEXT_str_to_master(hyp, 1)) : hyp);
+
+	if ((hypnet = Network_create_from_TEXT(hypCC,"Hypothesis Net",
 					       print_WORD,
 					       equal_WORD2,
 					       release_WORD, null_alt_WORD,
@@ -436,6 +453,9 @@ PATH *network_dp_align_texts(TEXT *ref, NETWORK *rnet, TEXT *hyp, NETWORK *hnet,
 	    fprintf(stderr,"Network_create_from_TEXT failed\n");
 	    exit(1);
 	}
+      if (! case_sense){
+        free_singarr(hypCC, TEXT);
+      }
     } else 
 	hypnet = hnet;
 
@@ -464,9 +484,8 @@ PATH *network_dp_align_texts(TEXT *ref, NETWORK *rnet, TEXT *hyp, NETWORK *hnet,
       Network_traverse(refnet,NULL,0,lookup_lm_word_weight,lm_file,0);
     }
 
-    /*    Network_traverse(hypnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);
-	  Network_traverse(refnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);  */
-
+//        Network_traverse(hypnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);
+//        Network_traverse(refnet,NULL,0,print_arc,0,NT_CA_For+NT_Verbose);  
     Network_dpalign(refnet,hypnet,
 		    ( (time_align) ? wwd_time_WORD : 
 		      ( ((wwl != (WWL *)0) || (lm_file != (char *)0)) ?
@@ -529,18 +548,17 @@ SCORES *align_trans_mode_dp(char *ref_file, char *hyp_file, char *set_title, int
 
     while (!feof(fp_hyp)){
         *hyp_buff  = *(hyp_buff+1) = COMMENT_CHAR;
- 
+        *(hyp_buff+2) = NULL_TEXT;
         while (!feof(fp_hyp) && (parse_input_comment_line(scor,hyp_buff) ||
                                  TEXT_is_comment_info(hyp_buff) ||
                                  TEXT_is_empty(hyp_buff)))
             if (TEXT_ensure_fgets(&hyp_buff,&hyp_buff_len,fp_hyp) == NULL)
                *hyp_buff = '\0';
- 
         if (feof(fp_hyp))
             break;
 
 	remove_id(hyp_buff,&hyp_id,&hyp_id_len);
-	if (!case_sense) TEXT_str_to_low(hyp_id);
+	if (!case_sense)  TEXT_str_case_change_with_mem_expand(&hyp_id, &hyp_id_len, 1);
 
 	extract_speaker(hyp_id,spkr_id,idt);
 	spk = SCORES_get_grp(scor,(char *)spkr_id);
@@ -560,6 +578,11 @@ SCORES *align_trans_mode_dp(char *ref_file, char *hyp_file, char *set_title, int
 	}
 	rind = ind - refid;
 
+	if (feedback >= 100){
+            printf("\n        HYP -> %s\n",hyp_buff);
+            printf("        REF -> %s\n",reftran[rind]);
+	    fflush(stdout);
+        }
 	if (infer_word_seg == 0)
 	    path = network_dp_align_texts(reftran[rind], (NETWORK *)0,
 					  hyp_buff, (NETWORK *)0,
@@ -794,6 +817,7 @@ void create_word_lists(SCORES *sc, TEXT **reftran, TEXT **refid, int refcnt, cha
 
     while (!feof(fp_hyp)){
         *hyp_buff  = *(hyp_buff+1) = COMMENT_CHAR;
+        *(hyp_buff+2) = NULL_TEXT;
  
         while (!feof(fp_hyp) && (parse_input_comment_line(sc,hyp_buff) ||
                                  TEXT_is_comment_info(hyp_buff) ||
@@ -807,7 +831,7 @@ void create_word_lists(SCORES *sc, TEXT **reftran, TEXT **refid, int refcnt, cha
 	(*num_hyp) ++;
 
 	if (!case_sense)
-	    TEXT_str_to_low(hyp_buff);
+	     TEXT_str_case_change_with_mem_expand(&hyp_buff, &hyp_buff_len, 1);
 
 	remove_id(hyp_buff,&hyp_id,&hyp_id_len);
 	if ((ind = (TEXT **)bsearch(hyp_id,refid,refcnt,sizeof(TEXT *),
@@ -973,6 +997,7 @@ SCORES *align_trans_mode_diff(char *ref_file, char *hyp_file, char *set_title, i
     }
     while (!feof(fp_hyp)){
         *hyp_buff  = *(hyp_buff+1) = COMMENT_CHAR;
+        *(hyp_buff+2) = NULL_TEXT;
  
         while (!feof(fp_hyp) && (parse_input_comment_line(scor,hyp_buff) ||
                                  TEXT_is_comment_info(hyp_buff) ||
@@ -981,7 +1006,7 @@ SCORES *align_trans_mode_diff(char *ref_file, char *hyp_file, char *set_title, i
                *hyp_buff = '\0';
 
         if (feof(fp_hyp))  break;
-	if (!case_sense)   TEXT_str_to_low(hyp_buff);
+	if (!case_sense)    TEXT_str_case_change_with_mem_expand(&hyp_buff, &hyp_buff_len, 1);
 	remove_id(hyp_buff,&hyp_id,&hyp_id_len);
 	extract_speaker(hyp_id,spkr_id,idt);
 	spk = SCORES_get_grp(scor,(char *)spkr_id);
@@ -1304,7 +1329,7 @@ void convert_text_to_word_list(char *file, char *words,int case_sense){
 	    if (TEXT_ensure_fgets(&buf,&buf_len,fp) == NULL)
 		*buf = '\0';
 	if (*buf == '\0' && feof(fp)) break;
-	if (!case_sense) TEXT_str_to_low(buf);
+	if (!case_sense)  TEXT_str_case_change_with_mem_expand(&buf, &buf_len, 1);
 
 	/* for each reference word, located it's matching diff output */
 	ctext = TEXT_strtok(buf,(TEXT *)" \t\n");
@@ -1367,7 +1392,7 @@ SCORES *align_text_to_stm(char *ref_file, char *hyp_file, char *set_title, int k
 	if (feof(fp_ref)) break;
 
 	/* parse the reference transcript */
-	parse_stm_line(&ref_seg, ref_buf, case_sense, 0);
+	parse_stm_line(&ref_seg, &ref_buf, &ref_buf_len, case_sense, 0);
 	num_ref --;
 	
 	/* allocate a path structure */

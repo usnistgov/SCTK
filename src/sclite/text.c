@@ -3,6 +3,18 @@
 //s The encoding is now a typed field
 static enum TEXT_ENCODINGS STATIC_ENCODING = ASCII;
 static enum TEXT_COMPARENORM STATIC_NORMALIZATION = CASE;
+static enum TEXT_LANG_PROFILE STATIC_LPROF = LPROF_GENERIC;
+
+// This contains the known upper and lower conversions.  It is structured as {Upper, Lower}
+static int numKCC_babel_turkish =  7;
+static int KCC_babel_turkish[][2] = { // Babel Turkish
+                                         { 0xC7,  0xE7}, { 0xD6,  0xF6}, {  0xDC,  0xFC}, { 0x130,  0x69}, 
+                                         { 0x49, 0x131}, {0x11E, 0x11F},  {0x15E, 0x15F}
+                                        };
+
+// These static variables are used as temporary memory for case conversion
+static TEXT *STATIC_CASECONVTEXT;
+static int STATIC_CASECONVTEXT_SIZE = -1;
 
 #define is_EXTASC(_p)  (((*(_p)) & 0x80) != 0)
 #define is_2byte(_p)  (TEXT_nbytes_of_char(_p) == 2)
@@ -59,6 +71,22 @@ enum TEXT_ENCODINGS TEXT_get_encoding(){
     return(STATIC_ENCODING);
 }
 
+// new 
+int TEXT_set_lang_prof(char *lprof){
+    if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"generic") == 0){
+        STATIC_LPROF = LPROF_GENERIC;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_turkish") == 0) {
+        STATIC_LPROF = LPROF_BABEL_TURKISH;                                                                                                    
+	return(1);
+    }
+    return(0);
+}
+
+enum TEXT_LANG_PROFILE TEXT_lang_profile(){
+    return(STATIC_LPROF);
+}
+
 int TEXT_set_compare_normalization(char *normalization){                                                                         
     if (TEXT_strcasecmp((TEXT *)normalization,(TEXT *)"CASE") == 0){                                                             
         STATIC_NORMALIZATION = CASE;                                                                                             
@@ -91,6 +119,8 @@ int TEXT_nbytes_of_char(TEXT *p){
                 return 4;
             } else if (((*p) & 0xFC) == 0xF8){
                 return 5;
+            } else if (((*p) & 0xFE) == 0xFC){
+                return 6;
             } else {
                 fprintf(stderr, "Error: UTF-8 parsing of character size failed. first char %x %s\n",(TEXT)*p, p);
                 exit(1);
@@ -264,8 +294,9 @@ TEXT *TEXT_strstr(TEXT *src, TEXT *sub){
 int TEXT_strlen(TEXT *text){
     register int i = 0;
     while (*text != '\0'){
-	i += TEXT_nbytes_of_char(text);
-        text += TEXT_nbytes_of_char(text);
+        // This code should not assume a valid multi-byte character sequence 
+        i++;
+        text++;
     }
     return(i);
 }
@@ -344,11 +375,27 @@ TEXT *TEXT_strcat(TEXT *p, TEXT *p1){
 // Tested
 int TEXT_strcmp_master(TEXT *p1, TEXT *p2, int n, int doCase){
     TEXT *_p1 = p1, *_p2 = p2;
+    TEXT *static_p1, *static_p2;
+    int static_p1_len = -1, static_p2_len = -1;
     int c1, c2, i, iteration = 0;
 
     if (_p1 == (TEXT *)0 && _p2 == (TEXT *)0)  return(0);
     if (_p2 == (TEXT *)0)  return(1);
     if (_p1 == (TEXT *)0)  return(-1);
+
+    // Data exists. convert case 
+    if (doCase){
+      if (static_p1_len == -1){
+        static_p1_len = static_p2_len = 100;
+        alloc_singarr(static_p1, static_p1_len, TEXT);
+        alloc_singarr(static_p2, static_p2_len, TEXT);
+      }
+      TEXT_str_case_change_with_mem_expand_from_array2(&static_p1, &static_p1_len, p1, 1);
+      TEXT_str_case_change_with_mem_expand_from_array2(&static_p2, &static_p2_len, p2, 1);
+      _p1 = static_p1;
+      _p2 = static_p2;
+    }
+
     do {
         if (end_of_TEXT(*_p1) && end_of_TEXT(*_p2))   return(0);
         if (end_of_TEXT(*_p2))                        return(1);
@@ -357,8 +404,7 @@ int TEXT_strcmp_master(TEXT *p1, TEXT *p2, int n, int doCase){
         c2 = TEXT_nbytes_of_char(_p2);
         if (c1 != c2) return (c1 < c2 ? -1 : 1);  
         // Lengths match
-        if (c1 > 1 || doCase == 0){
-            // NO CASE CONVERSON FOR NOW !!!
+        if (c1 > 1){
             for (i=0; i<c1; i++){
                if (*((unsigned char *)_p1) != *((unsigned char *)_p2))
                   return ((*((unsigned char *)_p1) < *((unsigned char *)_p2)) ? -1 : 1);
@@ -366,22 +412,8 @@ int TEXT_strcmp_master(TEXT *p1, TEXT *p2, int n, int doCase){
                _p2++;
             }
         } else {
-            TEXT char1 = *_p1; 
-            TEXT char2 = *_p2;
-            if (STATIC_ENCODING == EXTASCII){
-                // Handle both ASCII and EXTASCII
-                if (is_EXTASC(&char1)) { if (char1 >= 192 && char1 <= 223) { char1 -= 32; } }
-                else { char1 = tolower(char1); }
-
-                if (is_EXTASC(&char1)) { if (char2 >= 192 && char2 <= 223) { char2 -= 32; } }
-                else { char2 = tolower(char2); }                
-            } else {
-                // Handle JUST ASCII
-                char1 = toupper(char1);
-                char2 = toupper(char2);
-            }
-            if (char1 != char2)
-                return (char1 < char2 ? -1 : 1);
+            if (*_p1 != *_p2)
+                return (*_p1 < *_p2 ? -1 : 1);
             _p1++;
             _p2++;
         }
@@ -389,6 +421,55 @@ int TEXT_strcmp_master(TEXT *p1, TEXT *p2, int n, int doCase){
     } while ((n == -1) || (iteration < n));
     return(0);
 }
+
+// Tested
+//int TEXT_strcmp_master(TEXT *p1, TEXT *p2, int n, int doCase){
+//    TEXT *_p1 = p1, *_p2 = p2;
+//    int c1, c2, i, iteration = 0;
+//
+//    if (_p1 == (TEXT *)0 && _p2 == (TEXT *)0)  return(0);
+//    if (_p2 == (TEXT *)0)  return(1);
+//    if (_p1 == (TEXT *)0)  return(-1);
+//    do {
+//        if (end_of_TEXT(*_p1) && end_of_TEXT(*_p2))   return(0);
+//        if (end_of_TEXT(*_p2))                        return(1);
+//        if (end_of_TEXT(*_p1))                        return(-1);
+//        c1 = TEXT_nbytes_of_char(_p1);
+//        c2 = TEXT_nbytes_of_char(_p2);
+//        if (c1 != c2) return (c1 < c2 ? -1 : 1);  
+//        // Lengths match
+//        if (c1 > 1 || doCase == 0){
+//            // NO CASE CONVERSON FOR NOW !!!
+//            for (i=0; i<c1; i++){
+//               if (*((unsigned char *)_p1) != *((unsigned char *)_p2))
+//                  return ((*((unsigned char *)_p1) < *((unsigned char *)_p2)) ? -1 : 1);
+//               _p1++;
+//               _p2++;
+//            }
+//        } else {
+//            TEXT char1 = *_p1; 
+//            TEXT char2 = *_p2;
+//            if (STATIC_ENCODING == EXTASCII){
+//                // Handle both ASCII and EXTASCII
+//                if (is_EXTASC(&char1)) { if (char1 >= 192 && char1 <= 223) { char1 -= 32; } }
+//                else { char1 = tolower(char1); }
+//
+//                if (is_EXTASC(&char1)) { if (char2 >= 192 && char2 <= 223) { char2 -= 32; } }
+//                else { char2 = tolower(char2); }                
+//            } else {
+//                // Handle JUST ASCII
+//                char1 = toupper(char1);
+//                char2 = toupper(char2);
+//            }
+//            if (char1 != char2)
+//                return (char1 < char2 ? -1 : 1);
+//            _p1++;
+//            _p2++;
+//        }
+//        iteration ++;
+//    } while ((n == -1) || (iteration < n));
+//    return(0);
+//}
 
 // tested
 int TEXT_strCcasecmp(TEXT *p1, TEXT *p2, int n){
@@ -508,53 +589,182 @@ TEXT *TEXT_strrchr(TEXT *p, TEXT t){
     return((TEXT *)strrchr((char *)p,(char)t));
 }
 
-// tested
-void TEXT_str_to_master(TEXT *buf, int toLow){
-    int c1;
 
-    if (buf == (TEXT *)0)  return;
+// 
+long int TEXT_getUTFCodePoint(TEXT *buf){
+    if (buf == (TEXT *)0) return (0);
+
+    if (STATIC_ENCODING != UTF8){
+        fprintf(stderr,"Error: Attempt to get a UTF8 codepoint when the encoding is not UTF8\n");
+        exit(1);
+    }
+    
+    int n = TEXT_nbytes_of_char(buf);
+    long long int codePoint = 0;
+    if (n == 1) {
+        codePoint = *buf;
+    } else if (n == 2){
+        codePoint = ((*((TEXT *)buf) & 0x1F) << 6) + ((*((TEXT *)(buf+1)) & 0x3F));
+    } else if (n == 3){
+        codePoint = ((*((TEXT *)buf) & 0xF) << 12) + ((*((TEXT *)(buf+1)) & 0x3F) << 6) + ((*((TEXT *)(buf+2)) & 0x3F));
+    } else if (n == 4){
+        codePoint = ((*((TEXT *)buf) & 0x7) << 18) + ((*((TEXT *)(buf+1)) & 0x3F) << 12) + ((*((TEXT *)(buf+2)) & 0x3F) << 6)  + ((*((TEXT *)(buf+3)) & 0x3F));
+    } else if (n == 5){
+        codePoint = ((*((TEXT *)buf) & 0x3) << 24) + ((*((TEXT *)(buf+1)) & 0x3F) << 18) + ((*((TEXT *)(buf+2)) & 0x3F) << 12) + ((*((TEXT *)(buf+3)) & 0x3F) << 6)  + ((*((TEXT *)(buf+4)) & 0x3F));
+    } else if (n == 6){
+        fprintf(stderr,"Error: Attempt to codepoint for 6-byte UTF8 codepoint is not supported\n");
+        exit(1);
+// This code works BUT, it exceeds the size of an int, SO, this is not portable
+//    } else if (n == 6){
+//        codePoint = ((*((TEXT *)buf) & 0x1) << 36) + ((*((TEXT *)(buf+1)) & 0x3F) << 24) + ((*((TEXT *)(buf+2)) & 0x3F) << 18) + ((*((TEXT *)(buf+3)) & 0x3F) << 12) + ((*((TEXT *)(buf+4)) & 0x3F) << 6) + ((*((TEXT *)(buf+5)) & 0x3F));
+    } else {
+        fprintf(stderr,"Error: Attempt to get UTF8 codepoint for larger than 5-byte codepoints\n");
+        exit(1);
+    }
+    
+    return codePoint;
+}
+
+
+// 
+TEXT* TEXT_UTFCodePointToTEXT(long int c){
+    static TEXT val[10];
+    TEXT *b;
+    int max = 10;
+    int i;
+    
+    if (STATIC_ENCODING != UTF8){
+        fprintf(stderr,"Error: Attempt convert a UTF8 codepoint to TEXT when the encoding is not UTF8\n");
+        exit(1);
+    }
+    for (i=0, b=(TEXT *)&val; i<max; i++) {
+        *b++ = (TEXT)'\0' ;
+    }
+    b = (TEXT *)&val;
+     
+    if      (c<    0x80) *b++=c;
+    else if (c<   0x800) *b++=192+c/64, *b++=128+c%64;
+    else if (c< 0x10000) *b++=224+c/4096, *b++=128+c/64%64, *b++=128+c%64;
+    else if (c< 0x20000) *b++=240+c/262144, *b++=128+c/4096%64, *b++=128+c/64%64, *b++=128+c%64;
+    else {
+        fprintf(stderr,"Error: Attempt convert a UTF8 codepoint to TEXT resulting in more that 4-byte UTF8\n");
+        exit(1);
+    }
+      
+    return (TEXT *)&val;
+}
+
+int getKnownUFTCaseCP(int inCP, int toLow){
+   int outCP = -1, i;
+
+   if (STATIC_LPROF == LPROF_BABEL_TURKISH){
+     for (i=0; i<numKCC_babel_turkish && outCP == -1; i++){     
+       if (KCC_babel_turkish[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_turkish[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   return -1;
+}
+
+// tested
+TEXT *TEXT_str_to_master(TEXT *bufTEXT, int toLow){
+    int c1, c2;
+    TEXT *outP, *buf, holdSpace[10], *hptr;
+                                
+    buf = bufTEXT;
+    hptr = (TEXT *)holdSpace;
+    
+    // Allocated data if needed
+    if (STATIC_CASECONVTEXT_SIZE == -1){
+        STATIC_CASECONVTEXT_SIZE = TEXT_chrlen(buf) + 1;
+        if (STATIC_CASECONVTEXT_SIZE < 5) STATIC_CASECONVTEXT_SIZE = 5;  // Set a minimum
+        alloc_singZ(STATIC_CASECONVTEXT, STATIC_CASECONVTEXT_SIZE, TEXT, (TEXT)'\0');
+    }
+    outP = STATIC_CASECONVTEXT;
+    *outP = (TEXT )0;
+    
+    if (bufTEXT == (TEXT *)0)  return (bufTEXT);
+    if (*bufTEXT == NULL_TEXT)  return (STATIC_CASECONVTEXT);
+
+//    printf("str to mast /%s/ - tmpSize=%d\n",bufTEXT,STATIC_CASECONVTEXT_SIZE);
+
     do {
-        if (end_of_TEXT(*buf)) return;
         c1 = TEXT_nbytes_of_char(buf);
-//        printf(" %c %d chr\n",*buf, c1);
-        if (c1 > 1){
-            buf += c1;
-        } else {
-            if (toLow){
-                if (STATIC_ENCODING == EXTASCII){
-                    // Handle both ASCII and EXTASCII
-                    if (is_EXTASC(buf)) { if (*buf >= 192 && *buf <= 223) { *buf += 32; } }
-                    else { *buf = tolower(*buf); }
-                } else {
-                    // Handle JUST ASCII
-                    *buf = tolower(*buf);
-                }
-//                printf("    LOW %c %d chr\n",*buf, c1);
+        
+        if (STATIC_ENCODING == GB){
+          TEXT_strCcpy(hptr, buf, 1);
+          if (c1 == 1) *hptr = (toLow ? tolower(*hptr) :  toupper(*hptr));  // ONLY if 1 char
+        } else if (STATIC_ENCODING == UTF8){
+          int inCP, outChangeCP;
+          inCP = TEXT_getUTFCodePoint(buf);
+          outChangeCP = getKnownUFTCaseCP(inCP, toLow);
+          if (outChangeCP > 0){
+            TEXT_strCcpy(hptr, TEXT_UTFCodePointToTEXT(outChangeCP), 1);         
+          } else {
+            TEXT_strCcpy(hptr, buf, 1);         
+            if (c1 == 1) *hptr = (toLow ? tolower(*hptr) :  toupper(*hptr));  // ONLY if 1 char
+          }         
+        } else if (STATIC_ENCODING == ASCII){
+          TEXT_strCcpy(hptr, buf, 1);
+          *hptr = (toLow ? tolower(*hptr) :  toupper(*hptr));  // ONLY if 1 char
+        } else if (STATIC_ENCODING == EXTASCII){
+          TEXT_strCcpy(hptr, buf, 1);
+          if (is_EXTASC(hptr)) { 
+            if (toLow) {
+              if (*hptr >= 192 && *hptr <= 223) { *hptr += 32; } 
             } else {
-                if (STATIC_ENCODING == EXTASCII){
-                    // Handle both ASCII and EXTASCII
-                    if (is_EXTASC(buf)) { if (*buf >= 224) { *buf -= 32; } }
-                    else { *buf = toupper(*buf); }
-                } else {
-                    // Handle JUST ASCII
-                    *buf = toupper(*buf);
-                }
-//                printf("    UPP %c(%d) %d chr\n",*buf, *buf, c1);
+              if (*hptr >= 224) *hptr -= 32;
             }
-            buf++;
+          } else {
+            *hptr = (toLow ? tolower(*hptr) :  toupper(*hptr));  // ONLY if 1 char
+          }
         }
-    } while (1);
+
+        // hptr is the converted char
+        c2 = TEXT_nbytes_of_char(hptr);
+        if (TEXT_strlen(STATIC_CASECONVTEXT) + c2 + 1> STATIC_CASECONVTEXT_SIZE){
+          expand_singarr(STATIC_CASECONVTEXT, STATIC_CASECONVTEXT_SIZE, STATIC_CASECONVTEXT_SIZE, 1.5, TEXT);
+          //printf("Expanded Now %d with %s\n",STATIC_CASECONVTEXT_SIZE, STATIC_CASECONVTEXT);
+          outP = (TEXT *)STATIC_CASECONVTEXT + TEXT_strlen(STATIC_CASECONVTEXT);
+        }
+        TEXT_strCcpy(outP, hptr, 1);
+                     
+        buf += c1;
+        outP += c2;
+        //printf("  loop %s\n",STATIC_CASECONVTEXT);
+    } while (! end_of_TEXT(*buf));
+
+    return (STATIC_CASECONVTEXT);
+}
+
+void TEXT_str_case_change_with_mem_expand(TEXT **buf, int *len, int toLow){
+    TEXT *lc = TEXT_str_to_master(*buf, toLow);
+    int lc_len = TEXT_strlen(lc);
+    if (lc_len+1 > *len){
+	expand_singarr_to_size((*buf),(*len),(*len),lc_len + 1,TEXT)
+    }
+    TEXT_strcpy(*buf, lc);
+}
+
+void TEXT_str_case_change_with_mem_expand_from_array2(TEXT **buf, int *len, TEXT *arr2, int toLow){
+    TEXT *lc = TEXT_str_to_master(arr2, toLow);
+    int lc_len = TEXT_strlen(lc);
+    if (lc_len+1 > *len){
+	expand_singarr_to_size((*buf),(*len),(*len),lc_len + 1,TEXT)
+    }
+    TEXT_strcpy(*buf, lc);
 }
 
 // tested
-void TEXT_str_to_low(TEXT *buf){
-    TEXT_str_to_master(buf, 1);
-}
+//TEXT *TEXT_str_to_upp(TEXT *buf){
+//    return TEXT_str_to_master(buf, 0);
+//}
+//
+//TEXT *TEXT_str_to_low(TEXT *buf){
+//    return TEXT_str_to_master(buf, 1);
+//}
 
-// tested
-void TEXT_str_to_upp(TEXT *buf){
-    TEXT_str_to_master(buf, 0);
-}
 
 /*********************************************************************/
 /* A safe version of fgets(), it will check to make sure that if len */

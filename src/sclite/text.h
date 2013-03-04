@@ -17,6 +17,7 @@
 
 enum TEXT_ENCODINGS { ASCII, EXTASCII, GB, UTF8 };
 enum TEXT_COMPARENORM { CASE, NONE };
+enum TEXT_LANG_PROFILE { LPROF_GENERIC, LPROF_BABEL_TURKISH };
 
 typedef unsigned char TEXT;
 
@@ -25,6 +26,14 @@ typedef unsigned char TEXT;
 // TEXT* (TEXT *)
 TEXT *TEXT_strdup(TEXT *p);
 TEXT *TEXT_skip_wspace(TEXT *ptr);
+
+// void (TEXT **, int *)
+TEXT *TEXT_str_to_master(TEXT *bufTEXT, int toLow);
+void TEXT_str_case_change_with_mem_expand(TEXT **buf, int *len, int toLow);
+void TEXT_str_case_change_with_mem_expand_from_array2(TEXT **buf, int *len, TEXT *arr2, int toLow);
+
+//TEXT *TEXT_str_to_low(TEXT *buf);
+//TEXT *TEXT_str_to_upp(TEXT *buf);
 
 // TEXT* (TEXT *, TEXT **)
 TEXT *TEXT_add(TEXT *p1, TEXT *p2);
@@ -56,6 +65,9 @@ TEXT *TEXT_ensure_fgets(TEXT **arr, int *len, FILE *fp);
 // TEXT* (TEXT *, int, FILE *)
 TEXT *TEXT_fgets(TEXT *arr, int len, FILE *fp);
 
+// TEXT* (int)
+TEXT* TEXT_UTFCodePointToTEXT(long int c);
+
 // float (TEXT *)
 float TEXT_atof(TEXT *p);
 
@@ -67,6 +79,7 @@ int TEXT_is_empty(TEXT *p);
 int TEXT_is_wfrag(TEXT *text);
 int TEXT_strlen(TEXT *p);
 int TEXT_nbytes_of_char(TEXT *p);
+long int TEXT_getUTFCodePoint(TEXT *buf);
 
 // int (TEXT)
 int end_of_TEXT(TEXT text);
@@ -94,8 +107,6 @@ size_t TEXT_strspn(TEXT *str, TEXT *set);
 
 // void (TEXT *)
 void TEXT_free(TEXT *p);
-void TEXT_str_to_low(TEXT *buf);
-void TEXT_str_to_upp(TEXT *buf);
 
 // void (TEXT *, TEXT *, int *, int)
 void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int not_ASCII);

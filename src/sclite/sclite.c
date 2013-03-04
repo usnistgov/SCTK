@@ -41,7 +41,10 @@ char *usage = "%s: <OPTIONS>\n"
 "                may be used more than once.\n"
 "    -i <ids>    Set the utterance id type.   (for transcript mode only)\n"
 "    -P          Accept the piped input from another utility.\n"
-"    -e gb|euc|utf-8   Interpret characters as GB or EUC chars. Default is 8-bit ASCII\n"
+"    -e gb|euc|utf-8 [ case-conversion-localization ]\n"
+"                Interpret characters as GB, EUC, utf-8, or the default, 8-bit ASCII.\n"
+"                Optionally, case conversion localization can be set to either 'generic' or\n"
+"                'babel_turkish'\n"  
 "Alignment Options:\n"
 "    -s          Do Case-sensitive alignments.\n"
 "    -d          Use GNU diff for alignments.\n"
@@ -571,6 +574,13 @@ void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, cha
 	    if (!TEXT_set_encoding(argv[opt]))
 		do_exit(rsprintf("Unrecognized character encoding "
 				 "option '%s'",argv[opt]),prog,1);
+            // Parse the optional localization
+	    if (opt+1 < argc && *(argv[opt+1]) != '-'){
+	        if (!TEXT_set_lang_prof(argv[opt+1]))
+		    do_exit(rsprintf("Optional case conversion localization failed /%s/\n",
+		            argv[opt+1]),prog,1);
+  	        opt++;			 
+  	     }
 	} else if (strcmp(argv[opt],"-p") == 0){
 	    *pipeout = 1;
 	    outset = 1;

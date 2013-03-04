@@ -117,7 +117,7 @@ db_enter_msg(proc,0); /* debug only */
 	  (gets_rtn = TEXT_ensure_fgets(&in_buf, &in_buf_len,fp)) != NULL){
        if (*in_buf != (unsigned char)comment_char){
 	   if (!case_sense)
-	       TEXT_str_to_low(in_buf);
+	       TEXT_str_case_change_with_mem_expand(&in_buf, &in_buf_len, 1);
 	   n += 1;
 	   *s2 = *s3 = *xconv = *xsp = *xconf = *xcorr = '\0';
 

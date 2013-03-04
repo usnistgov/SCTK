@@ -440,10 +440,14 @@ static void process_inserts(SCORES **scor, PATH **path_set, int npath, int *pset
   for (p=0; p<npath; p++){    
     if ((path_set[p]->num > psets[p]) && 
 	(path_set[p]->pset[psets[p]].eval & P_INS) != 0){
-      TEXT buf[200];
-      TEXT_strBcpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
-      if (BF_notSET(path_set[p]->attrib,PA_CASE_SENSE))
-	TEXT_str_to_upp(buf);
+      TEXT *buf;
+      buf = ((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value;
+      if (BF_notSET(path_set[p]->attrib,PA_CASE_SENSE)){
+        buf = TEXT_str_to_master(buf, 0);
+      }
+      //      TEXT_strBcpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
+      //      if (BF_notSET(path_set[p]->attrib,PA_CASE_SENSE)) 
+      //      	TEXT_str_to_upp(buf);
       TEXT_strcat(outbuf[p],(TEXT *)rsprintf(fmt,buf));
       psets[p] ++;
     } else 
@@ -485,17 +489,22 @@ static void process_rest(SCORES **scor, PATH **path_set, int npath, int *psets, 
       ref_done = 1;
     }
     if (path_set[p]->num > psets[p]){
-      TEXT buf[200], *aster = (TEXT *)"****************************************";
-      *buf = (TEXT )'\0';
+      TEXT *buf, *aster = (TEXT *)"****************************************";
       if ((path_set[p]->pset[psets[p]].eval & P_DEL) == 0){
-	TEXT_strBcpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
-	if (((path_set[p]->pset[psets[p]].eval & P_CORR) == 0) &&
-	    BF_notSET(path_set[p]->attrib,PA_CASE_SENSE))
-	  TEXT_str_to_upp(buf);
+        buf = ((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value;
+	if (((path_set[p]->pset[psets[p]].eval & P_CORR) == 0) && BF_notSET(path_set[p]->attrib,PA_CASE_SENSE))
+	  buf = TEXT_str_to_master(buf, 0);
       } else {
-	TEXT_strBcpy(buf,aster + 40 - MIN(40,max),40); 
+        buf = aster + 40 - MIN(40,max);
       }
-
+//      if ((path_set[p]->pset[psets[p]].eval & P_DEL) == 0){
+//	TEXT_strBcpy(buf,((WORD *)path_set[p]->pset[psets[p]].b_ptr)->value,200);
+//	if (((path_set[p]->pset[psets[p]].eval & P_CORR) == 0) &&
+//	    BF_notSET(path_set[p]->attrib,PA_CASE_SENSE))
+//	  TEXT_str_to_upp(buf);
+//      } else {
+//	TEXT_strBcpy(buf,aster + 40 - MIN(40,max),40); 
+//      }
       TEXT_strcat(outbuf[p],(TEXT *)rsprintf(fmt,buf));
       psets[p] ++;
     }

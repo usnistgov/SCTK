@@ -205,9 +205,7 @@ void PATH_n_print(PATH *path, FILE *fp, int from, int to, int max){
 		      else {
 			  if (BF_notSET(path->attrib,PA_CASE_SENSE) &&
 			      path->pset[i].eval != P_CORR) {
-			      TEXT_strcpy(buf,astr);
-			      TEXT_str_to_upp(buf);
-			      astr = buf;
+			      astr = TEXT_str_to_master(astr, 0);
 			  }
 		      }
 		      fprintf(fp,fmt,astr);
@@ -244,9 +242,7 @@ void PATH_n_print(PATH *path, FILE *fp, int from, int to, int max){
 		      else {
 			  if (BF_notSET(path->attrib,PA_CASE_SENSE) &&
 			      path->pset[i].eval != P_CORR){
-			      TEXT_strcpy(buf,bstr);
-			      TEXT_str_to_upp(buf);
-			      bstr = buf;
+			      bstr = TEXT_str_to_master(bstr, 0);
 			  }
 		      }
 		      fprintf(fp,fmt,bstr);
@@ -322,8 +318,7 @@ void PATH_n_print_html(PATH *path, FILE *fp, int from, int to, int max, int head
     int c,s,d,n,u,aux_max=0,line=0,wmax;
     char fmt[30];
     TEXT *astr, *bstr, 
-         *aster=(TEXT *) "****************************************",
-         buf[100];
+         *aster=(TEXT *) "****************************************";
 
     if (to > path->num) to = path->num;
     used = (from >= 0 && from < to) ? from : 0;
@@ -477,9 +472,7 @@ void PATH_n_print_html(PATH *path, FILE *fp, int from, int to, int max, int head
 		      else {
 			  if (BF_notSET(path->attrib,PA_CASE_SENSE) &&
 			      path->pset[i].eval != P_CORR) {
-			      TEXT_strcpy(buf,astr);
-			      TEXT_str_to_upp(buf);
-			      astr = buf;
+			      astr = TEXT_str_to_master(astr, 0);
 			  }
 		      }
 		      fprintf(fp,fmt,astr);
@@ -512,9 +505,7 @@ void PATH_n_print_html(PATH *path, FILE *fp, int from, int to, int max, int head
 		      else {
 			  if (BF_notSET(path->attrib,PA_CASE_SENSE) &&
 			      path->pset[i].eval != P_CORR){
-			      TEXT_strcpy(buf,bstr);
-			      TEXT_str_to_upp(buf);
-			      bstr = buf;
+			      bstr = TEXT_str_to_master(bstr, 0);
 			  }
 		      }
 		      fprintf(fp,fmt,bstr);

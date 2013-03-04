@@ -260,7 +260,7 @@ TEXT *nextColon(TEXT *t){
 /* This procudure parses the text for tag1 and tag2 */
 WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int fcorr, int odel, double weight){
   TEXT *endOfElement;
-  TEXT *text, *tag1 = (TEXT *)NULL, *tag2 = (TEXT *)NULL;
+  TEXT *text = (TEXT *)NULL, *tag1 = (TEXT *)NULL, *tag2 = (TEXT *)NULL;
   TEXT *textPtr = t;
   WORD *word;
 
@@ -287,7 +287,7 @@ WORD *new_WORD_parseText(TEXT *t, int id, double t1, double t2, double conf, int
 //    printf("   Tag1 is %s\n",(tag1 != (TEXT *)0) ? tag1 : (TEXT *)"null");
 //    printf("   Tag2 is %s\n",(tag2 != (TEXT *)0) ? tag2 : (TEXT *)"null");
     word = new_WORD(text, id, t1, t2, conf, tag1, tag2, fcorr, odel, weight);
-    free_1dimarr(text, TEXT);
+    if (text != (TEXT *)0) free_1dimarr(text, TEXT);
     if (tag1 != (TEXT *)0) free_1dimarr(tag1, TEXT);
     if (tag2 != (TEXT *)0) free_1dimarr(tag2, TEXT);
     return word;
