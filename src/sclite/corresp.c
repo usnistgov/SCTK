@@ -40,8 +40,8 @@ void locate_matched_data(SCORES *scor[], int nscor, SC_CORRESPONDENCE **corresp)
 
 void dump_paths_of_SC_CORRESPONDENCE(SC_CORRESPONDENCE *corresp, int maxlen, FILE *fp, int score_diff){
   int gr, sc, pa;
-  int totRefWord = 0, refWord;
-  int totErrRefWord = 0, errRefWord;
+  int totRefWord = 0, refWord = 0;
+  int totErrRefWord = 0, errRefWord = 0;
   int numPaths = 0, numIdentPaths = 0;
   AUTO_LEX alex; 
 
