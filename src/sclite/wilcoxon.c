@@ -78,7 +78,7 @@ int compute_wilcoxon_for_treatment(RANK *rank, int treat1, int treat2, char *blo
     double sum_trt1=0.0, sum_trt2=0.0, sum_trt_diff=0.0;
     int block, max_len_block=0, max_len_treat=6;
     char *pct_format, thresh_str[140];
-    char title_line[200];
+    TEXT *title_line = (TEXT *)0;
     int paper_width = 79, rep_width;
     double equal_thresh = 0.05;
     double *block_diff, *block_rank;
@@ -135,9 +135,9 @@ int compute_wilcoxon_for_treatment(RANK *rank, int treat1, int treat2, char *blo
     if (verbose) {
         fprintf(fp,"%s\n",center("Wilcoxon Test Calculations Table",
 				 paper_width));
-        sprintf(title_line,"Comparing %s %s Percentages for Systems %s and %s",
+        title_line = TEXT_strdup(rsprintf("Comparing %s %s Percentages for Systems %s and %s",
 		block_id, formula_str,rank->trt_name [ tptr[0] ] ,
-		rank->trt_name [ tptr[1] ] );
+		rank->trt_name [ tptr[1] ] ));
         fprintf(fp,"%s\n\n",center(title_line,paper_width));
 
         fprintf(fp,"%s",center("",(paper_width - rep_width)/2));
@@ -224,6 +224,8 @@ int compute_wilcoxon_for_treatment(RANK *rank, int treat1, int treat2, char *blo
     free_singarr(block_rank,double);
     free_singarr(block_sort,int);
     free_singarr(pct_format,char);
+    if (title_line != (TEXT *)0)
+        free_singarr(title_line, TEXT);
 
     /* Analyze the Results */
     { int result;

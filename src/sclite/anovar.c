@@ -77,10 +77,10 @@ void compute_anovar(RANK *rank, int verbose, int report, int ***out_sys_winner, 
 	}
 
     if (verbose){
-        set_pad(pad,FRI_TITLE);
+        set_pad(pad,FRI_TITLE, FULL_SCREEN);
         fprintf(fp,"\n\n\n%s%s\n",pad,FRI_TITLE);
         fprintf(fp,"%s----------------------------------------------\n\n",pad);
-        set_pad_cent_n(pad,SCREEN_WIDTH);
+        set_pad_cent_n(pad,SCREEN_WIDTH, FULL_SCREEN);
     fprintf(fp,"%s\tHo: Testing the hypothesis that all recognizers are the same",
                  pad);
     }
@@ -96,10 +96,10 @@ void compute_anovar(RANK *rank, int verbose, int report, int ***out_sys_winner, 
     if (verbose) form_feed(fp);
 
     if (verbose){
-        set_pad(pad,FRI_TITLE);
+        set_pad(pad,FRI_TITLE, FULL_SCREEN);
         fprintf(fp,"\n\n\n%s%s\n",pad,FRI_TITLE);
         fprintf(fp,"%s----------------------------------------------\n\n",pad);
-        set_pad_cent_n(pad,SCREEN_WIDTH);
+        set_pad_cent_n(pad,SCREEN_WIDTH, FULL_SCREEN);
        fprintf(fp,"%s\tHo: Testing the hypothesis that all speakers are the same",
                  pad);
     }
@@ -184,7 +184,7 @@ static void print_result_of_analyze_rank_sum(int df, double X2_r, double adjust,
     char pad[FULL_SCREEN];
     int i;
 
-    set_pad_cent_n(pad,SCREEN_WIDTH);
+    set_pad_cent_n(pad,SCREEN_WIDTH, FULL_SCREEN);
     fprintf(fp,"\n\n\n%s%35sReject if\n",pad,"");
     fprintf(fp,"%s%26sX2_r > X2 of %s %s (%2.3f)\n", pad, "", 
                           X2_pct_str(GEN_X2_PER),
@@ -425,15 +425,15 @@ static void print_ANOVAR_comp_matrix(int trt_num, int **stat_sum, char **trt_nam
     int t, t2;
     int max_trt_name_len=4, hy_l=20;
 
-    set_pad(pad,title);
+    set_pad(pad,title, FULL_SCREEN);
     fprintf(fp,"\n\n%s%s\n",pad,title);
-    set_pad(pad,RANK_TITLE_1);
+    set_pad(pad,RANK_TITLE_1, FULL_SCREEN);
     fprintf(fp,"%s%s\n\n\n\n",pad,RANK_TITLE_1);
 
     for (t=0; t<trt_num; t++)
         if (max_trt_name_len < strlen(trt_names[t]))
             max_trt_name_len = strlen(trt_names[t]);
-    set_pad_cent_n(pad,(trt_num+1) * (max_trt_name_len+2+1));
+    set_pad_cent_n(pad,(trt_num+1) * (max_trt_name_len+2+1), FULL_SCREEN);
     sprintf(name_format,"| %%-%ds ",max_trt_name_len);
 
     /* first line */

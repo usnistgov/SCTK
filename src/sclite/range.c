@@ -92,11 +92,11 @@ static void do_blk_ranges(RANK *rank, int scale, char *p_desc, char *tname, FILE
     alloc_singarr(mean, rank->n_blk, double);
     alloc_singarr(pcts, rank->n_trt, double);
 
-    set_pad(pad,title);
+    set_pad(pad,title, FULL_SCREEN);
     fprintf(fp,"\n\n\n%s%s\n",pad,title);
-    set_pad(pad,tname);
+    set_pad(pad,tname, FULL_SCREEN);
     fprintf(fp,"%s%s\n",pad,tname);
-    set_pad_cent_n(pad,strlen(title1)+strlen(p_desc));
+    set_pad_cent_n(pad,strlen(title1)+strlen(p_desc), FULL_SCREEN);
     fprintf(fp,"%s%s%s\n\n\n\n\n",pad,title1,p_desc);
 
     /**** find the high, low, and the standard deviation for each block */
@@ -144,11 +144,11 @@ static void do_trt_ranges(RANK *rank, int scale, char *p_desc, char *tname, FILE
     alloc_singarr(pcts, rank->n_blk, double);
 
 
-    set_pad(pad,title);
+    set_pad(pad,title, FULL_SCREEN);
     fprintf(fp,"\n\n\n%s%s\n",pad,title);
-    set_pad(pad,tname);
+    set_pad(pad,tname, FULL_SCREEN);
     fprintf(fp,"%s%s\n",pad,tname);
-    set_pad_cent_n(pad,strlen(title1)+strlen(p_desc));
+    set_pad_cent_n(pad,strlen(title1)+strlen(p_desc), FULL_SCREEN);
     fprintf(fp,"%s%s%s\n\n\n\n\n",pad,title1,p_desc);
 
     /**** find the high, low, and the standard deviation for each treatment*/
@@ -197,7 +197,7 @@ static void print_range_graph(int scale, double *high, double *low, double *mean
     /*   make the range table                                   */
     /************************************************************/
     /* print the header */
-    set_pad_cent_n(pad,42+max_range_len);
+    set_pad_cent_n(pad,42+max_range_len, FULL_SCREEN);
     fprintf(fp,"%s|-",pad);
     for (i=0;i<max_range_len;i++)
         fprintf(fp,"-");
@@ -235,7 +235,7 @@ static void print_range_graph(int scale, double *high, double *low, double *mean
     /************************************************************/
     /*   make the range graph                                   */
     /************************************************************/
-    set_pad_cent_n(pad,(100/scale) + (4+max_range_len));
+    set_pad_cent_n(pad,(100/scale) + (4+max_range_len), FULL_SCREEN);
     fprintf(fp,"%s|---",pad);
     for (i=0;i<max_range_len;i++)
         fprintf(fp,"-");
@@ -252,13 +252,13 @@ static void print_range_graph(int scale, double *high, double *low, double *mean
 
     pad_1 =(((100/scale +1) - strlen(pct_str)) / 2);
     pad_2 =(100/scale +1) - (pad_1 + strlen(pct_str));
-    set_pad_n(pad,pad_1);
+    set_pad_n(pad,pad_1, FULL_SCREEN);
     fprintf(fp,"%s%s",pad,pct_str);
-    set_pad_n(pad,pad_2);
+    set_pad_n(pad,pad_2, FULL_SCREEN);
     fprintf(fp,"%s|\n",pad);
 
     /* print the scale */
-    set_pad_cent_n(pad,(100/scale) + (4+max_range_len));
+    set_pad_cent_n(pad,(100/scale) + (4+max_range_len), FULL_SCREEN);
     fprintf(fp,"%s|-",pad);
     for (i=0;i<max_range_len;i++)
         fprintf(fp,"-");
@@ -337,8 +337,9 @@ static void print_gnu_range_graph(RANK *rank, char *percent_desc, char *testname
     int b,t;
     FILE *fp_dat, *fp_mean, *fp_plt, *fp_median;
     double sum;
-    char mean_name[50], dat_name[50], plt_name[50], basename[50];
-    char median_name[50];
+    TEXT *mean_name = (TEXT *)0, *dat_name = (TEXT *)0;
+    TEXT *plt_name = (TEXT *)0, *basename = (TEXT *)0;
+    TEXT *median_name = (TEXT *)0;
     double *pctt, *rnkk;
     int *ind;
 
@@ -346,9 +347,9 @@ static void print_gnu_range_graph(RANK *rank, char *percent_desc, char *testname
     alloc_singarr(rnkk,MAX( rank->n_blk , rank->n_trt ),double);
     alloc_singarr(ind,MAX( rank->n_blk , rank->n_trt ),int);
 
-    sprintf(basename,"%s%s",(strcmp(base,"-")==0) ? "STATS" : base,
-	    (for_blks) ? ".spk" : ".sys");
-    sprintf(dat_name,"%s%s",basename,".dat");
+    basename = TEXT_strdup((TEXT *)rsprintf("%s%s",(strcmp(base,"-")==0) ? "STATS" : base,
+	    (for_blks) ? ".spk" : ".sys"));
+    dat_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".dat"));
     /* make the datafiles for the treatements */
     if ((fp_dat = fopen(dat_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT data file %s\n",
@@ -357,19 +358,19 @@ static void print_gnu_range_graph(RANK *rank, char *percent_desc, char *testname
     } else
 	if (feedback >= 1) printf("        Output written to '%s.*'\n",basename);
 
-    sprintf(mean_name,"%s%s",basename,".mean");
+    mean_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".mean"));
     if ((fp_mean = fopen(mean_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT data file %s\n",
 		mean_name);
 	exit(1);
     }
-    sprintf(median_name,"%s%s",basename,".median");
+    median_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".median"));
     if ((fp_median = fopen(median_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT data file %s\n",
 		median_name);
 	exit(1);
     }
-    sprintf(plt_name,"%s%s",basename,".plt");
+    plt_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".plt"));
     if ((fp_plt = fopen(plt_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT file %s\n",
 		plt_name);
@@ -448,6 +449,12 @@ static void print_gnu_range_graph(RANK *rank, char *percent_desc, char *testname
     fclose(fp_mean);
     fclose(fp_median);
     fclose(fp_plt);
+
+    free_singarr(mean_name  , TEXT);
+    free_singarr(dat_name   , TEXT);
+    free_singarr(plt_name   , TEXT);
+    free_singarr(basename   , TEXT);
+    free_singarr(median_name, TEXT);
 
     free_singarr(pctt,double);
     free_singarr(rnkk,double);

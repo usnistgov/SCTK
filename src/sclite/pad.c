@@ -41,12 +41,12 @@ int pad_pr_width(void)
 /*     pad manipulating routines                             */
 /*************************************************************/
 /*  set the pad to center the passed in string               */
-void set_pad(char *pad, char *str)
+void set_pad(char *pad, char *str, int max)
 {
     int i, len;
     
     len = (pad_print_out_width - strlen(str) )/2;
-    for (i=0; i<len;i++)
+    for (i=0; i<MIN(len, max-1);i++)
         pad[i] = ' ';
     if (i>0)
        pad[i-1] = '\0';
@@ -56,22 +56,22 @@ void set_pad(char *pad, char *str)
 
 /*************************************************************/
 /*  set the pad to n spaces                                  */
-void set_pad_n(char *pad, int n)
+void set_pad_n(char *pad, int n, int max)
 {
     int i;
 
-    for (i=0;i<n;i++)
+    for (i=0;i<MIN(n,max-1);i++)
         pad[i]=' ';
     pad[i] = '\0';
 }
 
 /*************************************************************/
 /*  set the pad to center a string of length `len`           */
-void set_pad_cent_n(char *pad, int len)
+void set_pad_cent_n(char *pad, int len, int max)
 {
     int i;
 
-    for (i=0;i<((pad_print_out_width - len) / 2);i++)
+    for (i=0;i<MIN(((pad_print_out_width - len) / 2),max-1);i++)
         pad[i]=' '; 
     if (i>0)
        pad[i-1] = '\0';
@@ -111,10 +111,10 @@ char *center(char *str, int len)
 /***************************************************************/
 /*  copy the string if the len of from<len, the pad with char  */
 /***************************************************************/
-void strncpy_pad(char *to, char *from, int len, char chr)
+void strncpy_pad(char *to, char *from, int len, int max, char chr)
 {
     int i;
-    for (i=0; i<len; i++){
+    for (i=0; i<MIN(len,max-1); i++){
        if (*from != '\0')
           *(to++) = *(from++);
        else

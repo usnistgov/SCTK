@@ -643,17 +643,17 @@ void print_sent_seg_averaged_analysis(SCORES *scor[], int nscor, double ***seg_p
     char *sub_title="Average Number of Segments Per Sentence Report for";
     char *sub_title1="Changing Numbers of Buffer Words";
 
-    set_pad_cent_n(pad,strlen(sub_title));
+    set_pad_cent_n(pad,strlen(sub_title), FULL_SCREEN);
     printf("%s%s\n",pad,sub_title);
-    set_pad_cent_n(pad,strlen(sub_title1));
+    set_pad_cent_n(pad,strlen(sub_title1), FULL_SCREEN);
     printf("%s%s\n",pad,sub_title1);
     if (*tname != '\0'){
-        set_pad(pad,tname);
+        set_pad(pad,tname, FULL_SCREEN);
         printf("%s%s\n",pad,tname);
     }
     printf("\n\n");
 
-    set_pad(pad,"--------------------------------");
+    set_pad(pad,"--------------------------------", FULL_SCREEN);
     printf("%s--------------------------------\n",pad);
     printf("%s|   Num Buf   |  Ave Seg/Sent  |\n",pad);
     printf("%s|-------------+----------------|\n",pad);
@@ -682,17 +682,17 @@ void print_sent_seg_long_analysis(SCORES *scor[], int nscor, double ***seg_per_s
     char *sub_title="Number of Segments Per Sentence Report for Changing";
     char *sub_title1="Numbers of Buffer Words";
 
-    set_pad_cent_n(pad,strlen(sub_title));
+    set_pad_cent_n(pad,strlen(sub_title), FULL_SCREEN);
     printf("%s%s\n",pad,sub_title);
-    set_pad_cent_n(pad,strlen(sub_title1));
+    set_pad_cent_n(pad,strlen(sub_title1), FULL_SCREEN);
     printf("%s%s\n",pad,sub_title1);
     if (*tname != '\0'){
-        set_pad(pad,tname);
+        set_pad(pad,tname, FULL_SCREEN);
         printf("%s%s\n",pad,tname);
     }
     printf("\n");
 
-    set_pad_cent_n(pad,(nscor+1) * 15);
+    set_pad_cent_n(pad,(nscor+1) * 15, FULL_SCREEN);
     printf("\n%s|-------------",pad);
     for (k=0;k<nscor;k++)
         printf("%13s","--------------");
@@ -749,7 +749,7 @@ void print_compare_matrix_for_sys(SCORES *scor[], int nscor, int **winner, char 
          hyphens[i]='-'; 
          spaces[i]=' ';
     }
-    hyphens[49]='\0'; spaces[49]='\0';
+    hyphens[hyphen_len]='\0'; spaces[space_len]='\0';
     /* find the largest system length */
     for (sys=0;sys<nscor;sys++)
       if ((i=strlen(scor[sys]->title)) > max_name_len)
@@ -757,37 +757,37 @@ void print_compare_matrix_for_sys(SCORES *scor[], int nscor, int **winner, char 
     block_size = (3+max_name_len);
     sprintf(sysname_fmt," %%%ds |",max_name_len);
 
-    set_pad(pad,matrix_name);
+    set_pad(pad,matrix_name, FULL_SCREEN);
     fprintf(fp,"\n\n\n%s%s\n",pad,matrix_name);
     if (*v_desc != '\0'){
-        set_pad(pad,v_desc);
+        set_pad(pad,v_desc, FULL_SCREEN);
         fprintf(fp,"%s%s\n",pad,v_desc);
     }
     if (*tname != '\0'){
 
 
-        set_pad(pad,tname);
+        set_pad(pad,tname, FULL_SCREEN);
         fprintf(fp,"%s%s\n",pad,tname);
     }
-    set_pad_cent_n(pad,strlen(min_good_title)+2);
+    set_pad_cent_n(pad,strlen(min_good_title)+2, FULL_SCREEN);
     fprintf(fp,"%s%s %1d\n",pad,min_good_title,min_num_good);
     fprintf(fp,"\n");
 
-    set_pad_cent_n(pad,(nscor+1) * block_size);
-    fprintf(fp,"\n%s|%s",pad,hyphens+hyphen_len-(block_size-1));
+    set_pad_cent_n(pad,(nscor+1) * block_size, FULL_SCREEN);
+    fprintf(fp,"\n%s|%s",pad,hyphens+hyphen_len-MIN(hyphen_len,(block_size-1)));
     for (k=0;k<nscor;k++)
-        fprintf(fp,"%s",hyphens+hyphen_len-block_size);
+        fprintf(fp,"%s",hyphens+hyphen_len-MIN(hyphen_len,block_size));
     fprintf(fp,"|\n");
 
-    fprintf(fp,"%s|%s|",pad,spaces+space_len-(block_size-1));
+    fprintf(fp,"%s|%s|",pad,spaces+space_len-MIN(space_len,(block_size-1)));
     for (i=0;i<nscor;i++)
         fprintf(fp,sysname_fmt,scor[i]->title);
     fprintf(fp,"\n");
 
     for (i=0;i<nscor;i++){
-        fprintf(fp,"%s|%s",pad,hyphens+hyphen_len-(block_size-1));
+        fprintf(fp,"%s|%s",pad,hyphens+hyphen_len-MIN(hyphen_len,(block_size-1)));
         for (k=0;k<nscor;k++)
-            fprintf(fp,"+%s",hyphens+hyphen_len-(block_size-1));
+            fprintf(fp,"+%s",hyphens+hyphen_len-MIN(hyphen_len,(block_size-1)));
         fprintf(fp,"|\n");
         fprintf(fp,"%s|",pad);
         fprintf(fp,sysname_fmt,scor[i]->title);
@@ -803,8 +803,8 @@ void print_compare_matrix_for_sys(SCORES *scor[], int nscor, int **winner, char 
                     name=scor[i]->title;
                 t = (block_size-1-strlen(name))/2;
             }
-            fprintf(fp,"%s%s%s|",spaces+space_len-t,name,
-                             spaces+space_len-(block_size-1-strlen(name)-t));
+            fprintf(fp,"%s%s%s|",spaces+space_len-MIN(space_len,t),name,
+                             spaces+space_len-MIN(space_len,(block_size-1-strlen(name)-t)));
         }
         fprintf(fp,"\n");
 #ifdef you_want_more_output
@@ -825,9 +825,9 @@ void print_compare_matrix_for_sys(SCORES *scor[], int nscor, int **winner, char 
         fprintf(fp,"\n");
 #endif
     }
-    fprintf(fp,"%s|%s",pad,hyphens+hyphen_len-(block_size-1));
+    fprintf(fp,"%s|%s",pad,hyphens+hyphen_len-MIN(hyphen_len,(block_size-1)));
     for (k=0;k<nscor;k++)
-        fprintf(fp,"%s",hyphens+hyphen_len-block_size);
+        fprintf(fp,"%s",hyphens+hyphen_len-MIN(hyphen_len,block_size));
     fprintf(fp,"|\n");
 }
 

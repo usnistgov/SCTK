@@ -28,7 +28,7 @@ va_dcl
 #endif
     /*    printf("rsprintf:  format: %s\n",format); */
     vsprintf(static_message_buffer,format,args);
-    if (strlen(static_message_buffer) > 1000){
+    if (strlen(static_message_buffer) > 10000){
       fprintf(stderr,"Error: rsprintf's internal buffer is too small.  increase the size\n");
       exit (1);
     }

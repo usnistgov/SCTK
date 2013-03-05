@@ -74,7 +74,8 @@ int compute_signtest_for_treatment(RANK *rank, int treat1, int treat2, char *blo
     int block, max_len_block=0, max_len_treat=6;
     int tptr[2]; /* a sorting pointer array for the treatment numbers */
     char *pct_format, thresh_str[140];
-    char title_line[200], *diff_line;
+    TEXT *title_line = (TEXT *)0;
+    char *diff_line;
     int paper_width = 79, rep_width, diff_col_len;
     double equal_thresh = 0.005;
     double sum_trt1=0.0, sum_trt2=0.0;
@@ -122,9 +123,9 @@ int compute_signtest_for_treatment(RANK *rank, int treat1, int treat2, char *blo
         sum_trt1 = sum_trt2 = 0.0;
         fprintf(fp,"%s\n",center("Sign Test Calculations Table Comparing",
 				 paper_width));
-        sprintf(title_line,"%s %s Percentages for Systems %s and %s",
+        title_line = TEXT_strdup(rsprintf("%s %s Percentages for Systems %s and %s",
 		block_id, formula_str,rank->trt_name[tptr[0]],
-		rank->trt_name [ tptr[1] ] );
+		rank->trt_name [ tptr[1] ] ));
         fprintf(fp,"%s\n",center(title_line,paper_width));
         fprintf(fp,"%s\n\n",center(thresh_str,paper_width));
 
@@ -199,7 +200,8 @@ int compute_signtest_for_treatment(RANK *rank, int treat1, int treat2, char *blo
 
     free_singarr(pct_format,char);
     free_singarr(diff_line,char);
-    
+    if (title_line != (TEXT *)0)
+        free_singarr(title_line, TEXT);
     /* Analyze the Results */
     { int result;
       result = sign_test_analysis(sum_plus,sum_minus,sum_equal,"+","-",0,
