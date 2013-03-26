@@ -1,84 +1,7 @@
 #include "sctk.h"
 
-static int locate_file_boundaries(WTOKE_STR1 *hyp_segs, STM *stm, int *hend_chan1, int *hend_chan2, int hyp_file_end, int *rend_chan1, int *rend_chan2, int ref_file_end, int *number_of_channels, char *proc, int feedback);
 static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *stm, int h_st, int h_end, int r_st, int r_end, int keep_path, int feedback, char *proc, int case_sense, int char_align, char *lexicon, int infer_word_seg, int inf_no_ascii, int fcorr, int opt_del, int reduce_ref, int reduce_hyp, int left_to_right, WWL *wwl, char *lm_file);
 void segment_hyp_for_utt(WTOKE_STR1 *hyp_segs, STM *stm, int *curhyp, int *curhend, int h_st, int h_end, int rs, int r_st, int r_end);
-
-
-static int locate_file_boundaries(WTOKE_STR1 *hyp_segs, STM *stm, int *hend_chan1, int *hend_chan2, int hyp_file_end, int *rend_chan1, int *rend_chan2, int ref_file_end, int *number_of_channels, char *proc, int feedback){
-
-    /* both the hyp_segs and stm structures a full,  Therefore let's make */
-    /* sure there is data in each of them right now. */
-    if (hyp_segs->s < hyp_segs->n && stm->s >= stm->num) {
-        fprintf(stderr,"%s: Missing reference data for for file %s\n",
-		proc,hyp_segs->word[hyp_segs->s].conv);
-	return(0);
-    } 
-    if (hyp_segs->s > hyp_segs->n && stm->s < stm->num){
-        fprintf(stderr,"%s: Missing hypothesis data for for file %s\n",
-		proc,stm->seg[stm->s].file);
-	return(0);
-    }
-
-    /* find the end of the second channel for the hyp file */
-    locate_WTOKE_boundary(hyp_segs, hyp_segs->s, 1, 1, hend_chan1);
-    if (*hend_chan1+1 < hyp_segs->n &&
-	strcmp(hyp_segs->word[hyp_segs->s].conv,
-	       hyp_segs->word[*hend_chan1+1].conv)==0){
-	locate_WTOKE_boundary(hyp_segs, *hend_chan1+1,1,1,hend_chan2);
-	*number_of_channels = 2;
-    } else {
-	/* There was no second channel */
-	*hend_chan2 = *hend_chan1;
-	*number_of_channels = 1;
-    }
-    
-    /* find the end of the second channel for the ref file */
-    locate_STM_boundary(stm, stm->s, 1, 1, rend_chan1);
-    if (*rend_chan1+1 < stm->num &&
-	TEXT_strcasecmp(stm->seg[stm->s].file,
-			stm->seg[*rend_chan1+1].file)==0){
-	if (*number_of_channels != 2){
-	    fprintf(stderr,"%s: Channel Mis-match, 1 in Hyp, 2 in Ref\n",
-		    proc);
-	    return(0);
-	}
-	locate_STM_boundary(stm, *rend_chan1+1, 1, 1, rend_chan2);
-    } else {
-	/* There was no second channel */
-	if (*number_of_channels != 1){
-	    fprintf(stderr,"%s: Channel Mis-match, 2 in Hyp, 1 in Ref\n",
-		    proc);
-	    return(0);
-	}
-	*rend_chan2 = *rend_chan1;
-    }
-
-    /* do some checking right now to make sure we have good data */
-    
-    
-    /* give some user feedback */
-    if (feedback >= 1)
-	printf("    Performing alignments for file '%s'.\n",
-	       stm->seg[stm->s].file);
-    if (db >= 5){
-	printf("%s: hyp CTM File Range [%d,%d]",
-	       proc,hyp_segs->s,hyp_file_end);
-	printf("   Chan1 Range[%d,%d] ",hyp_segs->s,*hend_chan1);
-	printf("  Chan2 Range[%d,%d]\n",*hend_chan1+1,*hend_chan2);
-	if (db >= 15){
-	    dump_word_tokens2(hyp_segs, hyp_segs->s, hyp_file_end);
-	    printf("\n");
-	}
-	printf("%s: ref STM File Range [%d,%d]",proc,stm->s,ref_file_end);
-	printf("   Chan1 Range[%d,%d] ",stm->s, *rend_chan1);
-	printf("  Chan2 Range[%d,%d]\n",*rend_chan1+1,*rend_chan2);
-	if (db >= 15) dump_STM(stm, stm->s, ref_file_end);
-	printf("\n");
-    }
-    return(1);
-}
-
 
 static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *stm, int h_st, int h_end, int r_st, int r_end, int keep_path, int feedback, char *proc, int case_sense, int char_align, char *lexicon, int infer_word_seg, int inf_no_ascii, int fcorr, int opt_del, int reduce_ref, int reduce_hyp, int left_to_right, WWL *wwl, char *lm_file){
     int curhyp, curhend, rs;
@@ -91,19 +14,19 @@ static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *
     int ignored_hypword = 0;
     int ignore_segment = 0;
 
-    if (TEXT_strcmp((TEXT*)hyp_segs->word[h_st].conv,stm->seg[r_st].file)!= 0){
-	fprintf(stderr,"%s: File identifiers do not match,\nhyp ",proc);
-	fprintf(stderr,"file '%s' and ref file '%s' not synchronized\n",
-		hyp_segs->word[h_st].conv,stm->seg[r_st].file);
-	return(0);
-    }
-    if (TEXT_strcmp((TEXT *)hyp_segs->word[h_st].turn,stm->seg[r_st].chan)!=0){
-	fprintf(stderr,"%s: channel identifiers do not match, ",proc);
-	fprintf(stderr,"hyp file '%s' and ref file '%s' not",
-		hyp_segs->word[h_st].conv,stm->seg[r_st].file);
-	fprintf(stderr," synchronized\n");
-	return(0);
-    }
+//    if (TEXT_strcmp((TEXT*)hyp_segs->word[h_st].conv,stm->seg[r_st].file)!= 0){
+//	fprintf(stderr,"%s: File identifiers do not match,\nhyp ",proc);
+//	fprintf(stderr,"file '%s' and ref file '%s' not synchronized\n",
+//		hyp_segs->word[h_st].conv,stm->seg[r_st].file);
+//	return(0);
+//    }
+//    if (TEXT_strcmp((TEXT *)hyp_segs->word[h_st].turn,stm->seg[r_st].chan)!=0){
+//	fprintf(stderr,"%s: channel identifiers do not match, ",proc);
+//	fprintf(stderr,"hyp file '%s' and ref file '%s' not",
+//		hyp_segs->word[h_st].conv,stm->seg[r_st].file);
+//	fprintf(stderr," synchronized\n");
+//	return(0);
+//    }
 
     /* set flags within the ref and hyp structure to enable reductions */
     reset_WTOKE_flag(hyp_segs, "ignore");
@@ -212,9 +135,9 @@ static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *
 	    }
 	} else {
 	    if (feedback >= 1)
-		printf("\r        %d of %d Segments For Channel %d. ",
+		printf("\r        %d of %d Segments For Channel %s. ",
 		       rs+1 - stm->s,r_end - stm->s + ((r_end==stm->num)?0:1),
-		       chan+1);
+		       stm->seg[rs].chan);
 	}
 	fflush(stdout);
 	if (db >= 5) {
@@ -471,41 +394,52 @@ SCORES *align_ctm_to_stm_dp(char *ref_file, char *hyp_file, char *set_title, int
     }
 
     do {
+        int hend, rend;
+        // Fills the structures ensuring the fill next file was loaded
 	fill_STM_structure(stm, fp_ref, ref_file, &ref_file_end, case_sense);
 	fill_WTOKE_structure(hyp_segs, fp_hyp, hyp_file, &hyp_file_end,
 			     case_sense);
-	if (locate_file_boundaries(hyp_segs, stm, &hend_chan1, &hend_chan2,
-				   hyp_file_end,
-				   &rend_chan1, &rend_chan2, ref_file_end,
-				   &number_of_channels, proc, feedback) != 1)
-	    return((SCORES *)0);
-
-	/* Align each channel */
-	for (i=0; i<number_of_channels; i++){
-	    int h_st, h_end, r_st, r_end;
-
-	    if (db >= 5) printf("\n%s: Starting Channel %d\n",proc,i);
-	    if (i==0){
-		h_st = hyp_segs->s;       h_end = hend_chan1;
-		r_st = stm->s;            r_end = rend_chan1;
-	    } else {
-		h_st = hend_chan1+1;   h_end = hend_chan2;
-		r_st = rend_chan1+1;   r_end = rend_chan2;
-	    }
-
-	    if (align_one_channel(scor, i, hyp_segs, stm, h_st, h_end, r_st,
-				  r_end, keep_path, feedback, proc, case_sense,
-				  char_align, lexicon, infer_word_seg,
-				  inf_no_ascii, fcorr, opt_del,
-				  reduce_ref, reduce_hyp, left_to_right, wwl, lm_file)
-		!= 1)
-		return((SCORES *)0);
-	} /* for each channel */
-
-
-	/* increment the start pointers */
-	hyp_segs->s = hend_chan2+1;
-	stm->s = rend_chan2+1;
+        		     
+        // We assume one channel will be processed so we check to see if it's scoreabe
+        locate_WTOKE_boundary(hyp_segs, hyp_segs->s, 1, 1, &hend);
+        locate_STM_boundary(stm, stm->s, 1, 1, &rend);
+        
+        if (feedback >= 1)
+    	    printf("    Performing alignments for file '%s'.\n",
+	       stm->seg[stm->s].file);
+        if (db >= 5){
+           printf("%s: hyp CTM File Range [%d,%d,%s,%s] ", proc,hyp_segs->s,hend,hyp_segs->word[hyp_segs->s].conv,hyp_segs->word[hyp_segs->s].turn);
+           printf(" ref STM File Range [%d,%d,%s,%s]\n",stm->s,rend,stm->seg[stm->s].file,stm->seg[stm->s].chan);
+        }
+        
+        if (hyp_segs->s > hyp_segs->n){
+           fprintf(stderr,"%s: Hyp files ends before ref but allowing no hyp output for ",proc);
+	   fprintf(stderr,"ref file/channel '%s' '%s'.\n",stm->seg[stm->s].file,stm->seg[stm->s].chan);           
+        } else if (hyp_segs->s <= hyp_segs->n && stm->s > stm->num){
+           fprintf(stderr,"%s: Error: Hyp file has more data than reference file beginning at ",proc);
+	   fprintf(stderr,"hyp file/channel '%s' '%s'.\n",hyp_segs->word[hyp_segs->s].conv,hyp_segs->word[hyp_segs->s].turn);           
+           return((SCORES *)0);
+        } else if ( TEXT_strcmp((TEXT*)hyp_segs->word[hyp_segs->s].conv,stm->seg[stm->s].file) == 0 &&
+             TEXT_strcmp((TEXT*)hyp_segs->word[hyp_segs->s].turn,stm->seg[stm->s].chan) == 0){
+           // Align this channel as is
+        } else {
+   	   fprintf(stderr,"%s: File identifiers do not match but allowing no hyp output for ",proc);
+	   fprintf(stderr,"ref file/channel '%s' '%s'.\n",stm->seg[stm->s].file,stm->seg[stm->s].chan);
+           // Align the ref to nothing      
+           hend = hyp_segs->s-1;
+        }
+    
+        if (align_one_channel(scor, i, hyp_segs, stm, hyp_segs->s, hend, stm->s,
+         		  rend, keep_path, feedback, proc, case_sense,
+            		  char_align, lexicon, infer_word_seg,
+            		  inf_no_ascii, fcorr, opt_del,
+            		  reduce_ref, reduce_hyp, left_to_right, wwl, lm_file)
+            != 1)
+            return((SCORES *)0);
+            
+        // Increment and move on
+        hyp_segs->s = hend+1;
+        stm->s = rend+1;                
     } while ((hyp_segs->s <= hyp_segs->n) || (stm->s < stm->num));
 
     fclose(fp_hyp);

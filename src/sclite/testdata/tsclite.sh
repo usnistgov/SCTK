@@ -457,6 +457,18 @@ doit $TEST \
         "" \
         ""
 
+# TEST Number 16_X
+n=1
+for hyp in stm2ctm_missing.hyp-extra.ctm stm2ctm_missing.hyp-missall.ctm stm2ctm_missing.hyp-missfile1.ctm stm2ctm_missing.hyp-missfile1chanA.ctm stm2ctm_missing.hyp-missfile1chanb.ctm stm2ctm_missing.hyp-missfile2.ctm stm2ctm_missing.hyp-missfile2chanA.ctm stm2ctm_missing.hyp-missfile2chanB.ctm stm2ctm_missing.hyp.ctm ; do
+    TEST=test16_$n
+    doit $TEST \
+        "Allow incomplete hyp CTM files - $hyp" \
+        "${SCLFLAGS} -r $DATA/stm2ctm_missing.ref.stm stm -h $DATA/$hyp ctm -o all prf -O $OUT -f 0 -n $TEST " \
+        "" \
+        ""
+    n=`expr $n + 1`
+done
+
 echo ""
 echo "Executions complete: Comparing output"
 filter="diff -r $base_dir $OUT | grep -v CVS"
