@@ -413,18 +413,19 @@ SCORES *align_ctm_to_stm_dp(char *ref_file, char *hyp_file, char *set_title, int
         }
         
         if (hyp_segs->s > hyp_segs->n){
-           fprintf(stderr,"%s: Hyp files ends before ref but allowing no hyp output for ",proc);
+           fprintf(stderr,"%s: Hyp files ends before ref but continuing for ",proc);
 	   fprintf(stderr,"ref file/channel '%s' '%s'.\n",stm->seg[stm->s].file,stm->seg[stm->s].chan);           
         } else if (hyp_segs->s <= hyp_segs->n && stm->s > stm->num){
-           fprintf(stderr,"%s: Error: Hyp file has more data than reference file beginning at ",proc);
+           fprintf(stderr,"%s: Error: Hyp file has more data than ref file, beginning at ",proc);
 	   fprintf(stderr,"hyp file/channel '%s' '%s'.\n",hyp_segs->word[hyp_segs->s].conv,hyp_segs->word[hyp_segs->s].turn);           
            return((SCORES *)0);
         } else if ( TEXT_strcmp((TEXT*)hyp_segs->word[hyp_segs->s].conv,stm->seg[stm->s].file) == 0 &&
              TEXT_strcmp((TEXT*)hyp_segs->word[hyp_segs->s].turn,stm->seg[stm->s].chan) == 0){
            // Align this channel as is
         } else {
-   	   fprintf(stderr,"%s: File identifiers do not match but allowing no hyp output for ",proc);
-	   fprintf(stderr,"ref file/channel '%s' '%s'.\n",stm->seg[stm->s].file,stm->seg[stm->s].chan);
+   	   fprintf(stderr,"%s: File identifiers do not match but continuing. ",proc);
+	   fprintf(stderr,"ref file/channel '%s' '%s', ",stm->seg[stm->s].file,stm->seg[stm->s].chan);
+	   fprintf(stderr,"next hyp '%s' '%s'.\n",hyp_segs->word[hyp_segs->s].conv,hyp_segs->word[hyp_segs->s].turn);
            // Align the ref to nothing      
            hend = hyp_segs->s-1;
         }
