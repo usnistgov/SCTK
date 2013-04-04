@@ -36,7 +36,7 @@ dist:
 	@ cvs -d gaston.ncsl.nist.gov:/home/sware/cvs up 
 	@ cvs -d gaston.ncsl.nist.gov:/home/sware/cvs co -d `cat .fname` sctk
 	@ echo "Building the TAR file"
-	@ echo `cat .fname`"-"`date +%Y%m%d-%H%M`.tar.bz2 > .distname
+	@ echo `cat .fname`"-"`date -u +%Y%m%d-%H%M`"Z.tar.bz2" > .distname
 	@ find `cat .fname` -name "._*" -delete
 	@ tar jcf `cat .distname` --exclude CVS  --exclude .svn --exclude TODO `cat .fname` 
 	@ md5 `cat .distname` > `cat .distname`.md5
