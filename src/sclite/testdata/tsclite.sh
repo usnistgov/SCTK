@@ -469,6 +469,14 @@ for hyp in stm2ctm_missing.hyp-extra.ctm stm2ctm_missing.hyp-missall.ctm stm2ctm
     n=`expr $n + 1`
 done
 
+# TEST Number 17
+TEST=test17
+doit $TEST \
+    "Allow incomplete hyp CTM files - $hyp" \
+    "${SCLFLAGS} -r $DATA/test.vietnamese.ref.trn trn -h test.vietnamese.hyp.trn trn -i spu_id -o all prf -O $OUT -f 0 -n $TEST -e utf-8 babel_vietnamese " \
+    "" \
+    ""
+
 echo ""
 echo "Executions complete: Comparing output"
 filter="diff -r $base_dir $OUT | grep -v CVS"

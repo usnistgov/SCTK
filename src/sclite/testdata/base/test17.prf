@@ -1,0 +1,44 @@
+NIST_TEXT_ALIGNMENT
+VERSION 0.1
+
+
+		DUMP OF SYSTEM ALIGNMENT STRUCTURE
+
+System name:   test.vietnamese.hyp.trn
+Ref file:      ./test.vietnamese.ref.trn
+Hyp file:      test.vietnamese.hyp.trn
+
+Speaker Count: 1
+Speakers: 
+    0:  spk1
+
+
+Speaker sentences   0:  spk1   utt# 0 of 4
+id: (spk1-lc1)
+Scores: (#C #S #D #I) 137 0 0 0
+REF:  low-low: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+HYP:  low-low: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+Eval:                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+Speaker sentences   0:  spk1   utt# 1 of 4
+id: (spk1-lc2)
+Scores: (#C #S #D #I) 137 0 0 0
+REF:  low_mc: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+HYP:  low_mc: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+Eval:                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+Speaker sentences   0:  spk1   utt# 2 of 4
+id: (spk1-lc3)
+Scores: (#C #S #D #I) 137 0 0 0
+REF:  mc-low: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+HYP:  mc-low: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+Eval:                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+Speaker sentences   0:  spk1   utt# 3 of 4
+id: (spk1-lc4)
+Scores: (#C #S #D #I) 137 0 0 0
+REF:  mc-mc: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+HYP:  mc-mc: ( ) - / < > _ a a b b c c d d e e f f g g h h i i j j k k l l m m n n o o p p q q r r s s t t u u v v w w x x y y z z À Á Á Â Â Ã È É Ê Ì Í Ò Ó Ô Ô Õ Ù Ú Ú Ý Ý Ă Đ Đ Ĩ Ũ Ơ Ư Ư Ạ Ả Ấ Ấ Ầ Ẩ Ừ Ậ Ắ Ằ Ẳ Ẵ Ặ Ẹ Ẻ Ẽ Ế Ề Ể Ễ Ệ Ỉ Ị Ọ Ỏ Ố Ố Ồ Ổ Ỗ Ộ Ớ Ờ Ở Ỡ Ợ Ụ Ủ Ủ Ứ Ừ Ử Ữ Ự Ỳ Ỵ Ỷ Ỹ 
+Eval:                                                                                                                                                                                                                                                                                                                                                                                                                     
+
+
