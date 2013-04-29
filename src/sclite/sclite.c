@@ -2,7 +2,7 @@
 #define MAIN
 #include "sctk.h"
 
-#define SCLITE_VERSION "2.8"
+#define SCLITE_VERSION "2.9"
 
 void do_exit(char *desc, char *prog, int ret);
 void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, char **hname, char **hfmt, int *nhyps,  enum id_types *id_type, int *case_sens, int *outputs, char **title, int *feedback, int *linewidth, int *use_diff, char **out_dir, char **out_name,int *char_align, int *pipeout, int *pipein, int *infered_wordseg, char **lexicon, int *frag_correct, int *opt_del, int *inf_flags, int *stm2ctm_reduce, int *time_align, int *conf_outputs, int *left_to_right, char **wwl_file, char **lm_file);
