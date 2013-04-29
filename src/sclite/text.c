@@ -12,6 +12,85 @@ static int KCC_babel_turkish[][2] = { // Babel Turkish
                                          { 0x49, 0x131}, {0x11E, 0x11F},  {0x15E, 0x15F}
                                         };
 
+static int numKCC_babel_vietnamese =  67;
+static int KCC_babel_vietnamese[][2] =  { // Babel Vietnamese consonants
+                                         { 0x111,  0x110}, 
+					 // Babel Vietnamese vowels
+					 // Not Needed { 0x0061, 0x0041}, //a -> A
+					 { 0x00e1, 0x00c1}, //á -> Á
+					 { 0x00e0, 0x00c0}, //à -> À
+					 { 0x1ea3, 0x1ea2}, //ả -> Ả
+					 { 0x00e3, 0x00c3}, //ã -> Ã
+					 { 0x1ea1, 0x1ea0}, //ạ -> Ạ
+					 { 0x0103, 0x0102}, //ă -> Ă
+					 { 0x1eaf, 0x1eae}, //ắ -> Ắ
+					 { 0x1eb1, 0x1eb0}, //ằ -> Ằ
+					 { 0x1eb3, 0x1eb2}, //ẳ -> Ẳ
+					 { 0x1eb5, 0x1eb4}, //ẵ -> Ẵ
+					 { 0x1eb7, 0x1eb6}, //ặ -> Ặ
+					 { 0x00e2, 0x00c2}, //â -> Â
+					 { 0x1ea5, 0x1ea4}, //ấ -> Ấ
+					 { 0x1ea7, 0x1ea6}, //ầ -> Ầ
+					 { 0x1ea9, 0x1ea8}, //ẩ -> Ẩ
+					 { 0x1eab, 0x1eea}, //ẫ -> Ẫ
+					 { 0x1ead, 0x1eac}, //ậ -> Ậ
+					 // Not Needed { 0x0065, 0x0045}, //e -> E
+					 { 0x00e9, 0x00c9}, //é -> É
+					 { 0x00e8, 0x00c8}, //è -> È
+					 { 0x1ebb, 0x1eba}, //ẻ -> Ẻ
+					 { 0x1ebd, 0x1ebc}, //ẽ -> Ẽ
+					 { 0x1eb9, 0x1eb8}, //ẹ -> Ẹ
+					 { 0x00ea, 0x00ca}, //ê -> Ê
+					 { 0x1ebf, 0x1ebe}, //ế -> Ế
+					 { 0x1ec1, 0x1ec0}, //ề -> Ề
+					 { 0x1ec3, 0x1ec2}, //ể -> Ể
+					 { 0x1ec5, 0x1ec4}, //ễ -> Ễ
+					 { 0x1ec7, 0x1ec6}, //ệ -> Ệ
+					 // Not Needed { 0x0069, 0x0049}, //i -> I
+					 { 0x00ed, 0x00cd}, //í -> Í
+					 { 0x00ec, 0x00cc}, //ì -> Ì
+					 { 0x1ec9, 0x1ec8}, //ỉ -> Ỉ
+					 { 0x0129, 0x0128}, //ĩ -> Ĩ
+					 { 0x1ecb, 0x1eca}, //ị -> Ị
+					 // Not Needed { 0x006f, 0x004f}, //o -> O
+					 { 0x00f3, 0x00d3}, //ó -> Ó
+					 { 0x00f2, 0x00d2}, //ò -> Ò
+					 { 0x1ecf, 0x1ece}, //ỏ -> Ỏ
+					 { 0x00f5, 0x00d5}, //õ -> Õ
+					 { 0x1ecd, 0x1ecc}, //ọ -> Ọ
+					 { 0x01a1, 0x01a0}, //ơ -> Ơ
+					 { 0x1edb, 0x1eda}, //ớ -> Ớ
+					 { 0x1edd, 0x1edc}, //ờ -> Ờ
+					 { 0x1edf, 0x1ede}, //ở -> Ở
+					 { 0x1ee1, 0x1ee0}, //ỡ -> Ỡ
+					 { 0x1ee3, 0x1ee2}, //ợ -> Ợ
+					 { 0x00f4, 0x00d4}, //ô -> Ô
+					 { 0x1ed1, 0x1ed0}, //ố -> Ố
+					 { 0x1ed3, 0x1ed2}, //ồ -> Ồ
+					 { 0x1ed5, 0x1ed4}, //ổ -> Ổ
+					 { 0x1ed7, 0x1ed6}, //ỗ -> Ỗ
+					 { 0x1ed9, 0x1ed8}, //ộ -> Ộ
+					 // Not Needed { 0x0075, 0x0055}, //u -> U
+					 { 0x00fa, 0x00da}, //ú -> Ú
+					 { 0x00f9, 0x00d9}, //ù -> Ù
+					 { 0x1ee7, 0x1ee6}, //ủ -> Ủ
+					 { 0x0169, 0x0168}, //ũ -> Ũ
+					 { 0x1ee5, 0x1ee4}, //ụ -> Ụ
+					 { 0x01b0, 0x01af}, //ư -> Ư
+					 { 0x1ee9, 0x1ee8}, //ứ -> Ứ
+					 { 0x1eeb, 0x1eea}, //ừ -> Ừ
+					 { 0x1eed, 0x1eec}, //ử -> Ử
+					 { 0x1eef, 0x1eee}, //ữ -> Ữ
+					 { 0x1ef1, 0x1ef0}, //ự -> Ự
+					 // Not Needed { 0x0079, 0x0059}, //y -> Y
+					 { 0x00fd, 0x00dd}, //ý -> Ý
+					 { 0x1ef3, 0x1ef2}, //ỳ -> Ỳ
+					 { 0x1ef7, 0x1ef6}, //ỷ -> Ỷ
+					 { 0x1ef9, 0x1ef8}, //ỹ -> Ỹ
+					 { 0x1ef5, 0x1ef4}, //ỵ -> Ỵ
+					 
+                                        };
+
 // These static variables are used as temporary memory for case conversion
 static TEXT *STATIC_CASECONVTEXT;
 static int STATIC_CASECONVTEXT_SIZE = -1;
@@ -78,6 +157,9 @@ int TEXT_set_lang_prof(char *lprof){
 	return(1);
     } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_turkish") == 0) {
         STATIC_LPROF = LPROF_BABEL_TURKISH;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_vietnamese") == 0) {
+        STATIC_LPROF = LPROF_BABEL_VIETNAMESE;                                                                                                    
 	return(1);
     }
     return(0);
@@ -661,6 +743,13 @@ int getKnownUFTCaseCP(int inCP, int toLow){
      for (i=0; i<numKCC_babel_turkish && outCP == -1; i++){     
        if (KCC_babel_turkish[i][(toLow ? 0 : 1)] == inCP){
          return KCC_babel_turkish[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   if (STATIC_LPROF == LPROF_BABEL_VIETNAMESE){
+     for (i=0; i<numKCC_babel_vietnamese && outCP == -1; i++){     
+       if (KCC_babel_vietnamese[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_vietnamese[i][(!toLow ? 0 : 1)];
        }
      }
    }
