@@ -12,6 +12,19 @@ static int KCC_babel_turkish[][2] = { // Babel Turkish
                                          { 0x49, 0x131}, {0x11E, 0x11F},  {0x15E, 0x15F}
                                         };
 
+static int numKCC_babel_lithuanian =  9;
+static int KCC_babel_lithuanian[][2] =  { // Babel Lithuanian consonants
+  { 0x0104, 0x0105}, //
+  { 0x010c, 0x010d}, //
+  { 0x0118, 0x0119}, //
+  { 0x0116, 0x0117}, //
+  { 0x012e, 0x012f}, //
+  { 0x0160, 0x0161}, //
+  { 0x0172, 0x0173}, //
+  { 0x016a, 0x016b}, //
+  { 0x017D, 0x017E} //
+};
+
 static int numKCC_babel_vietnamese =  67;
 static int KCC_babel_vietnamese[][2] =  { // Babel Vietnamese consonants
   { 0x0110, 0x0111}, //D -> d
@@ -158,6 +171,9 @@ int TEXT_set_lang_prof(char *lprof){
 	return(1);
     } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_vietnamese") == 0) {
         STATIC_LPROF = LPROF_BABEL_VIETNAMESE;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_lithuanian") == 0) {
+        STATIC_LPROF = LPROF_BABEL_LITHUANIAN;                                                                                                    
 	return(1);
     }
     return(0);
@@ -748,6 +764,13 @@ int getKnownUFTCaseCP(int inCP, int toLow){
      for (i=0; i<numKCC_babel_vietnamese && outCP == -1; i++){     
        if (KCC_babel_vietnamese[i][(toLow ? 0 : 1)] == inCP){
          return KCC_babel_vietnamese[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   if (STATIC_LPROF == LPROF_BABEL_LITHUANIAN){
+     for (i=0; i<numKCC_babel_lithuanian && outCP == -1; i++){     
+       if (KCC_babel_lithuanian[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_lithuanian[i][(!toLow ? 0 : 1)];
        }
      }
    }

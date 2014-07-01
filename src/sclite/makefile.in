@@ -127,6 +127,8 @@ sctkUnit: $(lib_o)sctkUnit.c
 	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sctkUnit.c $(LIBS) 
 sign: $(lib_o) sign.c
 	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sign.c $(LIBS)
+sclite_tolower: $(lib_o) sclite_tolower.c
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sclite_tolower.c $(LIBS)
 $(TEST_PROGRAMS): $(lib_o) $$@.c
 	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) $@.c $(LIBS) 
 $(PURIFY_PROGRAMS): $(lib_o)
