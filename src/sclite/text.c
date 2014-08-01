@@ -25,6 +25,66 @@ static int KCC_babel_lithuanian[][2] =  { // Babel Lithuanian consonants
   { 0x017D, 0x017E} //
 };
 
+static int numKCC_babel_kurmanji =  5;
+static int KCC_babel_kurmanji[][2] =  { // Babel Kurmanji consonants
+  { 0x00C7, 0x00E7}, //
+  { 0x00CA, 0x00EA}, //
+  { 0x00CE, 0x00EE}, //
+  { 0x00DB, 0x00FB}, //
+  { 0x015E, 0x015F}, //
+};
+
+static int numKCC_babel_cebuano =  1;
+static int KCC_babel_cebuano[][2] =  { // Babel Cebuano consonants
+  { 0x00D1, 0x00f1}, //
+};
+
+static int numKCC_babel_kazakh=  42;
+static int KCC_babel_kazakh[][2] =  { // Babel Kazakh consonants
+  { 0x0410, 0x0430 }, //
+  { 0x04d8, 0x04d9 }, //
+  { 0x0411, 0x0431 }, //
+  { 0x0412, 0x0432 }, //
+  { 0x0413, 0x0433 }, //
+  { 0x0492, 0x0493 }, //
+  { 0x0414, 0x0434 }, //
+  { 0x0415, 0x0435 }, //
+  { 0x0401, 0x0451 }, //
+  { 0x0416, 0x0436 }, // 10
+  { 0x0417, 0x0437 }, //
+  { 0x0418, 0x0438 }, //
+  { 0x0419, 0x0439 }, //
+  { 0x041a, 0x043a }, //
+  { 0x049a, 0x049b }, //
+  { 0x041b, 0x043b }, //
+  { 0x041c, 0x043c }, //
+  { 0x041d, 0x043d }, //
+  { 0x04a2, 0x04a3 }, //
+  { 0x041e, 0x043e }, // 20
+  { 0x04e8, 0x04e9 }, //
+  { 0x041f, 0x043f }, //
+  { 0x0420, 0x0440 }, //
+  { 0x0421, 0x0441 }, //
+  { 0x0422, 0x0442 }, //
+  { 0x0423, 0x0443 }, //
+  { 0x04b0, 0x04b1 }, //
+  { 0x04ae, 0x04af }, //
+  { 0x0424, 0x0444 }, //
+  { 0x0425, 0x0445 }, // 30
+  { 0x04ba, 0x04bb }, //
+  { 0x0426, 0x0446 }, //
+  { 0x0427, 0x0447 }, //
+  { 0x0428, 0x0448 }, //
+  { 0x0429, 0x0449 }, //
+  { 0x042a, 0x044a }, //
+  { 0x042b, 0x044b }, //
+  { 0x0406, 0x0456 }, //
+  { 0x042c, 0x044c }, //
+  { 0x042d, 0x044d }, // 40
+  { 0x042e, 0x044e }, //
+  { 0x042f, 0x044f }, //
+};
+
 static int numKCC_babel_vietnamese =  67;
 static int KCC_babel_vietnamese[][2] =  { // Babel Vietnamese consonants
   { 0x0110, 0x0111}, //D -> d
@@ -174,6 +234,15 @@ int TEXT_set_lang_prof(char *lprof){
 	return(1);
     } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_lithuanian") == 0) {
         STATIC_LPROF = LPROF_BABEL_LITHUANIAN;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_kurmanji") == 0) {
+        STATIC_LPROF = LPROF_BABEL_KURMANJI;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_cebuano") == 0) {
+        STATIC_LPROF = LPROF_BABEL_CEBUANO;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_kazakh") == 0) {
+        STATIC_LPROF = LPROF_BABEL_KAZAKH;                                                                                                    
 	return(1);
     }
     return(0);
@@ -771,6 +840,27 @@ int getKnownUFTCaseCP(int inCP, int toLow){
      for (i=0; i<numKCC_babel_lithuanian && outCP == -1; i++){     
        if (KCC_babel_lithuanian[i][(toLow ? 0 : 1)] == inCP){
          return KCC_babel_lithuanian[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   if (STATIC_LPROF == LPROF_BABEL_KURMANJI){
+     for (i=0; i<numKCC_babel_kurmanji && outCP == -1; i++){     
+       if (KCC_babel_kurmanji[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_kurmanji[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   if (STATIC_LPROF == LPROF_BABEL_CEBUANO){
+     for (i=0; i<numKCC_babel_cebuano && outCP == -1; i++){     
+       if (KCC_babel_cebuano[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_cebuano[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   if (STATIC_LPROF == LPROF_BABEL_KAZAKH){
+     for (i=0; i<numKCC_babel_kazakh && outCP == -1; i++){     
+       if (KCC_babel_kazakh[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_kazakh[i][(!toLow ? 0 : 1)];
        }
      }
    }
