@@ -37,9 +37,10 @@ $Translate = 0;
 %DefArt_LUT = ();
 %Script_LUT = ();
 
-require "getopts.pl";
-require "flush.pl";
-&Getopts('i:s:t');
+use Getopt::Std;
+
+getopts("i:s:t");
+
 if (defined($opt_i)) {
     die("$Usage\n\nError: Undefined input format '$opt_i'") 
 	if ($opt_i !~ /^(txt|ctm|stm)$/);

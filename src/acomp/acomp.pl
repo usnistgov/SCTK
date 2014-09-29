@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-$Version="1.1";
+my $Version="1.1";
 
 #####
 #  Version 1.0  Released September 9, 1997
@@ -9,7 +9,7 @@ $Version="1.1";
 #        - added the -f flag to interpret fragments
 
 
-$Usage="Usage: acompl.pl [ -t -s -f ] [ -i fmt ] -m min -l lex Infile|- OutFile|-\n".
+my $Usage="Usage: acompl.pl [ -t -s -f ] [ -i fmt ] -m min -l lex Infile|- OutFile|-\n".
     "Version: $Version\n".
     "Desc: The 'acomp' program expands compound words in German orthography into\n".
     "      the constituent parts of those compound words.  The program uses the\n".
@@ -22,7 +22,7 @@ $Usage="Usage: acompl.pl [ -t -s -f ] [ -i fmt ] -m min -l lex Infile|- OutFile|
     "      -l lex   File name of the LDC German Dictionary\n".
     "      -t       Disable the processing of triplet consonants\n".
     "      -s       Disable the processing of -s and -en insertions\n".
-    "      -f       Divide word fragments as best as you can\n";
+    "      -f       Divide word fragments as best as you can\n".
     "      -i fmt   Set the input file formant to 'fmt'.  The possible choices are:\n".
     "                  txt -> plain text, the default\n".
     "                  ctm -> CTM format, ignores all but the 5th column, and if\n".
@@ -42,9 +42,18 @@ $InFile = "";
 $OutFile = "";
 $Frag = 0;
 
-require "getopts.pl";
-require "flush.pl";
-&Getopts('l:m:tsi:f');
+$| = 1; # This will cause stdout to be flushed whenever we print to it.
+
+use Getopt::Long;
+my $ret = GetOptions ("l=s",
+		      "m=s",
+		      "t",
+		      "s",
+		      "i:s",
+		      "f");
+die "\n$usage\nError: Failed to parse argements" if (! $ret);
+
+
 if (defined($opt_l)) {  $Lex = $opt_l; } else { die("$Usage\n\nError: Lexicon required via -l.\n"); }
 if (defined($opt_m)) {  $MinCompLen = $opt_m; }
 if (defined($opt_t)) {  $DoTriplet = 0; $opt_t = 0;}
@@ -143,7 +152,7 @@ sub String_LU{
 		    $new .= "(".$ne.") ";
 		}
 	    } else {
-		$lookup =~ s/(\S+-)$/aq(\1)/; 
+		$lookup =~ s/(\S+-)$/aq($1)/; 
 		$new .= "$lookup ";
 	    }
 	} else {
@@ -307,7 +316,6 @@ sub LoadLex{
 	}
 	if (($. + 1) % 10000 == 0){
 	    print "." if ($db);
-	    &flush(STDOUT);
 	}
     }
     print "\n   $. entries loaded, Largest word is $MaxLen\n" if ($db);
