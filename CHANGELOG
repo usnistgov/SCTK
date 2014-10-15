@@ -1,3 +1,13 @@
+SCTK Version 2.4.9 - Release October 15, 2014
+  [*] Removed the use of getopt in acomp.pl and def_art.pl
+  [*] rfilter typdef reassignment to char to an unsigned char replaced with a new typedef 'Char'
+      to support new GCC.
+  [*] Added the sclite_tolower utility to handle case conversion via sclite's library.
+  [*] Added the case conversion for Babel's UTF-8 of Kazakh, Cebuano, Kurmanji, and Lithuanian
+
+SCTK Version 2.4.8 - Release March 29, 2013
+  [*] Added the case conversion for Babel's UTF-8 of Vietnamese and Turkisoh.
+
 SCTK Version 2.4.1 - Release March 12, 2012
   [*] Fixed compilation issue
 
