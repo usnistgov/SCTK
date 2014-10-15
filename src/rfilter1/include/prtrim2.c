@@ -10,5 +10,5 @@
  /*  ('\0') into the first charactor following the */
  /*  last non-whitespace character in the string.  */
  /**************************************************/
-  char *prtrim2(char *s)
+  Char *prtrim2(Char *s)
 {*(prtrim(s) + 1) = '\0'; return s;}

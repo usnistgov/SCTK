@@ -9,11 +9,11 @@
  /*  makes *s be all upper case               */
  /*  returns pointer to *s                    */
  /*********************************************/
-  char *make_upper(char *s)
-  {char *pi;
+  Char *make_upper(Char *s)
+  {Char *pi;
    pi = s;
    while (*pi != '\0')
-      {*pi = (char)toupper((int)*pi);
+      {*pi = (Char)toupper((int)*pi);
        pi += 1;
       }
    return s;

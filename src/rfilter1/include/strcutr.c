@@ -5,11 +5,11 @@
 #endif
 
  /***********************************************/
- /*  char *strcutr(ps,n)                        */
+ /*  Char *strcutr(ps,n)                        */
  /*  Cuts n characters from tail of *ps.        */
  /***********************************************/
-  char *strcutr(char *ps, int n)
-{char *p1;
+  Char *strcutr(Char *ps, int n)
+{Char *p1;
    p1 = ps + strlen(ps) - n;
    if (p1 < ps)
      {fprintf(stderr,"*ERR: strcutr results in string of negative length.\n");

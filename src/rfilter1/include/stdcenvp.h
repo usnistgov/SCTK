@@ -22,9 +22,9 @@ extern "C" {
 #include "stdpars.h"
 
 
-  /* JGF  Redefined tghe character type  to be unsigned so that mandarin and
+  /* JGF  Redefined the character type  to be unsigned so that mandarin and
           japanese will parse correctly */
-#define char unsigned char
+#define Char unsigned char
 
 /* type definitions */
 #include "booldef.h"

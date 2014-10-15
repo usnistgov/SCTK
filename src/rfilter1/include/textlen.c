@@ -12,4 +12,4 @@
  /*  shift the data.)                         */
  /*********************************************/
 
-  int textlen(char *s) {return (int)(prtrim(s) - pltrimf(s) + 1);}
+  int textlen(Char *s) {return (int)(prtrim(s) - pltrimf(s) + 1);}

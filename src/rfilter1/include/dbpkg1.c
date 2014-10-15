@@ -17,7 +17,7 @@
 /* is *proc, if <level> < <db_level>. Uses global  */
 /* *pdb for header string.                         */
 /***************************************************/
- void db_enter_msg(char *proc, int level)
+ void db_enter_msg(Char *proc, int level)
 {if (db_level > level) {
    pdb = strcat(pdb,"  ");
    printf("%sentering %s.\n",pdb,proc);
@@ -30,7 +30,7 @@
 /* is *proc, if <level> < <db_level>. Uses global  */
 /* *pdb for header string.                         */
 /***************************************************/
- void db_leave_msg(char *proc, int level)
+ void db_leave_msg(Char *proc, int level)
 {if (db_level > level) {
    printf("%sleaving  %s.\n",pdb,proc);
    pdb = strcutr(pdb,2);

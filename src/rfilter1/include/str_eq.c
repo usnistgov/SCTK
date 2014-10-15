@@ -9,6 +9,6 @@
  /*  returns T is cs == ct, ignoring case iff */
  /*  "ignore_case" is T.                      */
  /*********************************************/
- boolean string_equal(char *cs, char *ct, int ignore_case)
+ boolean string_equal(Char *cs, Char *ct, int ignore_case)
  {if (ignore_case) return streqi(cs,ct); else return streq(cs,ct);
  }

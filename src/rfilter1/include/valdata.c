@@ -10,9 +10,9 @@
   /*  Indicates whether or not *s is a valid non-empty data line.*/
   /*  Changed 7/22/93 to return "T" if comment_flag is empty.    */
   /***************************************************************/
-  boolean valid_data_line(char *s, char *comment_flag)
+  boolean valid_data_line(Char *s, Char *comment_flag)
   {boolean ok;
-   char *px, *py;
+   Char *px, *py;
    if (strlen(s) < 1)
      ok = F;
    else

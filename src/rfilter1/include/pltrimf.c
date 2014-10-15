@@ -18,5 +18,5 @@
  /*  function that can be used this way.        */
  /*                                             */
  /***********************************************/
-  char *pltrimf(char *s)
-{char *p1; p1 = s; while (isspace(*p1)) p1++; return p1;}
+  Char *pltrimf(Char *s)
+{Char *p1; p1 = s; while (isspace(*p1)) p1++; return p1;}

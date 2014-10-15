@@ -29,11 +29,11 @@
 int main(int argc, char **argv)
  {char *proc = "RFILTER1 Ver. 2.0";
   time_t t_sec;
-  char rxf[LONG_LINE], *fname_rules = &rxf[0];
+  Char rxf[LONG_LINE], *fname_rules = &rxf[0];
 #define MAX_INPUT_REC 100000
-  char pax[MAX_INPUT_REC], *pa = &pax[0];
-  char pbx[MAX_INPUT_REC], *pb = &pbx[0];
-  char *path = "";
+  Char pax[MAX_INPUT_REC], *pa = &pax[0];
+  Char pbx[MAX_INPUT_REC], *pb = &pbx[0];
+  Char *path = "";
   int err; int *perr = &err;
   RULESET2 rset_data, *rset = &rset_data;
 /*   code   */

@@ -6,7 +6,7 @@
 
 /*****************************************************************/
 /*                                                               */
-/*  char *apply_rules2(pb,pa,rset,perr)                          */
+/*  Char *apply_rules2(pb,pa,rset,perr)                          */
 /*  Applies RULESET2 *rset to string pa, producing string pb.    */
 /*  Returns pb.                                                  */
 /*  If rset == NULL, just copies over the input string.          */
@@ -14,9 +14,9 @@
 /*     11 means "invalid rule format"                            */
 /*                                                               */
 /*****************************************************************/
-char *apply_rules2(char *pb, char *pa, RULESET2 *rset, int *perr)
- {char *proc = "apply_rules2";
-  char *pi, *pbx;
+Char *apply_rules2(Char *pb, Char *pa, RULESET2 *rset, int *perr)
+ {Char *proc = "apply_rules2";
+  Char *pi, *pbx;
   int irule, key_char, jrule;
   boolean hit;
 /* code: */
@@ -76,7 +76,7 @@ bool_print((strncmpi(pi-rset->rule[irule].lcontextl,
      if (!hit)
        {if (rset->copy_no_hit)
           {pbx = pb + strlen(pb);
-           *pbx = *pi; /* copy char from pi to end of pb */
+           *pbx = *pi; /* copy Char from pi to end of pb */
            *(++pbx) = '\0';
           }
         pi += 1;

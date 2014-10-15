@@ -16,9 +16,9 @@
  /*           == 0 if *ps1 is the same as *ps2                    */
  /*            > 0 if *ps1 is greater than *ps2                   */
  /*****************************************************************/
- int strcmpi(char *ps1, char *ps2)
+ int strcmpi(Char *ps1, Char *ps2)
 {
-  char *px1, *px2;
+  Char *px1, *px2;
   int indicator;
   px1 = ps1; px2 = ps2;
   indicator = 9999;

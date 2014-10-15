@@ -5,40 +5,40 @@
 #ifndef FCNDCLS_HEADER
 #define FCNDCLS_HEADER
 
-extern char          *apply_rules2(char *pb, char *pa, RULESET2 *rset, int *perr);
-extern boolean        atobool(char *s);
-extern char          *bool_print(boolean x);
-extern void          *calloc_safe(size_t nobj, size_t size, char *calling_proc);
-extern void           db_enter_msg(char *proc, int level);
-extern void           db_leave_msg(char *proc, int level);
-extern char          *del_eol(char *ps);
+extern Char          *apply_rules2(Char *pb, Char *pa, RULESET2 *rset, int *perr);
+extern boolean        atobool(Char *s);
+extern Char          *bool_print(boolean x);
+extern void          *calloc_safe(size_t nobj, size_t size, Char *calling_proc);
+extern void           db_enter_msg(Char *proc, int level);
+extern void           db_leave_msg(Char *proc, int level);
+extern Char          *del_eol(Char *ps);
 extern void           dump_rules2(RULESET2 *rset);
 extern void           dump_rules3(RULESET2 *rset, FILE *fp);
-extern char          *expenv(char *s, int slength);
-extern void           fatal_error(char *reporting_procedure, char *msg, int error_level);
+extern Char          *expenv(Char *s, int slength);
+extern void           fatal_error(Char *reporting_procedure, Char *msg, int error_level);
 extern void           free_rules2(RULESET2 *rset);
-extern void           free_str(char *s);
-extern void           get_comment_flag(char *s, char *comment_flag);
-extern void           get_rules2(RULESET2 *rset, char *path, char *fname, int *perr);
-extern char          *make_full_fname(char *sx, char *path, char *fname);
-extern char          *make_upper(char *s);
-extern char          *pltrim(char *s);
-extern char          *pltrimf(char *s);
-extern char          *prtrim(char *s);
-extern char          *prtrim2(char *s);
-extern char          *remove_comments(char *s, char *comment_flag);
-extern SUBSTRING      sstok2(char *sx, char *delimiters);
-extern boolean        string_equal(char *cs, char *ct, int ignore_case);
+extern void           free_str(Char *s);
+extern void           get_comment_flag(Char *s, Char *comment_flag);
+extern void           get_rules2(RULESET2 *rset, Char *path, Char *fname, int *perr);
+extern Char          *make_full_fname(Char *sx, Char *path, Char *fname);
+extern Char          *make_upper(Char *s);
+extern Char          *pltrim(Char *s);
+extern Char          *pltrimf(Char *s);
+extern Char          *prtrim(Char *s);
+extern Char          *prtrim2(Char *s);
+extern Char          *remove_comments(Char *s, Char *comment_flag);
+extern SUBSTRING      sstok2(Char *sx, Char *delimiters);
+extern boolean        string_equal(Char *cs, Char *ct, int ignore_case);
 #ifdef NEED_STRCMP
-extern int            strcmpi(char *ps1, char *ps2);  /* BCD 4.2; not TURBO C */
-extern int            strncmpi(char *ps1, char *ps2, int n);  /* BCD 4.2; not TURBO C */
+extern int            strcmpi(Char *ps1, Char *ps2);  /* BCD 4.2; not TURBO C */
+extern int            strncmpi(Char *ps1, Char *ps2, int n);  /* BCD 4.2; not TURBO C */
 #endif
-extern char          *strdup_safe(char *ps, char *calling_proc);
+extern Char          *strdup_safe(Char *ps, Char *calling_proc);
 extern int            substr_length(SUBSTRING *substr);
-extern char          *substr_to_str(SUBSTRING *substr, char *str, int lmax);
-extern char          *strcutr(char *ps, int n);
-extern int            textlen(char *s);
-extern boolean        valid_data_line(char *s, char *comment_flag);
+extern Char          *substr_to_str(SUBSTRING *substr, Char *str, int lmax);
+extern Char          *strcutr(Char *ps, int n);
+extern int            textlen(Char *s);
+extern boolean        valid_data_line(Char *s, Char *comment_flag);
 
 #endif
 /* end file fcndcls.h        */

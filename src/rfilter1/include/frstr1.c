@@ -4,10 +4,10 @@
 #include "stdcenvf.h" /* std compile environment for functions */
 #endif
 
-void free_str(char *s)
-{if ((s != NULL)&&(s != EMPTY_STRING)&&(s != (char*)EMPTY_INT_STRING))
+void free_str(Char *s)
+{if ((s != NULL)&&(s != EMPTY_STRING)&&(s != (Char*)EMPTY_INT_STRING))
      {if (memory_trace) printf("*DB: FREE %x\n",(int)s);
-      free((char*)s);
+      free((Char*)s);
      }
    return;
  }

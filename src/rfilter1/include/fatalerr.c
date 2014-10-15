@@ -4,13 +4,13 @@
 #include "stdcenvf.h" /* std compile environment for functions */
 #endif
 
- void fatal_error(char *reporting_procedure, char *msg, int error_level)
+ void fatal_error(Char *reporting_procedure, Char *msg, int error_level)
 
                                                   
 /**************************************************************************/
 /* Reports fatal error and exits.                                         */
 /**************************************************************************/
- {char *proc = "fatal_error";
+ {Char *proc = "fatal_error";
 /* code */
  db_enter_msg(proc,1); /* debug only */
   fprintf(stderr,"\n");

@@ -6,15 +6,15 @@
 
   /************************************************************/
   /*                                                          */
-  /*  char *make_full_fname(sx,path,fname)                    */
+  /*  Char *make_full_fname(sx,path,fname)                    */
   /* Makes a full file name by concatenating *path and *fname,*/
   /* puts it in *sx and returns sx.                           */
   /* Assumes length of sx and path is LINE_LENGTH.            */
   /* Inserts '/' between path and fname if necessary.         */
   /*                                                          */
   /************************************************************/
- char *make_full_fname(char *sx, char *path, char *fname)
-{char *proc = "make_full_fname";
+ Char *make_full_fname(Char *sx, Char *path, Char *fname)
+{Char *proc = "make_full_fname";
 /* prepare full pcode file name */
   sx = strcpy(sx,path);
   sx = pltrim(prtrim2(del_eol(sx)));

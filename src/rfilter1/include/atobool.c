@@ -4,7 +4,7 @@
 #include "stdcenvf.h" /* std compile environment for functions */
 #endif
 
- boolean atobool(char *s)
+ boolean atobool(Char *s)
          
  /*********************************************/
  /*  Returns T if string s is "T" or "TRUE"   */

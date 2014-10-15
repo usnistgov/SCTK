@@ -8,11 +8,11 @@
  /*  strdup_safe(ps,calling_proc)                      */
  /*  Like strdup(ps) except fatal err if malloc fails. */
  /******************************************************/
- char *strdup_safe(char *ps, char *calling_proc)
- {char *proc = "strdup_safe";
-  char *pd;
+ Char *strdup_safe(Char *ps, Char *calling_proc)
+ {Char *proc = "strdup_safe";
+  Char *pd;
 if (db_level > 3) printf("%sdoing %s\n",pdb,proc);
-  pd = (char*)malloc((size_t)strlen(ps)+1);
+  pd = (Char*)malloc((size_t)strlen(ps)+1);
   if (pd == NULL) fatal_error(calling_proc,"MEM ALLOC",-1);
   else   pd = strcpy(pd,ps);
   if (memory_trace) printf("%s MALLOC %x\n",pdb,(int)pd);

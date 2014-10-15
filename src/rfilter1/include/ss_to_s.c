@@ -6,7 +6,7 @@
 
  /**********************************************************************/
  /*                                                                    */
- /*   char *substr_to_str(substr,str,lmax)                             */
+ /*   Char *substr_to_str(substr,str,lmax)                             */
  /*                                                                    */
  /* Converts the SUBSTRING *substr to the character string *str,       */
  /* not putting more than *lmax characters in (including the new end-  */
@@ -16,9 +16,9 @@
  /* Returns pointer to str.                                            */
  /*                                                                    */
  /**********************************************************************/
- char *substr_to_str(SUBSTRING *substr, char *str, int lmax)
-{char *proc = "substr_to_str";
-  char *pn1, *pn2;
+ Char *substr_to_str(SUBSTRING *substr, Char *str, int lmax)
+{Char *proc = "substr_to_str";
+  Char *pn1, *pn2;
   int next_to_be_moved;
   boolean ovf;
   str = strcpy(str,"");

@@ -12,8 +12,8 @@
  /* *s is not dynamic memory later freed, see   */
  /* pltrimf(s).                                 */
  /***********************************************/
-  char *pltrim(char *s)
-  {char *from, *to;
+  Char *pltrim(Char *s)
+  {Char *from, *to;
    /* skip leading blanks */
    for (from = s; (*from != '\0') && isspace(*from); from++);
    /* copy rest of string */

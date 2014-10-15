@@ -4,7 +4,7 @@
 #define HPARSTR1_HEADER
 
  typedef struct
-   {char *hfcn_name;
+   {Char *hfcn_name;
     double recommended_load_factor;
     int nparams;
     int C[HFCN_NPARAMS_MAX];

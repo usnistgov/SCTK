@@ -6,19 +6,19 @@
 
   /*****************************************************************/
   /*                                                               */
-  /*  char *expenv(s,slength)                                      */
+  /*  Char *expenv(s,slength)                                      */
   /*  Expands environment variables embedded in string *s.         */
   /*  Doesn't expand beyond s[slength].                            */
   /*  Uses local buffers of length LONG_LINE.                      */
   /*  Returns pointer to s so you can use it like s = expenv(s,x); */
   /*                                                               */
   /*****************************************************************/
-  char *expenv(char *s, int slength)
-   {char *proc = "expenv";
-    char *pa, *pb, *pend;
-    char sxx[LONG_LINE], *sx = &sxx[0];
-    char vxx[LONG_LINE], *vname = &vxx[0];
-    char sex[LONG_LINE], *s_exp = &sex[0];
+  Char *expenv(Char *s, int slength)
+   {Char *proc = "expenv";
+    Char *pa, *pb, *pend;
+    Char sxx[LONG_LINE], *sx = &sxx[0];
+    Char vxx[LONG_LINE], *vname = &vxx[0];
+    Char sex[LONG_LINE], *s_exp = &sex[0];
     boolean ok, no_problem;
     SUBSTRING ssx_data, *ssx = &ssx_data;
   /* instructions */

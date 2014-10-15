@@ -14,8 +14,8 @@
   /* the comments, in case s was dynamically allocated.          */
   /* Changed 7/22/93 to do nothing if comment_flag is empty.     */
   /***************************************************************/
-  char *remove_comments(char *s, char *comment_flag)
-  {char *px;
+  Char *remove_comments(Char *s, Char *comment_flag)
+  {Char *px;
    if (strlen(comment_flag) > 0)
      {px = strstr(s,comment_flag);
       if (px != NULL) while (*px != '\0') *px++ = ' ';

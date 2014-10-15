@@ -18,9 +18,9 @@
  /*            > 0 if *ps1 is greater than *ps2 (first n chars)   */
  /*  Revised 11/5/96 by WMF to fix a bug when n == 0.             */
  /*****************************************************************/
- int strncmpi(char *ps1, char *ps2, int n)
- {char *proc = "strncmpi";
-  char *px1, *px2;
+ int strncmpi(Char *ps1, Char *ps2, int n)
+ {Char *proc = "strncmpi";
+  Char *px1, *px2;
   int indicator, i=0;
  db_enter_msg(proc,2); /* debug only */
   px1 = ps1; px2 = ps2;

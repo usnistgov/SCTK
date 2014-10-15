@@ -9,8 +9,8 @@
   /* get_comment_flag(s,comment_flag)                            */
   /* Gets *comment_flag as first token in *s.                    */
   /***************************************************************/
-  void get_comment_flag(char *s, char *comment_flag)
-  {char *px;
+  void get_comment_flag(Char *s, Char *comment_flag)
+  {Char *px;
    comment_flag = strcpy(comment_flag,s);
    for (px = comment_flag; isgraph(*px); px++);
    *px = '\0';

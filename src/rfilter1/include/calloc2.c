@@ -4,11 +4,11 @@
 #include "stdcenvf.h" /* std compile environment for functions */
 #endif
 
- void *calloc_safe(size_t nobj, size_t size, char *calling_proc)
+ void *calloc_safe(size_t nobj, size_t size, Char *calling_proc)
  /*************************************************************/
  /*  Like calloc(nobj,size) except fatal err if calloc fails. */
  /*************************************************************/
- {char *proc = "calloc_safe";
+ {Char *proc = "calloc_safe";
   void *x;
 if (db_level > 3) printf("%sdoing %s\n",pdb,proc);
   x = calloc(nobj,size);

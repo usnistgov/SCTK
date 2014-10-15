@@ -10,8 +10,8 @@
  /* from the line *s.                           */
  /*  returns s.                                 */
  /***********************************************/
- char *del_eol(char *ps)
- {char *p1;
+ Char *del_eol(Char *ps)
+ {Char *p1;
   p1 = ps + strlen(ps) - 1;
   while ( (p1 >= ps) && (*p1 == '\n') ) {*p1 = '\0'; p1--;};
   return ps;

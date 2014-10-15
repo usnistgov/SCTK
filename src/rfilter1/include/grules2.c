@@ -16,10 +16,10 @@
   /*   error codes: 3: bungled aux line                       */
   /*   (Fatal error if memory allocation fails.)              */
   /************************************************************/
-  static void r_process_aux_line(RULESET2 *rset, char *pline, int *perr)
-   {char *proc = "r_process_aux_line";
-    char svx[LINE_LENGTH], *sval = &svx[0];
-    char upx[LINE_LENGTH], *upr_pline = &upx[0];
+  static void r_process_aux_line(RULESET2 *rset, Char *pline, int *perr)
+   {Char *proc = "r_process_aux_line";
+    Char svx[LINE_LENGTH], *sval = &svx[0];
+    Char upx[LINE_LENGTH], *upr_pline = &upx[0];
     SUBSTRING sspx, *ssp = &sspx;
 /* coding */
  db_enter_msg(proc,1); /* debug only */
@@ -62,10 +62,10 @@
   /*                  32: no arrow                            */
   /*   (Fatal error if memory allocation fails.)              */
   /************************************************************/
-  static void r_process_data_line(RULESET2 *rset, char *pline, int *perr)
-   {char *proc = "r_process_data_line";
-    char *ieq, *icontext, *islot, *ilmark, *irmark;
-    char sx_data[LINE_LENGTH], *sx = &sx_data[0];
+  static void r_process_data_line(RULESET2 *rset, Char *pline, int *perr)
+   {Char *proc = "r_process_data_line";
+    Char *ieq, *icontext, *islot, *ilmark, *irmark;
+    Char sx_data[LINE_LENGTH], *sx = &sx_data[0];
     RULE2 x, *rx = &x;
     SUBSTRING ssx_data, *ssx = &ssx_data;
  db_enter_msg(proc,1); /* debug only */
@@ -236,13 +236,13 @@ RETURN:
   /* (Uses global parameter LINE_LENGTH.)                     */
   /*                                                          */
   /************************************************************/
-  void get_rules2(RULESET2 *rset, char *path, char *fname, int *perr)
-   {char *proc = "get_rules2";
+  void get_rules2(RULESET2 *rset, Char *path, Char *fname, int *perr)
+   {Char *proc = "get_rules2";
 /* data */
     FILE *fp;
-    char line[LINE_LENGTH], *pline = &line[0];
-    char fnxx[LONG_LINE], *full_fname = &fnxx[0];
-    char cmx[LINE_LENGTH], *comment_flag = &cmx[0];
+    Char line[LINE_LENGTH], *pline = &line[0];
+    Char fnxx[LONG_LINE], *full_fname = &fnxx[0];
+    Char cmx[LINE_LENGTH], *comment_flag = &cmx[0];
     boolean *indexed;
     int n_data_lines_processed;
     int nrules[257], key_char, key_char2, jind, i, i2;
@@ -313,7 +313,7 @@ if (db_level > 2) printf("%s line:'%s'\n",pdb,pline);
   /* zero out value for each rule */
     for (i=0; i <= rset->nrules; i++) rset->rule[i].val1 = 0;
   /* make rule indexing tables */
-    /* get rules aggregated by key char (first char of Source) */
+    /* get rules aggregated by key Char (first Char of Source) */
     rset->rule_index = (int*)calloc_safe(rset->nrules+1,sizeof(int),proc);
     rset->first_rule = (int*)calloc_safe(257,sizeof(int),proc);
     rset->last_rule  = (int*)calloc_safe(257,sizeof(int),proc);
@@ -334,13 +334,13 @@ if (db_level > 1) printf("%s making indices\n",pdb);
 if (db_level > 1) printf("%s processing rule %d, key_char = %d (%c)\n",
  pdb,i,key_char,key_char);
        if (nrules[key_char] == 0)
-         {/* we haven't handled this key char yet */
+         {/* we haven't handled this key Char yet */
           rset->rule_index[++jind] = i;
           indexed[i] = T;
           nrules[key_char] += 1;
           rset->first_rule[key_char] = jind;
           rset->last_rule[key_char] = jind;
-         /* index all later rules with same key char */
+         /* index all later rules with same key Char */
           for (i2 = i+1; i2 <= rset->nrules; i2++)
             {if (!indexed[i2])
                {key_char2 = (int)(rset->rule[i2].sin[0]);
