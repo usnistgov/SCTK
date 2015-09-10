@@ -85,6 +85,46 @@ static int KCC_babel_kazakh[][2] =  { // Babel Kazakh consonants
   { 0x042f, 0x044f }, //
 };
 
+
+static int numKCC_babel_mongolian= 35;
+static int KCC_babel_mongolian[][2] =  { // Babel mongolian capitals
+  { 0x0401, 0x0451 }, // 9
+  { 0x0410, 0x0430 }, // 1
+  { 0x0411, 0x0431 }, // 3
+  { 0x0412, 0x0432 }, // 4
+  { 0x0413, 0x0433 }, // 5
+  { 0x0414, 0x0434 }, // 7
+  { 0x0415, 0x0435 }, // 8
+  { 0x0416, 0x0436 }, // 10
+  { 0x0417, 0x0437 }, // 11
+  { 0x0418, 0x0438 }, // 12
+  { 0x0419, 0x0439 }, // 13
+  { 0x041a, 0x043a }, // 14
+  { 0x041b, 0x043b }, // 16
+  { 0x041c, 0x043c }, // 17
+  { 0x041d, 0x043d }, // 18
+  { 0x041e, 0x043e }, // 20
+  { 0x041f, 0x043f }, // 22
+  { 0x0420, 0x0440 }, // 23
+  { 0x0421, 0x0441 }, // 24
+  { 0x0422, 0x0442 }, // 25
+  { 0x0423, 0x0443 }, // 26
+  { 0x0424, 0x0444 }, // 29
+  { 0x0425, 0x0445 }, // 30
+  { 0x0426, 0x0446 }, // 32
+  { 0x0427, 0x0447 }, // 33
+  { 0x0428, 0x0448 }, // 34
+  { 0x0429, 0x0449 }, // 35
+  { 0x042a, 0x044a }, // 36
+  { 0x042b, 0x044b }, // 37
+  { 0x042c, 0x044c }, // 39
+  { 0x042d, 0x044d }, // 40
+  { 0x042e, 0x044e }, // 41
+  { 0x042f, 0x044f }, // 42
+  { 0x04ae, 0x04af },
+  { 0x04e8, 0x04e9 }, 
+};
+
 static int numKCC_babel_vietnamese =  67;
 static int KCC_babel_vietnamese[][2] =  { // Babel Vietnamese consonants
   { 0x0110, 0x0111}, //D -> d
@@ -243,6 +283,9 @@ int TEXT_set_lang_prof(char *lprof){
 	return(1);
     } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_kazakh") == 0) {
         STATIC_LPROF = LPROF_BABEL_KAZAKH;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_mongolian") == 0) {
+        STATIC_LPROF = LPROF_BABEL_MONGOLIAN;                                                                                                    
 	return(1);
     }
     return(0);
@@ -861,6 +904,13 @@ int getKnownUFTCaseCP(int inCP, int toLow){
      for (i=0; i<numKCC_babel_kazakh && outCP == -1; i++){     
        if (KCC_babel_kazakh[i][(toLow ? 0 : 1)] == inCP){
          return KCC_babel_kazakh[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   if (STATIC_LPROF == LPROF_BABEL_MONGOLIAN){
+     for (i=0; i<numKCC_babel_mongolian && outCP == -1; i++){     
+       if (KCC_babel_mongolian[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_mongolian[i][(!toLow ? 0 : 1)];
        }
      }
    }
