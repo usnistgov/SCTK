@@ -202,6 +202,24 @@ static int KCC_babel_vietnamese[][2] =  { // Babel Vietnamese consonants
   { 0x1ef4, 0x1ef5}, //Ỵ -> ỵ
 };
 
+
+static int numKCC_babel_guarani= 13;
+static int KCC_babel_guarani[][2] =  { // Babel guarani capitals
+  { 0x00c3, 0x00e3}, //Ã -> ã
+  { 0x00c1, 0x00e1}, //Á -> á
+  { 0x1ebc, 0x1ebd}, //Ẽ -> ẽ
+  { 0x00c9, 0x00e9}, //É -> é
+  { 0x0128, 0x0129}, //Ĩ -> ĩ
+  { 0x00cd, 0x00ed}, //Í -> í
+  { 0x00d5, 0x00f5}, //Õ -> õ
+  { 0x00d3, 0x00f3}, //Ó -> ó
+  { 0x0168, 0x0169}, //Ũ -> ũ
+  { 0x00da, 0x00fa}, //Ú -> ú
+  { 0x1ef8, 0x1ef9}, //Ỹ -> ỹ
+  { 0x00dd, 0x00fd}, //Ý -> ý
+  { 0x00D1, 0x00f1}  //Ñ ->ñ
+};
+
 // These static variables are used as temporary memory for case conversion
 static TEXT *STATIC_CASECONVTEXT;
 static int STATIC_CASECONVTEXT_SIZE = -1;
@@ -286,6 +304,9 @@ int TEXT_set_lang_prof(char *lprof){
 	return(1);
     } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_mongolian") == 0) {
         STATIC_LPROF = LPROF_BABEL_MONGOLIAN;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_guarani") == 0) {
+        STATIC_LPROF = LPROF_BABEL_GUARANI;                                                                                                    
 	return(1);
     }
     return(0);
@@ -911,6 +932,13 @@ int getKnownUFTCaseCP(int inCP, int toLow){
      for (i=0; i<numKCC_babel_mongolian && outCP == -1; i++){     
        if (KCC_babel_mongolian[i][(toLow ? 0 : 1)] == inCP){
          return KCC_babel_mongolian[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }
+   if (STATIC_LPROF == LPROF_BABEL_GUARANI){
+     for (i=0; i<numKCC_babel_guarani && outCP == -1; i++){     
+       if (KCC_babel_guarani[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_babel_guarani[i][(!toLow ? 0 : 1)];
        }
      }
    }
