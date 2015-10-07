@@ -1,3 +1,7 @@
+SCTK Version 2.4.10 - Release October 15, 2014
+  [*] Added the case conversion for Babel's UTF-8 of Mongolian and Guarani data.  Changes for 
+      Guarani include handling of two-UTF characters representing G~.
+
 SCTK Version 2.4.9 - Release October 15, 2014
   [*] Removed the use of getopt in acomp.pl and def_art.pl
   [*] rfilter typdef reassignment to char to an unsigned char replaced with a new typedef 'Char'
