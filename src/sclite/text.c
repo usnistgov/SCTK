@@ -333,14 +333,6 @@ int TEXT_nbytes_of_char(TEXT *p){
     if (STATIC_ENCODING == ASCII || STATIC_ENCODING == EXTASCII){
         return 1;
     } else {
-        if (STATIC_LPROF == LPROF_BABEL_GUARANI){
-	  // Check for the 2-character G~
-	  if (((*p) == 'G' || (*p) == 'g') &&
-	      (*(p+1) != NULL_TEXT && *(p+1) == 0xCC) &&
-	      (*(p+2) != NULL_TEXT && *(p+2) == 0x83))
-	    return 3;
-	}
-
         if (((*p) & 0x80) == 0){
             return 1;
         } else if (STATIC_ENCODING == GB) {
@@ -420,7 +412,7 @@ void TEXT_delete_chars(TEXT *arr, TEXT *set){
 
 // tested
 void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int flag){
-    int lastcs, cs, os, i, lastIsAscii, isAscii, isHyphen, isSpace, lastIsSpace;
+  int lastcs, cs, os, i, lastIsAscii, isAscii, isHyphen, isSpace, lastIsSpace, isGuaraniG;
     TEXT *tp = *to, *next;
     int not_ASCII = (flag & CALI_NOASCII) != 0;
     int del_HYPHEN = (flag & CALI_DELHYPHEN) != 0;
@@ -435,17 +427,38 @@ void TEXT_separate_chars(TEXT *from, TEXT **to, int *to_size, int flag){
     lastIsSpace = 1;
     do {
         cs = TEXT_nbytes_of_char(from);
-        if ((tp - *to) + cs + 2 > *to_size){
+
+        if ((tp - *to) + cs + 4 > *to_size){  // +4 is to make sure there is allways headroom especially for G~
             int os = *to_size;
             expand_singarr((*to),os,(*to_size),2,TEXT);
             tp = *to + TEXT_strlen(*to);
         }
+
+	// Check for the 2-character G~ in Guarani
+	isGuaraniG = 0;
+	if (STATIC_LPROF == LPROF_BABEL_GUARANI){ 
+	  if (((*from) == 'G' || (*from) == 'g') &&
+	      (*(from+1) != NULL_TEXT && *(from+1) == 0xCC) &&
+	      (*(from+2) != NULL_TEXT && *(from+2) == 0x83)){
+	    isGuaraniG = 1;
+	  }  
+	}
         isAscii = is_ASCII(from);
         isHyphen = (cs == 1 && *from == '-');
         isSpace = (cs == 1 && *from == ' ');
-//        printf("  from: %s, to: %s, notAscii: %d, del_HYPHEN: %d, cs: %d isAscii: %d, isHyphen: %d, isSpace: %d, lastIsSpace: %d\n",
-//                from,*to,cs,not_ASCII, del_HYPHEN,isAscii,isHyphen,isSpace,lastIsSpace);
-        if (tp == *to){
+	//	printf("  from: %s, to: %s, notAscii: %d, del_HYPHEN: %d, cs: %d isAscii: %d, isHyphen: %d, isSpace: %d, lastIsSpace: %d, isGuaraniG: %d\n",
+	//       from,*to,cs,not_ASCII, del_HYPHEN,isAscii,isHyphen,isSpace,lastIsSpace, isGuaraniG);
+	if (isGuaraniG){
+	  if (! lastIsSpace) {
+	    TEXT_strCcpy(tp, (TEXT *)" ", 1);
+	    tp++;
+	  }
+	  TEXT_strCcpy(tp, from, 2);
+	  tp += 3;
+	  lastIsAscii = 0;
+	  lastIsSpace = 0;
+	  cs = 3;
+	} else if (tp == *to){
           // nothing is is to so far
           if (del_HYPHEN && isHyphen){
               ; // do not copy
