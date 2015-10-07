@@ -333,6 +333,14 @@ int TEXT_nbytes_of_char(TEXT *p){
     if (STATIC_ENCODING == ASCII || STATIC_ENCODING == EXTASCII){
         return 1;
     } else {
+        if (STATIC_LPROF == LPROF_BABEL_GUARANI){
+	  // Check for the 2-character G~
+	  if (((*p) == 'G' || (*p) == 'g') &&
+	      (*(p+1) != NULL_TEXT && *(p+1) == 0xCC) &&
+	      (*(p+2) != NULL_TEXT && *(p+2) == 0x83))
+	    return 3;
+	}
+
         if (((*p) & 0x80) == 0){
             return 1;
         } else if (STATIC_ENCODING == GB) {
