@@ -24,6 +24,11 @@
 #include "speechset.h"
 #include "logger.h"
 
+#include <algorithm>
+#include <functional>
+#include <array>
+#include <iostream>
+
 struct AlignedSegmentSequenceComparator
 {
 	inline bool operator() (AlignedSegment* first, AlignedSegment* second) const
