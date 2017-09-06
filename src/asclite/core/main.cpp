@@ -78,7 +78,7 @@ void PrintHelp()
     cout << "    -only-SG <segment_group_ID>" << endl;
     cout << "                  Only score the segment group specified (default: disable, scoring all Segment Groups)." << endl;
 	cout << "    -memory-compression <block_KB>" << endl;
-    cout << "                  Set the memory compression with compressed <block_KB> KB block (default: off / recommanded: 256)." << endl;
+    cout << "                  Set the memory compression with compressed <block_KB> KB block (default: off / recommended: 256)." << endl;
 	cout << "    -force-memory-compression" << endl;
     cout << "                  Force the memory compression." << endl;
 	cout << "    -memory-limit <max_GB>" << endl;
@@ -700,7 +700,7 @@ int main(int argc, char **argv)
 			else
 			{
 				arg_ok = false;
-				cerr << "[  ERROR  ] Ouput dir missing!" << endl;
+				cerr << "[  ERROR  ] Output dir missing!" << endl;
 			}
 		}
 		else
