@@ -19,6 +19,9 @@
  * Inplementation of the Levenshtein Distance Algorithm in Multi-Dimension
  */
 	
+#include <iostream>
+#include <algorithm>
+#include <vector>
 #include "graph.h"
 
 Logger* Graph::logger = Logger::getLogger();
