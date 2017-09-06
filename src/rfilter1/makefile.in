@@ -34,7 +34,7 @@ install: all
 	install rfilter1 $(bindir)
 
 clean:
-	rm -f rfilter1
+	$(RM) rfilter1
 
 distclean: clean
-	rm -r *~ makefile
+	$(RM) -r *~ makefile
