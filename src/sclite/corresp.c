@@ -312,7 +312,7 @@ static void lattice_error(int npaths,PATH **paths, int *refWord, int *refErrRefW
   int *evals;
 
   if (npaths == 0 || npaths == 1) {
-    fprintf(stderr,"Error: these are paths are not compatable");
+    fprintf(stderr,"Error: these paths are not compatible");
     exit(1);
   }
 
@@ -336,12 +336,12 @@ static void lattice_error(int npaths,PATH **paths, int *refWord, int *refErrRefW
 	;
       else {
 	if (w > paths[0]->num || wp > paths[p]->num){
-	  fprintf(stderr,"Error: these are paths are not compatable");
+	  fprintf(stderr,"Error: these paths are not compatible");
 	  exit(1);
 	}
 	if (TEXT_strcmp(((WORD *)(paths[0]->pset[w].a_ptr))->value,
 			((WORD *)(paths[p]->pset[wp].a_ptr))->value) != 0){
-	  fprintf(stderr,"Error: these are paths are not compatable");
+	  fprintf(stderr,"Error: these paths are not compatible");
 	  exit(1);	
 	}
 	if (paths[p]->pset[wp].eval == P_CORR)
