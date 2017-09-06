@@ -5,6 +5,9 @@
 
 #define COMPILE_ENVIRONMENT 1
 
+#ifndef STDCENVP_H_INCLUDED
+#define STDCENVP_H_INCLUDED 1
+
 #ifdef __cplusplus  /* if compiling with a C++ compiler */
 extern "C" {
 #endif
@@ -48,3 +51,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* STDCENVP_H_INCLUDED */
