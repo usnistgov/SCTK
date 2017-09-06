@@ -19,6 +19,7 @@ buildPackFile:
 	buildPack.pl > packImageTarFile
 
 clean:
+	$(RM) align2html.pl
 
 distclean: clean
-	rm -r *~ makefile
+	$(RM) -r *~ makefile
