@@ -333,8 +333,6 @@ use SGMLS;
 # main program
 ########################################################
 
-#require "getopts.pl";
-#&Getopts('pwkchd:f:e:i:o:');
 use Getopt::Long;
 my $ret = GetOptions ("p", "w", "k", "c", "h", "d:i", "f=s", "e=s", "i=s", "o=s", "t", "n", "s=s");
 
