@@ -9,8 +9,8 @@ MAKE=make
 PREFIX=`cd ../../..; pwd`
 
 all clean distclean:
-	(cd core; $(MAKE) $@)
-	(cd test; $(MAKE) $@)
+	-(cd core; $(MAKE) $@)
+	-(cd test; $(MAKE) $@)
 
 install:
 	(cd core; $(MAKE) $@)
