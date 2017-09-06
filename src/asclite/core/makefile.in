@@ -53,7 +53,7 @@ PROGRAMS = asclite
 all: makefile $(PROGRAMS)
 
 
-COMPILE = $(CC) -c $(OFLAGS) $(DEFS) -I. $(CFLAGS)
+COMPILE = $(CC) -c $(OFLAGS) $(DEFS) -I. $(CFLAGS) $(CPPFLAGS)
 
 .cpp.o:
 	$(COMPILE) $<
