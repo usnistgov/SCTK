@@ -111,7 +111,7 @@ Change the maximum number of overlaping speaker (default: 1).
 
 =item B<-memory-compression <block_KB>>
 
-Set the memory compression with compressed <block_KB> KB block (default: off / recommanded: 64).
+Set the memory compression with compressed <block_KB> KB block (default: off / recommended: 64).
 
 =item B<-force-memory-compression>
 
