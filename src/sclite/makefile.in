@@ -172,11 +172,11 @@ testinstalldirs:
 	   if test ! -d $$p ; then \
 		echo "Error: directory $$p doesn't exist"; \
 	   fi ; \
+	done
 #REenable this later
 #	   if test ! -w $$p ; then \
 #		echo "Error: directory $$p is not writeable by you"; \
 #	   fi \
-	done
 
 # We need more tests.
 check: sctkUnit
