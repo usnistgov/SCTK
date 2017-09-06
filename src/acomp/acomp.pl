@@ -51,7 +51,7 @@ my $ret = GetOptions ("l=s",
 		      "s",
 		      "i:s",
 		      "f");
-die "\n$usage\nError: Failed to parse argements" if (! $ret);
+die "\n$Usage\nError: Failed to parse arguments" if (! $ret);
 
 
 if (defined($opt_l)) {  $Lex = $opt_l; } else { die("$Usage\n\nError: Lexicon required via -l.\n"); }
@@ -64,8 +64,8 @@ if (defined($opt_i)) {
 	if ($opt_i !~ /^(txt|ctm|stm)$/);
     $InFmt = $opt_i;
 }
-#### The main functions arguements:
-if ($#ARGV > 1) { print "\n$Usage\nToo many arguements\n\n"; exit 1; } 
+#### The main functions arguments:
+if ($#ARGV > 1) { print "\n$Usage\nToo many arguments\n\n"; exit 1; }
 if ($#ARGV == 0) { print "\n$Usage\nOutput Not Specified\n\n"; exit 1; } 
 if ($#ARGV == -1) { print "\n$Usage\nInput and Output Not Specified\n\n";
 		    exit 1; } 
