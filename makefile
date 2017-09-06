@@ -17,16 +17,16 @@ MAKE=make
 
 all clean install config:
 	(mkdir -p bin)
-	(cd src; $(MAKE) $@)
+	(cd src && $(MAKE) $@)
 
 .PHONY : doc
 
 doc:
-	(cd doc; $(MAKE) all)
+	(cd doc && $(MAKE) all)
 
 distclean:
 	(rm -f bin/*)
-	(cd src; $(MAKE) $@)
+	(cd src && $(MAKE) $@)
 
 dist:
 	@ echo "Make the distribution"
@@ -40,7 +40,7 @@ dist:
 	@ find `cat .fname` -name "._*" -delete
 	@ tar jcf `cat .distname` --exclude CVS  --exclude .svn --exclude TODO `cat .fname` 
 	@ md5 `cat .distname` > `cat .distname`.md5
-	@ (cd `cat .fname`; make config all check install doc)
+	@ (cd `cat .fname` && make config all check install doc)
 	@ rm -rf `cat .fname` .fname .distname
 
 cvs-tag-current-distribution:
@@ -49,4 +49,4 @@ cvs-tag-current-distribution:
 
 check:
 	@ uname -a
-	(cd src; $(MAKE) $@)
+	(cd src && $(MAKE) $@)
