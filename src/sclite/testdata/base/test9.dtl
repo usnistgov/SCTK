@@ -27,7 +27,7 @@ Hyp. words                =           (  56)
 Aligned words             =           (  60)
 
 CONFUSION PAIRS                  Total                 (1)
-                                 With >=  1 occurances (1)
+                                 With >=  1 occurrences (1)
 
    1:    1  ->  哦 ==> 能
      -------
@@ -36,7 +36,7 @@ CONFUSION PAIRS                  Total                 (1)
 
 
 INSERTIONS                       Total                 (3)
-                                 With >=  1 occurances (3)
+                                 With >=  1 occurrences (3)
 
    1:    1  ->  可
    2:    1  ->  为
@@ -47,7 +47,7 @@ INSERTIONS                       Total                 (3)
 
 
 DELETIONS                        Total                 (3)
-                                 With >=  1 occurances (3)
+                                 With >=  1 occurrences (3)
 
    1:    2  ->  -
    2:    1  ->  为
@@ -58,7 +58,7 @@ DELETIONS                        Total                 (3)
 
 
 SUBSTITUTIONS                    Total                 (1)
-                                 With >=  1 occurances (1)
+                                 With >=  1 occurrences (1)
 
    1:    1  ->  哦
      -------
@@ -70,7 +70,7 @@ SUBSTITUTIONS                    Total                 (1)
 
 
 FALSELY RECOGNIZED               Total                 (1)
-                                 With >=  1 occurances (1)
+                                 With >=  1 occurrences (1)
 
    1:    1  ->  能
      -------
