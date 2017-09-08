@@ -32,7 +32,7 @@ if (db_level > 1) printf("%s Input: '%s'\n",pdb,pa);
      *perr = 11;
      goto RETURN;
     }
-  pi = pa;
+  pi = (unsigned char *)pa;
   while (*pi != '\0')
     {hit = F;
 if (db_level > 1) printf("%s *pi = '%s'\n",pdb,pi);
@@ -84,5 +84,5 @@ bool_print((strncmpi(pi-rset->rule[irule].lcontextl,
  RETURN:
 if (db_level > 1) printf("%s Output:'%s'\n",pdb,pb);
  db_leave_msg(proc,1); /* debug only */
-  return pb;
+ return (char*)pb;
 } /* end apply_rules2 */
