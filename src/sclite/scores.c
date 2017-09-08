@@ -497,7 +497,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 		    num_word_aux = 0;
 		    while (*tp != '\0'){
 			if (num_word_aux == max_word_aux) {
-			    msg = rsprintf("Too many auxillary word items"
+			    msg = rsprintf("Too many auxiliary word items"
 					   " > %d, expand 'max_word_aux'"
 					   " and recompile",max_word_aux);
 			    goto FAIL;
@@ -529,7 +529,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			} else if (TEXT_strCcmp(tp,(TEXT *)"h_isSpkrSub",11) == 0){
                             word_aux_fields[num_word_aux++] = PA_HYP_ISSPKRSUB;
 			} else {
-			    fprintf(scfp,"Warning: Unknown word auxillary inf"
+			    fprintf(scfp,"Warning: Unknown word auxiliary inf"
 				    "o type '%s'\n",tp);
 			}
 			if (*(tp=tp2) == ',') tp++;
@@ -653,14 +653,14 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 		}
 
 		if (*p1 != '\0' && num_word_aux == 0){
-		    fprintf(scfp,"Warning: Auxillary word values exist, but no"
+		    fprintf(scfp,"Warning: Auxiliary word values exist, but no"
 			    "ne have been defined in the 'word_aux' field\n");
 		}
 		if (num_word_aux > 0){
 		    int aux_val = 0;
 		    while (*p1 != '\0') {
 			if (aux_val == num_word_aux){
-			    fprintf(scfp,"Warning: More auxillary word values "
+			    fprintf(scfp,"Warning: More auxiliary word values "
 				    "than defined\n");
 			}
 			/* handle the auxilliary values */
@@ -675,7 +675,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			      case PA_REF_WTIMES:
 				if (path->pset[path->num].eval != P_INS){
 				    if ((p3 = TEXT_strchr(p1,'+'))==NULL_TEXT){
-					msg = rsprintf("Illegal auxillary time"
+					msg = rsprintf("Illegal auxiliary time"
 						   " format '%s'",p1);
 				    }
 				    *p3 = '\0';
@@ -689,7 +689,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			      case PA_HYP_WTIMES:	
 				if (path->pset[path->num].eval != P_DEL){
 				    if ((p3 = TEXT_strchr(p1,'+'))==NULL_TEXT){
-					msg = rsprintf("Illegal auxillary time"
+					msg = rsprintf("Illegal auxiliary time"
 						   " format '%s'",p1);
 				    }
 				    *p3 = '\0';
@@ -725,7 +725,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			      case PA_HYP_ISSPKRSUB:
                                 break;
 			      default:
-			       fprintf(stderr,"Warning: Unknown auxillary fiel"
+			       fprintf(stderr,"Warning: Unknown auxiliary fiel"
 				       "d type\n");
 			    }
 			    *p2 = save;
