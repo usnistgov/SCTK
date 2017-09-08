@@ -117,7 +117,7 @@ if (db_level > 3) printf("%s getting left hand side\n",pdb);
        ssx->end = ieq;
        if (ssx->start < ieq)
          {ssx->end -= 1;
-          while ((ssx->end > ssx->start)&&(isspace(*(ssx->end)))) ssx->end -= 1;
+	   while ((ssx->end > ssx->start)&&(isspace(*((unsigned char*)ssx->end)))) ssx->end -= 1;
       /* remove boundary characters, if any */
           if (((*ssx->start == '[')&&(*ssx->end == ']')) ||
               ((*ssx->start == '"')&&(*ssx->end == '"')) )
@@ -135,11 +135,11 @@ if (db_level > 3) printf("%s getting right hand side\n",pdb);
        if (icontext == NULL) ssx->end = prtrim(pline);
        else
           for (ssx->end = icontext-1;
-               isspace(*(ssx->end))&&(ssx->end > ssx->start);
+               isspace(*((unsigned char*)ssx->end))&&(ssx->end > ssx->start);
                ssx->end -= 1);
-       while ((!isspace(*(ssx->start)))&&(ssx->start < ssx->end)) ssx->start += 1;
+       while ((!isspace(*((unsigned char*)ssx->start)))&&(ssx->start < ssx->end)) ssx->start += 1;
        if (ssx->start < ssx->end)
-         {while (isspace(*(ssx->start))) ssx->start += 1;
+         {while (isspace(*((unsigned char*)ssx->start))) ssx->start += 1;
       /* remove boundary characters, if any */
           if (((*ssx->start == '[')&&(*ssx->end == ']')) ||
               ((*ssx->start == '"')&&(*ssx->end == '"')) )
@@ -157,11 +157,11 @@ if (db_level > 3) printf("%s rhs='%s',len=%d\n",pdb,rx->sout,rx->soutl);
 if (db_level > 3) printf("%s getting left context\n",pdb);
           ssx->start = icontext;
           for (ssx->end = islot-1;
-               isspace(*(ssx->end))&&(ssx->end > ssx->start);
+               isspace(*((unsigned char*)ssx->end))&&(ssx->end > ssx->start);
                ssx->end -= 1);
-          while ((!isspace(*(ssx->start)))&&(ssx->start < ssx->end)) ssx->start += 1;
+          while ((!isspace(*((unsigned char*)ssx->start)))&&(ssx->start < ssx->end)) ssx->start += 1;
           if (ssx->start < ssx->end)
-            {while (isspace(*(ssx->start))) ssx->start += 1;
+            {while (isspace(*((unsigned char*)ssx->start))) ssx->start += 1;
             /* remove boundary characters, if any */
              if (((*ssx->start == '[')&&(*ssx->end == ']')) ||
                  ((*ssx->start == '"')&&(*ssx->end == '"')) )
@@ -179,9 +179,9 @@ if (db_level > 3) printf("%s lcontext='%s',len=%d\n",pdb,rx->lcontext,rx->lconte
 if (db_level > 3) printf("%s getting right context\n",pdb);
            ssx->end = prtrim(pline);
           ssx->start = islot;
-          while ((!isspace(*(ssx->start)))&&(ssx->start < ssx->end)) ssx->start += 1;
+          while ((!isspace(*((unsigned char*)ssx->start)))&&(ssx->start < ssx->end)) ssx->start += 1;
           if (ssx->start < ssx->end)
-            {while (isspace(*(ssx->start))) ssx->start += 1;
+            {while (isspace(*((unsigned char*)ssx->start))) ssx->start += 1;
          /* remove boundary characters, if any */
              if (((*ssx->start == '[')&&(*ssx->end == ']')) ||
                  ((*ssx->start == '"')&&(*ssx->end == '"')) )
@@ -329,7 +329,7 @@ if (db_level > 1) printf("%s making indices\n",pdb);
     jind = 0;
     for (i = 1; i <= rset->nrules; i++) indexed[i] = F;
     for (i = 1; i <= rset->nrules; i++)
-      {key_char = (int)(rset->rule[i].sin[0]);
+      {key_char = (int)*((unsigned char*)rset->rule[i].sin);
        if (!rset->case_sensitive) key_char = toupper(key_char);
 if (db_level > 1) printf("%s processing rule %d, key_char = %d (%c)\n",
  pdb,i,key_char,key_char);
@@ -343,7 +343,7 @@ if (db_level > 1) printf("%s processing rule %d, key_char = %d (%c)\n",
          /* index all later rules with same key Char */
           for (i2 = i+1; i2 <= rset->nrules; i2++)
             {if (!indexed[i2])
-               {key_char2 = (int)(rset->rule[i2].sin[0]);
+		{key_char2 = (int)*((unsigned char *)rset->rule[i2].sin);
                 if (!rset->case_sensitive) key_char2 = toupper(key_char2);
                 if (key_char2 == key_char)
                   {rset->rule_index[++jind] = i2;
