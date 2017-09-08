@@ -28,7 +28,7 @@ Hyp. words                =           ( 414)
 Aligned words             =           ( 414)
 
 CONFUSION PAIRS                  Total                 (32)
-                                 With >=  1 occurances (32)
+                                 With >=  1 occurrences (32)
 
    1:    3  ->  a ==> the
    2:    2  ->  cott ==> khan
@@ -68,7 +68,7 @@ CONFUSION PAIRS                  Total                 (32)
 
 
 INSERTIONS                       Total                 (9)
-                                 With >=  1 occurances (9)
+                                 With >=  1 occurrences (9)
 
    1:    2  ->  a
    2:    1  ->  an
@@ -85,7 +85,7 @@ INSERTIONS                       Total                 (9)
 
 
 DELETIONS                        Total                 (0)
-                                 With >=  1 occurances (0)
+                                 With >=  1 occurrences (0)
 
      -------
          0
@@ -93,7 +93,7 @@ DELETIONS                        Total                 (0)
 
 
 SUBSTITUTIONS                    Total                 (25)
-                                 With >=  1 occurances (25)
+                                 With >=  1 occurrences (25)
 
    1:    6  ->  cott
    2:    3  ->  a
@@ -129,7 +129,7 @@ SUBSTITUTIONS                    Total                 (25)
 
 
 FALSELY RECOGNIZED               Total                 (30)
-                                 With >=  1 occurances (30)
+                                 With >=  1 occurrences (30)
 
    1:    4  ->  the
    2:    2  ->  khan
