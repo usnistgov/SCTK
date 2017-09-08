@@ -34,7 +34,7 @@ Alternate Hypothesis:
 Decision Analysis:
 
      Assumptions:
-        A1: The distibution of unique utterance errors
+        A1: The distibrution of unique utterance errors
             follows the binomial distribution for N fair coin tosses.
 
      Rejection criterion:
@@ -50,7 +50,7 @@ Decision Analysis:
 
      Decision:
         There were MIN(uue)=0 unique utterance errors, the probability of
-        it occuring is 1.000, therefore the null hypothesis is ACCEPTED
+        it occurring is 1.000, therefore the null hypothesis is ACCEPTED
         There is no statistical difference between scoring/itmono_8.ctm and scoring/itword_20.ctm
 MTCH_PR_RESULTS (systems: scoring/itmono_8.ctm scoring/itword_20.ctm) (# segs: 3) (Seg per Sent: 1.500) (% Error: 69.23 53.85) (mean: 0.667) (std dev: 0.577) (Z Stat: 2.000) (Stat Diff: Yes)
 
