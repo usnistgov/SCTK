@@ -73,7 +73,7 @@ void PATH_n_print(PATH *path, FILE *fp, int from, int to, int max){
 	else if ((path->pset[i].eval & P_INS) != 0) n++;
 	else if ((path->pset[i].eval & P_DEL) != 0) d++;
 	else u ++;
-    /* compute the max of the auxillary info */
+    /* compute the max of the auxiliary info */
     if (BF_isSET(path->attrib,PA_HYP_CONF))
 	aux_max = (aux_max < 7) ? 7 : aux_max;
     if (BF_isSET(path->attrib,PA_REF_CONF))
@@ -331,7 +331,7 @@ void PATH_n_print_html(PATH *path, FILE *fp, int from, int to, int max, int head
 	else if ((path->pset[i].eval & P_INS) != 0) n++;
 	else if ((path->pset[i].eval & P_DEL) != 0) d++;
 	else u ++;
-    /* compute the max of the auxillary info */
+    /* compute the max of the auxiliary info */
     if (BF_isSET(path->attrib,PA_HYP_CONF))
 	aux_max = (aux_max < 7) ? 7 : aux_max;
     if (BF_isSET(path->attrib,PA_REF_CONF))
