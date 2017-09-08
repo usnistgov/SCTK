@@ -28,7 +28,7 @@ Hyp. words                =           ( 545)
 Aligned words             =           ( 548)
 
 CONFUSION PAIRS                  Total                 (32)
-                                 With >=  1 occurances (32)
+                                 With >=  1 occurrences (32)
 
    1:    1  ->  and ==> institutions
    2:    1  ->  architect ==> arctic
@@ -68,7 +68,7 @@ CONFUSION PAIRS                  Total                 (32)
 
 
 INSERTIONS                       Total                 (4)
-                                 With >=  1 occurances (4)
+                                 With >=  1 occurrences (4)
 
    1:    1  ->  and
    2:    1  ->  are
@@ -80,7 +80,7 @@ INSERTIONS                       Total                 (4)
 
 
 DELETIONS                        Total                 (3)
-                                 With >=  1 occurances (3)
+                                 With >=  1 occurrences (3)
 
    1:    1  ->  of
    2:    1  ->  pet
@@ -91,7 +91,7 @@ DELETIONS                        Total                 (3)
 
 
 SUBSTITUTIONS                    Total                 (31)
-                                 With >=  1 occurances (31)
+                                 With >=  1 occurrences (31)
 
    1:    2  ->  peeve
    2:    1  ->  and
@@ -133,7 +133,7 @@ SUBSTITUTIONS                    Total                 (31)
 
 
 FALSELY RECOGNIZED               Total                 (29)
-                                 With >=  1 occurances (29)
+                                 With >=  1 occurrences (29)
 
    1:    3  ->  the
    2:    2  ->  and
