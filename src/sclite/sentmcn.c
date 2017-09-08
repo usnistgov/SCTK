@@ -165,7 +165,7 @@ int do_McNemar(int **table, char *name1, char *name2, int verbose, FILE *fp, dou
    if (verbose){
      fprintf(fp,"\n\n\t\tSUMMARY:\n\t\t-------\n\n");
      fprintf(fp,"\n\n\tThe two totals for utterances missed by either test results\n");
-     fprintf(fp,"\tare both zero, therfore there is no significant difference\n");
+     fprintf(fp,"\tare both zero, therefore there is no significant difference\n");
      fprintf(fp,"\tbetween the two tests!\n");
    }
    *conf = 1.00;
