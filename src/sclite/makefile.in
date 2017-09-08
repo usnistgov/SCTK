@@ -138,14 +138,14 @@ $(PURECOV_PROGRAMS): $(lib_o)
 
 ### make a rule to compile the SLM toolkit
 slm_v2/lib/SLM2.a:
-	(cd slm_v2/src; make SLM2.a install-lib)
+	(cd slm_v2/src && make SLM2.a install-lib)
 
 #arpg: rpg.o arpg.o pad.o 
 #	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) rpg.o arpg.o pad.o $(LIBS)
 clean:
 	rm -f *.o $(PROGRAMS) core
 	if test -f slm_v2/src/makefile ; then \
-		(cd slm_v2/src; make spotless) \
+		(cd slm_v2/src && make spotless) \
 	fi
 
 mostlyclean: clean
@@ -157,18 +157,18 @@ realclean: distclean
 	rm -f TAGS *.info*
 
 install: all testinstalldirs
-	for p in $(PROGRAMS); do \
+	set -e; for p in $(PROGRAMS); do \
 	  $(INSTALL) $$p $(bindir)/$$p; \
 	done
 #REenable this later
-#	for p in `(cd ../doc ; ls *.1)`; do \
+#	set -e; for p in `(cd ../doc ; ls *.1)`; do \
 #	  $(INSTALL) ../doc/$$p $(man1dir)/$$p; \
 #	done
 #	@echo "!!!!  If 'man sclite' does not work, run 'catman -M $(mandir)'"
 #	@echo "!!!!  to make manual pages accessible."
 
 testinstalldirs:
-	@-for p in $(bindir) $(man1dir) $(man5dir); do \
+	@-set -e; for p in $(bindir) $(man1dir) $(man5dir); do \
 	   if test ! -d $$p ; then \
 		echo "Error: directory $$p doesn't exist"; \
 	   fi ; \
@@ -185,10 +185,10 @@ check: sctkUnit
 	cd testdata && ./tsc_stats.sh
 
 uninstall:
-	for p in $(PROGRAMS); do \
+	set -e; for p in $(PROGRAMS); do \
 	  rm -f $(bindir)/`echo $$p | $(edit_program_name)`; \
 	done
-	for p in `(cd ../doc ; ls *.1)`; do \
+	set -e; for p in `(cd ../doc ; ls *.1)`; do \
 	  rm -f $(man1dir)/$$p; \
 	done
 
@@ -213,15 +213,15 @@ dist: $(distribution)
 tk_dist: $(tk_distfiles)
 	echo sctk-`grep define\ TK_VERSION sctk.h | sed -e 's/^[^"]*"//' -e 's/"[^"]*//'` > .fname
 	echo "Distribution file '../`cat .fname`.tar.Z'"
-	(cd ../doc; ./export.sh $(PROGRAMS))
+	(cd ../doc && ./export.sh $(PROGRAMS))
 	rm -rf ../`cat .fname`
 	mkdir ../`cat .fname`
-	(cd ./testdata; tsclite.sh -clean) ;
-	for file in $(DOCS); do \
+	(cd ./testdata && tsclite.sh -clean) ;
+	set -e; for file in $(DOCS); do \
 		ln -s $$file ../`cat .fname`; \
 	done
 	mkdir ../`cat .fname`/src
-	for file in $(tk_distfiles); do \
+	set -e; for file in $(tk_distfiles); do \
 		ln -s ../../src/$$file ../`cat .fname`/src/$$file; \
 	done
 	echo "Installing SLM links"
@@ -229,19 +229,19 @@ tk_dist: $(tk_distfiles)
 	mkdir ../`cat .fname`/src/slm_v2/lib
 	mkdir ../`cat .fname`/src/slm_v2/bin
 	mkdir ../`cat .fname`/src/slm_v2/src
-	for file in readme.txt endian.sh include doc; do \
+	set -e; for file in readme.txt endian.sh include doc; do \
 		ln -s ../../../src/slm_v2/$$file ../`cat .fname`/src/slm_v2/$$file; \
 	done
 	echo "    Copying SLM source"
-	tar cf - `find slm_v2/src \( -name makefile.in -o -name install-sh -o -name "*.[ch]" \) -print` | (cd ../`cat .fname`/src; tar xf -)
+	tar cf - `find slm_v2/src \( -name makefile.in -o -name install-sh -o -name "*.[ch]" \) -print` | (cd ../`cat .fname`/src && tar xf -)
 	echo "Tar-ing SLM to make it ISO-compatable"
-	(cd ../`cat .fname`/src; tar chf slm_v2.tar ./slm_v2; rm -r slm_v2)
-	(cd .. ; tar -chf - --exclude=CVS `cat src/.fname` | compress > `cat src/.fname`.tar.Z)
+	(cd ../`cat .fname`/src && tar chf slm_v2.tar ./slm_v2 && rm -r slm_v2)
+	(cd .. && tar -chf - --exclude=CVS `cat src/.fname` | compress > `cat src/.fname`.tar.Z)
 	rm -rf ../`cat .fname`
 	echo "Decompressing the release file"
-	(cd .. ; zcat `cat src/.fname`.tar.Z | tar xf -)
+	(cd .. && zcat `cat src/.fname`.tar.Z | tar xf -)
 	echo "ISO_checking.   . . . Only the top-level makefile should fail"
-	(cd ..; iso_check `cat src/.fname`)
+	(cd .. && iso_check `cat src/.fname`)
 	rm -rf ../`cat .fname` .fname
 
 # Prevent GNU make v3 from overflowing arg limit on SysV.
