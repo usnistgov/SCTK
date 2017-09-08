@@ -87,7 +87,7 @@ ExtASCII=false;
 
 Usage="Usage: csrfilt.sh [ -dh -s -e ] -i [ stm | ctm | trn | txt | rttm ] global-map-file [ utterance-map-file ] < infile > outfile
 Version: $version
-Desc: csrfilt.sh applys a set of text transformation rules contained in 
+Desc: csrfilt.sh applies a set of text transformation rules contained in
       'global-map-file' and the optional 'utterance-map-file' to the input
       text.  The text input is read from stdin and the modified text goes to stdout.
 
@@ -151,7 +151,7 @@ done
 if test $# -lt 1 -o $# -gt 2 ; then
 	echo "$Usage"
 	echo ""
-	echo "Error: requires one or two command line arguements"
+	echo "Error: requires one or two command line arguments"
 	exit 1
 fi
 
