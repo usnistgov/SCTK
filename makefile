@@ -17,16 +17,16 @@ MAKE=make
 
 all clean install config:
 	(mkdir -p bin)
-	(cd src && $(MAKE) $@)
+	(cd src && if test -f makefile ; then $(MAKE) $@ ; fi)
 
 .PHONY : doc
 
 doc:
-	(cd doc && $(MAKE) all)
+	(cd doc && if test -f makefile ; then $(MAKE) all ; fi)
 
 distclean:
 	(rm -f bin/*)
-	(cd src && $(MAKE) $@)
+	(cd src && if test -f makefile ; then $(MAKE) $@ ; fi)
 
 dist:
 	@ echo "Make the distribution"
@@ -49,4 +49,4 @@ cvs-tag-current-distribution:
 
 check:
 	@ uname -a
-	(cd src && $(MAKE) $@)
+	(cd src && if test -f makefile ; then $(MAKE) $@ ; fi)
