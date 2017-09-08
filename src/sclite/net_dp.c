@@ -738,7 +738,7 @@ void create_alinged_NETWORK(NET_ALIGN *net_ali, NETWORK *net_a, NETWORK *net_b, 
     goto CLEANUP;
 
   ERROR:
-    printf("ERROR OCCURED\n");
+    printf("ERROR OCCURRED\n");
   CLEANUP:
     return;
 }
