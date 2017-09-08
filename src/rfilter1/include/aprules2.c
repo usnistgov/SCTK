@@ -52,11 +52,11 @@ if (db_level > 1) printf("%s jrule=%d, irule=%d\n",pdb,jrule,irule);
                           rset->rule[irule].rcontext,
                           rset->rule[irule].rcontextl)==0))
              || ((!rset->case_sensitive)&&
-                 (strncmpi(pi,rset->rule[irule].sin,rset->rule[irule].sinl)==0)&&
-                 (strncmpi(pi-rset->rule[irule].lcontextl,
+                 (strncasecmp(pi,rset->rule[irule].sin,rset->rule[irule].sinl)==0)&&
+                 (strncasecmp(pi-rset->rule[irule].lcontextl,
                           rset->rule[irule].lcontext,
                           rset->rule[irule].lcontextl)==0)&&
-                 (strncmpi(pi+rset->rule[irule].sinl,
+                 (strncasecmp(pi+rset->rule[irule].sinl,
                           rset->rule[irule].rcontext,
                           rset->rule[irule].rcontextl)==0))
 	      )
@@ -68,7 +68,7 @@ if (db_level > 1) printf("%s rule fired\n",pdb);
              }
 if (db_level > 2) printf("%s irule=%d, lcontextl=%d, lcont match = %s\n",
 pdb,irule,rset->rule[irule].lcontextl,
-bool_print((strncmpi(pi-rset->rule[irule].lcontextl,
+bool_print((strncasecmp(pi-rset->rule[irule].lcontextl,
                     rset->rule[irule].lcontext,
                     rset->rule[irule].lcontextl)==0)));
           }
