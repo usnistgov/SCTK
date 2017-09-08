@@ -9,12 +9,12 @@ MAKE=make
 PREFIX=`cd ../../.. && pwd`
 
 all clean distclean:
-	-(cd core && $(MAKE) $@)
-	-(cd test && $(MAKE) $@)
+	(cd core && if test -f makefile ; then $(MAKE) $@ ; fi)
+	(cd test && if test -f makefile ; then $(MAKE) $@ ; fi)
 
 install:
-	(cd core && $(MAKE) $@)
-	(cd test && $(MAKE) $@)
+	(cd core && if test -f makefile ; then $(MAKE) $@ ; fi)
+	(cd test && if test -f makefile ; then $(MAKE) $@ ; fi)
 
 config:
 	(cd core && sh config.sh -prefix=${PREFIX})
@@ -23,6 +23,6 @@ config:
 checkFast:
 
 check: all checkFast
-	(cd core && $(MAKE) $@)
-	(cd test && $(MAKE) $@)
+	(cd core && if test -f makefile ; then $(MAKE) $@ ; fi)
+	(cd test && if test -f makefile ; then $(MAKE) $@ ; fi)
 	(cd testfiles && perl ascliteTest.pl -s all)
