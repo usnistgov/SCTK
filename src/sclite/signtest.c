@@ -248,7 +248,7 @@ int sign_test_analysis(int num_a, int num_b, int num_z, char *str_a, char *str_b
         fprintf(fp,"     is negative.\n\n");
         fprintf(fp,"Decision Analysis:\n\n");
         fprintf(fp,"     Assumptions:\n");
-        fprintf(fp,"        A1: The distibution of positive and negative differences\n");
+        fprintf(fp,"        A1: The distibrution of positive and negative differences\n");
         fprintf(fp,"            follows the binomial distribution for N fair coin tosses.\n");
         fprintf(fp,"\n");
         fprintf(fp,"        A2: In order to resolve the complication caused by cases where the\n");
@@ -283,7 +283,7 @@ int sign_test_analysis(int num_a, int num_b, int num_z, char *str_a, char *str_b
         fprintf(fp,"     Decision:\n");
 
         fprintf(fp,"        There were N(-)=%d negative differences , the probability of\n",num_b);
-        fprintf(fp,"        it occuring is %5.3f, therefore the null hypothesis ",test_stat);        
+        fprintf(fp,"        it occurring is %5.3f, therefore the null hypothesis ",test_stat);
         if (test_stat < alpha){            
             fprintf(fp,"is REJECTED\n");
             fprintf(fp,"        in favor of the Alternate Hypothesis.  Further, %s is the\n",
