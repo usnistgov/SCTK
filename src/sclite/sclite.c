@@ -682,7 +682,7 @@ void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, cha
 		do_exit(rsprintf("Hypothesis file format '%s' not acceptable",
 				 hfmt[i]),prog,1);
 	
-	/* check the id arguements */
+	/* check the id arguments */
 	if (id == (char *)0){
 	    if (strcmp(*rfmt,"trn") == 0)
 		do_exit("Required utterance id (option -i) for"
