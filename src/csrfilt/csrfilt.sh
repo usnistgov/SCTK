@@ -112,7 +112,7 @@ Desc: csrfilt.sh applys a set of text transformation rules contained in
 
 inputtype="trn"
 dataPurpose=""
-while test ! "`echo $1| egrep '^-'`" = "" ; do
+while test ! "`printf %s $1| egrep '^-'`" = "" ; do
     if test "$1" = "-dh" ; then
 	DeleteHyphens=true
     elif test "$1" = "-s" ; then
