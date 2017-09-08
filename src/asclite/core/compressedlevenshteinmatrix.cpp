@@ -230,7 +230,7 @@ bool CompressedLevenshteinMatrix::DecompressBlock(const size_t& block_index)
 	
 	bool decomp = false;
 	
-	if(decomp = m_TabbIsCompressed[block_index])
+	if((decomp = m_TabbIsCompressed[block_index]))
 	{
 		// Block is compressed, then decompress it;
 		size_t comp_lengh = m_TabSizes[block_index] - m_lzmaPropertiesSize;
@@ -276,7 +276,7 @@ void CompressedLevenshteinMatrix::GarbageCollection()
 		
 		do
 		{
-			if(found = ForcedGarbageCollection())
+			if((found = ForcedGarbageCollection()))
 				++count;
 		}
 		while(found && !isStopGarbageCollector());
