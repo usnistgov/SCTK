@@ -1096,7 +1096,7 @@ sub standardize_word {
     my ($word, $glm) = @_;
     my (@split_word, @words, $tbeg, $tdur, $part, $new_word);
 
-    $word->{WORD} =~ lc $word->{WORD}; #lower case
+    $word->{WORD} = lc $word->{WORD}; #lower case
 
     if (defined $glm->{$word->{WORD}}) { #split glm words
 	@split_word = @{$glm->{$word->{WORD}}};
