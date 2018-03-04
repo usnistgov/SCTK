@@ -126,7 +126,7 @@ void SpeechSet::SetOrigin(const string& status)
     }
     else
     {
-        LOG_WARN(logger, "The status of the SpeechSet dont exist (must be 'ref' or 'hyp') and was: "+status);
+        LOG_WARN(logger, "The status of the SpeechSet don't exist (must be 'ref' or 'hyp') and was: "+status);
     }
 	
     UpdatePropertiesIfNeeded(true);

@@ -46,7 +46,7 @@ int make_SCORES_DET_curve(SCORES *scor[], int nscor, char *outroot, int feedback
       goto ERROR;
     }
     fprintf(fpd,"## GNUPLOT command file\n");
-    fprintf(fpd,"set data style lines\n");
+    fprintf(fpd,"set style data lines\n");
     fprintf(fpd,"set size 0.78, 1.0\n");
     fprintf(fpd,"set noxtics\n");
     fprintf(fpd,"set noytics\n");
@@ -109,8 +109,8 @@ int make_SCORES_DET_curve(SCORES *scor[], int nscor, char *outroot, int feedback
       fclose(fp);
 
       /**************/
-      fprintf(fpd," \"%s.det.dat.%02d\" using 2:1 title \"%s\" with lines %d",
-	      outroot,s,scor[s]->title,s+1);
+      fprintf(fpd," '%s.det.dat.%02d' using 2:1 title \"%s\" with lines",
+	      outroot,s,scor[s]->title);
       if (s < nscor-1) fprintf(fpd,", \\");
       fprintf(fpd,"\n");
 
@@ -369,11 +369,11 @@ int make_confidence_histogram(SCORES *scor, char *outroot, int feedback){
     fprintf(fp_plt,"set xlabel 'Confidence Measure'\n");
     fprintf(fp_plt,"set title  'Confidence scores for %s'\n",outroot);
     fprintf(fp_plt,
-	    "plot '%s.hist.dat' using 1:2 '%%f%%f' title 'All Conf.'"
+	    "plot '%s.hist.dat' using 1:2 '%%lf%%lf' title 'All Conf.'"
 	    " with lines, \\\n"
-	    "     '%s.hist.dat' using 1:2 '%%f%%*s%%f' title 'Correct Conf.'"
+	    "     '%s.hist.dat' using 1:2 '%%lf%%*s%%lf' title 'Correct Conf.'"
 	    " with lines, \\\n"
-	    "     '%s.hist.dat' using 1:2 '%%f%%*s%%*s%%f' title 'Incorrect"
+	    "     '%s.hist.dat' using 1:2 '%%lf%%*s%%*s%%lf' title 'Incorrect"
 	    " Conf.' with lines\n",outroot,outroot,outroot); 
     fprintf(fp_plt,"set size 1.0, 1.0\n");
     
@@ -428,7 +428,7 @@ int make_binned_confidence(SCORES *scor, char *outroot, int feedback){
     }
     fprintf(fp_plt,"## GNUPLOT command file\n");
     fprintf(fp_plt,"set samples 1000\n");
-    fprintf(fp_plt,"set key 30.000000,90.000000\n");
+    fprintf(fp_plt,"set key at 30.000000,90.000000\n");
     fprintf(fp_plt,"set xrange [0:1]\n");
     fprintf(fp_plt,"set yrange [0:100]\n");
     fprintf(fp_plt,"set nogrid\n");
@@ -437,7 +437,7 @@ int make_binned_confidence(SCORES *scor, char *outroot, int feedback){
     fprintf(fp_plt,"set title  'Binned Confidence scores for %s'\n",outroot);
     fprintf(fp_plt,"set size 0.78,1\n");
     fprintf(fp_plt,"set nolabel\n");
-    fprintf(fp_plt,"plot '%s.bhist.dat1'  title 'True' with boxes,\\\n",
+    fprintf(fp_plt,"plot '%s.bhist.dat1' using 1:2 '%%lf%%lf' title 'True' with boxes,\\\n",
 	    outroot);
     fprintf(fp_plt,"     x*100  title 'Predicted' with lines\n");
     fprintf(fp_plt,"set size 1.0, 1.0\n");

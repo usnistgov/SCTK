@@ -27,7 +27,7 @@ Hyp. words                =           ( 217)
 Aligned words             =           ( 218)
 
 CONFUSION PAIRS                  Total                 (0)
-                                 With >=  1 occurances (0)
+                                 With >=  1 occurrences (0)
 
      -------
          0
@@ -35,7 +35,7 @@ CONFUSION PAIRS                  Total                 (0)
 
 
 INSERTIONS                       Total                 (0)
-                                 With >=  1 occurances (0)
+                                 With >=  1 occurrences (0)
 
      -------
          0
@@ -43,7 +43,7 @@ INSERTIONS                       Total                 (0)
 
 
 DELETIONS                        Total                 (1)
-                                 With >=  1 occurances (1)
+                                 With >=  1 occurrences (1)
 
    1:    1  ->  yeah
      -------
@@ -52,7 +52,7 @@ DELETIONS                        Total                 (1)
 
 
 SUBSTITUTIONS                    Total                 (0)
-                                 With >=  1 occurances (0)
+                                 With >=  1 occurrences (0)
 
      -------
          0
@@ -63,7 +63,7 @@ SUBSTITUTIONS                    Total                 (0)
 
 
 FALSELY RECOGNIZED               Total                 (0)
-                                 With >=  1 occurances (0)
+                                 With >=  1 occurrences (0)
 
      -------
          0

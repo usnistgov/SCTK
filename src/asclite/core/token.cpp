@@ -22,6 +22,7 @@
 
 #include "token.h" // class's header file
 #include "segment.h"
+#include <algorithm>
 
 Logger* Token::logger = Logger::getLogger();
 

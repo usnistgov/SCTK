@@ -16,6 +16,7 @@
  */
 
 #include "uemfilter.h"
+#include <algorithm>
 
 Logger* UEMElement::m_pLogger = Logger::getLogger();
 Logger* UEMFilter::m_pLogger = Logger::getLogger();

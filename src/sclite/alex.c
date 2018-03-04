@@ -174,7 +174,7 @@ void AUTO_LEX_printout(AUTO_LEX *alex, FILE *fp, char *title, int threshhold){
     /* sort field_a of alex, using field_b as the pointers */
     sort_int_arr(alex->field_a, alex->num, alex->field_b, DECREASING);
 
-    /* do a secondary sort so that the words with equal occurances are sorted */
+    /* do a secondary sort so that the words with equal occurrences are sorted */
     {   int beg_pos, pos=0, w, ss;
 	while (pos < alex->num){
 	    for (beg_pos = pos; pos < alex->num && 
@@ -206,7 +206,7 @@ void AUTO_LEX_printout(AUTO_LEX *alex, FILE *fp, char *title, int threshhold){
 	    sumu++;
     
     fprintf(fp,"%-30s   Total                 (%d)\n",title,alex->num);
-    fprintf(fp,"%-30s   With >=%3d occurances (%d)\n","",threshhold,sumu);
+    fprintf(fp,"%-30s   With >=%3d occurrences (%d)\n","",threshhold,sumu);
     fprintf(fp,"\n");
     for (ind = 0, ord = 0; ind < alex->num; ind ++){
 	if (alex->field_a[alex->sort[alex->field_b[ind]]] >= threshhold){

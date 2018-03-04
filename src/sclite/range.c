@@ -556,10 +556,10 @@ static void print_gnu_range_graph2(RANK *rank, char *percent_desc, char *testnam
 		median_name, percent_desc);
 	for (t=0;t< rank->n_trt ;t++){
 	    char fmt[100]; int x;
-	    strcpy(fmt,"%f");
+	    strcpy(fmt,"%lf");
 	    for (x=0; x<t; x++)
 		strcat(fmt,"%*s");
-	    strcat(fmt,"%f");
+	    strcat(fmt,"%lf");
 	    fprintf(fp_plt,",\\\n     \"%s\" using 2:1 \"%s\" title \"%s\"",
 		    dat_name,fmt,rank->trt_name[t]);
 	}
@@ -603,10 +603,10 @@ static void print_gnu_range_graph2(RANK *rank, char *percent_desc, char *testnam
 		median_name, percent_desc);
 	for (b=0;b< rank->n_blk ;b++){
 	    char fmt[100]; int x;
-	    strcpy(fmt,"%f");
+	    strcpy(fmt,"%lf");
 	    for (x=0; x<b; x++)
 		strcat(fmt,"%*s");
-	    strcat(fmt,"%f");
+	    strcat(fmt,"%lf");
 	    fprintf(fp_plt,",\\\n     \"%s\" using 2:1 \"%s\" title \"%s\"",
 		    dat_name,fmt,rank->blk_name[b]);
 	}

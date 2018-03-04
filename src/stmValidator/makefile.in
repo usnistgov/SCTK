@@ -21,6 +21,7 @@ STMList.pl:
 STMRecord.pl:
 
 clean:
+	$(RM) stmValidator.pl
 
 distclean: clean
-	rm -r *~ makefile
+	$(RM) -r *~ makefile

@@ -165,7 +165,7 @@ int do_McNemar(int **table, char *name1, char *name2, int verbose, FILE *fp, dou
    if (verbose){
      fprintf(fp,"\n\n\t\tSUMMARY:\n\t\t-------\n\n");
      fprintf(fp,"\n\n\tThe two totals for utterances missed by either test results\n");
-     fprintf(fp,"\tare both zero, therfore there is no significant difference\n");
+     fprintf(fp,"\tare both zero, therefore there is no significant difference\n");
      fprintf(fp,"\tbetween the two tests!\n");
    }
    *conf = 1.00;
@@ -358,7 +358,7 @@ static int compute_McNemar(int **table, char *treat1_str, char *treat2_str, int 
 
         fprintf(fp,"Decision Analysis:\n\n");
         fprintf(fp,"     Assumptions:\n");
-        fprintf(fp,"        A1: The distibution of unique utterance errors\n");
+        fprintf(fp,"        A1: The distribution of unique utterance errors\n");
         fprintf(fp,"            follows the binomial distribution for N fair coin tosses.\n");
         fprintf(fp,"\n");
         fprintf(fp,"     Rejection criterion:\n");
@@ -387,7 +387,7 @@ static int compute_McNemar(int **table, char *treat1_str, char *treat2_str, int 
 
         fprintf(fp,"        There were MIN(uue)=%d unique utterance errors, the probability of\n",
 		MIN(num_a,num_b));
-        fprintf(fp,"        it occuring is %5.3f, therefore the null hypothesis ",test_stat);        
+        fprintf(fp,"        it occurring is %5.3f, therefore the null hypothesis ",test_stat);
         if (test_stat < alpha){            
             fprintf(fp,"is REJECTED\n");
             fprintf(fp,"        in favor of the Alternate Hypothesis.  Further, %s is the\n",

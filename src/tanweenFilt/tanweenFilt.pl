@@ -38,8 +38,8 @@ if (defined($InFmt)) {
     $InFmt = "txt";
 } 
 
-#### The main functions arguements:
-die "$Usage\nToo many arguements" if ($#ARGV > 1);
+#### The main functions arguments:
+die "$Usage\nToo many arguments" if ($#ARGV > 1);
 die "$Usage\nOutput Not Specified" if ($#ARGV == 0);
 die "$Usage\nInput and Output Not Specified" if ($#ARGV == -1);
 

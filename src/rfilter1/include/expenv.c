@@ -36,7 +36,7 @@ if (db_level > 2) printf("%s s='%s'\n",pdb,s);
              ssx->start = pa+1;
              ssx->end = ssx->start;
              for (ok=T; ok; ++(ssx->end))
-               {if ( (!isalnum(*(ssx->end))) &&
+	        {if ( (!isalnum(*((unsigned char*)ssx->end))) &&
                      (*(ssx->end) != '_'))
                  ok = F;
 	       }

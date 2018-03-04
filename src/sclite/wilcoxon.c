@@ -291,7 +291,7 @@ static int wilcoxon_test_analysis(int num_a, int num_b, double sum_a, double sum
         fprintf(fp,"         The two populations represented by the respective matched\n");
         fprintf(fp,"         pairs are identical.\n\n");
         fprintf(fp,"    Alternate Hypothesis:\n\n");
-        fprintf(fp,"         The two populations are not equal and therfore\n");
+        fprintf(fp,"         The two populations are not equal and therefore\n");
         fprintf(fp,"         there is a difference between systems.\n\n");
         fprintf(fp,"    Decision Analysis:\n\n");
         fprintf(fp,"         Assumptions:\n");

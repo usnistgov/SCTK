@@ -32,7 +32,7 @@ if (db_level > 1) printf("%s Input: '%s'\n",pdb,pa);
      *perr = 11;
      goto RETURN;
     }
-  pi = pa;
+  pi = (unsigned char *)pa;
   while (*pi != '\0')
     {hit = F;
 if (db_level > 1) printf("%s *pi = '%s'\n",pdb,pi);
@@ -52,11 +52,11 @@ if (db_level > 1) printf("%s jrule=%d, irule=%d\n",pdb,jrule,irule);
                           rset->rule[irule].rcontext,
                           rset->rule[irule].rcontextl)==0))
              || ((!rset->case_sensitive)&&
-                 (strncmpi(pi,rset->rule[irule].sin,rset->rule[irule].sinl)==0)&&
-                 (strncmpi(pi-rset->rule[irule].lcontextl,
+                 (strncasecmp(pi,rset->rule[irule].sin,rset->rule[irule].sinl)==0)&&
+                 (strncasecmp(pi-rset->rule[irule].lcontextl,
                           rset->rule[irule].lcontext,
                           rset->rule[irule].lcontextl)==0)&&
-                 (strncmpi(pi+rset->rule[irule].sinl,
+                 (strncasecmp(pi+rset->rule[irule].sinl,
                           rset->rule[irule].rcontext,
                           rset->rule[irule].rcontextl)==0))
 	      )
@@ -68,7 +68,7 @@ if (db_level > 1) printf("%s rule fired\n",pdb);
              }
 if (db_level > 2) printf("%s irule=%d, lcontextl=%d, lcont match = %s\n",
 pdb,irule,rset->rule[irule].lcontextl,
-bool_print((strncmpi(pi-rset->rule[irule].lcontextl,
+bool_print((strncasecmp(pi-rset->rule[irule].lcontextl,
                     rset->rule[irule].lcontext,
                     rset->rule[irule].lcontextl)==0)));
           }
@@ -84,5 +84,5 @@ bool_print((strncmpi(pi-rset->rule[irule].lcontextl,
  RETURN:
 if (db_level > 1) printf("%s Output:'%s'\n",pdb,pb);
  db_leave_msg(proc,1); /* debug only */
-  return pb;
+ return (char*)pb;
 } /* end apply_rules2 */

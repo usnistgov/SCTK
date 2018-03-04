@@ -27,7 +27,7 @@ Hyp. words                =           (1628)
 Aligned words             =           (1842)
 
 CONFUSION PAIRS                  Total                 (463)
-                                 With >=  1 occurances (463)
+                                 With >=  1 occurrences (463)
 
    1:    5  ->  a ==> the
    2:    4  ->  in ==> and
@@ -498,7 +498,7 @@ CONFUSION PAIRS                  Total                 (463)
 
 
 INSERTIONS                       Total                 (98)
-                                 With >=  1 occurances (98)
+                                 With >=  1 occurrences (98)
 
    1:    8  ->  to
    2:    7  ->  a
@@ -604,7 +604,7 @@ INSERTIONS                       Total                 (98)
 
 
 DELETIONS                        Total                 (116)
-                                 With >=  1 occurances (116)
+                                 With >=  1 occurrences (116)
 
    1:   11  ->  the
    2:    9  ->  i
@@ -728,7 +728,7 @@ DELETIONS                        Total                 (116)
 
 
 SUBSTITUTIONS                    Total                 (236)
-                                 With >=  1 occurances (236)
+                                 With >=  1 occurrences (236)
 
    1:   33  ->  um
    2:   22  ->  the
@@ -975,7 +975,7 @@ SUBSTITUTIONS                    Total                 (236)
 
 
 FALSELY RECOGNIZED               Total                 (224)
-                                 With >=  1 occurances (224)
+                                 With >=  1 occurrences (224)
 
    1:   26  ->  the
    2:   24  ->  that

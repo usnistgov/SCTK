@@ -53,7 +53,7 @@ PROGRAMS = asclite_test
 all: makefile $(PROGRAMS)
 
 
-COMPILE = $(CC) -c $(OFLAGS) $(DEFS) -I. -I../core $(CFLAGS)
+COMPILE = $(CC) -c $(OFLAGS) $(DEFS) -I. -I../core $(CFLAGS) $(CPPFLAGS)
 
 .cpp.o:
 	$(COMPILE) $<

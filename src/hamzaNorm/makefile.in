@@ -30,4 +30,4 @@ install: all
 clean:
 
 distclean: clean
-	rm -r *~ makefile
+	$(RM) -r *~ makefile

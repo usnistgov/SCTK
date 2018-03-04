@@ -23,6 +23,7 @@
 #include "segment.h" // class's header file
 #include "speech.h"
 #include "speechset.h"
+#include <algorithm>
 
 Logger* Segment::logger = Logger::getLogger();
 

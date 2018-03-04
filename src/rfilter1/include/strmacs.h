@@ -12,8 +12,17 @@
 #ifndef STRMACS_HEADER
 #define STRMACS_HEADER
 
+#if defined (HAVE_STRCMPI) || defined (COMPILE_OWN_STRCMPI)
+#   define strcasecmp strcmpi
+#   define strncasecmp strncmpi
+#elif defined (__WIN32__) || defined(WIN32)
+#   define snprintf _snprintf
+#   define strcasecmp stricmp
+#   define strncasecmp strnicmp
+#endif
+
 #define streq(cs,ct)            (strcmp(cs,ct)  == 0)
-#define streqi(cs,ct)           (strcmpi(cs,ct) == 0)
+#define strcaseeq(cs,ct)        (strcasecmp(cs,ct) == 0)
 #define str_less_than(cs,ct)    (strcmp(cs,ct)  <  0) 
 #define str_greater_than(cs,ct) (strcmp(cs,ct)  >  0) 
 /* these not needed in SUN 4.1 as of 4/1/91:  */

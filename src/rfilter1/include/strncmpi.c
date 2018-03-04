@@ -4,6 +4,7 @@
 #include "stdcenvf.h" /* std compile environment for functions */
 #endif
 
+#ifdef COMPILE_OWN_STRCMPI
  /*****************************************************************/
  /*  int strncmpi(ps1,ps2,n)                                      */
  /*  Strncmpi performs an unsigned comparison of at most n        */
@@ -41,3 +42,4 @@
  db_leave_msg(proc,2); /* debug only */
   return indicator;
  }
+#endif

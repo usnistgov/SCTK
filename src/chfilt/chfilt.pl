@@ -207,8 +207,8 @@ if (defined($main::opt_d)) {
     $HES = "%HESITATION";
 }
 
-#### The main functions arguements:
-if ($#ARGV > 1) { print "\n$usage\nToo many arguements \n\n"; exit 1; } 
+#### The main functions arguments:
+if ($#ARGV > 1) { print "\n$usage\nToo many arguments \n\n"; exit 1; }
 if ($#ARGV == 0) { print "\n$usage\nOutput Not Specified\n\n"; exit 1; } 
 if ($#ARGV == -1) { print "\n$usage\nInput and Output Not Specified\n\n";
 		    exit 1; } 

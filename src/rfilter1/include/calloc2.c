@@ -13,7 +13,7 @@
 if (db_level > 3) printf("%sdoing %s\n",pdb,proc);
   x = calloc(nobj,size);
   if (x == NULL) fatal_error(calling_proc,"MEM ALLOC",-1);
-  if (memory_trace) printf("%s CALLOC %x\n",pdb,(int)x);
+  if (memory_trace) printf("%s CALLOC %xl\n",pdb,(long)x);
   return x;
  }
 /* end calloc2.c */

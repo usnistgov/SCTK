@@ -20,6 +20,7 @@
  */
 
 #include "stm_inputparser.h" // class's header file
+#include <algorithm>
 
 const string STMInputParser::IGNORE_TIME_SEGMENT_IN_SCORING = "ignore_time_segment_in_scoring";
 Logger* STMInputParser::logger = Logger::getLogger();

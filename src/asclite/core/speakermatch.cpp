@@ -20,6 +20,7 @@
  */
  
 #include "speakermatch.h" // class's header file
+#include <algorithm>
 
 Logger* SpeakerMatch::logger = Logger::getLogger();
 

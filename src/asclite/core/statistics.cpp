@@ -16,6 +16,7 @@
  */
 
 #include "statistics.h"
+#include <algorithm>
 
 Statistics::Statistics(const vector<int> & _vecValues)
 {

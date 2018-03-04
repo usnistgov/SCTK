@@ -214,7 +214,7 @@ int make_confidence_histogram(SCORES *scor, char *outroot, int feedback);
 
 /* debug levels */
 /*   level 1:  print function entrances */
-/*   level 2:  print function arguements */
+/*   level 2:  print function arguments */
 /*   level 5:  intermediate status */
 
 extern int db;

@@ -226,7 +226,8 @@ $DEBUG_DETAIL = 2;
 
 # define usage statement
 #
-$USAGE = "\n\n$0 [-wkph] -f <format> -e <dtd_file> -i <input file> -o <output file>\n\n".
+$USAGE = "\n\n$0 - reformats an UTF transcript into various formats\n\n".
+"Usage: $0 [-wkph] -f <format> -e <dtd_file> -i <input file> -o <output file>\n\n".
 "Desc:  This script reformats an input UTF transcript file to various formats\n".
 "       The script uses the SGML DTD, and nsgmls to read the <input_file> and write\n".
 "       the file reformatted to <format> into <output_file>\n".
@@ -333,14 +334,16 @@ use SGMLS;
 # main program
 ########################################################
 
-#require "getopts.pl";
-#&Getopts('pwkchd:f:e:i:o:');
 use Getopt::Long;
 my $ret = GetOptions ("p", "w", "k", "c", "h", "d:i", "f=s", "e=s", "i=s", "o=s", "t", "n", "s=s");
 
+$display_help = $opt_h if (defined($opt_h));
+if ($display_help) {
+    print "$USAGE";
+    exit(0);
+}
 $use_wtag = $opt_w if (defined($opt_w));
 $process_overlap = $opt_p if (defined($opt_p));
-$display_help = $opt_h if (defined($opt_h));
 $output = $opt_o if (defined($opt_o));
 $debug_level = $opt_d if (defined($opt_d));
 $focus_condition_enabled = (! $opt_c) if (defined($opt_c));

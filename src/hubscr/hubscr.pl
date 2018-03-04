@@ -7,7 +7,7 @@ use strict;
 #    - initial release
 # Version 0.2, Release Oct 29, 1997
 #    - added support for sc_stats
-#    - modified the csrfilt call for German and Spanish to is use the -e option
+#    - modified the csrfilt call for German, Italian and Spanish to is use the -e option
 #      which tells it to upcase extended ASCII as well as 7-bit ASCII.
 # Version 0.3, 
 #    - Modified the filter proceedure to ALWAYS tell the user if it skipped the 
@@ -81,7 +81,7 @@ my $Usage="hubscr.pl [ -p PATH -H -T -d -R -v -L LEX ] [ -M LM | -w WWL ] [ -o n
 "                                     must both be RTTMs. ASCLITE must be used for alignments.\n".
 "      -K SLM_lm  ->  Use the CMU-Cambridge SLM V2.0 binary language model 'LM'\n".
 "                     to perform Weighted-Word Scoring.  May not be used with -w\n".
-"      -l [ arabic | english | german | mandarin | spanish ]\n".
+"      -l [ arabic | english | german | italian | mandarin | spanish ]\n".
 "                 ->  Set the input language.\n".
 "      -L LDC_Lex ->  Filename of an LDC Lexicon.  The option is required only to\n".
 "                     score a German test.  Previous version for Arabic req'd this option.\n".
@@ -270,7 +270,7 @@ sub ProcessCommandLine
     #### Language checks/Verification
     die("$Usage\nError: Language defintion required via -l") if ($Lang eq "Undeterm"); 
     die("$Usage\nError: Undefined language '$Lang'") 
-	if ($Lang !~ /^(english|german|spanish|mandarin|arabic)$/);
+	if ($Lang !~ /^(english|german|italian|spanish|mandarin|arabic)$/);
     
     if (defined($main::opt_H)){
 	die "Error: Hamza normalization only applies to Arabic data\n" if ($Lang ne "arabic");
@@ -573,7 +573,9 @@ sub FilterFile
 	$com = "cat $file | $rtFilt | $csrfilt_com > $outfile";
     } elsif ($Lang =~ /^(spanish)$/){ 
 	$csrfilt_com = "$CSRFILT -e -i $format -t $purpose -dh $GLM";
-	
+	$com = "$sort_com $file | $rtFilt | $csrfilt_com > $outfile";
+    } elsif ($Lang =~ /^(italian)$/){
+	$csrfilt_com = "$CSRFILT -s -e -i $format -t $purpose -dh $GLM";
 	$com = "$sort_com $file | $rtFilt | $csrfilt_com > $outfile";
     } elsif ($Lang =~ /^(german)$/){ 
 	$csrfilt_com = "$CSRFILT -e -i $format -t $purpose -dh $GLM";
@@ -646,6 +648,11 @@ sub RunScoring
             ;
         }
         
+        if ($Lang =~ /^(italian)$/)
+        {
+            ;
+        }
+
         if ($SLM_LM !~ /^$/ || $WWL !~ /^$/)
         { 
             $command .= " -L $SLM_LM" if ($SLM_LM !~ /^$/);

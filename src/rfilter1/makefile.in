@@ -11,7 +11,7 @@ all: rfilter1
 #######  is included in the distribution.  Changing the value of OPTIONS to 
 #######  be blank will diable the use of supplied versions of these functions.
 #######  In particular, this behavior has been noted on some versions of cygwin
-OPTIONS=-DNEED_STRCMP=1
+OPTIONS=-DNEED_STRCMP=1 $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)
 
 PREFIX=
 bindir = $(PREFIX)/bin
@@ -34,7 +34,7 @@ install: all
 	install rfilter1 $(bindir)
 
 clean:
-	rm -f rfilter1
+	$(RM) rfilter1
 
 distclean: clean
-	rm -r *~ makefile
+	$(RM) -r *~ makefile

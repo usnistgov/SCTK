@@ -4,6 +4,7 @@
 #include "stdcenvf.h" /* std compile environment for functions */
 #endif
 
+#ifdef COMPILE_OWN_STRCMPI
  /*****************************************************************/
  /*  int strcmpi(ps1,ps2)                                         */
  /*  Strcmpi performs an unsigned comparison of ps1 to ps2,       */
@@ -29,3 +30,4 @@
               else {px1 += 1; px2 += 1;}
   return indicator;
  }
+#endif

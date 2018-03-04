@@ -474,10 +474,12 @@ void SGMLReportGenerator::GenerateTokenAlignment(TokenAlignment* tokenAlign, con
 			output << hyp->GetParentSegment()->GetSpeakerId();
 		output << ",";
 		if(hyp)
+		{
 			if (aAlignmentResult == TokenAlignment::SPEAKERSUB)
 				output << "true";
 			else
 				output << "false";
+		}
 	}
 }
 

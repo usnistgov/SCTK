@@ -39,4 +39,4 @@ makefile: makefile.in config.status
 clean:
 
 distclean: clean
-	rm -r *~ makefile
+	-$(RM) -r *~ makefile config.log config.status
