@@ -95,10 +95,10 @@ my %SORT_ORDER = ("NOSCORE"         =>  0,
     my $count;
     if ($debug) {
 #	print Dumper(%rttm_data);
-	foreach my $src (keys %rttm_data) {
-	    foreach my $chnl (keys %{$rttm_data{$src}}) {
-		foreach my $spkr (keys %{$rttm_data{$src}{$chnl}}) {
-		    foreach my $type (keys %{$rttm_data{$src}{$chnl}{$spkr}}) {
+	foreach my $src (sort keys %rttm_data) {
+	    foreach my $chnl (sort keys %{$rttm_data{$src}}) {
+		foreach my $spkr (sort keys %{$rttm_data{$src}{$chnl}}) {
+		    foreach my $type (sort keys %{$rttm_data{$src}{$chnl}{$spkr}}) {
 			$count = 0;
 			foreach my $obj (@{$rttm_data{$src}{$chnl}{$spkr}{$type}}) {
 			    print "[$src $chnl $spkr $type $count]\t$obj->{TYPE}\t$obj->{SRC}\t$obj->{CHNL}\t$obj->{TBEG}\t$obj->{TDUR}\t$obj->{ORTHO}\t$obj->{STYPE}\t$obj->{SPKR}\t$obj->{CONF}\n";
@@ -176,10 +176,10 @@ sub check_syntax_errors {
     $file =~ s/\.[^\.]*$//;
     $file =~ s/.*\///;
 
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
+		foreach my $type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 		    foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			# make sure that we have the correct number of fields
 			#
@@ -399,10 +399,10 @@ sub check_logic_errors {
 
     # sort the data 
     #
-    foreach my $src (keys %{$data}) {
-        foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		foreach  my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+    foreach my $src (sort keys %{$data}) {
+        foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
+		foreach  my $type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 		    if ($type !~ /SPKR-INFO/i) {
 			@{$data->{$src}{$chnl}{$spkr}{$type}} = 
 			    sort {$a->{TBEG} <=> $b->{TBEG}} @{$data->{$src}{$chnl}{$spkr}{$type}};
@@ -442,10 +442,10 @@ sub check_metadata_overlap {
 
     my $pass = 1;
 
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
+		foreach my $type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 		    if ($type !~ /SPKR-INFO/i) {
 			my $prev_etime = 0;
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
@@ -478,10 +478,10 @@ sub check_metadata_content {
 
     my $pass = 1;
 
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
+		foreach my $type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 		    if ($type =~ /(SU|EDIT|FILLER)/i) {
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			    if (! find_word($data->{$src}{$chnl}{$spkr}{LEXEME}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
@@ -508,13 +508,13 @@ sub check_partial_word_coverage {
     
     my $pass = 1;
     
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
+		foreach my $type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 		    if ($type =~ /LEXEME/i) {
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
-			    foreach my $mde_type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+			    foreach my $mde_type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 				if ($mde_type =~ /(SU|EDIT|FILLER)/i) {
 				    if (find_partial_coverage($data->{$src}{$chnl}{$spkr}{$mde_type}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
 					print "ERROR: Word at $obj->{TBEG} is partially covered by $mde_type object; see $obj->{LOC}\n";
@@ -543,11 +543,11 @@ sub check_noscore_overlap {
 
     my $pass = 1;
 
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
 	    next if (! defined ($data->{$src}{$chnl}{"<NA>"}{NOSCORE}));
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
+		foreach my $type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 		    if ($type =~ /(SU|EDIT|FILLER|SPEAKER|LEXEME|NON-LEX|NON-SPEECH)/i) {
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			    if (find_partial_coverage($data->{$src}{$chnl}{"<NA>"}{NOSCORE}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
@@ -573,10 +573,10 @@ sub ensure_word_covered_by_metadata_of_type {
 
     my $pass = 1;
 
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
-		foreach my $type (keys %{$data->{$src}{$chnl}{$spkr}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
+		foreach my $type (sort keys %{$data->{$src}{$chnl}{$spkr}}) {
 		    if ($type =~ /LEXEME/i) {
 			foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{$type}}) {
 			    if (! find_type($data->{$src}{$chnl}{$spkr}{$mde_type}, $obj->{TBEG}, $obj->{TBEG} + $obj->{TDUR})) {
@@ -603,9 +603,9 @@ sub ensure_ip_existed_for_edit_and_filler {
 
     my $pass = 1;
 
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
 		if (exists($data->{$src}{$chnl}{$spkr}{SU})) {
 		    my @sus = @{$data->{$src}{$chnl}{$spkr}{SU}};
 		    for (my $i = 0; $i < @sus; $i++) {
@@ -817,9 +817,9 @@ sub find_speaker {
     my ($src_spkr, $data) = @_;
 
     my ($curr_spkr);
-    foreach my $src (keys %{$data}) {
-	foreach my $chnl (keys %{$data->{$src}}) {
-	    foreach my $spkr (keys %{$data->{$src}{$chnl}}) {
+    foreach my $src (sort keys %{$data}) {
+	foreach my $chnl (sort keys %{$data->{$src}}) {
+	    foreach my $spkr (sort keys %{$data->{$src}{$chnl}}) {
 		foreach my $obj (@{$data->{$src}{$chnl}{$spkr}{'SPKR-INFO'}}) {
 		    $curr_spkr = $obj->{SPKR};
 		    if ($src_spkr =~ /^$curr_spkr$/i) {
