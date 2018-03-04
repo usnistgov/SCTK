@@ -1,0 +1,53 @@
+;; CATEGORY "0" "" ""
+;; CATEGORY "1" "Alternations" "Segments W or W/O Alternations"
+;; LABEL "O" "Overall" "Overall Scores"
+;; LABEL "WA" "With Alt" "Segments Containing Alternations"
+;; LABEL "NA" "NO Alt" "Segments Without Alternations"
+file1 1 spk1 0 0.5 <O,NA> a b c d e f g
+file1 1 spk2 0.5 1 <O,NA> a b c d e f g
+file1 1 spk3 1 1.5 <O,NA> a b c d e f g
+file1 1 spk4 1.5 2 <O,NA> a b c d e f g
+file1 1 spk5 2 2.5 <O,NA> a b c d e f g
+file1 1 spk6 2.5 3 <O,NA> a b c d e f g
+file1 1 spk7 3 3.5 <O,NA> a b c d e f g
+file1 1 spk8 3.5 4 <O,NA> a b c d e f g
+file2 1 spk1 0 0.5 <O,NA> a b c d e f g
+file2 1 spk2 0.5 1 <O,NA> a b c d e f g
+file2 1 spk3 1 1.5 <O,NA> a b c d e f g
+file2 1 spk4 1.5 2 <O,NA> a b c d e f g
+file2 1 spk5 2 2.5 <O,NA> a b c d e f g
+file2 1 spk6 2.5 3 <O,NA> a b c d e f g
+file2 1 spk7 3 3.5 <O,NA> a b c d e f g
+file2 1 spk8 3.5 4 <O,NA> a b c d e f g
+file3 1 spk1 0 0.5 <O,NA> a b c d e f g
+file3 1 spk2 0.5 1 <O,NA> a b c d e f g
+file3 1 spk3 1 1.5 <O,NA> a b c d e f g
+file3 1 spk4 1.5 2 <O,NA> a b c d e f g
+file3 1 spk5 2 2.5 <O,NA> a b c d e f g
+file3 1 spk6 2.5 3 <O,NA> a b c d e f g
+file3 1 spk7 3 3.5 <O,NA> a b c d e f g
+file3 1 spk8 3.5 4 <O,NA> a b c d e f g
+file4 1 spk1 0 0.5 <O,NA> a b c d e f g
+file4 1 spk2 0.5 1 <O,NA> a b c d e f g
+file4 1 spk3 1 1.5 <O,NA> a b c d e f g
+file4 1 spk4 1.5 2 <O,NA> a b c d e f g
+file4 1 spk5 2 2.5 <O,NA> a b c d e f g
+file4 1 spk6 2.5 3 <O,NA> a b c d e f g
+file4 1 spk7 3 3.5 <O,NA> a b c d e f g
+file4 1 spk8 3.5 4 <O,NA> a b c d e f g
+file5 1 spk1 0 0.5 <O,NA> a b c d e f g
+file5 1 spk2 0.5 1 <O,NA> a b c d e f g
+file5 1 spk3 1 1.5 <O,NA> a b c d e f g
+file5 1 spk4 1.5 2 <O,NA> a b c d e f g
+file5 1 spk5 2 2.5 <O,NA> a b c d e f g
+file5 1 spk6 2.5 3 <O,NA> a b c d e f g
+file5 1 spk7 3 3.5 <O,NA> a b c d e f g
+file5 1 spk8 3.5 4 <O,NA> a b c d e f g
+file6 1 spk1 0 0.5 <O,NA> a b c d e f g
+file6 1 spk2 0.5 1 <O,NA> a b c d e f g
+file6 1 spk3 1 1.5 <O,NA> a b c d e f g
+file6 1 spk4 1.5 2 <O,NA> a b c d e f g
+file6 1 spk5 2 2.5 <O,NA> a b c d e f g
+file6 1 spk6 2.5 3 <O,NA> a b c d e f g
+file6 1 spk7 3 3.5 <O,NA> a b c d e f g
+file6 1 spk8 3.5 4 <O,NA> a b c d e f g

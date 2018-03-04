@@ -1,0 +1,15 @@
+\documentclass[preview]{standalone}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{align*}
+{\mathrm{Confidence\_Score}} &= H_{\mathrm{max}} + \Bigg\{ \sum_{correct\ w} \log2 \Big( \hat{p}(w) \Big) + \sum_{incorrect\ w} \log2 \Big( 1 - \hat{p}(w) \Big) \Bigg\} /  H_{\mathrm{max}}, \\
+\mathrm{where\ } H_{\mathrm{max}} &= -n \log2 \Big( p_c \Big) - ( N - n ) \log2 \Big( 1 - p_c \Big), \\
+n &= \mathrm{the\ number\ of\ correct\ HYP\ words}, \\
+N &= \mathrm{the\ total\ number\ of\ HYP\ words}, \\
+p_c &= \mathrm{the\ average\ probability\ that\ an\ output\ word\ is\ correct} = n/N, \mathrm{\ and} \\
+\hat{p}(w) &= \mathrm{the\ confidence\ measure\ output,\ as\ function\ of\ output\ word}.
+\end{align*}
+
+\end{document}
