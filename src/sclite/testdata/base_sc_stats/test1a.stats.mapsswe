@@ -34,7 +34,7 @@ Alternate Hypothesis:
 Decision Analysis:
 
      Assumptions:
-        A1: The distibrution of unique utterance errors
+        A1: The distribution of unique utterance errors
             follows the binomial distribution for N fair coin tosses.
 
      Rejection criterion:
