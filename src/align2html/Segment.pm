@@ -46,7 +46,7 @@ sub SetY
 {
 	my ($self, $ypos) = @_;
 		
-	foreach my $tknid(keys %{ $self->{TOKENS} })
+	foreach my $tknid(sort keys %{ $self->{TOKENS} })
 	{
 		$self->{TOKENS}{$tknid}->SetYPos($ypos);
 	}
@@ -56,7 +56,7 @@ sub isTokenInSegment
 {
 	my ($self, $tokenid) = @_;
 	
-	foreach my $tknid(keys %{ $self->{TOKENS} })
+	foreach my $tknid(sort keys %{ $self->{TOKENS} })
 	{
 		return 1 if($tknid == $tokenid);
 	}
@@ -68,7 +68,7 @@ sub CalculateMinMaxX
 {
 	my ($self) = @_;
 	
-	foreach my $tknid(keys %{ $self->{TOKENS} })
+	foreach my $tknid(sort keys %{ $self->{TOKENS} })
 	{
 		next if( ($self->{TOKENS}{$tknid}->{XSTARTPOS} == 0) && ($self->{TOKENS}{$tknid}->{XENDPOS} == 0) && ($self->{TOKENS}{$tknid}->{TEXT} eq "") );
 		$self->{MINX} = $self->{TOKENS}{$tknid}->{XSTARTPOS} if($self->{MINX} > $self->{TOKENS}{$tknid}->{XSTARTPOS});
@@ -80,7 +80,7 @@ sub HasOnlyOneFakeToken
 {
     my ($self) = @_;
     
-    foreach my $tknid(keys %{ $self->{TOKENS} })
+    foreach my $tknid(sort keys %{ $self->{TOKENS} })
 	{
 		return 0 if( !( ($self->{TOKENS}{$tknid}->{XSTARTPOS} == 0) && ($self->{TOKENS}{$tknid}->{XENDPOS} == 0) && ($self->{TOKENS}{$tknid}->{TEXT} eq "") ) );
 	}
@@ -92,7 +92,7 @@ sub CleanSegmentPrevNext
 {
 	my ($self) = @_;
 	
-	foreach my $tknid(keys %{ $self->{TOKENS} })
+	foreach my $tknid(sort keys %{ $self->{TOKENS} })
 	{
 		my $myToken = $self->{TOKENS}{$tknid};
 		
@@ -196,7 +196,7 @@ sub MultiGraphXY
 			$maxlengh = $tokenPositions{$tken}{XE} if($tokenPositions{$tken}{XE} > $maxlengh);
 		}
 		
-		foreach my $tknid(keys %{ $self->{TOKENS} })
+		foreach my $tknid(sort keys %{ $self->{TOKENS} })
 		{
 			my $updown = 1;
 			my $base = 0;
@@ -242,7 +242,7 @@ sub GetDraw
 	my @listfirsts;
 	my @listlasts;
 	
-	foreach my $tknid(keys %{ $self->{TOKENS} })
+	foreach my $tknid(sort keys %{ $self->{TOKENS} })
 	{
 		my @prevtkn = @{ $self->{TOKENS}{$tknid}->{PREVTKNID} };
 		my @nexttkn = @{ $self->{TOKENS}{$tknid}->{NEXTTKNID} };
@@ -313,7 +313,7 @@ sub GetDraw
 		$output .= $output2;
 	}
 	
-	foreach my $tknid(keys %{ $self->{TOKENS} })
+	foreach my $tknid(sort keys %{ $self->{TOKENS} })
 	{		
 		$output .= $self->{TOKENS}{$tknid}->GetDraw($minx);
 	}
