@@ -52,7 +52,7 @@ else
 	SLM_ENABLED=1
 	echo "    SLM-Toolkit Enabled"
 fi
-echo ""
+sclecho ""
 
 if [ -d $OUT ] ; then
 	echo "Shall I delete the output directory \"$OUT\"'s contents [y]"
@@ -99,15 +99,16 @@ doit(){
         $exe_dir/${exe_name} $com < $pipeInput 1> $OUT/$testid.out 2> $OUT/$testid.err
    fi 
 
-   if [ -f $OUT/$TEST.prf ] ; then
-       grep -v 'Creation date:' < $OUT/$TEST.prf > x ; mv x $OUT/$TEST.prf
-   fi
+### Creation date is now handled by the diff command
+#   if [ -f $OUT/$TEST.prf ] ; then
+#       grep -v 'Creation date:' < $OUT/$TEST.prf > x ; mv x $OUT/$TEST.prf
+#   fi
    if [ -f $OUT/$TEST.sgml ] ; then
-       sed 's/creation_date="[^"]*"//' < $OUT/$TEST.sgml > x ; mv x $OUT/$TEST.sgml
-   fi
-   if [ -f $OUT/$TEST.nl.sgml ] ; then
-       sed 's/creation_date="[^"]*"//' < $OUT/$TEST.nl.sgml > x ; mv x $OUT/$TEST.nl.sgml
-   fi
+      sed 's/creation_date="[^"]*"//' < $OUT/$TEST.sgml > x ; mv x $OUT/$TEST.sgml
+  fi
+  if [ -f $OUT/$TEST.nl.sgml ] ; then
+      sed 's/creation_date="[^"]*"//' < $OUT/$TEST.nl.sgml > x ; mv x $OUT/$TEST.nl.sgml
+  fi
 }
 
 TEST=test1
@@ -207,7 +208,7 @@ if test $DIFF_ENABLED = 1 ; then
     $scliteCom ${SCLFLAGS} -r $DATA/lvc_ref.stm stm -h $DATA/lvc_hyp.txt txt \
 	-o all prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-    grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
+    #grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 else
     echo "            **** Diff alignments have been disabled, not testing ***"
 fi
@@ -330,7 +331,7 @@ echo "Test $TN:     Run the Mandarin, doing a character alignment"
 $scliteCom ${SCLFLAGS} -e gb -r $DATA/mand_ref.stm stm -h $DATA/mand_hyp.ctm ctm \
 	-o all dtl prf -O $OUT -f 0 -n $TEST -c \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
+#grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 9_1
 TN=9_1
@@ -344,10 +345,13 @@ $scliteCom ${SCLFLAGS} -e gb -r $DATA/mand_ref.stm stm -h $DATA/mand_hyp.ctm ctm
 TN=10
 TEST=test$TN
 echo "Test $TN:    Run the Mandarin, doing a character alignment, not effecting ASCII WORDS"
+echo $scliteCom ${SCLFLAGS} -e gb -r $DATA/mand_ref.stm stm -h $DATA/mand_hyp.ctm ctm \
+	-o all prf -O $OUT -f 0 -n $TEST -c NOASCII 
+
 $scliteCom ${SCLFLAGS} -e gb -r $DATA/mand_ref.stm stm -h $DATA/mand_hyp.ctm ctm \
 	-o all prf -O $OUT -f 0 -n $TEST -c NOASCII \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
+#grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 10_1
 TN=10_1
@@ -382,7 +386,7 @@ echo "Test $TN:    Run alignments on two CTM files, using DP Word alignments"
 $scliteCom ${SCLFLAGS} -r $DATA/tima_ref.ctm ctm -h $DATA/tima_hyp.ctm ctm \
 	-o all prf -O $OUT -f 0 -n $TEST \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
-grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
+#grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
 # TEST Number 13_a
 TN=13_a
@@ -479,8 +483,8 @@ doit $TEST \
 
 echo ""
 echo "Executions complete: Comparing output"
-filter="diff -r $base_dir $OUT | grep -v CVS"
-vfilter="diff -c -r $base_dir $OUT | grep -v CVS"
+filter="diff -I '[cC]reation[ _]date' -r $base_dir $OUT | grep -v CVS"
+vfilter="diff -I '[cC]reation[ _]date' -c -r $base_dir $OUT | grep -v CVS"
 if test $DIFF_ENABLED = 0 ; then
     echo "   Removing DIFF tests"
     filter="$filter | grep -ve 'test[2456]\.'"
