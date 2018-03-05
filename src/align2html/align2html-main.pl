@@ -598,11 +598,11 @@ foreach my $SegGrpID ( sort keys %SegGroups )
 	close FILESG;
 	
 	my @refspkrs;
-	foreach my $segref (keys %{ $mySG->{REF} }){ push(@refspkrs, $mySG->{REF}{$segref}->{SPKRID}) if($mySG->{REF}{$segref}->{SPKRID} ne "ref:INTER_SEGMENT_GAP"); }
+	foreach my $segref (sort keys %{ $mySG->{REF} }){ push(@refspkrs, $mySG->{REF}{$segref}->{SPKRID}) if($mySG->{REF}{$segref}->{SPKRID} ne "ref:INTER_SEGMENT_GAP"); }
 	my $countSpeakers = scalar unique @refspkrs;
 	
 	my @sysspkrs;
-	foreach my $segsys (keys %{ $mySG->{SYS} }){ push(@refspkrs, $mySG->{SYS}{$segsys}->{SPKRID}) if(!($mySG->{SYS}{$segsys}->HasOnlyOneFakeToken())); }
+	foreach my $segsys (sort keys %{ $mySG->{SYS} }){ push(@refspkrs, $mySG->{SYS}{$segsys}->{SPKRID}) if(!($mySG->{SYS}{$segsys}->HasOnlyOneFakeToken())); }
 	my $counthypSpeakers = scalar unique @sysspkrs;
 	
 	$mySG->{ALIGNED} = 1 if( ($countSpeakers == 0) && ($counthypSpeakers == 0) );
@@ -1084,8 +1084,8 @@ foreach my $file(sort keys %FileChannelSG)
 			my @refspkrs;
 			my @sysspkrs;
 			
-			foreach my $segref (keys %{ $SegGroups{$SG_ID}->{REF} }) { push(@refspkrs, $SegGroups{$SG_ID}->{REF}{$segref}->{SPKRID}) if($SegGroups{$SG_ID}->{REF}{$segref}->{SPKRID} ne "ref:INTER_SEGMENT_GAP"); }
-			foreach my $segsys (keys %{ $SegGroups{$SG_ID}->{SYS} }) { push(@sysspkrs, $SegGroups{$SG_ID}->{SYS}{$segsys}->{SPKRID}) if(!($SegGroups{$SG_ID}->{SYS}{$segsys}->HasOnlyOneFakeToken())); }
+			foreach my $segref (sort keys %{ $SegGroups{$SG_ID}->{REF} }) { push(@refspkrs, $SegGroups{$SG_ID}->{REF}{$segref}->{SPKRID}) if($SegGroups{$SG_ID}->{REF}{$segref}->{SPKRID} ne "ref:INTER_SEGMENT_GAP"); }
+			foreach my $segsys (sort keys %{ $SegGroups{$SG_ID}->{SYS} }) { push(@sysspkrs, $SegGroups{$SG_ID}->{SYS}{$segsys}->{SPKRID}) if(!($SegGroups{$SG_ID}->{SYS}{$segsys}->HasOnlyOneFakeToken())); }
 			
 			my $nrefspkr = scalar unique @refspkrs;
 			my $nhypspkr = scalar unique @sysspkrs;

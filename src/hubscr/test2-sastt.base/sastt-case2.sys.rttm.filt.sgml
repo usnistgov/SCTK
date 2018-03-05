@@ -1,4 +1,4 @@
-<SYSTEM title="sastt-case2.sys.rttm" ref_fname="sastt-case2.ref.rttm.filt" hyp_fname="sastt-case2.sys.rttm.filt" creation_date="Fri May  1 15:00:36 2009" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
+<SYSTEM title="sastt-case2.sys.rttm" ref_fname="sastt-case2.ref.rttm.filt" hyp_fname="sastt-case2.sys.rttm.filt" creation_date="Sun Mar  4 14:42:13 2018" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
 <SPEAKER id="SUB48">
 <PATH id="(SUB48-000)" word_cnt="1" file="VT_20051027-1400" channel="1" sequence="4" R_T1="934.443" R_T2="934.703" word_aux="r_t1+t2,h_t1+t2,h_conf,h_spkr,h_isSpkrSub">
 D,"two",,934.443+934.703,,,,

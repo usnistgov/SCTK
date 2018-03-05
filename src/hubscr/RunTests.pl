@@ -51,10 +51,10 @@ sub runIt{
     }
 }
 
-#runIt($operation, "test1-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
-#      "../test_suite/sastt-case1.ref.rttm", "../test_suite/sastt-case1.sys.rttm");
-#runIt($operation, "test2-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
-#      "../test_suite/sastt-case2.ref.rttm", "../test_suite/sastt-case2.sys.rttm");
+runIt($operation, "test1-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
+      "../test_suite/sastt-case1.ref.rttm", "../test_suite/sastt-case1.sys.rttm");
+runIt($operation, "test2-sastt", "-G -f rttm -F rttm -a", "../test_suite/example.glm", "sastt", "english",
+      "../test_suite/sastt-case2.ref.rttm", "../test_suite/sastt-case2.sys.rttm");
 runIt($operation, "test1-notag", "", "../test_suite/example.glm", "hub5", "english",
       "../test_suite/lvc_refe.notag.noat.stm", 
       "../test_suite/lvc_hyp.notag.ctm ../test_suite/lvc_hyp2.notag.ctm");
