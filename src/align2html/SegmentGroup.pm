@@ -260,7 +260,7 @@ sub GetFillREFHYP
 	my $output = "";
 	my @valuessep1;
 	
-	foreach my $spkrID(keys %{ $self->{SPKRYS} })
+	foreach my $spkrID(sort keys %{ $self->{SPKRYS} })
 	{
 		push(@valuessep1, $self->{SPKRYS}{$spkrID} - 25);
 		push(@valuessep1, $self->{SPKRYS}{$spkrID} + $self->{SPKRHEIGHT}{$spkrID});
@@ -312,7 +312,7 @@ sub GetSeparationLines
 	$output .= sprintf("jg.setColor(\"black\");\n");
 	$output .= sprintf("jg.setFont(\"verdana\",\"12px\",Font.PLAIN);\n");
 	
-	foreach my $spkrID(keys %{ $self->{SPKRYS} })
+	foreach my $spkrID(sort keys %{ $self->{SPKRYS} })
 	{
 		my $spkName = $spkrID;
 		$spkName =~ s/^ref://;
@@ -325,7 +325,7 @@ sub GetSeparationLines
 	
 	my @valuessep1;
 	
-	foreach my $spkrID(keys %{ $self->{SPKRYS} })
+	foreach my $spkrID(sort keys %{ $self->{SPKRYS} })
 	{
 		push(@valuessep1, $self->{SPKRYS}{$spkrID} - 25);
 		push(@valuessep1, $self->{SPKRYS}{$spkrID} + $self->{SPKRHEIGHT}{$spkrID});
