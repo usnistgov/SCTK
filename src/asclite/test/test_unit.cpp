@@ -298,12 +298,12 @@ void RunBenchmark(string bench_name, int repeat)
 	printf("| test    | segments | alignement | results  |\n");
 	printf("+---------+----------+------------+----------+\n");
   
-	for (int i=0 ; i < bench->GetTestSize() - 1 ; i++)
+	for (std::size_t i=0 ; i < bench->GetTestSize() - 1 ; i++)
 	{
 		double t_segs, d_segs, t_align, d_align, t_res, d_res;
 		d_segs = d_align = d_res = 0.0;
 			
-		for (int j=0 ; j < repeat ; j++)
+		for (std::size_t j=0 ; j < repeat ; j++)
 		{
 			Properties::SetProperties(bench->GetProperties(i));
 			t_segs = timerStart();
@@ -317,7 +317,7 @@ void RunBenchmark(string bench_name, int repeat)
 			d_res += timerEnd(t_res);
 		}
 		
-		printf("| test %2d | %2.3f ms |  %2.3f ms  | %2.3f ms |\n", i, d_segs/repeat, d_align/repeat, d_res/repeat);
+		printf("| test %2lu | %2.3f ms |  %2.3f ms  | %2.3f ms |\n", i, d_segs/repeat, d_align/repeat, d_res/repeat);
   }
 	
 	printf("+---------+----------+------------+----------+\n");

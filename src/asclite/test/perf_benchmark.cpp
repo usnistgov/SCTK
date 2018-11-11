@@ -115,7 +115,7 @@ PerfBenchmark::PerfBenchmark()
 /**
  * Access the "type" cost no index
  */
-int PerfBenchmark::GetCost(int index, string type)
+int PerfBenchmark::GetCost(std::size_t index, string type)
 {
 	return costs[type][index];
 }

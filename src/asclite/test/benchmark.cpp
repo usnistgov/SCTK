@@ -32,7 +32,7 @@ Benchmark::~Benchmark()
 /**
  * Access the tests no index
  */
-SegmentsGroup* Benchmark::GetTest(int index)
+SegmentsGroup* Benchmark::GetTest(std::size_t index)
 {
   return tests[index];
 }
@@ -40,7 +40,7 @@ SegmentsGroup* Benchmark::GetTest(int index)
 /**
  * Access the tests no index
  */
-map<string, string> Benchmark::GetProperties(int index)
+map<string, string> Benchmark::GetProperties(std::size_t index)
 {
   return properties[index];
 }
@@ -48,7 +48,7 @@ map<string, string> Benchmark::GetProperties(int index)
 /**
  * Access the results no index
  */
-GraphAlignedSegment* Benchmark::GetResult(int index)
+GraphAlignedSegment* Benchmark::GetResult(std::size_t index)
 {
   return results[index];
 }
@@ -56,7 +56,7 @@ GraphAlignedSegment* Benchmark::GetResult(int index)
 /**
  * Get the number of tests
  */
-int Benchmark::GetTestSize()
+std::size_t Benchmark::GetTestSize()
 {
   return tests.size();  
 }

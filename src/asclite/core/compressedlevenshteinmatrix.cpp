@@ -419,8 +419,8 @@ void CompressedLevenshteinMatrix::BlockComputation(const size_t& levelopt)
 					
 				size *= tmpBlockDimensions[i];
 			}
-			
-			size_t closer = labs(blocksize - size);
+
+			const size_t closer = (blocksize > size) ? blocksize - size : size - blocksize;
 			
 			if(closer < closestsize)
 			{

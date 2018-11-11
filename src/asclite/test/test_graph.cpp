@@ -34,8 +34,9 @@ TestGraph::~TestGraph()
  */
 bool TestGraph::TestAll()
 {
-	char* unit; 	
+	std::string unit; 	
 	float size = MemoryUsage();
+
 	if( size < 1024 )
 		unit = "KB";
 	else
@@ -43,6 +44,6 @@ bool TestGraph::TestAll()
 		size /= 1024;
 		unit = "MB";
 	}	
-	printf("Graph used %.1f%s of RAM.\n", size, unit);
+	printf("Graph used %.1f%s of RAM.\n", size, unit.c_str());
 	return true;
 }
