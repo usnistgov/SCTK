@@ -903,7 +903,7 @@ int main(int argc, char **argv)
 		if(arg_bspkrautooverlap)
 		{
 			if( (arg_spkrautooverlapoption == string("hyp")) || (arg_spkrautooverlapoption == string("both")) )
-				arg_spkrautooverlapoption == string("hyp");
+				arg_spkrautooverlapoption = string("hyp");
 			else
 				arg_bspkrautooverlap = false;
 		}
@@ -911,13 +911,13 @@ int main(int argc, char **argv)
 		if(arg_buem)
 		{
 			if( (arg_uemoption == string("hyp")) || (arg_uemoption == string("both")) )
-				arg_uemoption == string("hyp");
+				arg_uemoption = string("hyp");
 			else
 				arg_buem = false;
 		}
 		
 		if( (arg_optionaltoken == string("hyp")) || (arg_optionaltoken == string("both")) )
-				arg_optionaltoken == string("hyp");
+				arg_optionaltoken = string("hyp");
 	}
 		
 	if(!arg_ok)
@@ -968,7 +968,7 @@ int main(int argc, char **argv)
             Properties::SetProperty("recording.maxoverlapinghypothesis", arg_maxnboverlapingspkr);
 
 		Properties::SetProperty("align.optionally", arg_optionaltoken);
-		Properties::SetProperty("general.feedback.level", ""+arg_feedback);
+		Properties::SetProperty("general.feedback.level", std::to_string(arg_feedback));
         Properties::SetProperty("report.outputdir", arg_outputdir);
 		Properties::SetProperty("align.type", "lev");
 		Properties::SetProperty("score.type", "stt");

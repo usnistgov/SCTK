@@ -41,7 +41,7 @@ void AlignmentTest::TestAll() {
 void AlignmentTest::TestInsertions() {
 	Alignment* ali;
 	SegmentsGroup* sg;
-	int testIndex = 2; // simple insertion, one segment	
+	std::size_t testIndex = 2; // simple insertion, one segment	
 	ali = GetAlignmentFor(testIndex, &sg);
 	
 	Segment* ref = sg->GetReference(0)[0];
@@ -112,7 +112,7 @@ void AlignmentTest::TestInsertions() {
 void AlignmentTest::TestDeletions() {
 	Alignment* ali;
 	SegmentsGroup* sg;
-	int testIndex = 3; // simple deletion, one segment	
+	std::size_t testIndex = 3; // simple deletion, one segment	
 	ali = GetAlignmentFor(testIndex, &sg);
 	
 	Segment* ref = sg->GetReference(0)[0];
@@ -180,7 +180,7 @@ void AlignmentTest::TestDeletions() {
 	delete sg;
 }
 
-Alignment* AlignmentTest::GetAlignmentFor(int testIndex, SegmentsGroup** sg) {
+Alignment* AlignmentTest::GetAlignmentFor(std::size_t testIndex, SegmentsGroup** sg) {
 	Alignment* ali = NULL;
 	GraphAlignedSegment* gas = bench->GetResult(testIndex);
  	*sg = bench->GetTest(testIndex);

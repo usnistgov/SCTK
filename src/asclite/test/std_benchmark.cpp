@@ -23,7 +23,7 @@ const int StdBenchmark::HYP_DIM = 0;
 
 void StdBenchmark::CreateSimpleSegment(string text1, string text2, string text3, bool isRef)
 {
-	int dim = (isRef) ? REF_DIM : HYP_DIM;
+	const std::size_t dim = (isRef) ? REF_DIM : HYP_DIM;
 
 	t_seg = Segment::CreateWithEndTime(0, 5000, speech);
 	t_tok0 = Token::CreateWithEndTime(0, 1000, t_seg, text1);
@@ -814,7 +814,7 @@ StdBenchmark::~StdBenchmark()
 /**
 * Access the "type" cost no index
  */
-int StdBenchmark::GetCost(int index, string type)
+int StdBenchmark::GetCost(std::size_t index, string type)
 {
 	return costs[type][index];
 }

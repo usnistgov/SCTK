@@ -97,7 +97,7 @@ void LevenshteinTest::TestBasicBenchmark()
 	StdBenchmark* bench = new StdBenchmark();
 	Levenshtein* laligner = new Levenshtein();
 
-	for (int i=0 ; i < bench->GetTestSize() ; ++i)
+	for (std::size_t i=0 ; i < bench->GetTestSize() ; ++i)
 	{
 		cout << "    * test " << i << " : ";
 		Properties::SetProperties(bench->GetProperties(i));

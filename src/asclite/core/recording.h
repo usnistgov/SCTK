@@ -88,7 +88,7 @@ class Recording
          */
         void GenerateReport(const vector<string> & reportType);
 		
-		//void AddInterSegmentGapsToRefs();
+	//void AddInterSegmentGapsToRefs();
         
 	private:
         /**
@@ -100,7 +100,7 @@ class Recording
          * contain all the available report generator
          */
         map<string, ReportGenerator*> reportGenerators;
-		SGMLGenericReportGenerator* pSGMLGenericReportGenerator;
+	SGMLGenericReportGenerator* pSGMLGenericReportGenerator;
         /**
          * contain all the available Aligner
          */
@@ -119,14 +119,14 @@ class Recording
         /**
 		 * contain all the available Filters
          */
-        map<string, typename Filter::Filter*> filters;
+        map<string, class Filter*> filters;
         
-		/**
-		 * Database for the optimization speaker alignment 
-		 */
-		SpeakerMatch* m_pSpeakerMatch;
+	/**
+	 * Database for the optimization speaker alignment 
+	 */
+	SpeakerMatch* m_pSpeakerMatch;
 		
-		/** the logger */
+	/** the logger */
         static Logger* logger;
 	  
         //-------------------------------------

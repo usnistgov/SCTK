@@ -40,19 +40,19 @@ class Benchmark
 		/**
 		 * Access the tests no index
 		 */
-		SegmentsGroup* GetTest(int index);
+		SegmentsGroup* GetTest(std::size_t index);
 		/**
 		 * Access the properties no index
 		 */
-		map<string, string> GetProperties(int index);
+		map<string, string> GetProperties(std::size_t index);
 		/**
 		 * Access the results no index
 		 */
-		GraphAlignedSegment* GetResult(int index);
+		GraphAlignedSegment* GetResult(std::size_t index);
 		/**
 		 * Get the number of tests
 		 */
-		int GetTestSize();
+		std::size_t GetTestSize();
 		
 	protected:
     /**

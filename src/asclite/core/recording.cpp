@@ -154,14 +154,14 @@ Recording::~Recording()
 	
 	segmentors.clear();
 	
-	map<string, typename Filter::Filter*>::iterator fi, fe;
+	map<string, class Filter*>::iterator fi, fe;
 	
 	fi = filters.begin();
 	fe = filters.end();
 	
 	while(fi != fe)
 	{
-		typename Filter::Filter* ptr_elt = fi->second;
+		class Filter* ptr_elt = fi->second;
 		
 		if(ptr_elt)
 			delete ptr_elt;

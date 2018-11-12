@@ -35,7 +35,7 @@ class StdBenchmark : public Benchmark
 		/**
 		 * Access the standard cost no index
 		 */
-		int GetCost(int index, string type);
+		int GetCost(std::size_t index, string type);
 		
 	private:
     /**

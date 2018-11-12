@@ -18,11 +18,12 @@
 /**
  * Inplementation of the Levenshtein Distance Algorithm in Multi-Dimension
  */
-	
-#include <iostream>
-#include <algorithm>
-#include <vector>
+
 #include "graph.h"
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
 
 Logger* Graph::logger = Logger::getLogger();
 
@@ -623,7 +624,6 @@ void Graph::PreviousCoordinatesGeneric(GraphCoordinateList& listPrev, size_t* co
 			
 			if(tabInteratorListCurrent[j] == tabInteratorListEnd[j])
 			{
-				tabInteratorListCurrent[j] == tabInteratorListBegin[j];
 				++j;
 			}
 			else

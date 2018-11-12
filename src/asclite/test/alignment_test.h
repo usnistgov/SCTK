@@ -35,7 +35,7 @@ public:
 private:
 	StdBenchmark* bench;
 	
-	Alignment* GetAlignmentFor(int testIndex, SegmentsGroup** sg);
+	Alignment* GetAlignmentFor(std::size_t testIndex, SegmentsGroup** sg);
 };
 
 #endif
