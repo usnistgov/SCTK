@@ -2,16 +2,16 @@
 
 **File:**  README.md
 
-**Date:**  October 7, 2015
+**Date:**  November 11, 2018
 
-**SCTK Version:** 2.4.10
+**SCTK Version:** 2.4.11
 
 This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains the 
 source code, documentation and example data for the following programs:
 - sclite   V2.10  - "Score Lite",
 - sc_stats V1.3  - sclite's Statistical Significance Comparison tool
 - rover    V0.1  - Recognition Output Voting Error Reduction
-- asclite  V1.10 - Multidimensional alignment replacement for sclite
+- asclite  V1.11 - Multidimensional alignment replacement for sclite
 
 ## SCTK Basic Installation
 

@@ -1,3 +1,6 @@
+SCTK Version 2.4.11 - Release Novembver 11, 2018
+  [*] Corrected asclite warning messages.  Warnings prevented the code from working on  Darwin 18.2.0
+
 SCTK Version 2.4.10 - Release October 15, 2014
   [*] Added the case conversion for Babel's UTF-8 of Mongolian and Guarani data.  Changes for 
       Guarani include handling of two-UTF characters representing G~.

@@ -20,7 +20,7 @@
 #include "recording.h"
 #include "properties.h"
 
-#define ASC_VERSION "1.10"
+#define ASC_VERSION "1.11"
 #define ASC_NAME "Ma Douce"
 
 struct inputfilename
