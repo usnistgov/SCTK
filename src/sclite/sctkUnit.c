@@ -4,6 +4,8 @@
 static int v = 1;
 static int exitOnError = 1;
 
+int TEXT_set_lang_prof(char *lprof);
+
 int test_separate_chars(TEXT *from, TEXT *exp, int flag){
   TEXT *buff;
   int size = 10;
