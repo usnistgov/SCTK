@@ -35,6 +35,19 @@ src/spkr2sad/makefile
 src/stm2rttm/makefile
 src/stmValidator/makefile
 src/stmValidator/stmValidator.pl
+src/stmValidator/test_suite/test02.log.saved
 src/tanweenFilt/makefile
 src/utf_filt/makefile
+
+bin
+doc/align2html.1
+doc/align2html.html
+doc/asclite.1
+doc/asclite.html
+doc/ctmValidator.1
+doc/ctmValidator.html
+doc/mergectm2rttm.1
+doc/mergectm2rttm.html
+doc/pod2htmd.tmp
+
 
