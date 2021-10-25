@@ -6,7 +6,7 @@ SENTENCE RECOGNITION PERFORMANCE
  sentences                                          21
  with errors                             57.1%   (  12)
 
-   with substitions                      47.6%   (  10)
+   with substitutions                    47.6%   (  10)
    with deletions                        14.3%   (   3)
    with insertions                       19.0%   (   4)
 

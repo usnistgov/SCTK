@@ -166,7 +166,7 @@ int score_dtl_spkr(SCORES *scor, char *sys_root_name, int feedback){
 	fprintf(fp," with errors                            %5.1f%%   (%4d)\n\n",
 		F_ROUND(pct(scor->grp[spkr].serr,scor->grp[spkr].nsent),1),
 		scor->grp[spkr].serr);
-	fprintf(fp,"   with substitions                     %5.1f%%   (%4d)\n",
+	fprintf(fp,"   with substitutions                   %5.1f%%   (%4d)\n",
 		F_ROUND(pct(sent_wsub,scor->grp[spkr].nsent),1),sent_wsub);
 	fprintf(fp,"   with deletions                       %5.1f%%   (%4d)\n",
 		F_ROUND(pct(sent_wdel,scor->grp[spkr].nsent),1),sent_wdel);
@@ -324,7 +324,7 @@ int score_dtl_overall(SCORES *scor, char *sys_root_name, int feedback){
 	    sp_nsent);
     fprintf(fp," with errors                            %5.1f%%   (%4d)\n\n",
 	    F_ROUND(pct(sp_nserr,sp_nsent),1), sp_nserr);
-    fprintf(fp,"   with substitions                     %5.1f%%   (%4d)\n",
+    fprintf(fp,"   with substitutions                   %5.1f%%   (%4d)\n",
 	    F_ROUND(pct(sent_wsub,sp_nsent),1),sent_wsub);
     fprintf(fp,"   with deletions                       %5.1f%%   (%4d)\n",
 	    F_ROUND(pct(sent_wdel,sp_nsent),1),sent_wdel);

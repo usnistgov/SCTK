@@ -5,7 +5,7 @@ SENTENCE RECOGNITION PERFORMANCE
  sentences                                          10
  with errors                             50.0%   (   5)
 
-   with substitions                      10.0%   (   1)
+   with substitutions                    10.0%   (   1)
    with deletions                        30.0%   (   3)
    with insertions                       20.0%   (   2)
 
