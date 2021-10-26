@@ -97,6 +97,46 @@ Darwin Version 10.8.0 (gcc version 4.2.1 (Apple Inc. build 5666) | 2.4.2 - 2.4.8
 
 [\*\*] compiled and ran, but test6, which uses GNU's diff for alignment fails.  The use of DIFF for alignment is rarely used and the failure can be safely ignored.
 
+## Docker
+
+A Dockerfile is included to build and use SCTK without compiling the codebase for your particular platform.
+
+To build:
+
+```
+docker build -t sctk .
+```
+
+### Hypothesis Test
+To run `sclite` on a reference file and hypothesis file, you need to map a volume to your host.
+
+Linux or a Mac:
+```
+docker run -it -v $PWD:/var/sctk sctk sclite -i wsj -r ref.txt -h hyp.txt
+```
+Windows:
+```
+docker run -it -v /myhostpath:/var/sctk sctk sclite -i wsj -r ref.txt -h hyp.txt
+```
+
+### sc_stats
+To run more advanced features of the SDK, shell into the container with a volume mapped to your local files:
+```
+docker run -it -v $PWD:/var/sctk sctk sh
+/var/sctk #
+```
+Then run sclite piped to sc_stats:
+```
+sclite -i wsj -r ref.txt -h hyp1.txt -h hyp2.txt -o sgml stdout | sc_stats -p -t mapsswe -u
+sc_stats: 1.3
+Beginning Multi-System comparisons and reports
+    Performing the Matched Pair Sentence Segment (Word Error) Test
+    Printing Unified Statistical Test Reports
+        Output written to 'Ensemble.stats.unified'
+
+Successful Completion
+```
+
 ## Contact
 
 If you have questions, please address them to Jonathan Fiscus at <jonathan.fiscus@nist.gov>
