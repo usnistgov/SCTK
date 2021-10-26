@@ -6,6 +6,7 @@
 
 void do_exit(char *desc, char *prog, int ret);
 void proc_args(int argc, char **argv, char *prog, char **rname, char **rfmt, char **hname, char **hfmt, int *nhyps,  enum id_types *id_type, int *case_sens, int *outputs, char **title, int *feedback, int *linewidth, int *use_diff, char **out_dir, char **out_name,int *char_align, int *pipeout, int *pipein, int *infered_wordseg, char **lexicon, int *frag_correct, int *opt_del, int *inf_flags, int *stm2ctm_reduce, int *time_align, int *conf_outputs, int *left_to_right, char **wwl_file, char **lm_file);
+int TEXT_set_lang_prof(char *lprof);
 
 #define OUT_SUM            0x0001
 #define OUT_RSUM           0x0002
