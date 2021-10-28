@@ -2,9 +2,9 @@
 
 **File:**  README.md
 
-**Date:**  November 11, 2018
+**Date:**  October 28, 2021
 
-**SCTK Version:** 2.4.11
+**SCTK Version:** 2.4.12
 
 This directory contains SCTK, the NIST Scoring Toolkit.  SCTK contains the 
 source code, documentation and example data for the following programs:

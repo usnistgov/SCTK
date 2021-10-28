@@ -1,3 +1,7 @@
+SCTK Version 2.4.12 - Release October 27, 2021
+  [*] Added a Docker File
+  [*] fixed headers for Xcode	
+
 SCTK Version 2.4.11 - Release Novembver 11, 2018
   [*] Corrected asclite warning messages.  Warnings prevented the code from working on  Darwin 18.2.0
 
