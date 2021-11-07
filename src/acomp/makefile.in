@@ -19,7 +19,7 @@ check: all
 	@echo "   No tests defined for acomp.pl"
 
 install: all
-	cp acomp.pl $(bindir)
+	cp acomp.pl $(DESTDIR)$(bindir)
 
 clean:
 

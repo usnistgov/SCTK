@@ -24,7 +24,7 @@ check: all
 	@echo "   slatreport.pl tests successfully completed"
 
 install: all
-	cp slatreport.pl $(bindir)
+	cp slatreport.pl $(DESTDIR)$(bindir)
 
 clean:
 

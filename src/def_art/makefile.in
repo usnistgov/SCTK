@@ -19,7 +19,7 @@ check: all
 	@echo "   def_art.pl passed without tests"
 
 install: all
-	cp def_art.pl $(bindir)
+	cp def_art.pl $(DESTDIR)$(bindir)
 
 clean:
 

@@ -11,7 +11,7 @@ check: all
 	(cd test_suite; $(SHELL) RunTest.sh ../rttmValidator.pl)
 
 install: all
-	cp rttmValidator.pl $(bindir)
+	cp rttmValidator.pl $(DESTDIR)$(bindir)
 
 clean:
 

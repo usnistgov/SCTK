@@ -12,8 +12,8 @@ check: all
 	@echo "No Tests for align2html.pl"
 
 install: all
-	perl buildInstallVersion.pl > $(bindir)/align2html.pl
-	chmod +x $(bindir)/align2html.pl
+	perl buildInstallVersion.pl > $(DESTDIR)$(bindir)/align2html.pl
+	chmod +x $(DESTDIR)$(bindir)/align2html.pl
 
 buildPackFile:
 	buildPack.pl > packImageTarFile

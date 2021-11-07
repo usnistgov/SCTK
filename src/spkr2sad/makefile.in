@@ -15,7 +15,7 @@ check: all
 	@echo "No Tests for spkr2sad.pl"
 
 install: all
-	cp spkr2sad.pl $(bindir)
+	cp spkr2sad.pl $(DESTDIR)$(bindir)
 
 clean:
 

@@ -20,7 +20,7 @@ check: all
 	@echo "   csrfilt.sh successfully completed"
 
 install: all
-	cp csrfilt.sh $(bindir)
+	cp csrfilt.sh $(DESTDIR)$(bindir)
 
 clean:
 

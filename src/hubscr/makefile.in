@@ -21,7 +21,7 @@ check: all
 	@echo "   hubscr.pl tests successfully completed"
 
 install: all
-	cp hubscr.pl $(bindir)
+	cp hubscr.pl $(DESTDIR)$(bindir)
 
 clean:
 

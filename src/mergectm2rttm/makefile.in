@@ -15,7 +15,7 @@ check: all
 	@echo "No Tests for mergectm2rttm.pl"
 
 install: all
-	cp mergectm2rttm.pl $(bindir)
+	cp mergectm2rttm.pl $(DESTDIR)$(bindir)
 
 clean:
 

@@ -158,17 +158,17 @@ realclean: distclean
 
 install: all testinstalldirs
 	set -e; for p in $(PROGRAMS); do \
-	  $(INSTALL) $$p $(bindir)/$$p; \
+	  $(INSTALL) $$p $(DESTDIR)$(bindir)/$$p; \
 	done
 #REenable this later
 #	set -e; for p in `(cd ../doc ; ls *.1)`; do \
-#	  $(INSTALL) ../doc/$$p $(man1dir)/$$p; \
+#	  $(INSTALL) ../doc/$$p $(DESTDIR)$(man1dir)/$$p; \
 #	done
 #	@echo "!!!!  If 'man sclite' does not work, run 'catman -M $(mandir)'"
 #	@echo "!!!!  to make manual pages accessible."
 
 testinstalldirs:
-	@-set -e; for p in $(bindir) $(man1dir) $(man5dir); do \
+	@-set -e; for p in $(DESTDIR)$(bindir) $(DESTDIR)$(man1dir) $(DESTDIR)$(man5dir); do \
 	   if test ! -d $$p ; then \
 		echo "Error: directory $$p doesn't exist"; \
 	   fi ; \

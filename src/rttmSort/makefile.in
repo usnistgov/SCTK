@@ -15,7 +15,7 @@ check: all
 	@echo "No Tests for rttmSort.pl"
 
 install: all
-	cp rttmSort.pl $(bindir)
+	cp rttmSort.pl $(DESTDIR)$(bindir)
 
 clean:
 

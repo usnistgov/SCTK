@@ -15,7 +15,7 @@ check: all
 	@echo "No Tests for rttmSmooth.pl"
 
 install: all
-	cp rttmSmooth.pl $(bindir)
+	cp rttmSmooth.pl $(DESTDIR)$(bindir)
 
 clean:
 
