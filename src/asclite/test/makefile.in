@@ -5,12 +5,12 @@
 srcdir = @srcdir@
 VPATH = @srcdir@
 
-CC = @CXX@
+CXX = @CXX@
 INSTALL = @INSTALL@
 
 CPPFLAGS = @CPPFLAGS@
+CXXFLAGS = @CXXFLAGS@
 DEFS = @DEFS@
-CFLAGS = @CFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 
@@ -53,13 +53,11 @@ PROGRAMS = asclite_test
 all: makefile $(PROGRAMS)
 
 
-COMPILE = $(CC) -c $(OFLAGS) $(DEFS) -I. -I../core $(CFLAGS) $(CPPFLAGS)
-
 .cpp.o:
-	$(COMPILE) $<
+	$(CXX) -c $(OFLAGS) $(DEFS) -I. -I../core $(CPPFLAGS) $(CXXFLAGS) -o $@ $<
 
 asclite_test: $(src_o)
-	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $(src_o) $(LIBS) 
+	$(CXX) -o $@ $(CXXFLAGS) $(LDFLAGS) $(src_o) $(LIBS)
 
 clean:
 	rm -f *.o $(PROGRAMS) core.*

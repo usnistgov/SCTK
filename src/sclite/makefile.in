@@ -110,31 +110,29 @@ distribution = tk_dist
 all: makefile $(SLM_TARGETS) $(PROGRAMS)
 
 
-COMPILE = $(CC) -c $(CPPFLAGS) $(DEFS) -I. $(CFLAGS)
-
 .c.o:
-	$(COMPILE) $<
+	$(CC) -c $(OFLAGS) $(DEFS) -I. $(CFLAGS) $(CPPFLAGS) -o $@ $<
 
-sclite: $(lib_o) sclite.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sclite.c $(LIBS) 
-sc_stats: $(lib_o) sc_stats.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sc_stats.c $(LIBS) 
-rover: $(lib_o) rover.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) rover.c $(LIBS) 
-mcnemar: $(lib_o) mcnemar.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) mcnemar.c $(LIBS)
-sctkUnit: $(lib_o)sctkUnit.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sctkUnit.c $(LIBS) 
-sign: $(lib_o) sign.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sign.c $(LIBS)
-sclite_tolower: $(lib_o) sclite_tolower.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) sclite_tolower.c $(LIBS)
-$(TEST_PROGRAMS): $(lib_o) $$@.c
-	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) $@.c $(LIBS) 
+sclite: $(lib_o) sclite.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
+sc_stats: $(lib_o) sc_stats.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
+rover: $(lib_o) rover.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
+mcnemar: $(lib_o) mcnemar.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
+sctkUnit: $(lib_o) sctkUnit.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
+sign: $(lib_o) sign.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
+sclite_tolower: $(lib_o) sclite_tolower.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
+$(TEST_PROGRAMS): $(lib_o) $$@.o
+	$(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ $(LIBS)
 $(PURIFY_PROGRAMS): $(lib_o)
-	purify $(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) `echo $@.c|sed 's/_pure//'` $(LIBS) 
+	purify $(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ `echo $@.c|sed 's/_pure//'` $(LIBS)
 $(PURECOV_PROGRAMS): $(lib_o)
-	purecov $(CC) -o $@ $(CFLAGS) $(LDFLAGS) $(lib_o) `echo $@.c|sed 's/_purecov//'` $(LIBS) 
+	purecov $(CC) -o $@ $(CFLAGS) $(LDFLAGS) $^ `echo $@.c|sed 's/_purecov//'` $(LIBS)
 
 ### make a rule to compile the SLM toolkit
 slm_v2/lib/SLM2.a:
