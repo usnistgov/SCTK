@@ -37,14 +37,15 @@ AC_PATH_PROGS(INSTALL, install cp copy)
 
 echo ""
 echo "!!!!!!!!!!!!!   USER INFORMATION NEEDED   !!!!!!!!!!!!!"
+echo ""
 echo "Sclite has the ability to use GNU's 'diff' program as means to"
 echo "align reference and hypothesis strings.  Currently, no evaluations"
-echo "have used GNU-DIFF for alignments, so it may be un-neccessary for"
+echo "have used GNU-DIFF for alignments, so it may be unnecessary for"
 echo "you to enable its use.  Also, some versions of GNU's diff, V2.8.1,"
 echo "will not work with GB encoded Mandarin characters and test6 of the"
 echo "test suite will fail."
 echo ""
-echo "    Do you want to enable alignments via GNU's 'diff'.  yes or no"
+echo "    Do you want to enable alignments via GNU's 'diff'?  yes or no"
 echo ""
 ans=""
 while test "$ans" = "" ; do 
@@ -96,9 +97,9 @@ echo "alignment cost function has been incorporated into SCTK.  The cost"
 echo "function is defined to be a function of language model probabilities."
 echo "In order to compute the LM probabilities, the CMU-Cambridge SLM"
 echo "Toolkit - V2 has been included in SCTK.  The compilation including"
-echo "the SLM toolkit is optionally, depending on your needs."
+echo "the SLM toolkit is optional, depending on your needs."
 echo ""
-echo "    Do you want to compile in the CMU-Cambridge SLM toolkit?.  yes or no"
+echo "    Do you want to compile in the CMU-Cambridge SLM toolkit?  yes or no"
 echo ""
 ans=""
 SLM_DEFS=""
@@ -143,7 +144,7 @@ done
 AC_SUBST(SLM_DEFS)		
 AC_SUBST(SLM_TARGETS)		
 
-dnl Check to see nist.local exists, if it does, define AT_NIST
+dnl Check to see if nist.local exists. If it does, define AT_NIST.
 echo "Checking installation site"
 test -f nist.local && CFLAGS="$CFLAGS -DAT_NIST -DPEDANTIC -ansi -pedantic -pedantic-errors -Wall -Wstrict-prototypes -Wmissing-prototypes -DWARN_ZERO_MALLOC"
 
