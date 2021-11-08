@@ -11,7 +11,7 @@ check: all
 	(cd test_suite; $(SHELL) RunTest.sh ../ctmValidator.pl)
 
 install: all
-	cp ctmValidator.pl $(bindir)
+	cp ctmValidator.pl $(DESTDIR)$(bindir)
 
 clean:
 

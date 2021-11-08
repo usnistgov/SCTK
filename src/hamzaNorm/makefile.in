@@ -25,7 +25,7 @@ check: all
 	@echo "   hamzaNorm.pl tests successfully completed"
 
 install: all
-	cp hamzaNorm.pl $(bindir)
+	cp hamzaNorm.pl $(DESTDIR)$(bindir)
 
 clean:
 

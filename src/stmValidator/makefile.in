@@ -13,8 +13,8 @@ check: all
 	(cd test_suite; $(SHELL) RunTest.sh ../stmValidator.pl)
 
 install: all
-	perl buildInstallVersion.pl > $(bindir)/stmValidator.pl
-	chmod +x $(bindir)/stmValidator.pl
+	perl buildInstallVersion.pl > $(DESTDIR)$(bindir)/stmValidator.pl
+	chmod +x $(DESTDIR)$(bindir)/stmValidator.pl
 
 STMList.pl:
 

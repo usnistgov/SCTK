@@ -31,7 +31,7 @@ check: all
 	@echo "   tanweenFilt.pl tests successfully completed"
 
 install: all
-	cp tanweenFilt.pl $(bindir)
+	cp tanweenFilt.pl $(DESTDIR)$(bindir)
 
 clean:
 

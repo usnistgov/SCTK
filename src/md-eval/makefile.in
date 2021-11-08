@@ -15,7 +15,7 @@ check: all
 	@echo "No Tests for md-eval.pl"
 
 install: all
-	cp md-eval.pl $(bindir)
+	cp md-eval.pl $(DESTDIR)$(bindir)
 
 clean:
 

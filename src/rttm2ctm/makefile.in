@@ -15,7 +15,7 @@ check: all
 	@echo "No Tests for rttm2ctm.pl"
 
 install: all
-	cp rttm2ctm.pl $(bindir)
+	cp rttm2ctm.pl $(DESTDIR)$(bindir)
 
 clean:
 

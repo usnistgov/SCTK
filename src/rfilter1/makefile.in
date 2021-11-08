@@ -31,7 +31,7 @@ check:
 	@echo "   rfilter1 tests successfully completed"
 
 install: all
-	install rfilter1 $(bindir)
+	install rfilter1 $(DESTDIR)$(bindir)
 
 clean:
 	$(RM) rfilter1

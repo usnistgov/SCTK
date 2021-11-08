@@ -75,7 +75,7 @@ realclean: distclean
 
 install: all
 	for p in $(PROGRAMS); do \
-		$(INSTALL) $$p $(bindir)/$$p; \
+		$(INSTALL) $$p $(DESTDIR)$(bindir)/$$p; \
 	done
 
 check:

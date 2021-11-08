@@ -26,8 +26,8 @@ check: all
 	fi	
 
 install: all
-	@sed 's:"nsgmls":"'$(NSGMLS)'":' < utf_filt.pl > $(bindir)/utf_filt.pl
-	@chmod +x $(bindir)/utf_filt.pl
+	@sed 's:"nsgmls":"'$(NSGMLS)'":' < utf_filt.pl > $(DESTDIR)$(bindir)/utf_filt.pl
+	@chmod +x $(DESTDIR)$(bindir)/utf_filt.pl
 
 config.sh: config.in
 	autoconf config.in | sed 's/Makefile/makefile/g' > config.sh
