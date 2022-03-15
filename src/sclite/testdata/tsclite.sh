@@ -81,6 +81,7 @@ doit(){
    prereq="$5"
 
    echo "$testid: $desc"
+   echo $exe_dir/${exe_name} $com > $OUT/$testid.com
    if [ "$prereq" = "SLM" ] ; then
         if test $SLM_ENABLED = 1 ; then
             $exe_dir/${exe_name} $com 1> $OUT/$testid.out 2> $OUT/$testid.err
@@ -458,6 +459,13 @@ TEST=test15_c
 doit $TEST \
         "UTF-8 test - UTF-8 Turkish" \
         "${SCLFLAGS} -r $DATA/test.turkish.ref trn -h $DATA/test.turkish.hyp -o all prf -O $OUT -f 0 -n $TEST -e utf-8 babel_turkish -i spu_id" \
+        "" \
+        ""
+
+TEST=test15_d
+doit $TEST \
+        "UTF-8 test - UTF-8 Ukranian" \
+        "${SCLFLAGS} -r $DATA/test.ukranian.ref trn -h $DATA/test.ukranian.hyp -o all prf -O $OUT -f 0 -n $TEST -e utf-8 ukrainian -i spu_id" \
         "" \
         ""
 
