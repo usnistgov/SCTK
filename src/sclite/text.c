@@ -220,6 +220,133 @@ static int KCC_babel_guarani[][2] =  { // Babel guarani capitals
   { 0x00D1, 0x00f1}  //Ñ ->ñ
 };
 
+static int numKCC_ukrainian = 123;
+static int KCC_ukrainian[][2] =  { // Generic Ukranian capitals
+  { 0x0410, 0x0430},  // А, а  -- LETTER A
+  { 0x04D0, 0x04D1},  // Ӑ, ӑ  -- LETTER A WITH BREVE
+  { 0x04D2, 0x04D3},  // Ӓ, ӓ  -- LETTER A WITH DIAERESIS
+  { 0x04BC, 0x04BD},  // Ҽ, ҽ  -- LETTER ABKHASIAN CHE
+  { 0x04BE, 0x04BF},  // Ҿ, ҿ  -- LETTER ABKHASIAN CHE WITH DESCENDER
+  { 0x04E0, 0x04E1},  // Ӡ, ӡ  -- LETTER ABKHASIAN DZE
+  { 0x04A8, 0x04A9},  // Ҩ, ҩ  -- LETTER ABKHASIAN HA
+  { 0x04E8, 0x04E9},  // Ө, ө  -- LETTER BARRED O
+  { 0x04EA, 0x04EB},  // Ӫ, ӫ  -- LETTER BARRED O WITH DIAERESIS
+  { 0x04A0, 0x04A1},  // Ҡ, ҡ  -- LETTER BASHKIR KA
+  { 0x0411, 0x0431},  // Б, б  -- LETTER BE
+  { 0x046A, 0x046B},  // Ѫ, ѫ  -- LETTER BIG YUS
+  { 0x0406, 0x0456},  // І, і  -- LETTER BYELORUSSIAN-UKRAINIAN I
+  { 0x0427, 0x0447},  // Ч, ч  -- LETTER CHE
+  { 0x04B6, 0x04B7},  // Ҷ, ҷ  -- LETTER CHE WITH DESCENDER
+  { 0x04F4, 0x04F5},  // Ӵ, ӵ  -- LETTER CHE WITH DIAERESIS
+  { 0x04B8, 0x04B9},  // Ҹ, ҹ  -- LETTER CHE WITH VERTICAL STROKE
+  { 0x0414, 0x0434},  // Д, д  -- LETTER DE
+  { 0x0402, 0x0452},  // Ђ, ђ  -- LETTER DJE
+  { 0x0405, 0x0455},  // Ѕ, ѕ  -- LETTER DZE
+  { 0x040F, 0x045F},  // Џ, џ  -- LETTER DZHE
+  { 0x042D, 0x044D},  // Э, э  -- LETTER E
+  { 0x04EC, 0x04ED},  // Ӭ, ӭ  -- LETTER E WITH DIAERESIS
+  { 0x0424, 0x0444},  // Ф, ф  -- LETTER EF
+  { 0x041B, 0x043B},  // Л, л  -- LETTER EL
+  { 0x04C5, 0x04C6},  // Ӆ, ӆ  -- LETTER EL WITH TAIL
+  { 0x041C, 0x043C},  // М, м  -- LETTER EM
+  { 0x04CD, 0x04CE},  // Ӎ, ӎ  -- LETTER EM WITH TAIL
+  { 0x041D, 0x043D},  // Н, н  -- LETTER EN
+  { 0x04A2, 0x04A3},  // Ң, ң  -- LETTER EN WITH DESCENDER
+  { 0x04C7, 0x04C8},  // Ӈ, ӈ  -- LETTER EN WITH HOOK
+  { 0x04C9, 0x04CA},  // Ӊ, ӊ  -- LETTER EN WITH TAIL
+  { 0x0420, 0x0440},  // Р, р  -- LETTER ER
+  { 0x048E, 0x048F},  // Ҏ, ҏ  -- LETTER ER WITH TICK
+  { 0x0421, 0x0441},  // С, с  -- LETTER ES
+  { 0x04AA, 0x04AB},  // Ҫ, ҫ  -- LETTER ES WITH DESCENDER
+  { 0x0472, 0x0473},  // Ѳ, ѳ  -- LETTER FITA
+  { 0x0413, 0x0433},  // Г, г  -- LETTER GHE
+  { 0x04F6, 0x04F7},  // Ӷ, ӷ  -- LETTER GHE WITH DESCENDER
+  { 0x0494, 0x0495},  // Ҕ, ҕ  -- LETTER GHE WITH MIDDLE HOOK
+  { 0x0492, 0x0493},  // Ғ, ғ  -- LETTER GHE WITH STROKE
+  { 0x04FA, 0x04FB},  // Ӻ, ӻ  -- LETTER GHE WITH STROKE AND HOOK
+  { 0x0490, 0x0491},  // Ґ, ґ  -- LETTER GHE WITH UPTURN
+  { 0x0403, 0x0453},  // Ѓ, ѓ  -- LETTER GJE
+  { 0x0425, 0x0445},  // Х, х  -- LETTER HA
+  { 0x04B2, 0x04B3},  // Ҳ, ҳ  -- LETTER HA WITH DESCENDER
+  { 0x04FC, 0x04FD},  // Ӽ, ӽ  -- LETTER HA WITH HOOK
+  { 0x04FE, 0x04FF},  // Ӿ, ӿ  -- LETTER HA WITH STROKE
+  { 0x042A, 0x044A},  // Ъ, ъ  -- LETTER HARD SIGN
+  { 0x0418, 0x0438},  // И, и  -- LETTER I
+  { 0x04E4, 0x04E5},  // Ӥ, ӥ  -- LETTER I WITH DIAERESIS
+  { 0x040D, 0x045D},  // Ѝ, ѝ  -- LETTER I WITH GRAVE
+  { 0x04E2, 0x04E3},  // Ӣ, ӣ  -- LETTER I WITH MACRON
+  { 0x0415, 0x0435},  // Е, е  -- LETTER IE
+  { 0x04D6, 0x04D7},  // Ӗ, ӗ  -- LETTER IE WITH BREVE
+  { 0x0400, 0x0450},  // Ѐ, ѐ  -- LETTER IE WITH GRAVE
+  { 0x0401, 0x0451},  // Ё, ё  -- LETTER IO
+  { 0x046C, 0x046D},  // Ѭ, ѭ  -- LETTER IOTIFIED BIG YUS
+  { 0x0464, 0x0465},  // Ѥ, ѥ  -- LETTER IOTIFIED E
+  { 0x0468, 0x0469},  // Ѩ, ѩ  -- LETTER IOTIFIED LITTLE YUS
+  { 0x0474, 0x0475},  // Ѵ, ѵ  -- LETTER IZHITSA
+  { 0x0476, 0x0477},  // Ѷ, ѷ  -- LETTER IZHITSA WITH DOUBLE GRAVE ACCENT
+  { 0x0408, 0x0458},  // Ј, ј  -- LETTER JE
+  { 0x041A, 0x043A},  // К, к  -- LETTER KA
+  { 0x049A, 0x049B},  // Қ, қ  -- LETTER KA WITH DESCENDER
+  { 0x04C3, 0x04C4},  // Ӄ, ӄ  -- LETTER KA WITH HOOK
+  { 0x049E, 0x049F},  // Ҟ, ҟ  -- LETTER KA WITH STROKE
+  { 0x049C, 0x049D},  // Ҝ, ҝ  -- LETTER KA WITH VERTICAL STROKE
+  { 0x04CB, 0x04CC},  // Ӌ, ӌ  -- LETTER KHAKASSIAN CHE
+  { 0x040C, 0x045C},  // Ќ, ќ  -- LETTER KJE
+  { 0x0480, 0x0481},  // Ҁ, ҁ  -- LETTER KOPPA
+  { 0x046E, 0x046F},  // Ѯ, ѯ  -- LETTER KSI
+  { 0x0466, 0x0467},  // Ѧ, ѧ  -- LETTER LITTLE YUS
+  { 0x0409, 0x0459},  // Љ, љ  -- LETTER LJE
+  { 0x040A, 0x045A},  // Њ, њ  -- LETTER NJE
+  { 0x041E, 0x043E},  // О, о  -- LETTER O
+  { 0x04E6, 0x04E7},  // Ӧ, ӧ  -- LETTER O WITH DIAERESIS
+  { 0x0460, 0x0461},  // Ѡ, ѡ  -- LETTER OMEGA
+  { 0x047C, 0x047D},  // Ѽ, ѽ  -- LETTER OMEGA WITH TITLO
+  { 0x047E, 0x047F},  // Ѿ, ѿ  -- LETTER OT
+  { 0x041F, 0x043F},  // П, п  -- LETTER PE
+  { 0x04A6, 0x04A7},  // Ҧ, ҧ  -- LETTER PE WITH MIDDLE HOOK
+  { 0x0470, 0x0471},  // Ѱ, ѱ  -- LETTER PSI
+  { 0x047A, 0x047B},  // Ѻ, ѻ  -- LETTER ROUND OMEGA
+  { 0x04D8, 0x04D9},  // Ә, ә  -- LETTER SCHWA
+  { 0x04DA, 0x04DB},  // Ӛ, ӛ  -- LETTER SCHWA WITH DIAERESIS
+  { 0x048C, 0x048D},  // Ҍ, ҍ  -- LETTER SEMISOFT SIGN
+  { 0x0428, 0x0448},  // Ш, ш  -- LETTER SHA
+  { 0x0429, 0x0449},  // Щ, щ  -- LETTER SHCHA
+  { 0x04BA, 0x04BB},  // Һ, һ  -- LETTER SHHA
+  { 0x0419, 0x0439},  // Й, й  -- LETTER SHORT I
+  { 0x048A, 0x048B},  // Ҋ, ҋ  -- LETTER SHORT I WITH TAIL
+  { 0x040E, 0x045E},  // Ў, ў  -- LETTER SHORT U
+  { 0x042C, 0x044C},  // Ь, ь  -- LETTER SOFT SIGN
+  { 0x04AE, 0x04AF},  // Ү, ү  -- LETTER STRAIGHT U
+  { 0x04B0, 0x04B1},  // Ұ, ұ  -- LETTER STRAIGHT U WITH STROKE
+  { 0x0422, 0x0442},  // Т, т  -- LETTER TE
+  { 0x04AC, 0x04AD},  // Ҭ, ҭ  -- LETTER TE WITH DESCENDER
+  { 0x0426, 0x0446},  // Ц, ц  -- LETTER TSE
+  { 0x040B, 0x045B},  // Ћ, ћ  -- LETTER TSHE
+  { 0x0423, 0x0443},  // У, у  -- LETTER U
+  { 0x04F0, 0x04F1},  // Ӱ, ӱ  -- LETTER U WITH DIAERESIS
+  { 0x04F2, 0x04F3},  // Ӳ, ӳ  -- LETTER U WITH DOUBLE ACUTE
+  { 0x04EE, 0x04EF},  // Ӯ, ӯ  -- LETTER U WITH MACRON
+  { 0x0478, 0x0479},  // Ѹ, ѹ  -- LETTER UK
+  { 0x0404, 0x0454},  // Є, є  -- LETTER UKRAINIAN IE
+  { 0x0412, 0x0432},  // В, в  -- LETTER VE
+  { 0x042F, 0x044F},  // Я, я  -- LETTER YA
+  { 0x0462, 0x0463},  // Ѣ, ѣ  -- LETTER YAT
+  { 0x042B, 0x044B},  // Ы, ы  -- LETTER YERU
+  { 0x04F8, 0x04F9},  // Ӹ, ӹ  -- LETTER YERU WITH DIAERESIS
+  { 0x0407, 0x0457},  // Ї, ї  -- LETTER YI
+  { 0x042E, 0x044E},  // Ю, ю  -- LETTER YU
+  { 0x0417, 0x0437},  // З, з  -- LETTER ZE
+  { 0x0498, 0x0499},  // Ҙ, ҙ  -- LETTER ZE WITH DESCENDER
+  { 0x04DE, 0x04DF},  // Ӟ, ӟ  -- LETTER ZE WITH DIAERESIS
+  { 0x0416, 0x0436},  // Ж, ж  -- LETTER ZHE
+  { 0x04C1, 0x04C2},  // Ӂ, ӂ  -- LETTER ZHE WITH BREVE
+  { 0x0496, 0x0497},  // Җ, җ  -- LETTER ZHE WITH DESCENDER
+  { 0x04DC, 0x04DD},  // Ӝ, ӝ  -- LETTER ZHE WITH DIAERESIS
+  { 0x04D4, 0x04D5},  // Ӕ, ӕ  -- LIGATURE A IE
+  { 0x04A4, 0x04A5},  // Ҥ, ҥ  -- LIGATURE EN GHE
+  { 0x04B4, 0x04B5}  // Ҵ, ҵ  -- LIGATURE TE TSE
+};
+
 // These static variables are used as temporary memory for case conversion
 static TEXT *STATIC_CASECONVTEXT;
 static int STATIC_CASECONVTEXT_SIZE = -1;
@@ -307,6 +434,9 @@ int TEXT_set_lang_prof(char *lprof){
 	return(1);
     } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"babel_guarani") == 0) {
         STATIC_LPROF = LPROF_BABEL_GUARANI;                                                                                                    
+	return(1);
+    } else if (TEXT_strcasecmp((TEXT *)lprof,(TEXT *)"ukrainian") == 0) {
+        STATIC_LPROF = LPROF_UKRAINIAN;
 	return(1);
     }
     return(0);
@@ -963,7 +1093,13 @@ int getKnownUFTCaseCP(int inCP, int toLow){
        }
      }
    }
-   return -1;
+   if (STATIC_LPROF == LPROF_UKRAINIAN){
+     for (i=0; i<numKCC_ukrainian && outCP == -1; i++){
+       if (KCC_ukrainian[i][(toLow ? 0 : 1)] == inCP){
+         return KCC_ukrainian[i][(!toLow ? 0 : 1)];
+       }
+     }
+   }   return -1;
 }
 
 // tested
