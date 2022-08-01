@@ -369,7 +369,8 @@ ignored.  Blank lines are also ignored.
      strings, "&lt;ALT_BEGIN&gt;", "&lt;ALT&gt;" and "&lt;ALT_END&gt;", are used to
      delimit the alternation.  Each tag is  treated  as  a  word,
      with  a conversation id, channel and "*"'s for the begin and
-     duration time.
+     duration time. The alternation tags are non-recursive and may not be embeddded.
+     (The STM format does support recursive alternation.)
 <p>
      The alternation is begun using the word  "&lt;ALT_BEGIN&gt;",  and
      terminated using the word "&lt;ALT_END&gt;".  In between the start
