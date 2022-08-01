@@ -52,7 +52,7 @@ else
 	SLM_ENABLED=1
 	echo "    SLM-Toolkit Enabled"
 fi
-sclecho ""
+echo ""
 
 if [ -d $OUT ] ; then
 	echo "Shall I delete the output directory \"$OUT\"'s contents [y]"
