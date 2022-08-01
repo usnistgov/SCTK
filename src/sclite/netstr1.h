@@ -56,10 +56,18 @@ typedef struct NODE1 NODE;
 
 enum edits {DEL=1,SUB,INS}; 
 
+/* This DEFINE sets the data type of the back pointer.  Since this is a O(N^2) alorithm, the size of this backpointer has a
+   big impact on RAM usage.  For big alignments, change this to unsinged int (for 32-bit) 
+   DO NOT MAKE THIS A SIGNED DATA TYPE AND UPDATE BOTH DEFINES */
+#define MATRIX_BACK_POINTER_TYPE unsigned short
+#define MAX_MATRIX_SIZE 65535
+//#define MATRIX_BACK_POINTER_TYPE unsigned int
+//#define MAX_MATRIX_SIZE 4294967295
+
 typedef struct CELL_struct {
-    float min_d;         /* the current minimum distance */
-    short back_a,        /* array r index to CELL with min transition */
-          back_b;        /* array h index to CELL with min transition */
+  float min_d;                                /* the current minimum distance */
+  MATRIX_BACK_POINTER_TYPE back_a,          /* array r index to CELL with min transition */
+                           back_b;          /* array h index to CELL with min transition */
 } CELL;
 
 typedef struct ARCSET_struct {

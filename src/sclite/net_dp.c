@@ -823,6 +823,11 @@ NET_ALIGN *alloc_NET_ALIGN(NET_ALIGN *net_ali, int na, int nb){
     if (db >= 2) 
 	printf("NET_ALIGN: %p  na=%d  nb=%d\n",net_ali,na,nb);
 
+    if (na > MAX_MATRIX_SIZE-1 || nb > MAX_MATRIX_SIZE-1){
+      fprintf(stderr,"Error: Attempt to align sequences larger than %d elements.  You can expand this size by modifying MATRIX_BACK_POINTER_TYPE and MAX_MATRIX_SIZE in netstr1.h of sclite\n",MAX_MATRIX_SIZE);
+      exit(1);
+    }
+    
     if (net_ali == NET_ALIGN_NULL) {
 	/* do the first initialization */
 	alloc_singarr(net_ali,1,NET_ALIGN);
