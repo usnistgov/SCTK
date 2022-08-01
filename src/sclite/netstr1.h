@@ -58,8 +58,8 @@ enum edits {DEL=1,SUB,INS};
 
 typedef struct CELL_struct {
     float min_d;         /* the current minimum distance */
-    short back_a,        /* array r index to CELL with min transition */
-          back_b;        /* array h index to CELL with min transition */
+    int back_a,          /* array r index to CELL with min transition */
+        back_b;          /* array h index to CELL with min transition */
 } CELL;
 
 typedef struct ARCSET_struct {
