@@ -5,13 +5,14 @@
 srcdir = @srcdir@
 VPATH = @srcdir@
 
-CC = @CXX@
+CC = @CC@
+CXX = @CXX@
 INSTALL = @INSTALL@
 
+CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
 CXXFLAGS = @CXXFLAGS@
 DEFS = @DEFS@
-CFLAGS = @CFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 
@@ -54,13 +55,14 @@ PROGRAMS = asclite
 all: makefile $(PROGRAMS)
 
 
-COMPILE = $(CC) -c $(OFLAGS) $(DEFS) -I. $(CFLAGS) $(CPPFLAGS) $(CXXFLAGS)
+.c.o:
+	$(CC) -c $(OFLAGS) $(DEFS) -I. $(CFLAGS) $(CPPFLAGS) -o $@ $<
 
 .cpp.o:
-	$(COMPILE) $<
+	$(CXX) -c $(OFLAGS) $(DEFS) -I. $(CPPFLAGS) $(CXXFLAGS) -o $@ $<
 
 asclite: $(src_o)
-	$(CXX) -o $@ $(CFLAGS) $(LDFLAGS) $(src_o) $(LIBS) 
+	$(CXX) -o $@ $(CXXFLAGS) $(LDFLAGS) $(src_o) $(LIBS)
 
 clean:
 	rm -f *.o lzma/*.o $(PROGRAMS) core.*
