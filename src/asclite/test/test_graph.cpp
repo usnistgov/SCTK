@@ -35,7 +35,7 @@ TestGraph::~TestGraph()
 bool TestGraph::TestAll()
 {
 	std::string unit; 	
-	float size = MemoryUsage();
+	float size = (float)MemoryUsage();
 
 	if( size < 1024 )
 		unit = "KB";

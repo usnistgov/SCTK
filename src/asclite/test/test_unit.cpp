@@ -303,7 +303,7 @@ void RunBenchmark(string bench_name, int repeat)
 		double t_segs, d_segs, t_align, d_align, t_res, d_res;
 		d_segs = d_align = d_res = 0.0;
 			
-		for (std::size_t j=0 ; j < repeat ; j++)
+		for (std::size_t j=0 ; j < (unsigned)repeat ; j++)
 		{
 			Properties::SetProperties(bench->GetProperties(i));
 			t_segs = timerStart();
