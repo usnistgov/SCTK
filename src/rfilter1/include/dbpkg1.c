@@ -19,8 +19,8 @@
 /***************************************************/
  void db_enter_msg(Char *proc, int level)
 {if (db_level > level) {
-   pdb = strcat(pdb,"  ");
-   printf("%sentering %s.\n",pdb,proc);
+    pdb = (Char *)strcat((char *)pdb,"  ");
+    printf("%sentering %s.\n",(char *)pdb,(char *)proc);
    }
  }
 
@@ -32,8 +32,8 @@
 /***************************************************/
  void db_leave_msg(Char *proc, int level)
 {if (db_level > level) {
-   printf("%sleaving  %s.\n",pdb,proc);
-   pdb = strcutr(pdb,2);
+    printf("%sleaving  %s.\n",(char *)pdb,(char *)proc);
+    pdb = (Char *)strcutr(pdb,2);
    }
  }
 

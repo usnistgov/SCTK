@@ -11,7 +11,7 @@
   /* Frees memory allocated for rule set *rset.               */
   /************************************************************/
   void free_rules2(RULESET2 *rset)
-   {Char *proc = "free_rules2";
+  {Char *proc = (Char *)"free_rules2";
 /* data */
     int i;
 /* coding  */

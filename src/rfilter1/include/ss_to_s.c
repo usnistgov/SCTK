@@ -17,11 +17,11 @@
  /*                                                                    */
  /**********************************************************************/
  Char *substr_to_str(SUBSTRING *substr, Char *str, int lmax)
-{Char *proc = "substr_to_str";
+ {Char *proc = (Char *)"substr_to_str";
   Char *pn1, *pn2;
   int next_to_be_moved;
   boolean ovf;
-  str = strcpy(str,"");
+  str = (Char *)strcpy((char *)str,"");
   if ((substr->start == NULL) || (substr->end == NULL)) goto RETURN;
   if (substr_length(substr) < 1) goto RETURN;
 /* move characters - at most (lmax-1) of them, leaving room */

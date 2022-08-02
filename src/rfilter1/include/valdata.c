@@ -13,10 +13,10 @@
   boolean valid_data_line(Char *s, Char *comment_flag)
   {boolean ok;
    Char *px, *py;
-   if (strlen(s) < 1)
+   if (strlen((char *)s) < 1)
      ok = F;
    else
-     {if (strlen(comment_flag) < 1) ok = T;
+     {if (strlen((char *)comment_flag) < 1) ok = T;
       else
         {py = s;
          for (px=comment_flag; *px != '\0'; px++)

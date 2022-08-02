@@ -10,7 +10,7 @@
  /***********************************************/
   Char *strcutr(Char *ps, int n)
 {Char *p1;
-   p1 = ps + strlen(ps) - n;
+  p1 = ps + strlen((char *)ps) - n;
    if (p1 < ps)
      {fprintf(stderr,"*ERR: strcutr results in string of negative length.\n");
       p1 = ps;}

@@ -16,8 +16,8 @@
   /***************************************************************/
   Char *remove_comments(Char *s, Char *comment_flag)
   {Char *px;
-   if (strlen(comment_flag) > 0)
-     {px = strstr(s,comment_flag);
+    if (strlen((char *)comment_flag) > 0)
+      {px = (Char *)strstr((char *)s,(char *)comment_flag);
       if (px != NULL) while (*px != '\0') *px++ = ' ';
      }
    return s;

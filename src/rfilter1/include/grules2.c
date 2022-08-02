@@ -17,15 +17,15 @@
   /*   (Fatal error if memory allocation fails.)              */
   /************************************************************/
   static void r_process_aux_line(RULESET2 *rset, Char *pline, int *perr)
-   {Char *proc = "r_process_aux_line";
+  {Char *proc = (Char *)"r_process_aux_line";
     Char svx[LINE_LENGTH], *sval = &svx[0];
     Char upx[LINE_LENGTH], *upr_pline = &upx[0];
     SUBSTRING sspx, *ssp = &sspx;
 /* coding */
  db_enter_msg(proc,1); /* debug only */
-    upr_pline = make_upper(strcpy(upr_pline,pline));
+ upr_pline = make_upper((Char *)strcpy((char *)upr_pline,(char *)pline));
   /* locate value in quotes */
-    *ssp = sstok2(pline,"\"'");
+ *ssp = sstok2(pline,(Char *)"\"'");
     if (substr_length(ssp) < 0)
       {fprintf(stderr,"%s: aux line contains no quoted field.\n",proc);
        fprintf(stderr," line:'%s'\n",pline);
@@ -34,21 +34,21 @@
     else
       {sval = substr_to_str(ssp,sval,LINE_LENGTH);
 /* identify field and store its value */
-       if (strstr(upr_pline,"NAME"))
+	if (strstr((char *)upr_pline,"NAME"))
          {free_str(rset->name);
           rset->name       = strdup_safe(sval,proc);
 	 }
-       if (strstr(upr_pline,"DESC"))
+	if (strstr((char *)upr_pline,"DESC"))
          {free_str(rset->desc);
           rset->desc       = strdup_safe(sval,proc);
 	 }
-       if (strstr(upr_pline,"FORMAT"))
+       if (strstr((char *)upr_pline,"FORMAT"))
          {free_str(rset->format);
           rset->format       = strdup_safe(sval,proc);
 	 }
-       if (strstr(upr_pline,"MAX_NRULES")) rset->max_nrules = atol(sval);
-       if (strstr(upr_pline,"COPY_NO_HIT")) rset->copy_no_hit = atobool(sval);
-       if (strstr(upr_pline,"CASE_SENSITIVE")) rset->case_sensitive = atobool(sval);
+       if (strstr((char *)upr_pline,"MAX_NRULES")) rset->max_nrules = atol((char *)sval);
+       if (strstr((char *)upr_pline,"COPY_NO_HIT")) rset->copy_no_hit = atobool(sval);
+       if (strstr((char *)upr_pline,"CASE_SENSITIVE")) rset->case_sensitive = atobool(sval);
       }
  db_leave_msg(proc,1); /* debug only */
    } /* end r_process_aux_line */
@@ -63,7 +63,7 @@
   /*   (Fatal error if memory allocation fails.)              */
   /************************************************************/
   static void r_process_data_line(RULESET2 *rset, Char *pline, int *perr)
-   {Char *proc = "r_process_data_line";
+  {Char *proc = (Char *)"r_process_data_line";
     Char *ieq, *icontext, *islot, *ilmark, *irmark;
     Char sx_data[LINE_LENGTH], *sx = &sx_data[0];
     RULE2 x, *rx = &x;
@@ -80,36 +80,36 @@ if (db_level > 1) printf("%s data line '%s'\n",pdb,pline);
       }
   /* check for which format  */
   /* NIST1: literal ascii, optionally context-sensitive  */
-    if (streq(rset->format,"NIST1"))
+    if (streq((char *)rset->format,"NIST1"))
       {/* get major boundary elements */
 
 if (db_level > 1) printf("%s processing as format NIST1\n",pdb);
 
-       ieq = strstr(pline,"=>");
+ ieq = (Char *)strstr((char *)pline,"=>");
        if (ieq == NULL)
          {fprintf(stderr,"*ERR:%s: no arrow, line='%s'\n",proc,pline);
           *perr = 32; goto RETURN;
 	 }
 /* context marker is last slash IFF not enclosed in [] */
-       icontext = strrchr(pline,'/');
+       icontext = (Char *)strrchr((char *)pline,'/');
        if (icontext != NULL)
-         {irmark = strchr(icontext,']');
-          ilmark = strchr(icontext,'[');
+         {irmark = (Char *)strchr((char *)icontext,']');
+	   ilmark = (Char *)strchr((char *)icontext,'[');
           if (irmark < ilmark) /* enclosed in [] */
             {icontext = NULL;
 	    }
           else
-            {islot = strstr(icontext,"_");
+            {islot = (Char *)strstr((char *)icontext,"_");
 	    }
 	 }
      /* initialize rule */
-       rx->sin = strdup_safe("",proc);
+       rx->sin = strdup_safe((Char  *)"",proc);
        rx->sinl = 0;
-       rx->sout = strdup_safe("",proc);
+       rx->sout = strdup_safe((Char *)"",proc);
        rx->soutl = 0;
-       rx->lcontext = strdup_safe("",proc);
+       rx->lcontext = strdup_safe((Char *)"",proc);
        rx->lcontextl = 0;
-       rx->rcontext = strdup_safe("",proc);
+       rx->rcontext = strdup_safe((Char *)"",proc);
        rx->rcontextl = 0;
      /* get left hand side */
 if (db_level > 3) printf("%s getting left hand side\n",pdb);
@@ -237,7 +237,7 @@ RETURN:
   /*                                                          */
   /************************************************************/
   void get_rules2(RULESET2 *rset, Char *path, Char *fname, int *perr)
-   {Char *proc = "get_rules2";
+  {Char *proc = (Char *)"get_rules2";
 /* data */
     FILE *fp;
     Char line[LINE_LENGTH], *pline = &line[0];
@@ -258,8 +258,8 @@ RETURN:
 /* initialize  */
     rset->name      = strdup_safe(fname,proc);
     rset->directory = strdup_safe(path,proc);
-    rset->desc      = strdup_safe("",proc);
-    rset->format    = strdup_safe("NIST1",proc);
+    rset->desc      = strdup_safe((Char *)"",proc);
+    rset->format    = strdup_safe((Char *)"NIST1",proc);
     rset->copy_no_hit    = T;
     rset->case_sensitive = T;
     rset->indexed        = F;
@@ -267,25 +267,25 @@ RETURN:
     rset->max_nrules = 400;
   /* open rules file */
 if (db_level > 1) printf("*DB: trying to open '%s'\n",full_fname);
-    if ( (fp = fopen(full_fname,"r")) == NULL)
+ if ( (fp = fopen((char *)full_fname,"r")) == NULL)
       {fprintf(stderr,"%s: can't open %s\n",proc,full_fname);
        *perr = 11;  goto RETURN;
       }
   /* read first line to get the comment_flag characters */
-    if (fgets(pline,LINE_LENGTH,fp) != NULL)
+ if (fgets((char *)pline,LINE_LENGTH,fp) != NULL)
       {get_comment_flag(pline,comment_flag);
       }
     else
       {fprintf(stderr,"%s: file %s is empty.\n",proc,fname);
        *perr = 12;  goto RETURN;
       }
-    if (streq(comment_flag,"*"))
+ if (streq((char *)comment_flag,"*"))
       {fprintf(stderr,"%s: WARNING: the comment_flag character in",proc);
        fprintf(stderr," file %s\n",fname);
        fprintf(stderr,"  is '*', which also marks auxiliary lines.\n");
       }
   /* process file contents */
-    while (fgets(pline,LINE_LENGTH,fp) != NULL) /* get next line */
+    while (fgets((char *)pline,LINE_LENGTH,fp) != NULL) /* get next line */
       {pline = prtrim2(del_eol(pline));
 if (db_level > 2) printf("%s line:'%s'\n",pdb,pline);
        if (valid_data_line(pline,comment_flag))

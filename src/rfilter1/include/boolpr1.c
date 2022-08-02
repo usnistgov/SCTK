@@ -12,4 +12,4 @@
  /*                                                                    */
  /**********************************************************************/
 
- Char *bool_print(boolean x) {if (x) return "T"; else return "F";}
+Char *bool_print(boolean x) {if (x) return (Char *)"T"; else return (Char *)"F";}

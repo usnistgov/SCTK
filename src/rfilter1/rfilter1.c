@@ -33,19 +33,19 @@ int main(int argc, char **argv)
 #define MAX_INPUT_REC 100000
   Char pax[MAX_INPUT_REC], *pa = &pax[0];
   Char pbx[MAX_INPUT_REC], *pb = &pbx[0];
-  Char *path = "";
+  Char *path = (Char *)"";
   int err; int *perr = &err;
   RULESET2 rset_data, *rset = &rset_data;
 /*   code   */
   t_sec = time(&t_sec);      /* ANSI, Turbo C */
-  pdb = strcpy(pdb,"*DB: ");
+  pdb = (Char *)strcpy((char *)pdb,"*DB: ");
   if (argc < 2)
     {fprintf(stdout,"*ERR: no command-line parameters were given.\n");
      fprintf(stdout," %s synopsis:\n",proc);
      fprintf(stdout,"  rfilter1 rule_file_name (db_level) < in_file > out_file\n");
      return 2;
     }
-  fname_rules = argv[1];
+  fname_rules = (Char *)argv[1];
   if (argc > 2) db_level  = atoi(argv[2]); else db_level = 0;
   get_rules2(rset, path, fname_rules, perr);
   if (*perr > 0)
@@ -59,13 +59,13 @@ if (db_level > 2)
   }
 
 /* exercise the rules */
-  while (fgets(pa,MAX_INPUT_REC,stdin) != NULL)
-    {if (*(pa + strlen(pa) - 1) != '\n')
+ while (fgets((char *)pa,MAX_INPUT_REC,stdin) != NULL)
+   {if (*(pa + strlen((char *)pa) - 1) != '\n')
        {fprintf(stderr,"*WARNING:%s: rec w/o newline char,",proc);
         fprintf(stderr," probably truncated.\n  Line is:'%s'\n",pa);
        }
 if (db_level > 1) printf("%s pa=%s",pdb,pa);
-     pb = strcpy(pb,"");
+ pb = (Char *)strcpy((char *)pb,"");
      pb = apply_rules2(pb,pa,rset,perr);
 if (db_level > 1) printf("%s pb=%s",pdb,pb);
      if (*perr == 0) fprintf(stdout,"%s",pb);

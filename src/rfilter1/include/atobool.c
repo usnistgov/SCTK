@@ -11,9 +11,9 @@
  /* in upper or lower case, F otherwise.      */
  /*********************************************/
  {boolean ignore_case = T, ans;
-  if ((string_equal(s,"T",ignore_case)) ||
-      (string_equal(s,"YES",ignore_case)) ||
-      (string_equal(s,"TRUE",ignore_case))) ans = T;
+   if ((string_equal(s,(Char *)"T",ignore_case)) ||
+       (string_equal(s,(Char *)"YES",ignore_case)) ||
+       (string_equal(s,(Char *)"TRUE",ignore_case))) ans = T;
   else ans = F;
   return ans;
  }

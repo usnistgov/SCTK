@@ -10,7 +10,7 @@
 /**************************************************************************/
 /* Reports fatal error and exits.                                         */
 /**************************************************************************/
- {Char *proc = "fatal_error";
+ {Char *proc = (Char *)"fatal_error";
 /* code */
  db_enter_msg(proc,1); /* debug only */
   fprintf(stderr,"\n");

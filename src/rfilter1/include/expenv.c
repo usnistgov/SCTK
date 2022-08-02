@@ -14,7 +14,7 @@
   /*                                                               */
   /*****************************************************************/
   Char *expenv(Char *s, int slength)
-   {Char *proc = "expenv";
+  {Char *proc = (Char *)"expenv";
     Char *pa, *pb, *pend;
     Char sxx[LONG_LINE], *sx = &sxx[0];
     Char vxx[LONG_LINE], *vname = &vxx[0];
@@ -25,7 +25,7 @@
     db_enter_msg(proc,2);
 if (db_level > 2) printf("%s s='%s'\n",pdb,s); 
     if (s != NULL)
-      {sx = strcpy(sx,"");
+      {sx = (Char *)strcpy((char *)sx,"");
        pa = s;
        pb = sx;
        pend = sx + slength;
@@ -43,7 +43,7 @@ if (db_level > 2) printf("%s s='%s'\n",pdb,s);
              ssx->end -= 2;
              substr_to_str(ssx,vname,LONG_LINE);
 if (db_level > 2) printf("%s env var name = '%s'\n",pdb,vname);
-             s_exp = getenv(vname);
+ s_exp = (Char *)getenv((char *)vname);
 if (db_level > 2) printf("%s s_exp = '%s'\n",pdb,s_exp);
              if (s_exp == NULL)
                {if (pb < pend) *(pb++) = *(pa++);
@@ -63,7 +63,7 @@ if (db_level > 2) printf("%s s_exp = '%s'\n",pdb,s_exp);
           else if (pb < pend) *(pb++) = *(pa++);
          }
        *pb = '\0';
-       s = strncpy(s,sx,slength);
+       s = (Char *)strncpy((char *)s,(char *)sx,slength);
       }
     db_leave_msg(proc,2);
     return s;

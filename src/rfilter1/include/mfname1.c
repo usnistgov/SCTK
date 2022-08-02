@@ -14,15 +14,15 @@
   /*                                                          */
   /************************************************************/
  Char *make_full_fname(Char *sx, Char *path, Char *fname)
-{Char *proc = "make_full_fname";
+ {Char *proc = (Char *)"make_full_fname";
 /* prepare full pcode file name */
-  sx = strcpy(sx,path);
+   sx = (Char *)strcpy((char *)sx,(char *)path);
   sx = pltrim(prtrim2(del_eol(sx)));
-  if ((strlen(sx) > 0)&&
+  if ((strlen((char *)sx) > 0)&&
       (*prtrim(sx) != '/')&&
-      (strlen(sx) < LINE_LENGTH))
-     sx = strcat(sx,"/");
-  if ((strlen(sx)+strlen(fname)) < LINE_LENGTH) sx = strcat(sx,fname);
+      (strlen((char *)sx) < LINE_LENGTH))
+    sx = (Char *)strcat((char *)sx,"/");
+  if ((strlen((char *)sx)+strlen((char *)fname)) < LINE_LENGTH) sx = (Char *)strcat((char *)sx,(char *)fname);
   else
      {fprintf(stderr,"%s: full path name of file too long\n",proc);
       fprintf(stderr,"  file name: '%s'\n",fname);

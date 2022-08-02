@@ -11,7 +11,7 @@
   /***************************************************************/
   void get_comment_flag(Char *s, Char *comment_flag)
   {Char *px;
-   comment_flag = strcpy(comment_flag,s);
+    comment_flag = (Char *)strcpy((char *)comment_flag,(char *)s);
    for (px = comment_flag; isgraph(*px); px++);
    *px = '\0';
 if (db_level > 1) printf("*DB: comment_flag='%s'\n",comment_flag);

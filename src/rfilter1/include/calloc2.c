@@ -8,12 +8,12 @@
  /*************************************************************/
  /*  Like calloc(nobj,size) except fatal err if calloc fails. */
  /*************************************************************/
- {Char *proc = "calloc_safe";
+ {Char *proc = (Char *)"calloc_safe";
   void *x;
-if (db_level > 3) printf("%sdoing %s\n",pdb,proc);
+  if (db_level > 3) printf("%sdoing %s\n",(char *)pdb,(char *)proc);
   x = calloc(nobj,size);
-  if (x == NULL) fatal_error(calling_proc,"MEM ALLOC",-1);
-  if (memory_trace) printf("%s CALLOC %xl\n",pdb,(long)x);
+  if (x == NULL) fatal_error(calling_proc,(Char *)"MEM ALLOC",-1);
+  if (memory_trace) printf("%s CALLOC %lx\n",pdb,(long)x);
   return x;
  }
 /* end calloc2.c */
