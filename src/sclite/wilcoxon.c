@@ -135,10 +135,10 @@ int compute_wilcoxon_for_treatment(RANK *rank, int treat1, int treat2, char *blo
     if (verbose) {
         fprintf(fp,"%s\n",center("Wilcoxon Test Calculations Table",
 				 paper_width));
-        title_line = TEXT_strdup(rsprintf("Comparing %s %s Percentages for Systems %s and %s",
+        title_line = TEXT_strdup((TEXT *)rsprintf("Comparing %s %s Percentages for Systems %s and %s",
 		block_id, formula_str,rank->trt_name [ tptr[0] ] ,
 		rank->trt_name [ tptr[1] ] ));
-        fprintf(fp,"%s\n\n",center(title_line,paper_width));
+        fprintf(fp,"%s\n\n",center((char *)title_line,paper_width));
 
         fprintf(fp,"%s",center("",(paper_width - rep_width)/2));
         fprintf(fp,"%s",center("",max_len_block));
@@ -211,12 +211,12 @@ int compute_wilcoxon_for_treatment(RANK *rank, int treat1, int treat2, char *blo
 	fprintf(fp,"%6.2f",sum_trt_diff /rank->n_blk );
         fprintf(fp,"\n\n");
 
-        sprintf(title_line,"Sum of %2d positive ranks = %4.1f",
+        sprintf((char *)title_line,"Sum of %2d positive ranks = %4.1f",
 		sum_plus,sum_plus_rank);
-        fprintf(fp,"%s\n",center(title_line,paper_width));
-        sprintf(title_line,"Sum of %2d negative ranks = %4.1f",
+        fprintf(fp,"%s\n",center((char *)title_line,paper_width));
+        sprintf((char *)title_line,"Sum of %2d negative ranks = %4.1f",
 		sum_minus,sum_minus_rank);
-        fprintf(fp,"%s\n",center(title_line,paper_width));
+        fprintf(fp,"%s\n",center((char *)title_line,paper_width));
         fprintf(fp,"\n\n");
     }
     

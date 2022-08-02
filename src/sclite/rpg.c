@@ -302,7 +302,7 @@ int Desc_set_justification(char *just_str)
 	if (col >= rpgstr->max_col)
 	    expand_columns();
 
-	if ((*p == 'l')){
+	if (*p == 'l'){
 	    rpgstr->col_defs[j].col_lock[col] = LOCKED;
 	    rpgstr->col_defs[j].num_locked++;
 	} else 
@@ -748,7 +748,7 @@ int is_last_just_col(int just, int col)
     c = col+1;
     while ((c < rpgstr->col_defs[just].num_col) && ( rpgstr->col_defs[just].col_just[c] == 'a'))
 	c++; 
-    if ((c == rpgstr->col_defs[just].num_col))
+    if (c == rpgstr->col_defs[just].num_col)
 	return(1);
     return(0);	   
 }

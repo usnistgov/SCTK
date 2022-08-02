@@ -164,11 +164,12 @@ static int analyze_rank_sum(RANK *rank, int trt_num, int blk_num, double *sum_ar
     else
        X2_r /= adjust;
 
-    if (verbose) 
+    if (verbose) {
         if (orient == FOR_TREATMENTS)
-            print_result_of_analyze_rank_sum(df, X2_r, adjust, subject_trt,fp);        else
+            print_result_of_analyze_rank_sum(df, X2_r, adjust, subject_trt,fp);
+	else
             print_result_of_analyze_rank_sum(df, X2_r, adjust, subject_blk,fp);
-
+    }
     /* return the result */
     if (X2_r > X2.df[df].level[GEN_X2_PER])
         return(TEST_DIFF);

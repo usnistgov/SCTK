@@ -420,13 +420,14 @@ void proc_arcs(int argc, char **argv, char *prog, char **pralign, int *npralign,
 				       prog,1);
 	    sf = *stats_formula = argv[++opt];
 	    if ((strcmp(sf,"E") != 0) && (strcmp(sf,"W") != 0) &&
-		(strcmp(sf,"R") != 0))
+		(strcmp(sf,"R") != 0)){
 		if ((strcmp(sf,"e") == 0) || (strcmp(sf,"w") == 0) ||
 		    (strcmp(sf,"r") == 0))
 		    *sf = toupper(*sf);
 		else
 		    do_exit(rsprintf("Unrecognized Statistics percent, '%s'\n",
 				     sf),prog,1);
+	    }
 	} else if (strcmp(argv[opt],"-w") == 0){
 	    /* Do the works */
 	    *stats_graphs = GRAPH_RANGE;

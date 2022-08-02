@@ -32,7 +32,7 @@ int test_void_Fof_TPtr_TPtr(TEXT *exp_arg1, TEXT *function, TEXT *arg1, TEXT *ar
   TEXT_strcpy(cp_arg1, arg1);
   if (v > 1)
     printf("Testing %s(/%s/, /%s/) =? void, Arg1 should equal /%s/\n", function, arg1, arg2, exp_arg1);
-  if (TEXT_strcmp(function, "TEXT_delete_chars") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_delete_chars") == 0){
     TEXT_delete_chars(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -73,9 +73,9 @@ int test_sizet_Fof_TPtr_TPtr(size_t expected, TEXT *function, TEXT *arg1, TEXT *
   size_t rtn = 0;
   if (v > 1)
     printf("Testing %s(/%s/, /%s/) =? /%lu/\n", function, arg1, arg2, (unsigned long)expected);
-  if (TEXT_strcmp(function, "TEXT_strspn") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_strspn") == 0){
     rtn =  TEXT_strspn(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strcspn") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strcspn") == 0){
     rtn =  TEXT_strcspn(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -95,9 +95,9 @@ int test_TPtr_Fof_TPtr(TEXT *expected, TEXT *function, TEXT *arg1){
   TEXT *rtn = (TEXT *)NULL;
   if (v > 1)
     printf("Testing %s(/%s/) =? /%s/\n", function, arg1, expected);
-  if (TEXT_strcmp(function, "TEXT_strdup") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_strdup") == 0){
     rtn = TEXT_strdup(arg1);
-  } else if (TEXT_strcmp(function, "TEXT_skip_wspace") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_skip_wspace") == 0){
     rtn = TEXT_skip_wspace(arg1);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -118,21 +118,21 @@ int test_TPtr_Fof_TPtr_TPtr(TEXT *expected, TEXT *function, TEXT *arg1, TEXT *ar
   TEXT *rtn = (TEXT *)NULL;
   if (v > 1)
     printf("Testing %s(/%s/, /%s/) =? /%s/\n", function, arg1, arg2, expected);
-  if (TEXT_strcmp(function, "TEXT_add") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_add") == 0){
     rtn = TEXT_add(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strcat") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strcat") == 0){
     rtn = TEXT_strcat(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strcpy") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strcpy") == 0){
     rtn = TEXT_strcpy(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strqtok") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strqtok") == 0){
     rtn = TEXT_strqtok(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strtok") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strtok") == 0){
     rtn = TEXT_strtok(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strtok") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strtok") == 0){
     rtn = TEXT_strtok(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strstr") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strstr") == 0){
     rtn = TEXT_strstr(arg1, arg2);
-  } else if (TEXT_strcmp(function, "tokenize_TEXT_first_alt") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"tokenize_TEXT_first_alt") == 0){
     rtn = tokenize_TEXT_first_alt(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -154,11 +154,11 @@ int test_TPtr_Fof_TPtr_int(TEXT *expected, TEXT *function, TEXT *arg1, int arg2)
   TEXT *rtn = (TEXT *)NULL;
   if (v > 1)
     printf("Testing %s(/%s/, /%d/) =? /%s/\n", function, arg1, arg2, expected);
-  if (TEXT_strcmp(function, "TEXT_strBdup") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_strBdup") == 0){
     rtn = TEXT_strBdup(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strBdup_noEscape") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strBdup_noEscape") == 0){
     rtn = TEXT_strBdup_noEscape(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_str_to_master") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_str_to_master") == 0){
     rtn = TEXT_str_to_master(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -180,7 +180,7 @@ int test_TPtr_Fof_int(TEXT *expected, TEXT *function, int arg1, int numCharCompa
   TEXT *rtn = (TEXT *)NULL;
   if (v > 1)
     printf("Testing %s(/%d/) =? /%s/\n", function, arg1, expected);
-  if (TEXT_strcmp(function, "TEXT_UTFCodePointToTEXT") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_UTFCodePointToTEXT") == 0){
     rtn = TEXT_UTFCodePointToTEXT(arg1);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -201,7 +201,7 @@ int test_TPtr_Fof_TPtr_TPtr_T(TEXT *expected, TEXT *function, TEXT *arg1, TEXT *
   TEXT *rtn = (TEXT *)NULL;
   if (v > 1)
     printf("Testing %s(/%s/, /%s/, /%c/) =? /%s/\n", function, arg1, arg2, chr, expected);
-  if (TEXT_strcmp(function, "TEXT_strcpy_escaped") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_strcpy_escaped") == 0){
     rtn = TEXT_strcpy_escaped(arg1, arg2, chr);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -221,7 +221,7 @@ int test_TPtr_Fof_TPtr_TPtr_int(TEXT *expected, TEXT *function, TEXT *arg1, TEXT
   TEXT *rtn = (TEXT *)NULL;
   if (v > 1)
     printf("Testing %s(/%s/, /%s/, /%d/) =? /%s/\n", function, arg1, arg2, arg3, expected);
-  if (TEXT_strcmp(function, "TEXT_strBcpy") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_strBcpy") == 0){
     rtn = TEXT_strBcpy(arg1, arg2, arg3);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -241,15 +241,15 @@ int test_int_Fof_TPtr(int expected, TEXT *function, TEXT *arg1){
   int rtn = 0;
   if (v > 1)
     printf("Testing %s(/%s/) =? /%d/\n", function, arg1, expected);
-  if (TEXT_strcmp(function, "TEXT_nbytes_of_char") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_nbytes_of_char") == 0){
     rtn =  TEXT_nbytes_of_char(arg1);
-  } else if (TEXT_strcmp(function, "TEXT_strlen") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strlen") == 0){
     rtn =  TEXT_strlen(arg1);
-  } else if (TEXT_strcmp(function, "TEXT_chrlen") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_chrlen") == 0){
     rtn =  TEXT_chrlen(arg1);
-  } else if (TEXT_strcmp(function, "TEXT_is_empty") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_is_empty") == 0){
     rtn =  TEXT_is_empty(arg1);
-  } else if (TEXT_strcmp(function, "TEXT_getUTFCodePoint") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_getUTFCodePoint") == 0){
     rtn =  TEXT_getUTFCodePoint(arg1);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -270,9 +270,9 @@ int test_int_Fof_TPtr_TPtr(int expected, TEXT *function, TEXT *arg1, TEXT *arg2)
   int rtn;
   if (v > 1)
     printf("Testing %s(/%s/, /%s/) =? /%d/\n", function, arg1, arg2, expected);
-  if (TEXT_strcmp(function, "TEXT_strcasecmp") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_strcasecmp") == 0){
     rtn = TEXT_strcasecmp(arg1, arg2);
-  } else if (TEXT_strcmp(function, "TEXT_strcmp") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strcmp") == 0){
     rtn = TEXT_strcmp(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -293,9 +293,9 @@ int test_int_Fof_TPtr_TPtr_int(int expected, TEXT *function, TEXT *arg1, TEXT *a
   int rtn;
   if (v > 1)
     printf("Testing %s(/%s/, /%s/, %d) =? /%d/\n", function, arg1, arg2, arg3, expected);
-  if (TEXT_strcmp(function, "TEXT_strCcasecmp") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_strCcasecmp") == 0){
     rtn = TEXT_strCcasecmp(arg1, arg2, arg3);
-  } else if (TEXT_strcmp(function, "TEXT_strCcmp") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"TEXT_strCcmp") == 0){
     rtn = TEXT_strCcmp(arg1, arg2, arg3);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -317,9 +317,9 @@ int test_int_Fof_TPtrPtr_TPtr_int(int expected, TEXT *function, TEXT **arg1, TEX
   TEXT *arg1_init = *arg1;
   if (v > 1)
     printf("Testing %s(/%s/, //, %d) =? /%d/, arg2 expected to be /%s/\n", function, *arg1, arg3, expected, exp_arg2);
-  if (TEXT_strcmp(function, "find_next_TEXT_token") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"find_next_TEXT_token") == 0){
     rtn = find_next_TEXT_token(arg1, arg2, arg3);
-  } else if (TEXT_strcmp(function, "find_next_TEXT_alternation") == 0){
+  } else if (TEXT_strcmp(function, (TEXT *)"find_next_TEXT_alternation") == 0){
     rtn = find_next_TEXT_alternation(arg1, arg2, arg3);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -345,7 +345,7 @@ int test_void_Fof_TPtrPtr_IntPtr_int(TEXT *function, TEXT **arg1, int *arg2, int
   TEXT *arg1_init = *arg1;
   if (v > 1)
     printf("Testing %s(/%s/, /%d/, %d), arg1 expected to be /%s/\n", function, *arg1, *arg2, arg3, exp_arg1);
-  if (TEXT_strcmp(function, "TEXT_str_case_change_with_mem_expand") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"TEXT_str_case_change_with_mem_expand") == 0){
     TEXT_str_case_change_with_mem_expand(arg1, arg2, arg3);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -365,7 +365,7 @@ int test_int_Fof_TEXT(int expected, TEXT *function, TEXT arg1){
   int rtn = 0;
   if (v > 1)
     printf("Testing %s(/%c/) =? /%d/\n", function, arg1, expected);
-  if (TEXT_strcmp(function, "end_of_TEXT") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"end_of_TEXT") == 0){
     rtn =  end_of_TEXT(arg1);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -386,7 +386,7 @@ int test_int_Fof_TEXTLIST_TPtr(int expected, TEXT *function, TEXT_LIST *arg1, TE
   int rtn;
   if (v > 1)
     printf("Testing %s(\"%s\", /%s/) =? /%d/\n", function, arg1->file, arg2, expected);
-  if (TEXT_strcmp(function, "in_TEXT_LIST") == 0){
+  if (TEXT_strcmp(function, (TEXT *)"in_TEXT_LIST") == 0){
     rtn = in_TEXT_LIST(arg1, arg2);
   } else {
     printf("Error: unknown function %s\n",function);
@@ -842,212 +842,212 @@ int unitTestTEXT(){
 
     if (iter == 5 || iter == 0){
         TEXT_LIST *tl;
-        tl = load_TEXT_LIST(lexicon, 0);
-        tst++; err+= test_int_Fof_TEXTLIST_TPtr(-1, "in_TEXT_LIST", tl, X) ;   
-        tst++; err+= test_int_Fof_TEXTLIST_TPtr(5, "in_TEXT_LIST", tl, Y) ;   
+        tl = load_TEXT_LIST((char *)lexicon, 0);
+        tst++; err+= test_int_Fof_TEXTLIST_TPtr(-1, (TEXT *)"in_TEXT_LIST", tl, X) ;   
+        tst++; err+= test_int_Fof_TEXTLIST_TPtr(5, (TEXT *)"in_TEXT_LIST", tl, Y) ;   
     }
     
-    tst++; err+= test_TPtr_Fof_TPtr_int(X, "TEXT_strBdup", X, 3*charSizeX);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(X, "TEXT_strBdup", XbAbY, 3*charSizeX);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, "TEXT_strBdup", XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(XbA, "TEXT_strBdup", XbAbY, 3*charSizeX + 1 + 2);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_strBdup", EMP, 1);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(X, (TEXT *)"TEXT_strBdup", X, 3*charSizeX);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(X, (TEXT *)"TEXT_strBdup", XbAbY, 3*charSizeX);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, (TEXT *)"TEXT_strBdup", XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(XbA, (TEXT *)"TEXT_strBdup", XbAbY, 3*charSizeX + 1 + 2);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, (TEXT *)"TEXT_strBdup", EMP, 1);    
 
-    tst++; err+= test_TPtr_Fof_TPtr_int(X, "TEXT_strBdup_noEscape", X, 3*charSizeX);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(X, "TEXT_strBdup_noEscape", XbAbY, 3*charSizeX);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, "TEXT_strBdup_noEscape", XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(XbA, "TEXT_strBdup_noEscape", XbAbY, 3*charSizeX + 1 + 2);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_strBdup_noEscape", EMP, 1);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(X, (TEXT *)"TEXT_strBdup_noEscape", X, 3*charSizeX);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(X, (TEXT *)"TEXT_strBdup_noEscape", XbAbY, 3*charSizeX);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, (TEXT *)"TEXT_strBdup_noEscape", XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(XbA, (TEXT *)"TEXT_strBdup_noEscape", XbAbY, 3*charSizeX + 1 + 2);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, (TEXT *)"TEXT_strBdup_noEscape", EMP, 1);    
 
-    tst++; err+= test_TPtr_Fof_TPtr_int(qXbYq, "TEXT_strBdup_noEscape", eqXbYeq, 1 + 1 + 3*charSizeX + 1 + 2*charSizeY + 1 + 1);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(XsX, "TEXT_strBdup_noEscape", XesXsYsY, 3*charSizeX + 1 + 1 + 3*charSizeX);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(qXbYq, (TEXT *)"TEXT_strBdup_noEscape", eqXbYeq, 1 + 1 + 3*charSizeX + 1 + 2*charSizeY + 1 + 1);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(XsX, (TEXT *)"TEXT_strBdup_noEscape", XesXsYsY, 3*charSizeX + 1 + 1 + 3*charSizeX);    
 
-    tst++; err+=  test_int_Fof_TPtr(3, "TEXT_chrlen", X);
-    tst++; err+=  test_int_Fof_TPtr(3 + 1, "TEXT_chrlen", Xb);
-    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2, "TEXT_chrlen", XbY);
-    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2 + 1, "TEXT_chrlen", XbYb);
-    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_chrlen", EMP);
+    tst++; err+=  test_int_Fof_TPtr(3, (TEXT *)"TEXT_chrlen", X);
+    tst++; err+=  test_int_Fof_TPtr(3 + 1, (TEXT *)"TEXT_chrlen", Xb);
+    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2, (TEXT *)"TEXT_chrlen", XbY);
+    tst++; err+=  test_int_Fof_TPtr(3 + 1 + 2 + 1, (TEXT *)"TEXT_chrlen", XbYb);
+    tst++; err+=  test_int_Fof_TPtr(0, (TEXT *)"TEXT_chrlen", EMP);
 
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3, "TEXT_strlen", X);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1, "TEXT_strlen", Xb);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2, "TEXT_strlen", XbY);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2 + 1, "TEXT_strlen", XbYb);
-    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_strlen", EMP);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3, (TEXT *)"TEXT_strlen", X);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1, (TEXT *)"TEXT_strlen", Xb);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2, (TEXT *)"TEXT_strlen", XbY);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX * 3 + 1 + charSizeY * 2 + 1, (TEXT *)"TEXT_strlen", XbYb);
+    tst++; err+=  test_int_Fof_TPtr(0, (TEXT *)"TEXT_strlen", EMP);
 
-    tst++; err+=  test_int_Fof_TPtr(charSizeX, "TEXT_nbytes_of_char", X);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", bX);
-    tst++; err+=  test_int_Fof_TPtr(charSizeX, "TEXT_nbytes_of_char", Xb);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", b);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", e);
-    tst++; err+=  test_int_Fof_TPtr(charSizeY, "TEXT_nbytes_of_char", Y);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_nbytes_of_char", EMP);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX, (TEXT *)"TEXT_nbytes_of_char", X);
+    tst++; err+=  test_int_Fof_TPtr(1, (TEXT *)"TEXT_nbytes_of_char", bX);
+    tst++; err+=  test_int_Fof_TPtr(charSizeX, (TEXT *)"TEXT_nbytes_of_char", Xb);
+    tst++; err+=  test_int_Fof_TPtr(1, (TEXT *)"TEXT_nbytes_of_char", b);
+    tst++; err+=  test_int_Fof_TPtr(1, (TEXT *)"TEXT_nbytes_of_char", e);
+    tst++; err+=  test_int_Fof_TPtr(charSizeY, (TEXT *)"TEXT_nbytes_of_char", Y);
+    tst++; err+=  test_int_Fof_TPtr(1, (TEXT *)"TEXT_nbytes_of_char", EMP);
 
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(X, "TEXT_strBcpy", buff, X, 3*charSizeX);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(X, (TEXT *)"TEXT_strBcpy", buff, X, 3*charSizeX);    
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(X, "TEXT_strBcpy", buff, XbAbY, 3*charSizeX);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(X, (TEXT *)"TEXT_strBcpy", buff, XbAbY, 3*charSizeX);    
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(XbAbY, "TEXT_strBcpy", buff, XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(XbAbY, (TEXT *)"TEXT_strBcpy", buff, XbAbY, 3*charSizeX + 1 + 2 + 1 + 2*charSizeY);    
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(XbA, "TEXT_strBcpy", buff, XbAbY, 3*charSizeX + 1 + 2);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(XbA, (TEXT *)"TEXT_strBcpy", buff, XbAbY, 3*charSizeX + 1 + 2);    
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(EMP, "TEXT_strBcpy", buff, EMP, 1);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_int(EMP, (TEXT *)"TEXT_strBcpy", buff, EMP, 1);    
 
     // Test int ___(TEXT)
-    tst++; err+=  test_int_Fof_TEXT(0, "end_of_TEXT", *X);
-    tst++; err+=  test_int_Fof_TEXT(1, "end_of_TEXT", *EMP);
+    tst++; err+=  test_int_Fof_TEXT(0, (TEXT *)"end_of_TEXT", *X);
+    tst++; err+=  test_int_Fof_TEXT(1, (TEXT *)"end_of_TEXT", *EMP);
 
     // Test int ___(TEXT *)
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_is_empty", b);
-    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_is_empty", bbX);
-    tst++; err+=  test_int_Fof_TPtr(0, "TEXT_is_empty", Yb);
-    tst++; err+=  test_int_Fof_TPtr(1, "TEXT_is_empty", EMP);
+    tst++; err+=  test_int_Fof_TPtr(1, (TEXT *)"TEXT_is_empty", b);
+    tst++; err+=  test_int_Fof_TPtr(0, (TEXT *)"TEXT_is_empty", bbX);
+    tst++; err+=  test_int_Fof_TPtr(0, (TEXT *)"TEXT_is_empty", Yb);
+    tst++; err+=  test_int_Fof_TPtr(1, (TEXT *)"TEXT_is_empty", EMP);
     
 
     if (TEXT_get_encoding() == ASCII || TEXT_get_encoding() == UTF8 && charSizeX == 1){
-        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&ASCII_A, "TEXT_str_to_master", (TEXT *)&ASCII_B, 1);    
-        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&ASCII_B, "TEXT_str_to_master", (TEXT *)&ASCII_A, 0);    
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&ASCII_A, (TEXT *)"TEXT_str_to_master", (TEXT *)&ASCII_B, 1);    
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&ASCII_B, (TEXT *)"TEXT_str_to_master", (TEXT *)&ASCII_A, 0);    
     } else if (TEXT_get_encoding() == EXTASCII){
-        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&EXTASCII_A, "TEXT_str_to_master", (TEXT *)&EXTASCII_B, 1);    
-        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&EXTASCII_B, "TEXT_str_to_master", (TEXT *)&EXTASCII_A, 0);
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&EXTASCII_A, (TEXT *)"TEXT_str_to_master", (TEXT *)&EXTASCII_B, 1);    
+        tst++; err+= test_TPtr_Fof_TPtr_int((TEXT *)&EXTASCII_B, (TEXT *)"TEXT_str_to_master", (TEXT *)&EXTASCII_A, 0);
     } else {
-        tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, "TEXT_str_to_master", XbBbY, 1);    
-        tst++; err+= test_TPtr_Fof_TPtr_int(XbBbY, "TEXT_str_to_master", XbAbY, 0);    
+        tst++; err+= test_TPtr_Fof_TPtr_int(XbAbY, (TEXT *)"TEXT_str_to_master", XbBbY, 1);    
+        tst++; err+= test_TPtr_Fof_TPtr_int(XbBbY, (TEXT *)"TEXT_str_to_master", XbAbY, 0);    
     }
-    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_str_to_master", EMP, 0);    
-    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, "TEXT_str_to_master", EMP, 1);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, (TEXT *)"TEXT_str_to_master", EMP, 0);    
+    tst++; err+= test_TPtr_Fof_TPtr_int(EMP, (TEXT *)"TEXT_str_to_master", EMP, 1);    
 
     if (TEXT_get_encoding() == ASCII || TEXT_get_encoding() == UTF8 && charSizeX == 1){
-       tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)&ASCII_A, (TEXT *)&ASCII_A);    
-       tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)&ASCII_A, (TEXT *)&ASCII_B);    
-       tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)&ASCII_B, (TEXT *)&ASCII_A);    
-       tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)&ASCII_B, (TEXT *)&ASCII_B);    
-       tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcasecmp", (TEXT *)&ASCII_X, (TEXT *)&ASCII_Y);    
+       tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", (TEXT *)&ASCII_A, (TEXT *)&ASCII_A);    
+       tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", (TEXT *)&ASCII_A, (TEXT *)&ASCII_B);    
+       tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", (TEXT *)&ASCII_B, (TEXT *)&ASCII_A);    
+       tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", (TEXT *)&ASCII_B, (TEXT *)&ASCII_B);    
+       tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcasecmp", (TEXT *)&ASCII_X, (TEXT *)&ASCII_Y);    
     } else {
-        tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", X, X);    
-        tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcasecmp", X, Y);    
-        tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcasecmp", Y, X);    
-        tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcasecmp", Y, A);    
-        tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcasecmp", Y, (TEXT *)0);    
-        tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcasecmp", (TEXT *)0, Y);    
-        tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", (TEXT *)0, (TEXT *)0);    
+        tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", X, X);    
+        tst++; err+= test_int_Fof_TPtr_TPtr(-1, (TEXT *)"TEXT_strcasecmp", X, Y);    
+        tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcasecmp", Y, X);    
+        tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcasecmp", Y, A);    
+        tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcasecmp", Y, (TEXT *)0);    
+        tst++; err+= test_int_Fof_TPtr_TPtr(-1, (TEXT *)"TEXT_strcasecmp", (TEXT *)0, Y);    
+        tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", (TEXT *)0, (TEXT *)0);    
     }
-    tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", EMP, EMP);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcasecmp", EMP, X);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcasecmp", X, EMP);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", EMP, EMP);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(-1, (TEXT *)"TEXT_strcasecmp", EMP, X);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcasecmp", X, EMP);    
     
-    tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcmp", X, X);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcmp", X, Y);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcmp", Y, X);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcmp", Y, A);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcmp", Y, (TEXT *)0);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcmp", (TEXT *)0, Y);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcmp", (TEXT *)0, (TEXT *)0);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcmp", EMP, EMP);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(-1, "TEXT_strcmp", EMP, X);    
-    tst++; err+= test_int_Fof_TPtr_TPtr(1, "TEXT_strcmp", X, EMP);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcmp", X, X);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(-1, (TEXT *)"TEXT_strcmp", X, Y);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcmp", Y, X);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcmp", Y, A);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcmp", Y, (TEXT *)0);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(-1, (TEXT *)"TEXT_strcmp", (TEXT *)0, Y);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcmp", (TEXT *)0, (TEXT *)0);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcmp", EMP, EMP);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(-1, (TEXT *)"TEXT_strcmp", EMP, X);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strcmp", X, EMP);    
     
-    tst++; err+= test_int_Fof_TPtr_TPtr(0, "TEXT_strcasecmp", XbAbY, XbBbY);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcasecmp", XbAbY, XbBbY, 3);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcasecmp", XbAbY, XbBbY, 6);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcasecmp", EMP, EMP, 1);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(-1, "TEXT_strCcasecmp", EMP, X, 1);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, "TEXT_strCcasecmp", X, EMP, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcasecmp", XbAbY, XbBbY);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, (TEXT *)"TEXT_strCcasecmp", XbAbY, XbBbY, 3);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, (TEXT *)"TEXT_strCcasecmp", XbAbY, XbBbY, 6);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, (TEXT *)"TEXT_strCcasecmp", EMP, EMP, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(-1, (TEXT *)"TEXT_strCcasecmp", EMP, X, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, (TEXT *)"TEXT_strCcasecmp", X, EMP, 1);    
 
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcmp", XbAbY, XbBbY, 4);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, "TEXT_strCcmp", XbAbY, XbBbY, 6);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, "TEXT_strCcmp", EMP, EMP, 1);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(-1, "TEXT_strCcmp", EMP, X, 1);    
-    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, "TEXT_strCcmp", X, EMP, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, (TEXT *)"TEXT_strCcmp", XbAbY, XbBbY, 4);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, (TEXT *)"TEXT_strCcmp", XbAbY, XbBbY, 6);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(0, (TEXT *)"TEXT_strCcmp", EMP, EMP, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(-1, (TEXT *)"TEXT_strCcmp", EMP, X, 1);    
+    tst++; err+= test_int_Fof_TPtr_TPtr_int(1, (TEXT *)"TEXT_strCcmp", X, EMP, 1);    
     
  
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, "TEXT_strstr", X, X);    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbAbY, "TEXT_strstr", XbAbY, X);    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, "TEXT_strstr", XbAbY, Y);    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, "TEXT_strstr", XbAbY, EMP);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_strstr", X, X);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbAbY, (TEXT *)"TEXT_strstr", XbAbY, X);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, (TEXT *)"TEXT_strstr", XbAbY, Y);    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, (TEXT *)"TEXT_strstr", XbAbY, EMP);    
 
     // Test TEXT* ___(TEXT *)
-    tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_strdup", X);
-    tst++; err+= test_TPtr_Fof_TPtr(XbA, "TEXT_strdup", XbA);
-    tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_skip_wspace", X);
-    tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_skip_wspace", bX);
-    tst++; err+= test_TPtr_Fof_TPtr(X, "TEXT_skip_wspace", bbX);
-    tst++; err+= test_TPtr_Fof_TPtr(EMP, "TEXT_skip_wspace", EMP);
+    tst++; err+= test_TPtr_Fof_TPtr(X, (TEXT *)"TEXT_strdup", X);
+    tst++; err+= test_TPtr_Fof_TPtr(XbA, (TEXT *)"TEXT_strdup", XbA);
+    tst++; err+= test_TPtr_Fof_TPtr(X, (TEXT *)"TEXT_skip_wspace", X);
+    tst++; err+= test_TPtr_Fof_TPtr(X, (TEXT *)"TEXT_skip_wspace", bX);
+    tst++; err+= test_TPtr_Fof_TPtr(X, (TEXT *)"TEXT_skip_wspace", bbX);
+    tst++; err+= test_TPtr_Fof_TPtr(EMP, (TEXT *)"TEXT_skip_wspace", EMP);
     
     // Test TEXT* ___(TEXT *, TEXT *)
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XY, "TEXT_add", X, Y);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbY, "TEXT_add", Xb, Y);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, "TEXT_add", Xb, Yb);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_add", Xb, EMP);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_add", EMP, Xb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XY, (TEXT *)"TEXT_add", X, Y);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbY, (TEXT *)"TEXT_add", Xb, Y);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, (TEXT *)"TEXT_add", Xb, Yb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, (TEXT *)"TEXT_add", Xb, EMP);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, (TEXT *)"TEXT_add", EMP, Xb);
     
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, "TEXT_strcat", (TEXT *)&buff, EMP);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_strcat", (TEXT *)&buff, Xb);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, "TEXT_strcat", (TEXT *)&buff, Yb);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, "TEXT_strcat", (TEXT *)&buff, EMP);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, (TEXT *)"TEXT_strcat", (TEXT *)&buff, EMP);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, (TEXT *)"TEXT_strcat", (TEXT *)&buff, Xb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, (TEXT *)"TEXT_strcat", (TEXT *)&buff, Yb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbYb, (TEXT *)"TEXT_strcat", (TEXT *)&buff, EMP);
 
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_strcat", (TEXT *)&buff, Xb);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbA, "TEXT_strcat", (TEXT *)&buff, A);     
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, (TEXT *)"TEXT_strcat", (TEXT *)&buff, Xb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbA, (TEXT *)"TEXT_strcat", (TEXT *)&buff, A);     
     TEXT_strcat((TEXT *)buff, b);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbAbY, "TEXT_strcat", (TEXT *)&buff, Y);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(XbAbY, (TEXT *)"TEXT_strcat", (TEXT *)&buff, Y);
 
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(A, "TEXT_strcat", (TEXT *)&buff, A);     
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(A, (TEXT *)"TEXT_strcat", (TEXT *)&buff, A);     
 
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "TEXT_strcpy", (TEXT *)&buff, Xb);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, "TEXT_strcpy", (TEXT *)&buff, EMP);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, (TEXT *)"TEXT_strcpy", (TEXT *)&buff, Xb);
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(EMP, (TEXT *)"TEXT_strcpy", (TEXT *)&buff, EMP);
     buff[0] = NULL_TEXT;
 
     // Test size_y __(TEXT *, TEXT *)
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", Xb, EMP); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", EMP, b); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", EMP, EMP); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strspn", Xb, b); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(1, "TEXT_strspn", bX, b);
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(2, "TEXT_strspn", llXrslYrrbX, lar); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strspn", Xb, EMP); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strspn", EMP, b); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strspn", EMP, EMP); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strspn", Xb, b); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(1, (TEXT *)"TEXT_strspn", bX, b);
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(2, (TEXT *)"TEXT_strspn", llXrslYrrbX, lar); 
 
     // strcspn
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(charSizeX * 3 + 1, "TEXT_strcspn", Xb, EMP); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", EMP, b); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", EMP, EMP); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(charSizeX * 3, "TEXT_strcspn", Xb, b); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", bX, b); 
-    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, "TEXT_strcspn", llXrslYrrbX, lar); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(charSizeX * 3 + 1, (TEXT *)"TEXT_strcspn", Xb, EMP); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcspn", EMP, b); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcspn", EMP, EMP); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(charSizeX * 3, (TEXT *)"TEXT_strcspn", Xb, b); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcspn", bX, b); 
+    tst++; err+= test_sizet_Fof_TPtr_TPtr(0, (TEXT *)"TEXT_strcspn", llXrslYrrbX, lar); 
 
     // strqtok
     TEXT_strcpy((TEXT *)&buff, lng);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, "TEXT_strqtok", (TEXT *)&buff, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, "TEXT_strqtok", (TEXT *)0, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(qXbYq, "TEXT_strqtok", (TEXT *)0, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, "TEXT_strqtok", (TEXT *)0, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, "TEXT_strqtok", (TEXT *)0, " ");    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_strqtok", (TEXT *)&buff, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, (TEXT *)"TEXT_strqtok", (TEXT *)0, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(qXbYq, (TEXT *)"TEXT_strqtok", (TEXT *)0, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_strqtok", (TEXT *)0, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, (TEXT *)"TEXT_strqtok", (TEXT *)0, (TEXT *)" ");    
 
     // strtok
     TEXT_strcpy((TEXT *)&buff, lng);
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, "TEXT_strtok", (TEXT *)&buff, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, "TEXT_strtok", (TEXT *)0, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(qX, "TEXT_strtok", (TEXT *)0, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Yq, "TEXT_strtok", (TEXT *)0, " ");
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, "TEXT_strtok", (TEXT *)0, " ");    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, "TEXT_strtok", (TEXT *)0, " ");    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_strtok", (TEXT *)&buff, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, (TEXT *)"TEXT_strtok", (TEXT *)0, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(qX, (TEXT *)"TEXT_strtok", (TEXT *)0, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Yq, (TEXT *)"TEXT_strtok", (TEXT *)0, (TEXT *)" ");
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_strtok", (TEXT *)0, (TEXT *)" ");    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr(Y, (TEXT *)"TEXT_strtok", (TEXT *)0, (TEXT *)" ");    
     
     // TEXT_delete_chars
     TEXT_strcpy((TEXT *)&buff, bX);
-    tst++; err+= test_void_Fof_TPtr_TPtr(X, "TEXT_delete_chars", (TEXT *)&buff, " ");    
-    tst++; err+= test_void_Fof_TPtr_TPtr(X, "TEXT_delete_chars", (TEXT *)&buff, EMP);    
+    tst++; err+= test_void_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_delete_chars", (TEXT *)&buff, (TEXT *)" ");    
+    tst++; err+= test_void_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_delete_chars", (TEXT *)&buff, EMP);    
     TEXT_strcpy((TEXT *)&buff, Xb);
-    tst++; err+= test_void_Fof_TPtr_TPtr(X, "TEXT_delete_chars", (TEXT *)&buff, " ");    
+    tst++; err+= test_void_Fof_TPtr_TPtr(X, (TEXT *)"TEXT_delete_chars", (TEXT *)&buff, (TEXT *)" ");    
     TEXT_strcpy((TEXT *)&buff, qXbYq);
-    tst++; err+= test_void_Fof_TPtr_TPtr(XY, "TEXT_delete_chars", (TEXT *)&buff, " \"");    
+    tst++; err+= test_void_Fof_TPtr_TPtr(XY, (TEXT *)"TEXT_delete_chars", (TEXT *)&buff, (TEXT *)" \"");    
     
     // TEXT_strcpy_escaped
     buff[0] = NULL_TEXT;
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(XbYb, "TEXT_strcpy_escaped", (TEXT *)&buff, XbYb, '"');    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(eqXbYeq, "TEXT_strcpy_escaped", (TEXT *)&buff, qXbYq, '"');    
-    tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(EMP, "TEXT_strcpy_escaped", (TEXT *)&buff, EMP, '"');    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(XbYb, (TEXT *)"TEXT_strcpy_escaped", (TEXT *)&buff, XbYb, '"');    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(eqXbYeq, (TEXT *)"TEXT_strcpy_escaped", (TEXT *)&buff, qXbYq, '"');    
+    tst++; err+= test_TPtr_Fof_TPtr_TPtr_T(EMP, (TEXT *)"TEXT_strcpy_escaped", (TEXT *)&buff, EMP, '"');    
 
     // TEXT_separate_chars  
     tst++; err+= test_separate_chars(EMP, EMP, CALI_DELHYPHEN);    
@@ -1077,44 +1077,44 @@ int unitTestTEXT(){
          tptr = XbAbY;
          *ttbuf = NULL_TEXT;
          //db = 20;
-         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, X);    
-         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, A);    
-         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, Y);    
-         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, "find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, ttbuf);    
+         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, X);    
+         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, A);    
+         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, Y);    
+         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, (TEXT *)"find_next_TEXT_token", &tptr, (TEXT *)&tbuf, 200, ttbuf);    
 
          // Test looking for bounding braces        
-         tptr = lX;    tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, "find_next_TEXT_token", &tptr, tbuf, 200, lX);    
-         tptr = lXr;   tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
-         tptr = blXrb; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
-         tptr = lbXbr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, lbXbr);
+         tptr = lX;    tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lX);    
+         tptr = lXr;   tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
+         tptr = blXrb; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
+         tptr = lbXbr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lbXbr);
          
-         tptr = lXrlYr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
-                        tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, lYr);    
-                        tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, "find_next_TEXT_token", &tptr, tbuf, 200, e);    
-         tptr = blXrblYrb; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
-                           tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, lYr);    
-         tptr = llXrslYrr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, llXrslYrr);    
-         tptr = llXrslYrrbX; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, llXrslYrr);    
+         tptr = lXrlYr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
+                        tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lYr);    
+                        tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, e);    
+         tptr = blXrblYrb; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lXr);    
+                           tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, lYr);    
+         tptr = llXrslYrr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, llXrslYrr);    
+         tptr = llXrslYrrbX; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, llXrslYrr);    
 //db = 23;
          // test looking for alternates
-         tptr = X; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_alternation", &tptr, tbuf, 200, X);    
-         tptr = XbY; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_alternation", &tptr, tbuf, 200, XbY);    
-         tptr = llXrslYrrbX; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_alternation", &tptr, tbuf, 200, llXrslYrrbX);    
-         tptr = llXrslYrr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_alternation", &tptr, tbuf, 200, llXrslYrr);    
-         tptr = lXrslYr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_alternation", &tptr, tbuf, 200, lXr);    
-                         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_alternation", &tptr, tbuf, 200, lYr);    
-                         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, "find_next_TEXT_alternation", &tptr, tbuf, 200, e);    
-         tptr = blbXbrbslYr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_alternation", &tptr, tbuf, 200, lbXbrb);    
+         tptr = X; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, X);    
+         tptr = XbY; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, XbY);    
+         tptr = llXrslYrrbX; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, llXrslYrrbX);    
+         tptr = llXrslYrr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, llXrslYrr);    
+         tptr = lXrslYr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, lXr);    
+                         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, lYr);    
+                         tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(0, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, e);    
+         tptr = blbXbrbslYr; tst++; err+= test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_alternation", &tptr, tbuf, 200, lbXbrb);    
 
-         tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "tokenize_TEXT_first_alt", Xb, (TEXT *)" \t");
-         tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, "tokenize_TEXT_first_alt", blbXbrbslYr, (TEXT *)" \t");
+         tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, (TEXT *)"tokenize_TEXT_first_alt", Xb, (TEXT *)" \t");
+         tst++; err+= test_TPtr_Fof_TPtr_TPtr(Xb, (TEXT *)"tokenize_TEXT_first_alt", blbXbrbslYr, (TEXT *)" \t");
 
          //{ TEXT test[20];
          //  TEXT_strcpy(test, (TEXT *)"a b { c d / c / e } e f g ");
          //  tptr = test;
-         //  test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, "a");    
-         //  test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, "b");    
-         //  test_int_Fof_TPtrPtr_TPtr_int(1, "find_next_TEXT_token", &tptr, tbuf, 200, "{ c d / c / e }");    
+         //  test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, "a");    
+         //  test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, "b");    
+         //  test_int_Fof_TPtrPtr_TPtr_int(1, (TEXT *)"find_next_TEXT_token", &tptr, tbuf, 200, "{ c d / c / e }");    
          //}       
      }
      // NetADT Testing
@@ -1139,13 +1139,13 @@ int unitTestTEXT(){
      }
      if (TEXT_get_encoding() == UTF8){
         printf("Testing UTF Code point computation and reversal\n");
-         tst++; err+= test_int_Fof_TPtr(Xcp[0], "TEXT_getUTFCodePoint", X);    
-         tst++; err+= test_int_Fof_TPtr(Xcp[1], "TEXT_getUTFCodePoint", X+charSizeX);    
-         tst++; err+= test_int_Fof_TPtr(Xcp[2], "TEXT_getUTFCodePoint", X+2*charSizeX);    
+         tst++; err+= test_int_Fof_TPtr(Xcp[0], (TEXT *)"TEXT_getUTFCodePoint", X);    
+         tst++; err+= test_int_Fof_TPtr(Xcp[1], (TEXT *)"TEXT_getUTFCodePoint", X+charSizeX);    
+         tst++; err+= test_int_Fof_TPtr(Xcp[2], (TEXT *)"TEXT_getUTFCodePoint", X+2*charSizeX);    
        
-         tst++; err+= test_TPtr_Fof_int(X+charSizeX*0, "TEXT_UTFCodePointToTEXT", Xcp[0], 1);    
-         tst++; err+= test_TPtr_Fof_int(X+charSizeX*1, "TEXT_UTFCodePointToTEXT", Xcp[1], 1);    
-         tst++; err+= test_TPtr_Fof_int(X+charSizeX*2, "TEXT_UTFCodePointToTEXT", Xcp[2], 1);    
+         tst++; err+= test_TPtr_Fof_int(X+charSizeX*0, (TEXT *)"TEXT_UTFCodePointToTEXT", Xcp[0], 1);    
+         tst++; err+= test_TPtr_Fof_int(X+charSizeX*1, (TEXT *)"TEXT_UTFCodePointToTEXT", Xcp[1], 1);    
+         tst++; err+= test_TPtr_Fof_int(X+charSizeX*2, (TEXT *)"TEXT_UTFCodePointToTEXT", Xcp[2], 1);    
                 
      }
      printf("\n");
@@ -1174,10 +1174,10 @@ int unitTestTEXT(){
            lc = (TEXT *)&lcD;
         }
         printf("UC /%s/, LC /%s/\n", uc, lc);
-        TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
-        TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
-        TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);    
-        TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);            
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, (TEXT *)"TEXT_str_to_master", tmp, 1);    
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, (TEXT *)"TEXT_str_to_master", tmp, 1);    
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, (TEXT *)"TEXT_str_to_master", tmp, 0);    
+        TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, (TEXT *)"TEXT_str_to_master", tmp, 0);            
      }
     // Check for expansion of a field
   
@@ -1187,29 +1187,29 @@ int unitTestTEXT(){
      TEXT_strCcpy(uc+2,TEXT_UTFCodePointToTEXT(0x49),1); TEXT_strCcpy(lc+4,TEXT_UTFCodePointToTEXT(0x131),1);
      printf("UC /%s/, LC /%s/\n", uc, lc);
 
-     TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
-     TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, "TEXT_str_to_master", tmp, 1);    
-     TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);    
-     TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, "TEXT_str_to_master", tmp, 0);            
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, (TEXT *)"TEXT_str_to_master", tmp, 1);    
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(lc, (TEXT *)"TEXT_str_to_master", tmp, 1);    
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)uc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, (TEXT *)"TEXT_str_to_master", tmp, 0);    
+     TEXT_strcpy((TEXT *)&tmp, (TEXT *)lc); tst++; err+= test_TPtr_Fof_TPtr_int(uc, (TEXT *)"TEXT_str_to_master", tmp, 0);            
 
      { 
         TEXT *ws;
         int ws_len;
         
         ws = TEXT_strdup(uc);  ws_len = TEXT_strlen(ws) + 1; tst++;
-        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 1, lc);
+        err += test_void_Fof_TPtrPtr_IntPtr_int((TEXT *)"TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 1, lc);
         free_singarr(ws, TEXT);
         
         ws = TEXT_strdup(lc);  ws_len = TEXT_strlen(ws) + 1; tst++;
-        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 1, lc);
+        err += test_void_Fof_TPtrPtr_IntPtr_int((TEXT *)"TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 1, lc);
         free_singarr(ws, TEXT);
         
         ws = TEXT_strdup(uc);  ws_len = TEXT_strlen(ws) + 1; tst++;
-        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 0, uc);
+        err += test_void_Fof_TPtrPtr_IntPtr_int((TEXT *)"TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 0, uc);
         free_singarr(ws, TEXT);
         
         ws = TEXT_strdup(lc);  ws_len = TEXT_strlen(ws) + 1; tst++;
-        err += test_void_Fof_TPtrPtr_IntPtr_int("TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 0, uc);
+        err += test_void_Fof_TPtrPtr_IntPtr_int((TEXT *)"TEXT_str_case_change_with_mem_expand", &ws, &ws_len, 0, uc);
         free_singarr(ws, TEXT);
       }
     TEXT_set_lang_prof("generic");

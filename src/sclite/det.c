@@ -31,13 +31,14 @@ int make_SCORES_DET_curve(SCORES *scor[], int nscor, char *outroot, int feedback
       "\"50\" 0.0, \"60\" 0.25, \"70\" 0.52, \"80\" 0.84, \"90\" 1.28, "
       "\"95\" 1.64, \"98\" 2.05, \"99.5\" 2.57, \"99.9\" 3.08)";
 
-    if (feedback >= 1)
-      if (hyp_confidences_available(scor[0]))
+    if (feedback >= 1){
+      if (hyp_confidences_available(scor[0])) {
         printf("    Writing DET Curve to '%s.det.[plt,dat]'\n",outroot);
-      else {
+      } else {
         printf("    Skipping DET Curve, no confidence scores supplied.\n");
 	return 0;
       }
+    }
     
     /* output the DET Curve GNUPLUT command file */
     if ((fpd = fopen(rsprintf("%s.det.plt",outroot),"w")) == (FILE *)0){
@@ -322,14 +323,15 @@ int make_confidence_histogram(SCORES *scor, char *outroot, int feedback){
     FILE *fp_dat1, *fp_plt;
     int rtn, b, nbin = 100;
 
-    if (feedback >= 1)
-      if (hyp_confidences_available(scor))
+    if (feedback >= 1){
+      if (hyp_confidences_available(scor)) {
         printf("    Writing Confidence Histogram '%s.hist.[plt,dat]'\n",
 	       outroot);
-      else {
+      } else {
         printf("    Skipping Confidence Histogram, no confidence scores supplied.\n");
 	return 0;
       }
+    }
     
     /* allocate memory */
     alloc_2dimZ(hist,nbin,NUM_H_ELEM,double,0.0);
@@ -394,15 +396,16 @@ int make_binned_confidence(SCORES *scor, char *outroot, int feedback){
     FILE *fp_dat1, *fp_plt;
     int rtn, b, nbin = 10;
 
-    if (feedback >= 1)
-      if (hyp_confidences_available(scor))
+    if (feedback >= 1){
+      if (hyp_confidences_available(scor)) {
         printf("    Writing Binned Histogram '%s.bhist.[plt,dat1]'\n",
 	       outroot);
-      else {
+      } else {
         printf("    Skipping Binned Histogram, no confidence scores supplied.\n");
 	return 0;
       }
-
+    }
+    
     /* allocate memory */
     alloc_2dimZ(hist,nbin,NUM_H_ELEM,double,0.0);
 
@@ -461,7 +464,7 @@ int make_scaled_binned_confidence(SCORES *scor, char *outroot, int bins, int fee
   double *conf;
   FILE *fp_dat, *fp_plt;
 
-  if (feedback >= 1)
+  if (feedback >= 1){
     if (hyp_confidences_available(scor))
       printf("    Writing Scaled Binned Histogram '%s.sbhist.[plt,dat]'\n",
 	     outroot);
@@ -469,6 +472,7 @@ int make_scaled_binned_confidence(SCORES *scor, char *outroot, int bins, int fee
       printf("    Skipping Scaled Binned Histogram, no confidence scores supplied.\n");
       return 0;
     }
+  }
 
   /* algo, :
      1: make a list of all confidences, with either corr or incorr flags

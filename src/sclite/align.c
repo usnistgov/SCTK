@@ -27,10 +27,10 @@ void remove_id(TEXT *utt, TEXT **id, int *id_len){
 
     **id = NULL_TEXT;
 
-    if (R_paren == NULL_TEXT && L_paren == NULL_TEXT)	
+    if (R_paren == NULL && L_paren == NULL)	
 	return;
 
-    if (R_paren == NULL_TEXT || L_paren == NULL_TEXT){
+    if (R_paren == NULL || L_paren == NULL){
 	fprintf(stderr,"Error: Unparsable utterance id %s\n",utt);
 	exit(1);
     }
@@ -61,8 +61,8 @@ int extract_speaker(TEXT *id, TEXT *sname, enum id_types idt){
       case RM:
       case SPUID:
       case SWB:
-	if (((p = TEXT_strchr(id,'-')) == NULL_TEXT) &&
-	    ((p = TEXT_strchr(id,'_')) == NULL_TEXT)){
+	if (((p = TEXT_strchr(id,'-')) == NULL) &&
+	    ((p = TEXT_strchr(id,'_')) == NULL)){
 	    fprintf(stderr,"Error: %s can't locate ",proc);
 	    switch (idt){
 	      case RM: 	   fprintf(stderr,"%s id %s\n","RM",id); break;

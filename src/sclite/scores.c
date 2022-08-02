@@ -278,7 +278,7 @@ void dump_SCORES_sgml(SCORES *sc, FILE *fp, TEXT *token_separator, TEXT *token_a
 		            formatWordForSGML((WORD *)path->pset[w].b_ptr, bufB));
 		}
 		/* Extra attributes */
-		if (BF_isSET(path->attrib,PA_REF_WTIMES))
+		if (BF_isSET(path->attrib,PA_REF_WTIMES)){
 		    if (path->pset[w].eval != P_INS)
 			fprintf(fp,"%s%.3f+%.3f",
 				token_attribute_separator, 
@@ -286,7 +286,8 @@ void dump_SCORES_sgml(SCORES *sc, FILE *fp, TEXT *token_separator, TEXT *token_a
 				((WORD *)path->pset[w].a_ptr)->T2);
 		    else
 			fprintf(fp,"%s",token_attribute_separator);
-		if (BF_isSET(path->attrib,PA_HYP_WTIMES))
+		}
+		if (BF_isSET(path->attrib,PA_HYP_WTIMES)) {
 		    if (path->pset[w].eval != P_DEL)
 			fprintf(fp,"%s%.3f+%.3f",
 				token_attribute_separator, 
@@ -294,35 +295,39 @@ void dump_SCORES_sgml(SCORES *sc, FILE *fp, TEXT *token_separator, TEXT *token_a
 				((WORD *)path->pset[w].b_ptr)->T2);
 		    else
 			fprintf(fp,"%s",token_attribute_separator);
-		if (BF_isSET(path->attrib,PA_REF_CONF))
+		}
+		if (BF_isSET(path->attrib,PA_REF_CONF)) {
 		    if (path->pset[w].eval != P_INS)
 			fprintf(fp,"%s%f",
 				token_attribute_separator,
 				((WORD *)path->pset[w].a_ptr)->conf);
 		    else
 			fprintf(fp,"%s",token_attribute_separator);
-		if (BF_isSET(path->attrib,PA_HYP_CONF))
+		}
+		if (BF_isSET(path->attrib,PA_HYP_CONF)) {
 		    if (path->pset[w].eval != P_DEL)
 			fprintf(fp,"%s%f",
 				token_attribute_separator, 
 				((WORD *)path->pset[w].b_ptr)->conf);
 		    else
 			fprintf(fp,"%s",token_attribute_separator);
-		if (BF_isSET(path->attrib,PA_REF_WEIGHT))
+		}
+		if (BF_isSET(path->attrib,PA_REF_WEIGHT)) {
 		    if (path->pset[w].eval != P_INS)
 			fprintf(fp,"%s%f",
 				token_attribute_separator, 
 				((WORD *)path->pset[w].a_ptr)->weight);
 		    else
 			fprintf(fp,"%s",token_attribute_separator);
-		if (BF_isSET(path->attrib,PA_HYP_WEIGHT))
+		}
+		if (BF_isSET(path->attrib,PA_HYP_WEIGHT)) {
 		    if (path->pset[w].eval != P_DEL)
 			fprintf(fp,"%s%f",
 				token_attribute_separator, 
 				((WORD *)path->pset[w].b_ptr)->weight);
 		    else
 			fprintf(fp,"%s",token_attribute_separator);
-
+		}
 		if (w < path->num-1) fprintf(fp,"%s",token_separator);
 	    }
 	    fprintf(fp,"\n</PATH>\n");
@@ -502,7 +507,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 					   " and recompile",max_word_aux);
 			    goto FAIL;
 			}
-			if ((tp2 = TEXT_strchr(tp,','))==NULL_TEXT){
+			if ((tp2 = TEXT_strchr(tp,','))==NULL){
 			    tp2 = tp + TEXT_strlen(tp);
 			}
 			if (dbg) fprintf(scfp,"%s: Aux str '%s'\n",proc,tp);
@@ -598,12 +603,12 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 		path->pset[path->num].a_ptr = wd1 = NULL_WORD;
 		path->pset[path->num].b_ptr = wd2 = NULL_WORD;
 		if (path->pset[path->num].eval != P_INS){
-		  wd1 = new_WORD(NULL_TEXT, -1, 0.0, 0.0, 0.0, NULL_TEXT, NULL_TEXT,
+		  wd1 = new_WORD((TEXT *)NULL, -1, 0.0, 0.0, 0.0, (TEXT *)NULL, (TEXT *)NULL,
 				 0, 0, -1.0);
 		  path->pset[path->num].a_ptr = wd1;
 		}
 		if (path->pset[path->num].eval != P_DEL){
-		  wd2 = new_WORD(NULL_TEXT, -1, 0.0, 0.0, 0.0, NULL_TEXT, NULL_TEXT,
+		  wd2 = new_WORD((TEXT *)NULL, -1, 0.0, 0.0, 0.0, (TEXT *)NULL, (TEXT *)NULL,
 				 0, 0, -1.0);
 		  path->pset[path->num].b_ptr = wd2;
 		}
@@ -664,7 +669,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 				    "than defined\n");
 			}
 			/* handle the auxilliary values */
-			if ((p2 = TEXT_strchr(p1+1,',')) == NULL_TEXT)
+			if ((p2 = TEXT_strchr(p1+1,',')) == NULL)
 			    p2 = p1 + TEXT_strlen(p1);
 			if (p2 == p1+1) {
 			    p1++; /* an empty item */
@@ -674,7 +679,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 			    switch(word_aux_fields[aux_val]){
 			      case PA_REF_WTIMES:
 				if (path->pset[path->num].eval != P_INS){
-				    if ((p3 = TEXT_strchr(p1,'+'))==NULL_TEXT){
+				    if ((p3 = TEXT_strchr(p1,'+'))==NULL){
 					msg = rsprintf("Illegal auxiliary time"
 						   " format '%s'",p1);
 				    }
@@ -688,7 +693,7 @@ int load_SCORES_sgml(FILE *fp, SCORES **scor, int *nscor, int maxn)
 				break;
 			      case PA_HYP_WTIMES:	
 				if (path->pset[path->num].eval != P_DEL){
-				    if ((p3 = TEXT_strchr(p1,'+'))==NULL_TEXT){
+				    if ((p3 = TEXT_strchr(p1,'+'))==NULL){
 					msg = rsprintf("Illegal auxiliary time"
 						   " format '%s'",p1);
 				    }
@@ -1309,13 +1314,14 @@ void print_system_summary(SCORES *sc, char *sys_root_name, int do_sm, int do_raw
 	}
 	Desc_set_iterated_value(rsprintf(pct_fmt,
 					 F_ROUND(serr_arr[spkr],prec)));
-	if (has_hyp_conf)
+	if (has_hyp_conf){
 	  if (word_num_arr[spkr] > 0){
  	    Desc_set_iterated_value(rsprintf(nce_fmt,
 					     F_ROUND(nce_arr[spkr],nce_prec)));
 	  } else {
  	    Desc_set_iterated_value(rsprintf("# "));
 	  }
+	}
 	Desc_flush_iterated_row();
     }
     Desc_add_row_separation('=',BEFORE_ROW); 

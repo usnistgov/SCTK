@@ -226,10 +226,10 @@ WORD *get_WORD(void){
     tw->weight = -1.0;
     tw->opt_del = FALSE;
     tw->frag_corr = FALSE;
-    tw->value = NULL_TEXT;
-    tw->intern_value = NULL_TEXT;
-    tw->tag1 = NULL_TEXT;
-    tw->tag2 = NULL_TEXT;
+    tw->value = (TEXT *)NULL;
+    tw->intern_value = (TEXT *)NULL;
+    tw->tag1 = (TEXT *)NULL;
+    tw->tag2 = (TEXT *)NULL;
     tw->value_id = -1;
     tw->T1 = tw->T2 = tw-> T_dur = 0.0;
     return(tw);
@@ -327,10 +327,10 @@ void release_WORD(void *p){
     tw->use --;
     if (tw->use != 0)
 	return;
-    if (tw->value != NULL_TEXT)	TEXT_free(tw->value);
-    if (tw->intern_value != NULL_TEXT) TEXT_free(tw->intern_value);
-    if (tw->tag1 != NULL_TEXT)	TEXT_free(tw->tag1);
-    if (tw->tag2 != NULL_TEXT)	TEXT_free(tw->tag2);
+    if (tw->value != (TEXT *)NULL)	TEXT_free(tw->value);
+    if (tw->intern_value != (TEXT *)NULL) TEXT_free(tw->intern_value);
+    if (tw->tag1 != (TEXT *)NULL)	TEXT_free(tw->tag1);
+    if (tw->tag2 != (TEXT *)NULL)	TEXT_free(tw->tag2);
     free_singarr(tw,WORD);
 
 }

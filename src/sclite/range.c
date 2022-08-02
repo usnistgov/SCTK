@@ -351,7 +351,7 @@ static void print_gnu_range_graph(RANK *rank, char *percent_desc, char *testname
 	    (for_blks) ? ".spk" : ".sys"));
     dat_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".dat"));
     /* make the datafiles for the treatements */
-    if ((fp_dat = fopen(dat_name,"w")) == (FILE *)0){
+    if ((fp_dat = fopen((char *)dat_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT data file %s\n",
 		dat_name);
 	exit(1);
@@ -359,19 +359,19 @@ static void print_gnu_range_graph(RANK *rank, char *percent_desc, char *testname
 	if (feedback >= 1) printf("        Output written to '%s.*'\n",basename);
 
     mean_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".mean"));
-    if ((fp_mean = fopen(mean_name,"w")) == (FILE *)0){
+    if ((fp_mean = fopen((char *)mean_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT data file %s\n",
 		mean_name);
 	exit(1);
     }
     median_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".median"));
-    if ((fp_median = fopen(median_name,"w")) == (FILE *)0){
+    if ((fp_median = fopen((char *)median_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT data file %s\n",
 		median_name);
 	exit(1);
     }
     plt_name = TEXT_strdup((TEXT *)rsprintf("%s%s",basename,".plt"));
-    if ((fp_plt = fopen(plt_name,"w")) == (FILE *)0){
+    if ((fp_plt = fopen((char *)plt_name,"w")) == (FILE *)0){
 	fprintf(stderr,"Error: unable to open GNUPLOT file %s\n",
 		plt_name);
 	exit(1);

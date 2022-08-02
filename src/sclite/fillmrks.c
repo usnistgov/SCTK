@@ -238,7 +238,8 @@ db_enter_msg(proc,0); /* debug only */
    while ((i <= n)&&(*(word_tokens->word[i].turn) != '*')) i++;
    if (i <= n)
        {xconv = strcpy(xconv,word_tokens->word[i-1].turn);
-	for (j=i-1; ((j > 0)&&streq(word_tokens->word[j].turn,xconv)); j--);
+	for (j=i-1; ((j > 0)&&streq(word_tokens->word[j].turn,xconv)); j--)
+	  ;
         {word_tokens->word[j].overlapped = T;
      }  }
  RETURN:

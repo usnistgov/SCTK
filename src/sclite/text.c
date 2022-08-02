@@ -486,6 +486,8 @@ int TEXT_nbytes_of_char(TEXT *p){
             }
         }
     }
+    fprintf(stderr, "Error: Internal Error for TEXT_nbytes_of_char\n");
+    exit(1);    
 }
    
 // tested                                                                                     
@@ -867,7 +869,7 @@ int TEXT_strCcmp(TEXT *p, TEXT *p1, int n){
 }
 
 int TEXT_strBcmp(TEXT *p, TEXT *p1, int n){
-    return(strncmp(p, p1, n));
+  return(strncmp((const char *)p, (const char *)p1, n));
 }
 
 //  tested

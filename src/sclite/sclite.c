@@ -181,7 +181,7 @@ int main(int argc, char **argv){
 	      if (hroot-hypname[nh] + 1 > hdirLen){
 		expand_singarr_to_size(hdir,(hroot-hypname[nh]),hdirLen,hroot-hypname[nh]+1,TEXT);
 	      }
-	      TEXT_strBcpy(hdir,hypname[nh],hroot-hypname[nh]);
+	      TEXT_strBcpy((TEXT *)hdir,(TEXT *)hypname[nh],hroot-hypname[nh]);
 	      hroot++;
 	    } else {
 		hroot = hypname[nh];
@@ -198,7 +198,7 @@ int main(int argc, char **argv){
 	      if (outrootLen < TEXT_strlen((TEXT *)name)+1){
 		expand_singarr(outroot,TEXT_strlen((TEXT *)name),outrootLen,1.5,TEXT);
 	      }
-              TEXT_strcpy(outroot, name);	      
+              TEXT_strcpy(outroot, (TEXT *)name);	      
 	    }
 	    if (strcmp(reffmt,"trn") == 0 && strcmp(hypfmt[nh],"trn") == 0)
 		if (!use_diff)
@@ -265,19 +265,19 @@ int main(int argc, char **argv){
 	} else { /* input came from piped input */
 	    /* Set up the output root name */
 	    if ((hroot = strrchr(scor[nsc]->title,'/')) != NULL){
-		strncpy(hdir,scor[nsc]->title,hroot-scor[nsc]->title);
+		strncpy((char *)hdir,scor[nsc]->title,hroot-scor[nsc]->title);
 		hdir[hroot-scor[nsc]->title] = '\0';
 		hroot++;
 	    } else {
 		hroot = scor[nsc]->title;
-		strcpy(hdir,".");
+		strcpy((char *)hdir,".");
 	    }
 	    if ((out_dir != (char *)0) ||
 		strcmp(((out_dir != (char *)0) ? out_dir : (char *)hdir),".") != 0)
-	      sprintf(outroot,"%s/%s",((out_dir != (char *)0) ? out_dir : (char *)hdir),
+	      sprintf((char *)outroot,"%s/%s",((out_dir != (char *)0) ? out_dir : (char *)hdir),
 		      (out_name != (char *)0) ? out_name : hroot);
 	    else
-	      sprintf(outroot,"%s",(out_name != (char *)0) ? out_name : hroot);
+	      sprintf((char *)outroot,"%s",(out_name != (char *)0) ? out_name : hroot);
 	}	    
 	
 	if (BF_isSET(outputs,OUT_SUM))
@@ -356,16 +356,16 @@ int main(int argc, char **argv){
 	    if (fp != stdout) fclose(fp);
 	}
 	if (BF_isSET(conf_outputs,CONF_OUT_DET))
-	  if (make_SCORES_DET_curve(&(scor[nsc]),1,outroot,feedback,"") != 0)
+	  if (make_SCORES_DET_curve(&(scor[nsc]),1,(char *)outroot,feedback,"") != 0)
 	    errors++;
 	if (BF_isSET(conf_outputs,CONF_OUT_BHIST))
-	    if (make_binned_confidence(scor[nsc],outroot,feedback) != 0)
+	  if (make_binned_confidence(scor[nsc],(char *)outroot,feedback) != 0)
 	        errors++;
 	if (BF_isSET(conf_outputs,CONF_OUT_HIST))
-  	    if (make_confidence_histogram(scor[nsc],outroot,feedback) != 0)
+	  if (make_confidence_histogram(scor[nsc],(char *)outroot,feedback) != 0)
 	        errors++;
 	if (BF_isSET(conf_outputs,CONF_OUT_SBHIST))
-	    if (make_scaled_binned_confidence(scor[nsc],outroot,20,feedback) != 0)
+	  if (make_scaled_binned_confidence(scor[nsc],(char *)outroot,20,feedback) != 0)
 	        errors++;
 	
     }
@@ -379,11 +379,12 @@ int main(int argc, char **argv){
         SCORES_free(scor[nsc]);
     if (wwl != (WWL *)0) free_WWL(&wwl);
 
-    if (feedback >= 1) 
+    if (feedback >= 1) {
         if (errors == 0)
 	    printf("\nSuccessful Completion\n");
 	else
   	    printf("\nUnsuccessful Completion\n");
+    }
     return(0);
 }
 

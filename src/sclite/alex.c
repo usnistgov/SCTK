@@ -144,7 +144,7 @@ TEXT *AUTO_LEX_get(AUTO_LEX *alex, int ind){
     if (ind >= 0 && ind < alex->num)
 	return(alex->str[ind]);
     else
-	return(NULL_TEXT);
+      return((TEXT *)NULL);
 }
        
 void AUTO_LEX_dump(AUTO_LEX *alex, FILE *fp){

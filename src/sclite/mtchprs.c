@@ -586,7 +586,7 @@ void count_seg(PATH *snt1, PATH *snt2, int beg1, int beg2, int end1, int end2, S
 
     if (dbg)
       printf("Count Segment: segment# %3d:  sys1=[beg=%d,end=%d,ref=%d,err=%d] sys2=[beg=%d,end=%d,ref=%d,err=%d]\n",
-	     *num_seg,beg1,end1,ref1,err1,beg2,end2,ref2,1,err2);
+	     *num_seg,beg1,end1,ref1,err1,beg2,end2,ref2,err2);
 
     if (err1 == 0 && err2 == 0){
       fprintf(scfp,"Warning: MAPSSWE segmentation produced a segment with"

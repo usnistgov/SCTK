@@ -123,10 +123,10 @@ int compute_signtest_for_treatment(RANK *rank, int treat1, int treat2, char *blo
         sum_trt1 = sum_trt2 = 0.0;
         fprintf(fp,"%s\n",center("Sign Test Calculations Table Comparing",
 				 paper_width));
-        title_line = TEXT_strdup(rsprintf("%s %s Percentages for Systems %s and %s",
+        title_line = TEXT_strdup((TEXT *)rsprintf("%s %s Percentages for Systems %s and %s",
 		block_id, formula_str,rank->trt_name[tptr[0]],
 		rank->trt_name [ tptr[1] ] ));
-        fprintf(fp,"%s\n",center(title_line,paper_width));
+        fprintf(fp,"%s\n",center((char *)title_line,paper_width));
         fprintf(fp,"%s\n\n",center(thresh_str,paper_width));
 
         fprintf(fp,"%s",center("",(paper_width - rep_width)/2));
@@ -189,12 +189,12 @@ int compute_signtest_for_treatment(RANK *rank, int treat1, int treat2, char *blo
         fprintf(fp,pct_format,sum_trt2 /rank->n_blk );
         fprintf(fp,"\n\n");
 
-        sprintf(title_line,"No. Speakers with Positive %s Differences = N(+) = %2d",formula_str,sum_plus);
-        fprintf(fp,"%s\n",center(title_line,paper_width));
-        sprintf(title_line,"No. Speakers with Negative %s Differences = N(-) = %2d",formula_str,sum_minus);
-        fprintf(fp,"%s\n",center(title_line,paper_width));
-        sprintf(title_line,"No. Speakers with No %s Differences = N(0) = %2d",formula_str,sum_equal);
-        fprintf(fp,"%s\n",center(title_line,paper_width));
+        sprintf((char *)title_line,"No. Speakers with Positive %s Differences = N(+) = %2d",formula_str,sum_plus);
+        fprintf(fp,"%s\n",center((char *)title_line,paper_width));
+        sprintf((char *)title_line,"No. Speakers with Negative %s Differences = N(-) = %2d",formula_str,sum_minus);
+        fprintf(fp,"%s\n",center((char *)title_line,paper_width));
+        sprintf((char *)title_line,"No. Speakers with No %s Differences = N(0) = %2d",formula_str,sum_equal);
+        fprintf(fp,"%s\n",center((char *)title_line,paper_width));
         fprintf(fp,"\n\n");
     }
 

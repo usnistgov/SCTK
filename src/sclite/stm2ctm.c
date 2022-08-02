@@ -165,13 +165,13 @@ static int align_one_channel(SCORES *scor, int chan, WTOKE_STR1 *hyp_segs, STM *
 	    ignore_segment = 1;
 	}
 
-	if (feedback >= 1)
+	if (feedback >= 1){
 	    if (ignored_refseg > 0)
 	        printf(" (%d Ignored Segments, %d Ignored Hyp Words.)    ",
 		       ignored_refseg,ignored_hypword);
 	    else
 	        printf("    ");
-
+	}
 	if (ignore_segment){
 	    curhyp = curhend + 1;
 	    continue;
