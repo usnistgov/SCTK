@@ -486,7 +486,7 @@ int chop_WTOKE_2(WTOKE_STR1 *ref, WTOKE_STR1 *hyp, int Rstart, int Hstart, int R
 			   overlap(ref->word[Rend].t1,
 				   ref->word[Rend].t1+ref->word[Rend].dur,
 				   hyp->word[Hend].t1,
-				  hyp->word[Hend].t1+ref->word[Hend].dur)<0.0){
+				  hyp->word[Hend].t1+hyp->word[Hend].dur)<0.0){
 			for (Rend--;
 			     Rend >= Rstart && ref->word[Rend].alternate; ) {
 			    Rend--;

@@ -44,74 +44,74 @@ Eval: I D                                              I  S    D             S  
 id: (5555-a-0004)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 22 9 7 1
-REF:  I    HAVE a problem with it i think that you know IF someone wants to come IN AND *** they can prove that they're going to work and THEY'RE GOING TO BE  A GOOD CITIZEN       THAT WE SHOULDN'T CLOSE 
-HYP:  HAVE **** a problem with it i think that you know ** someone wants to come ** IN  AND they can prove that they're going to work and THEY    GET   A  BIG * **** CONSIDERATION THE  ** ********* WAS   
-Eval: S    D                                            D                        D  S   I                                                 S       S     S  S   D D    S             S    D  D         S     
+Scores: (#C #S #D #I) 22 9 9 1
+REF:  I    HAVE a problem with it i think that you know IF someone wants to come IN AND *** they can prove that they're going to work and THEY'RE GOING TO BE  A GOOD CITIZEN       THAT WE SHOULDN'T CLOSE OUR DOOR 
+HYP:  HAVE **** a problem with it i think that you know ** someone wants to come ** IN  AND they can prove that they're going to work and THEY    GET   A  BIG * **** CONSIDERATION THE  ** ********* WAS   *** **** 
+Eval: S    D                                            D                        D  S   I                                                 S       S     S  S   D D    S             S    D  D         S     D   D    
 
 id: (5555-a-0005)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 29 8 10 2
-REF:  OUR DOOR AND YOU know i i believe that IF someone goes on welfare that's when YOU you know SEND THEM BACK  TO THEIR country and i think a lot ** OF times WE'RE so busy trying ** TO keep THEM OUT     THAT WE'RE spending twice as much money 
-HYP:  *** **** YOU *** know i i believe that ** someone goes on welfare that's when *** you know SOME OF   MATCH ** IT    country and i think a lot OF ** times ARE   so busy trying TO ** keep THE  MONTHLY **** ***** spending twice as much money 
-Eval: D   D    S   D                         D                                      D            S    S    S     D  S                               I  D        S                    I  D       S    S       D    D                                  
+Scores: (#C #S #D #I) 32 11 8 2
+REF:  AND YOU know i i believe that IF someone goes on welfare that's when YOU you know SEND THEM BACK  TO THEIR country and i think a lot ** OF times WE'RE so busy trying ** TO keep THEM OUT     THAT WE'RE spending twice as much money as WE  would JUST  ALLOWING them 
+HYP:  YOU *** know i i believe that ** someone goes on welfare that's when *** you know SOME OF   MATCH ** IT    country and i think a lot OF ** times ARE   so busy trying TO ** keep THE  MONTHLY **** ***** spending twice as much money as YOU would STILL ON       them 
+Eval: S   D                         D                                      D            S    S    S     D  S                               I  D        S                    I  D       S    S       D    D                                     S         S     S             
 
 id: (5555-a-0006)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 27 6 1 0
-REF:  as WE  would JUST  ALLOWING them IN  and yeah and that's that's what i think YOU KNOW i i have to laugh because like i said i WORKED with a lot of those and 
-HYP:  as YOU would STILL ON       them AND and yeah and that's that's what i think AND **** i i have to laugh because like i said i WORK   with a lot of those and 
-Eval:    S         S     S             S                                           S   D                                            S                              
+Scores: (#C #S #D #I) 39 8 4 1
+REF:  IN  and yeah and that's that's what i think YOU KNOW i i have to laugh because like i said i WORKED with a lot of those and THEY'D been ** DEPORTED two or three times and just basically WHAT they do is they get CAUGHT WHEN THEY WANTED to go HOME 
+HYP:  AND and yeah and that's that's what i think AND **** i i have to laugh because like i said i WORK   with a lot of those and IT'S   been TO PUERTO   two or three times and just basically **** they do is they get COME   AND  **** WANT   to go **** 
+Eval: S                                           S   D                                            S                              S           I  S                                              D                        S      S    D    S            D    
 
 id: (5555-a-0007)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 35 8 7 4
-REF:  THEY'D been ** DEPORTED two or three times and just basically WHAT they do is they get CAUGHT WHEN THEY WANTED to go HOME FOR christmas OR for any ** *** **** OTHER TIME BUT  i think you know i think ALL IN all there's a lot of improvements i think the general idea 
-HYP:  IT'S   been TO PUERTO   two or three times and just basically **** they do is they get COME   AND  **** WANT   to go **** TO  christmas ** for any OF THE TIME ***** **** THAT i think you know i think ON  ** all there's a lot of improvements i think the general idea 
-Eval: S           I  S                                              D                        S      S    D    S            D    S             D          I  I   I    D     D    S                             S   D                                                             
+Scores: (#C #S #D #I) 38 8 5 5
+REF:  FOR christmas OR for any ** *** **** OTHER TIME BUT  i think you know i think ALL IN all there's a lot of improvements i think the general idea is GOOD but but THERE could be some WORK DONE in the area well good ** anyway DO YOU have anything else in the ** the 
+HYP:  TO  christmas ** for any OF THE TIME ***** **** THAT i think you know i think ON  ** all there's a lot of improvements i think the general idea is IT   but but THEY  could be some WITH AND  in the area well good AT anyway TO *** have anything else in the UH the 
+Eval: S             D          I  I   I    D     D    S                             S   D                                                                S            S                   S    S                          I         S  D                             I      
 
 id: (5555-a-0008)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 28 10 5 4
-REF:  is GOOD but but THERE could be some WORK DONE in the area well good ** anyway DO YOU have anything else in the ** the subject UM    THAT YOU MIGHT WANT   TO TALK * ABOUT yeah ABSOLUTELY **** i think a lot of times we take 
-HYP:  is IT   but but THEY  could be some WITH AND  in the area well good AT anyway ** TO  have anything else in the UH the subject THERE **** *** I     WANTED ** TO   A ***** yeah SO         THAT i think a lot of times we take 
-Eval:    S            S                   S    S                          I         D  S                             I              S     D    D   S     S      D  S    I D          S          I                                   
+Scores: (#C #S #D #I) 22 12 8 2
+REF:  subject UM    THAT YOU MIGHT WANT   TO TALK * ABOUT yeah ABSOLUTELY **** i think a lot of times we take you know basically WHO WE  want to because if YOU  if YOU HAVE CONNECTIONS IT'S A LOT       EASIER to get in yeah AND 
+HYP:  subject THERE **** *** I     WANTED ** TO   A ***** yeah SO         THAT i think a lot of times we take you know basically *** WHO want to because if YEAH if THE **** CONNECTION  **** * SOCIETIES AND    to get in yeah BUT 
+Eval:         S     D    D   S     S      D  S    I D          S          I                                                      D   S                      S       S   D    S           D    D S         S                     S   
 
 id: (5555-a-0009)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 31 14 4 0
-REF:  you know basically WHO WE  want to because if YOU  if YOU HAVE CONNECTIONS IT'S A LOT       EASIER to get in yeah AND i think you know it should be more of A   THING THAT'S based upon someone's INTENT YOU      KNOW and THAT it should be equal to all 
-HYP:  you know basically *** WHO want to because if YEAH if THE **** CONNECTION  **** * SOCIETIES AND    to get in yeah BUT i think you know it should be more of THE THEME IT'S   based upon someone's AND    THINKING OH   and THEN it should be equal to all 
-Eval:                    D   S                      S       S   D    S           D    D S         S                     S                                         S   S     S                           S      S        S        S                              
+Scores: (#C #S #D #I) 22 12 2 1
+REF:  i think you know it should be more of A   THING THAT'S based upon someone's INTENT YOU      KNOW and THAT it should be equal to all AND THEN not like THE UNITED STATES  basically ** IT'S THAT 
+HYP:  i think you know it should be more of THE THEME IT'S   based upon someone's AND    THINKING OH   and THEN it should be equal to all THE **** not like IN  THE    ESTATES basically IT **** IT'S 
+Eval:                                       S   S     S                           S      S        S        S                              S   D             S   S      S                 I  D    S    
 
 id: (5555-a-0010)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 21 11 8 3
-REF:  AND THEN not like THE UNITED STATES  basically ** IT'S THAT not WHO YOU KNOW D-  it DOESN'T ** become a thing OF   WHO you know but but how the type of person you **** ARE AND IT SHOULD be based on THOSE 
-HYP:  THE **** not like IN  THE    ESTATES basically IT **** IT'S not THE *** NOW  DID it DOES    IT become a thing IFFY *** you know but but how the type of person you KNOW I   *** ** ****** be based on ***** 
-Eval: S   D             S   S      S                 I  D    S        S   D   S    S      S       I                 S    D                                               I    S   D   D  D                  D     
+Scores: (#C #S #D #I) 23 12 9 4
+REF:  not WHO YOU KNOW D-  it DOESN'T ** become a thing OF   WHO you know but but how the type of person you **** ARE AND IT SHOULD be based on THOSE KIND OF things SO THE  GOOD people like PROBABLY *** YOUR husband can *** GET IN  
+HYP:  not THE *** NOW  DID it DOES    IT become a thing IFFY *** you know but but how the type of person you KNOW I   *** ** ****** be based on ***** THE  ** things ** THAT GET  people like UH       THE **** husband can GET OUT AND 
+Eval:     S   D   S    S      S       I                 S    D                                               I    S   D   D  D                  D     S    D         D  S    S                S        I   D                I   S   S   
 
 id: (5555-a-0011)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 15 23 9 8
-REF:  KIND OF things SO THE  GOOD people like PROBABLY *** YOUR husband can *** GET IN  WELL GREAT ** YEP well LET'S SEE    IS THERE ANYTHING ELSE  I   BELIEVE IN ** *** **** **** NO   i'm not SURE HOW LONG THEY'RE SUPPOSED to be BUT  i've enjoyed it it's GOOD    HEARING YOUR *** Y- point 
-HYP:  THE  ** things ** THAT GET  people like UH       THE **** husband can GET OUT AND **** GOOD  SO *** well THIS  SEASON ** ***** ******** SINCE AND LEAVE   IT ON THE FACT THAT WELL i'm not SHOW *** ON   I       SUPPOSE  to be THAT i've enjoyed it it's GETTING A       YEAR AND A  point 
-Eval: S    D         D  S    S                S        I   D                I   S   S   D    S     I  D        S     S      D  D     D        S     S   S       S  I  I   I    I    S            S    D   S    S       S              S                         S       S       S    I   S        
+Scores: (#C #S #D #I) 14 23 8 7
+REF:  WELL GREAT ** YEP well LET'S SEE    IS THERE ANYTHING ELSE  I   BELIEVE IN ** *** **** **** NO   i'm not SURE HOW LONG THEY'RE SUPPOSED to be BUT  i've enjoyed it it's GOOD    HEARING YOUR *** Y- point of view *** AND I think that's NEAT I      THINK WE    AGREE A 
+HYP:  **** GOOD  SO *** well THIS  SEASON ** ***** ******** SINCE AND LEAVE   IT ON THE FACT THAT WELL i'm not SHOW *** ON   I       SUPPOSE  to be THAT i've enjoyed it it's GETTING A       YEAR AND A  point of view AND I   * think that's A    THAT'S A     GREAT DEAL  * 
+Eval: D    S     I  D        S     S      D  D     D        S     S   S       S  I  I   I    I    S            S    D   S    S       S              S                         S       S       S    I   S                I   S   D              S    S      S     S     S     D 
 
 id: (5555-a-0012)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 16 16 5 1
-REF:  of view *** AND I think that's NEAT I      THINK WE    AGREE A LOT ON  THAT   and I'VE LEARNED something from it well THANKS I'M GLAD YOU'RE HOME  YOU have a good evening ALL RIGHT thanks bye bye 
-HYP:  of view AND I   * think that's A    THAT'S A     GREAT DEAL  * UH  AND THAT'S and I    WANT    something from it well THINGS AND I    ****** DON'T *** have a good evening *** I     thanks bye bye 
-Eval:         I   S   D              S    S      S     S     S     D S   S   S          S    S                              S      S   S    D      S     D                       D   S                    
+Scores: (#C #S #D #I) 12 10 3 0
+REF:  LOT ON  THAT   and I'VE LEARNED something from it well THANKS I'M GLAD YOU'RE HOME  YOU have a good evening ALL RIGHT thanks bye bye 
+HYP:  UH  AND THAT'S and I    WANT    something from it well THINGS AND I    ****** DON'T *** have a good evening *** I     thanks bye bye 
+Eval: S   S   S          S    S                              S      S   S    D      S     D                       D   S                    
 
 Speaker sentences   1:  5555-b   #utts: 9
 id: (5555-b-0000)
