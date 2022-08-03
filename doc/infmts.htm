@@ -43,8 +43,8 @@ tests, accompanying formats were created to support the evaluations.
                year (cmh_sa01)
 </ul>
 <p>
-          Transcript alternations, described above, can  be  used
-          in the word sequence by using this BNF format:
+          Transcript alternations can  be  used
+          in the word sequence by using this recursive BNF format:
 <p>
 <ul>
                ALTERNATE :== "{" TEXT ALT+ "}"
@@ -61,8 +61,14 @@ tests, accompanying formats were created to support the evaluations.
 <p>
      example
 <ul>
-          i've { um / uh / @ } as far as i'm concerned
+          i've { um / uh / @ } as far as i'm concerned  (cmh_sa02) 
 </ul>
+<P>
+  Words can be marked as optional by surrounding a given word with parens.  For example: the word /farmer/ is optional.  Note that the parser differentiates the parens applied to text vs. the utterance ID.
+
+  <UL>I am a (farmer)  (cmh_sa03) </UL>
+</P>
+
 </ul>
 <p>
 <a name="txt_fmt_name_0">
@@ -149,6 +155,13 @@ insertion.
 <ul>
      Example:     "i've { um / uh / @ } as far  as i'm concerned"
 </ul>
+
+<p>
+    Words can be marked as optional by surrounding a given word with paren.  For example, /farmer/ is optional.
+
+  <UL>I am a (farmer) </UL>
+
+
 <p>
 When the string "IGNORE_TIME_SEGMENT_IN_SCORING" is used as the transcript,
 the process which chops the hypothesis file to matching reference segments
@@ -287,7 +300,7 @@ ignored.  Blank lines are also ignored.
      appended  for  each word.  Each record follows this BNF for-
      mat:
 <p>
-      CTM :== &lt;F&gt; &lt;C&gt; &lt;BT&gt; &lt;DUR&gt; word [ &lt;CONF&gt; ]
+      CTM :== &lt;F&gt; &lt;C&gt; &lt;BT&gt; &lt;DUR&gt; &lt;WORD&gt; [ &lt;CONF&gt; ]
 <ul>
          Where :
 <ul>
@@ -311,6 +324,10 @@ ignored.  Blank lines are also ignored.
           &lt;DUR&gt;  -&gt;
 <ul>
                The duration (seconds) of the word.
+</ul>
+          &lt;WORD&gt;  -&gt;
+<ul>
+               The text of the word.  This could be a normal word, a fragment /she-/, an optional word /(she)/, or an optional fragment /(she-)/.
 </ul>
           &lt;CONF&gt;  -&gt;
 <ul>

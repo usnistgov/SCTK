@@ -174,7 +174,7 @@ HYP files.
    </ul> <br>
    <a name="option_D_name_0">-D</a>
    <ul>
-          Perform <a href="sclite.htm#optional-word-scoring">Optional Word Scoring</a>. Word errors involving words marked as 'optional' are forgiven by counting them as correct.  (-D & -d are exclusive)
+     Perform <a href="sclite.htm#optional-word-scoring">Optional Word Scoring</a>. Word errors involving words marked as 'optional' are forgiven by counting them as correct.  (-D & -d are exclusive)
 
    </ul> <br>
     <a name="option_F_name_0">-F</a>

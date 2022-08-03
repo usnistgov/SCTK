@@ -12,10 +12,10 @@ Speaker sentences   0:  5555-a   #utts: 13
 id: (5555-a-0000)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 29 9 2 2
-REF:  **** **** what do you think about it UHHUH  THAT'S INTEREST- yeah i think THAT'S UM i think it's a LITTLE CRAZY   i WORKED with spanish people for about two years and just (IT) WAS incredible to me TO see the things 
-HYP:  OKAY WELL what do you think about it UH-HUH (IT)   SAYS      yeah i think THAT   SO i think it's a THAT   BECAUSE i WORK   with spanish people for about two years and just **** IS  incredible to me ** see the things 
-Eval: I    I                               S      S      S                      S      S                 S      S         S                                                       D    S                    D                 
+Scores: (#C #S #D #I) 30 9 1 2
+REF:  **** **** what do you think about it UHHUH  THAT'S INTEREST- yeah i think THAT'S UM i think it's a LITTLE CRAZY   i WORKED with spanish people for about two years and just (it) WAS incredible to me TO see the things 
+HYP:  OKAY WELL what do you think about it UH-HUH (IT)   SAYS      yeah i think THAT   SO i think it's a THAT   BECAUSE i WORK   with spanish people for about two years and just      IS  incredible to me ** see the things 
+Eval: I    I                               S      S      S                      S      S                 S      S         S                                                            S                    D                 
 
 id: (5555-a-0001)
 File: 5555
@@ -28,10 +28,10 @@ Eval:                     S       S    S    D    S                              
 id: (5555-a-0002)
 File: 5555
 Channel: a
-Scores: (#C #S #D #I) 25 19 4 7
-REF:  OH  YOU'RE KIDDING *** *** **** SOUNDS LIKE A  LOT OF FUN   YEAH IT'S amazing to me *** HOW how many THINGS THEY would allow to * OCCUR BEFORE you know you C-     CAN  COME in *** right YEAH it's kind of FRUSTRATING ***** TOO for those who ARE legitimate now you know i think 
-HYP:  ALL YOU    CAN     FOR THE HECK OF     A    TO LET ** FUNNY AS   **** amazing to me HOW THE how many SEEMS  IT   would allow to A CARE  FOR    you know you SHOULD COME **** in AND right IT'S it's kind of FRESH       (AND) SEE for those who *** legitimate now you know i think 
-Eval: S   S      S       I   I   I    S      S    S  S   D  S     S    D                  I   S            S      S                   I S     S                   S      S    D       I         S                 S           I     S                 D                                   
+Scores: (#C #S #D #I) 26 19 4 6
+REF:  OH  YOU'RE KIDDING *** *** **** SOUNDS LIKE A  LOT OF FUN   YEAH IT'S amazing to me *** HOW how many THINGS THEY would allow to * OCCUR BEFORE you know you C-     CAN  COME in *** right YEAH it's kind of FRUSTRATING       TOO for those who ARE legitimate now you know i think 
+HYP:  ALL YOU    CAN     FOR THE HECK OF     A    TO LET ** FUNNY AS   **** amazing to me HOW THE how many SEEMS  IT   would allow to A CARE  FOR    you know you SHOULD COME **** in AND right IT'S it's kind of FRESH       (and) SEE for those who *** legitimate now you know i think 
+Eval: S   S      S       I   I   I    S      S    S  S   D  S     S    D                  I   S            S      S                   I S     S                   S      S    D       I         S                 S                 S                 D                                   
 
 id: (5555-a-0003)
 File: 5555

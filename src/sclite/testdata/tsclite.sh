@@ -232,7 +232,7 @@ TN=7
 TEST=test$TN
 echo "Test $TN:     Run some test cases through"
 $scliteCom ${SCLFLAGS} -r $DATA/tests.ref -h $DATA/tests.hyp -i spu_id \
-	-o all -O $OUT -f 0 -n $TEST -F -D \
+	   -o all -O $OUT -f 0 -n $TEST -F -D \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
 
 # TEST Number 7_r
@@ -241,6 +241,14 @@ TEST=test$TN
 echo "Test $TN:   Run some test cases through (reversing ref and hyp)"
 $scliteCom ${SCLFLAGS} -h $DATA/tests.ref -r $DATA/tests.hyp -i spu_id \
 	-o all -O $OUT -f 0 -n $TEST -F -D \
+	1> $OUT/$TEST.out 2> $OUT/$TEST.err
+
+# TEST Number 7_noD - Turns off Optionally deletable
+TN=7_noD
+TEST=test$TN
+echo "Test $TN:   Run some test cases through (reversing ref and hyp)"
+$scliteCom ${SCLFLAGS} -r $DATA/tests.ref -h $DATA/tests.hyp -i spu_id \
+	-o all -O $OUT -f 0 -n $TEST -F \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
 
 # TEST Number 7_1
@@ -389,12 +397,28 @@ $scliteCom ${SCLFLAGS} -r $DATA/tima_ref.ctm ctm -h $DATA/tima_hyp.ctm ctm \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
 #grep -v 'Creation date:' < out/$TEST.prf > x ; mv x out/$TEST.prf
 
+# TEST Number 13_D
+TN=13_D
+TEST=test$TN
+echo "Test $TN:    Run alignments on two CTM files, using DP Word alignments"
+$scliteCom ${SCLFLAGS} -r $DATA/tima_ref.ctm ctm -h $DATA/tima_hyp.ctm ctm \
+	-o all prf -O $OUT -f 0 -n $TEST -D \
+	1> $OUT/$TEST.out 2> $OUT/$TEST.err
+
 # TEST Number 13_a
 TN=13_a
 TEST=test$TN
 echo "Test $TN:  Run alignments on two CTM files, using Time-Mediated DP alignments"
 $scliteCom ${SCLFLAGS} -r $DATA/tima_ref.ctm ctm -h $DATA/tima_hyp.ctm ctm \
 	-o all -O $OUT -f 0 -n $TEST -T \
+	1> $OUT/$TEST.out 2> $OUT/$TEST.err
+
+# TEST Number 13_aD - Add optionality processing
+TN=13_aD
+TEST=test$TN
+echo "Test $TN:  Run alignments on two CTM files, using Time-Mediated DP alignments"
+$scliteCom ${SCLFLAGS} -r $DATA/tima_ref.ctm ctm -h $DATA/tima_hyp.ctm ctm \
+	-o all -O $OUT -f 0 -n $TEST -T -D \
 	1> $OUT/$TEST.out 2> $OUT/$TEST.err
 
 # TEST Number 14_a
