@@ -1,0 +1,80 @@
+<SYSTEM title="isgbug-work.ctm" ref_fname="isgbug.stm" hyp_fname="isgbug-work.ctm" creation_date="" format="2.4" frag_corr="TRUE" opt_del="TRUE" weight_ali="FALSE" weight_filename="">
+<CATEGORY id="0" title="" desc="">
+</CATEGORY>
+<LABEL id="O" title="Overall" desc="">
+</LABEL>
+<CATEGORY id="1" title="Corpus" desc="">
+</CATEGORY>
+<LABEL id="12" title="Speech012" desc="">
+</LABEL>
+<CATEGORY id="2" title="Gender" desc="">
+</CATEGORY>
+<LABEL id="F" title="Female" desc="">
+</LABEL>
+<LABEL id="M" title="Male" desc="">
+</LABEL>
+<SPEAKER id="sp002">
+<PATH id="(sp002-000)" word_cnt="4" labels="<O,12,U>" file="Speech012" channel="0" sequence="0" R_T1="600.490" R_T2="602.150" word_aux="h_t1+t2,h_conf">
+D,"got",,,:D,"your",,,:D,"meeting",,,:D,"request",,,
+</PATH>
+<PATH id="(sp002-001)" word_cnt="29" labels="<O,12,U>" file="Speech012" channel="0" sequence="1" R_T1="649.020" R_T2="658.270" word_aux="h_t1+t2,h_conf">
+D,"yeah",,,:C,"(%partial)","",,:D,"i",,,:D,"would",,,:D,"love",,,:C,"(%partial)","",,:D,"to",,,:D,"grab",,,:D,"some",,,:D,"time",,,:D,"with",,,:D,"you",,,:C,"(%hesitation)","",,:D,"separately",,,:D,"and",,,:C,"(%hesitation)","",,:D,"get",,,:D,"ramped",,,:D,"up",,,:D,"and",,,:D,"also",,,:D,"maybe",,,:C,"(%partial)","",,:D,"get",,,:D,"my",,,:D,"hands",,,:D,"on",,,:D,"some",,,:D,"data",,,
+</PATH>
+<PATH id="(sp002-002)" word_cnt="17" labels="<O,12,U>" file="Speech012" channel="0" sequence="2" R_T1="671.000" R_T2="675.900" word_aux="h_t1+t2,h_conf">
+D,"would",,,:D,"you",,,:D,"mind",,,:D,"including",,,:D,"pavan",,,:C,"(%partial)","",,:D,"he",,,:D,"might",,,:D,"he",,,:D,"had",,,:D,"would",,,:D,"have",,,:D,"some",,,:C,"(%partial)","",,:D,"good",,,:D,"ideas",,,:D,"too",,,
+</PATH>
+<PATH id="(sp002-003)" word_cnt="15" labels="<O,12,U>" file="Speech012" channel="0" sequence="3" R_T1="677.200" R_T2="684.510" word_aux="h_t1+t2,h_conf">
+D,"our",,,:D,"new",,,:D,"data",,,:D,"scientist",,,:D,"i",,,:D,"want",,,:D,"him",,,:D,"to",,,:C,"(%partial)","",,:D,"to",,,:D,"work",,,:D,"that",,,:D,"those",,,:D,"muscles",,,:C,"(%laughter)","",,
+</PATH>
+<PATH id="(sp002-004)" word_cnt="3" labels="<O,12,U>" file="Speech012" channel="0" sequence="4" R_T1="685.300" R_T2="686.920" word_aux="h_t1+t2,h_conf">
+D,"muscles",,,:D,"thank",,,:D,"you",,,
+</PATH>
+<PATH id="(sp002-005)" word_cnt="2" labels="<O,12,U>" file="Speech012" channel="0" sequence="5" R_T1="1617.620" R_T2="1619.950" word_aux="h_t1+t2,h_conf">
+C,"(%laughter)","",,:D,"no",,,
+</PATH>
+<PATH id="(sp002-006)" word_cnt="2" labels="<O,12,U>" file="Speech012" channel="0" sequence="6" R_T1="1874.480" R_T2="1875.730" word_aux="h_t1+t2,h_conf">
+D,"li",,,:D,"juan",,,
+</PATH>
+<PATH id="(sp002-007)" word_cnt="7" labels="<O,12,U>" file="Speech012" channel="0" sequence="7" R_T1="1876.300" R_T2="1880.310" word_aux="h_t1+t2,h_conf">
+D,"i",,,:D,"see",,,:D,"something",,,:D,"that",,,:D,"says",,,:D,"kpi",,,:D,"metrics",,,
+</PATH>
+<PATH id="(sp002-008)" word_cnt="7" labels="<O,12,U>" file="Speech012" channel="0" sequence="8" R_T1="1880.920" R_T2="1887.420" word_aux="h_t1+t2,h_conf">
+D,"is",,,:D,"there",,,:C,"(%hesitation)","",,:D,"other",,,:D,"kpi",,,:D,"listed",,,:D,"somewhere",,,
+</PATH>
+<PATH id="(sp002-009)" word_cnt="32" labels="<O,12,U>" file="Speech012" channel="0" sequence="9" R_T1="1922.340" R_T2="1931.720" word_aux="h_t1+t2,h_conf">
+D,"right",,,:D,"and",,,:D,"it",,,:D,"is",,,:D,"it",,,:D,"is",,,:D,"important",,,:D,"for",,,:D,"us",,,:C,"(%partial)","",,:D,"to",,,:D,"understand",,,:D,"what",,,:D,"their",,,:D,"kpi",,,:D,"is",,,:D,"because",,,:D,"that",,,:D,"could",,,:D,"have",,,:D,"an",,,:D,"impact",,,:D,"on",,,:D,"how",,,:D,"we",,,:D,"what",,,:D,"we",,,:D,"want",,,:D,"to",,,:D,"measure",,,:D,"or",,,:D,"how",,,
+</PATH>
+</SPEAKER>
+<SPEAKER id="inter_segment_gap">
+<PATH id="(Inter_Segment_Gap-000)" word_cnt="1" file="Speech012" channel="0" sequence="19" R_T1="316.160" R_T2="600.490" word_aux="h_t1+t2,h_conf">
+I,,"so",316.160+316.450,7.070000
+</PATH>
+<PATH id="(Inter_Segment_Gap-001)" word_cnt="0" file="Speech012" channel="0" sequence="20" R_T1="602.150" R_T2="649.020" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-002)" word_cnt="0" file="Speech012" channel="0" sequence="21" R_T1="658.270" R_T2="671.000" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-003)" word_cnt="0" file="Speech012" channel="0" sequence="22" R_T1="675.900" R_T2="677.200" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-004)" word_cnt="0" file="Speech012" channel="0" sequence="23" R_T1="684.510" R_T2="685.300" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-005)" word_cnt="0" file="Speech012" channel="0" sequence="24" R_T1="686.920" R_T2="1617.620" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-006)" word_cnt="0" file="Speech012" channel="0" sequence="25" R_T1="1619.950" R_T2="1874.480" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-007)" word_cnt="0" file="Speech012" channel="0" sequence="26" R_T1="1875.730" R_T2="1876.300" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-008)" word_cnt="0" file="Speech012" channel="0" sequence="27" R_T1="1880.310" R_T2="1880.920" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+<PATH id="(Inter_Segment_Gap-009)" word_cnt="0" file="Speech012" channel="0" sequence="28" R_T1="1887.420" R_T2="1922.340" word_aux="h_t1+t2,h_conf">
+
+</PATH>
+</SPEAKER>
+</SYSTEM>

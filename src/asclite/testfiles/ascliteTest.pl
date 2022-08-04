@@ -29,7 +29,7 @@ sub ok_exit { exit(0); }
 sub ok_quit { print(join(' ', @_), "\n"); &ok_exit(); }
 ####################
 
-my $Usage = "Usage: ascliteTest.pl -s (all|sastt|std|mdm04|mdm04ByFile|cts04|mdmVariations|passed|notpassed) [ -m ]\n";
+my $Usage = "Usage: ascliteTest.pl -s (all|sastt|std|mdm04|mdm04ByFile|cts04|mdmVariations|passed|notpassed|todebug) [ -m ]\n";
 my $suite = "std";
 my $bigMem = 0;
 my $result = GetOptions("s=s" => \$suite, "m" => \$bigMem);
@@ -90,6 +90,12 @@ if ($suite =~ /^(generic|all|passed)$/)
     RunAscliteTest("generic-1", "-F -D -generic-cost -noisg", "", "-h generic-1.rttm rttm generic-1");
 }
 
+if ($suite =~ /^(todebug)$/)
+{
+    RunAscliteTest("isgbug-work", "-D -F -adaptive-cost -time-prune 400 -word-time-align 400 -memory-limit 8 -difficulty-limit 8 -overlap-limit 1 -memory-compression 256 -force-memory-compression", "-r isgbug.stm stm", "-h isgbug-work.ctm ctm");
+    RunAscliteTest("isgbug-fail", "-D -F -adaptive-cost -time-prune 400 -word-time-align 400 -memory-limit 8 -difficulty-limit 8 -overlap-limit 1 -memory-compression 256 -force-memory-compression", "-r isgbug.stm stm", "-h isgbug-fail.ctm ctm");
+}
+
 &error_quit("Errors Occured.  Exiting with non-zero code") if ($failure);
 &ok_quit();
 
@@ -100,7 +106,7 @@ sub RunCompatTest
     if (! -f "$compatOutDir/$testId.sgml")
     {
         print "Building Authoritative SGML file: $opts, $refOpts, $hypOpts\n";
-        system "$scliteCom $opts $refOpts $hypOpts -o sgml stdout -f 0 | perl -pe 's/(creation_date=\")[^\"]+/\$1/' > $compatOutDir/$testId.sgml";
+        system "$scliteCom $opts $refOpts $hypOpts -o sgml stdout -f 3 | perl -pe 's/(creation_date=\")[^\"]+/\$1/' > $compatOutDir/$testId.sgml";
     }
 	
     print "Comparing asclite to Authoritative SGML file: $opts, $refOpts, $hypOpts\n";
@@ -138,6 +144,7 @@ sub RunAscliteTest
     if (! -f "$ascliteTestOutDir/$testId.sgml")
     {
         print "Building Authoritative SGML file: $opts, $refOpts, $hypOpts\n";
+        print "$ascliteCom $opts $refOpts $hypOpts -o sgml stdout -f 0 | perl -pe 's/(creation_date=\")[^\"]+/\$1/' > $ascliteTestOutDir/$testId.sgml";
         system "$ascliteCom $opts $refOpts $hypOpts -o sgml stdout -f 0 | perl -pe 's/(creation_date=\")[^\"]+/\$1/' > $ascliteTestOutDir/$testId.sgml";
     } 
     else
