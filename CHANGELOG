@@ -1,3 +1,14 @@
+SCTK Version 2.4.XXX - Release SOON - This is a list of changes in the master branch thus far
+  [*] Added support sclit support for Ukraninian
+  [*] Corrected many compiler warnings for newer OSX and Ubuntu compilers
+  [*] sclite and asclite makefiles updated for standard C and C++ compiler flags
+  [*] Commit ID 82955db	made a fix that is not backward compatable for CTM2CTM scoring.
+	see the commit message.
+  [*] Documented the optional word scoring and add test cases.
+  [*] Documented the Input Dependent GLM Rules in doc/GLMRules.
+  [*] Added the Arabic, Mandarin, and English GLMs into doc/trans_rules
+  [*] Added a test case for an unsolved asclite bug (commit https://github.com/usnistgov/SCTK/commit/cf4ee3f583980329e7f46cb81dcd0c5685ff0e06)
+
 SCTK Version 2.4.12 - Release October 27, 2021
   [*] Added a Docker File
   [*] fixed headers for Xcode	
