@@ -83,7 +83,48 @@ lower-case.
    * COPY_NO_HIT = 'T'
    * CASE_SENSITIVE = 'F'
 
+  5. Input Dependent Application.
+
+  For the English evaluations beginning in 1996, the transformation
+protocol diverged for the reference (which was an STM format file) and
+the hypothesis output (which was a CTM file).  Specifically, the major
+divergence involved the treatment of contractions where the
+evaluations tried to accept ambiguously transcribed lexemes.  For
+instance, when a person says /going to/, there is a continuum been
+pronouncing /gonna/ and /going to/ where the /t/ is flapped with
+differing power.  Transcribers have differing decision points make the
+choice noisy so it was decided that either form was acceptable output.
+
+  To implement the new protocol, csrfilt parses the GLM file
+separating the rules based on the input form as defined via the -i
+<FORMAT> option.  With the GLM, the following comment line defines the
+input file format for which the subsequent rules apply to.  The
+<REGEX> is matched to the value of the -i option.
+
+   	  ;;  INPUT_DEPENDENT_APPLICATION = "<REGEXP>"
+
+  The English contractions scoring protocol is as follows.  In the
+reference, contractions were annotated with the single best expansion
+based on context. In the example below, /she's/ is a contraction
+whereas /bassist's/ is a possessive.
+
+       REF:  she's just rocked the firm's keynote talk
+       REF': she has just rocked the firm's keynote talk
+
+In the hypothisis output, contractions were expanded to all possible
+forms regardless of the context.  This includs both contraction and
+possessives.  For example, here is the rule:
+
+       GLM: [HE'S] => [{HE IS / HE HAS}] / [ ] __ [ ] 
+       GLM: [FIRM'S] => [{FIRM'S / FIRM IS / FIRM HAS}] / [ ] __ [ ]
+
+       HYP:  he's just rocked the firm's keynote talk
+       HYP': {he is / he has} just rocked the {firm's / firm is / firm has} keynote
+
+
+
 
 History: 
   V2.0 - part of the tranfilt distribution as rules.doc
   V2.1 - Moved to SCTK
+  V2.2 - Documented INPUT_DEPENDENT_APPLICATION
