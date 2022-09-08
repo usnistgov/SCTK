@@ -1,0 +1,747 @@
+Common scoring speakers and segments
+Version 0.1
+
+Represented Systems
+    name: rover.ctm   Ref: ../images_src/ref.stm   Hyp: rover.ctm
+    name: ../images_src/sys1.ctm   Ref: ../images_src/ref.stm   Hyp: ../images_src/sys1.ctm
+    name: ../images_src/sys2.ctm   Ref: ../images_src/ref.stm   Hyp: ../images_src/sys2.ctm
+    name: ../images_src/sys3.ctm   Ref: ../images_src/ref.stm   Hyp: ../images_src/sys3.ctm
+    End of Represented Systems
+
+Utterance Label Definitions:
+    Category: id: "0" title: "" description: ""
+    Category: id: "1" title: "Alternations" description: "Segments W or W/O Alternations"
+    Label: id: "O" title: "Overall" description: "Overall Scores"
+    Label: id: "WA" title: "With Alt" description: "Segments Containing Alternations"
+    Label: id: "NA" title: "NO Alt" description: "Segments Without Alternations"
+    End of Utterance Label Definitions
+
+
+Speaker: spk1
+Id:     (spk1-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 0.00 t2= 0.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              * b c d e f g 
+../images_src/sys1.ctm: * * c d e f g 
+../images_src/sys2.ctm: * b c d e f * 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk1
+Id:     (spk1-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 0.00 t2= 0.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f * 
+../images_src/sys1.ctm: a b c * e f g 
+../images_src/sys2.ctm: a b c d e f * 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk1
+Id:     (spk1-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 0.00 t2= 0.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f * 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk1
+Id:     (spk1-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 0.00 t2= 0.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f * 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk1
+Id:     (spk1-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 0.00 t2= 0.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f * 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f * 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk1
+Id:     (spk1-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 0.00 t2= 0.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e * g 
+../images_src/sys1.ctm: a b c d e * g 
+../images_src/sys2.ctm: a b c d e f * 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk2
+Id:     (spk2-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 0.50 t2= 1.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk2
+Id:     (spk2-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 0.50 t2= 1.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: * * c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk2
+Id:     (spk2-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 0.50 t2= 1.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk2
+Id:     (spk2-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 0.50 t2= 1.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk2
+Id:     (spk2-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 0.50 t2= 1.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk2
+Id:     (spk2-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 0.50 t2= 1.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk3
+Id:     (spk3-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 1.00 t2= 1.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d * f g 
+../images_src/sys2.ctm: * b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk3
+Id:     (spk3-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 1.00 t2= 1.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk3
+Id:     (spk3-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 1.00 t2= 1.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: * b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk3
+Id:     (spk3-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 1.00 t2= 1.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk3
+Id:     (spk3-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 1.00 t2= 1.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk3
+Id:     (spk3-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 1.00 t2= 1.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a * c d e f g 
+../images_src/sys1.ctm: a * c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk4
+Id:     (spk4-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 1.50 t2= 2.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk4
+Id:     (spk4-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 1.50 t2= 2.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e * * 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk4
+Id:     (spk4-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 1.50 t2= 2.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk4
+Id:     (spk4-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 1.50 t2= 2.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: * b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk4
+Id:     (spk4-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 1.50 t2= 2.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk4
+Id:     (spk4-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 1.50 t2= 2.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk5
+Id:     (spk5-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 2.00 t2= 2.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e * g 
+../images_src/sys1.ctm: a b c d e * g 
+../images_src/sys2.ctm: a b c * * f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk5
+Id:     (spk5-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 2.00 t2= 2.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk5
+Id:     (spk5-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 2.00 t2= 2.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk5
+Id:     (spk5-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 2.00 t2= 2.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b * d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk5
+Id:     (spk5-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 2.00 t2= 2.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              * b c d e f g 
+../images_src/sys1.ctm: * b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk5
+Id:     (spk5-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 2.00 t2= 2.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk6
+Id:     (spk6-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 2.50 t2= 3.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk6
+Id:     (spk6-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 2.50 t2= 3.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk6
+Id:     (spk6-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 2.50 t2= 3.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk6
+Id:     (spk6-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 2.50 t2= 3.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk6
+Id:     (spk6-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 2.50 t2= 3.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk6
+Id:     (spk6-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 2.50 t2= 3.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              * * c d * * g 
+../images_src/sys1.ctm: * * c d * * g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk7
+Id:     (spk7-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 3.00 t2= 3.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f * 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk7
+Id:     (spk7-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 3.00 t2= 3.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk7
+Id:     (spk7-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 3.00 t2= 3.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk7
+Id:     (spk7-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 3.00 t2= 3.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk7
+Id:     (spk7-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 3.00 t2= 3.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e * g 
+../images_src/sys1.ctm: a b c d e * g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk7
+Id:     (spk7-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 3.00 t2= 3.50
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk8
+Id:     (spk8-000)
+Labels: <o,na>
+File: file1
+Channel: 1
+Ref times: t1= 3.50 t2= 4.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f * 
+../images_src/sys2.ctm: a b c d * * g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk8
+Id:     (spk8-001)
+Labels: <o,na>
+File: file2
+Channel: 1
+Ref times: t1= 3.50 t2= 4.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk8
+Id:     (spk8-002)
+Labels: <o,na>
+File: file3
+Channel: 1
+Ref times: t1= 3.50 t2= 4.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk8
+Id:     (spk8-003)
+Labels: <o,na>
+File: file4
+Channel: 1
+Ref times: t1= 3.50 t2= 4.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: a b c d e f g 
+
+Speaker: spk8
+Id:     (spk8-004)
+Labels: <o,na>
+File: file5
+Channel: 1
+Ref times: t1= 3.50 t2= 4.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              a b c d e f g 
+../images_src/sys1.ctm: a b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Speaker: spk8
+Id:     (spk8-005)
+Labels: <o,na>
+File: file6
+Channel: 1
+Ref times: t1= 3.50 t2= 4.00
+Lattice Analysis: #refWords 7 #refErrWords 0
+
+
+REF:                    a b c d e f g 
+rover.ctm:              * b c d e f g 
+../images_src/sys1.ctm: * b c d e f g 
+../images_src/sys2.ctm: a b c d e f g 
+../images_src/sys3.ctm: * * * * * * * 
+
+Lattice Summary: #TotRefWords 336 #TotRefErrWords 0 Accuracy 100.00
+
+List of not correct reference words   Total                 (0)
+                                 With >=  1 occurrences (0)
+
+     -------
+         0
+
