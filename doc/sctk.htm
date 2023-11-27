@@ -12,13 +12,10 @@ Recognition (ASR) Systems.  The toolkit is currently used by NIST,
 benchmark test participants, and reserchers worldwide to as a common
 scoring engine.
 
-<P> This is a beta version release of SCTK which now includes the
-tranfilt software package.  The documentation has not been fully
-integrated because of time limitations.  </P>
-
-
+<p>See the "Demo" section below to get a quick intro into key concepts>
+    
 <P>
-This version of SCTK contains several programs:
+<h2> This version of SCTK contains several programs: </h2>
 <P>
 <B><A HREF="sclite.htm">sclite</A></B>
 
@@ -56,6 +53,8 @@ Output Voting Error Reduction (ROVER)</A> presented at the 1997 IEEE Workshop
 on Automatic Speech Recognition and Understanding.  The paper is also
 available in <A HREF="rover/rover.ps"> postscript.</a>
 
+</UL>
+
 <B>hubscr</B> <UL> Wrapper script for scoring DARPA STT evaluations </UL>
 <B>rfilter1</B> <UL> Transcription normalization filter engine </UL>
 <B>csrfilt </B> <UL> Transcription normalization wrapper script </UL>
@@ -65,6 +64,74 @@ available in <A HREF="rover/rover.ps"> postscript.</a>
 <B>def_art </B> <UL> Aribic definate article striping program </UL>
 <B>utf_filt </B> <UL> UTF file format transcription filter </UL>
 
+
+<H2> ASR Scoring Demo </h2>
+  <P> So. what is this package for?  It's for computing the accuracy
+  of ASR engines that convert recordings of speech into text. We'll use data in <a href=../src/sclite/testdata>../src/sclite/testdata</a>  for the demo. The
+    process to compute the accuracy is:
+<OL>
+<li> Record a sample of speech (called an utterance)
+  storing it in a waveform file like a .wav or .mp3.  Each recording has a unique utterance id used later. 
+<lI> Manually transcribe the speech to build what we call the 'reference'
+  transcription - some call it the ground truth but the term reference
+  is preferred because it is costly/difficult/impossible to make 100%
+  accurate transctript.
+<li> Convert the audio into the 'hypothesized'  text with a program like
+  <A href=https://www.goodfirms.co/software/kaldi> Kaldi </a>.  The text is hypothesized to be correct by the system.
+<li> Assemble the reference and hypothsis texts into separate files for scoring.  For example <a href=../src/sclite/testdata/demo.ref.txt>../src/sclite/testdata/demo.ref.txt</a>
+  and <a href=../src/sclite/testdata/demo.hyp.txt>../src/sclite/testdata/demo.hyp.txt</a> are example reference and hypothesis transcripts for 2 utterances.  Since there a two utterances, the transcript for each is labelled with the  utterance id in parens.
+<li> Run the scorer with these commands after sclite has been compiled:
+  <UL>
+    <li> cd src/sclite/testdata
+    <li> ../sclite -r demo.ref.txt -h demo.hyp.txt -i spu_id -o sum pra stdout
+  </UL>
+  <pre>
+
+
+
+                     SYSTEM SUMMARY PERCENTAGES by SPEAKER                      
+
+      ,------------------------------------------------------------------.
+      |                           demo.hyp.txt                           |
+      |------------------------------------------------------------------|
+      | SPKR     | # Snt # Wrd | Corr    Sub    Del    Ins    Err  S.Err |
+      |----------+-------------+-----------------------------------------|
+      | speaker1 |    2     46 | 84.8   15.2    0.0    2.2   17.4   50.0 |
+      |==================================================================|
+      | Sum/Avg  |    2     46 | 84.8   15.2    0.0    2.2   17.4   50.0 |
+      |==================================================================|
+      |   Mean   |  2.0   46.0 | 84.8   15.2    0.0    2.2   17.4   50.0 |
+      |   S.D.   |  0.0    0.0 |  0.0    0.0    0.0    0.0    0.0    0.0 |
+      |  Median  |  2.0   46.0 | 84.8   15.2    0.0    2.2   17.4   50.0 |
+      `------------------------------------------------------------------'
+
+
+		DUMP OF SYSTEM ALIGNMENT STRUCTURE
+
+System name:   demo.hyp.txt
+
+Speakers: 
+    0:  speaker1
+
+Speaker sentences   0:  speaker1   #utts: 2
+id: (speaker1-utterance1)
+Scores: (#C #S #D #I) 25 0 0 0
+REF:  as competition in the mutual fund business grows increasingly intense more players in the industry appear willing to sacrifice integrity in the name of performance 
+HYP:  as competition in the mutual fund business grows increasingly intense more players in the industry appear willing to sacrifice integrity in the name of performance 
+Eval:                                                                                                                                                                     
+
+id: (speaker1-utterance2)
+Scores: (#C #S #D #I) 14 7 0 1
+REF:  FOR   A  TWO    TRILLION DOLLAR business built on public confidence this trend is **** DISHEARTENING AT  best and downright dangerous at worst 
+HYP:  FREED TO TRYING TO       LURE   business built on public confidence this trend is THIS TIGHTENING    AND best and downright dangerous at worst 
+Eval: S     S  S      S        S                                                        I    S             S                                         
+
+
+
+    
+  </pre>
+
+</OL>
 
 </BODY>
 </HTML>
